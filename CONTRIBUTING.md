@@ -8,7 +8,8 @@ pass".
 
 ```sh
 python -m pip install -e ".[dev]"     # NumPy, ONNX, pytest, ruff
-make test                             # 311 host tests
+make test                             # the host test suite
+make coverage                         # tests under coverage, enforcing the floor
 make lint                             # ruff on the maintained paths
 ```
 

@@ -150,6 +150,20 @@ def compose(stages, tensors, *, input_scale=1.0, input_zero_point=0,
     for tensor in tensors:
         if tensor.role not in (ROLE_INPUT, ROLE_INTERNAL, ROLE_OUTPUT):
             raise ValueError("unknown tensor role %s" % tensor.role)
+    # Stage names key the program slots, the task table and the declared binding view, so
+    # a repeat silently collapses two tasks into one; a repeated register inside a stage
+    # silently drops one of its bindings. Both corrupt the container without failing, so
+    # they are rejected here rather than in a downstream comparison.
+    stage_names = [stage.name for stage in stages]
+    repeated_stages = sorted({name for name in stage_names if stage_names.count(name) > 1})
+    if repeated_stages:
+        raise ValueError("duplicate stage name(s) %s" % ", ".join(repeated_stages))
+    for stage in stages:
+        registers = [binding.register for binding in stage.bindings]
+        repeated = sorted({register for register in registers if registers.count(register) > 1})
+        if repeated:
+            raise ValueError("stage %s binds register(s) %s twice"
+                             % (stage.name, ", ".join("#%x" % register for register in repeated)))
     inputs = [tensor for tensor in tensors if tensor.role == ROLE_INPUT]
     outputs = [tensor for tensor in tensors if tensor.role == ROLE_OUTPUT]
     internals = [tensor for tensor in tensors if tensor.role == ROLE_INTERNAL]

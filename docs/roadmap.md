@@ -52,16 +52,35 @@ cells affected — a reference-vs-hardware rounding-tie residual, not a geometry
 (`research/mel_kws_suite/README.md`). Those four utterances are excluded from the byte-exact
 suite.
 
-## Known quirk: `chain_n` hidden zero points
+## Known quirk: `chain`/`chain_n` hidden borders use code -128
 
-`chain_n` (the native N-layer chain profile) does not program the per-layer input zero-point
-register `0x1184` for its hidden layers, so the profile is only accurate when a hidden grid's
-zero point is `-128` (i.e. non-negative hidden weights/biases after ReLU). The integer
-reference models the same behaviour, so containers stay byte-exact, but a hidden zero point
-other than `-128` costs real float accuracy — `research/native_chain_suite/` models 1 and 3
-are ~50 LSB from the float model for that reason. `examples/primitives/03_conv_chain.py`
-picks non-negative hidden weights so the hidden band stays at `-128`. Fixing this is a
-register-profile change that would need fresh board evidence for the whole chain family.
+`chain.py` and `chain_n.py` leave the internal border register `0x1184` at its `-128` reset
+instead of programming the producer's zero point. A Conv border then reads
+`(-128 - zero_point) * scale` rather than the real zero ONNX pads with. The integer
+reference models the same behaviour, so containers stay byte-exact and board-verified, but
+when a hidden band's zero point differs from `-128` the model loses real accuracy: measured
+on a seeded 5-layer chain with hidden zero points `[-128, -17, -2, 0, 0]`, the container is
+38 LSB from the ONNX-float result (and within 1 LSB of the `-128`-border pipeline). 178 of
+the 242 retained chain models have a non-`-128` hidden zero point.
+Every fan-out emitter (`graph.py`, `join_dag.py`, `pool_join.py`, `depthwise_join.py`,
+`pooled_branches.py`, `depthwise.py`, `transposed.py`) *does* program `0x1184`, so the chain
+family is the outlier. `examples/primitives/03_conv_chain.py` keeps hidden weights and
+biases non-negative so the hidden band stays at `-128`. Changing the convention is a
+register-profile change that would invalidate the chain family's board evidence
+(`research/native_chain_suite/`), so it is left as a documented quirk with a test
+(`tests/test_emit_semantics.py`) that pins both the convention and the gap.
+
+## Known API warts
+
+* `open_rknpu.model.decode` does not return the `register_count` field that `model.encode`
+  requires, so a literal `encode(decode(blob))` is not callable; tests and callers pass the
+  126 the decoder already enforces.
+* `open_rknpu.native.native_input_reference` models the CNA accumulator but not the
+  `Clip[0,6]` upper clamp (registers `0x4028`/`0x40e4`), so the Clip profile's *band* and
+  clamp code are asserted instead of its integer output.
+* `open_rknpu.compose.compose` validated neither duplicate stage names nor a stage binding
+  the same register twice until the 2026-09-11 test expansion; both are now rejected with
+  explicit errors because either one silently drops a task or a binding.
 
 ## Deliberately out of scope today
 

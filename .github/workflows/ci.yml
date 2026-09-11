@@ -26,6 +26,11 @@ jobs:
             research/probe_conv_envelope.py research/build_mel_kws_suite.py
       - name: tests
         run: PYTHONPATH=src python -m unittest discover -s tests
+      - name: coverage floor
+        if: matrix.python-version == '3.12'
+        run: |
+          PYTHONPATH=src python -m coverage run --source=src/open_rknpu -m unittest discover -s tests
+          PYTHONPATH=src python -m coverage report --skip-covered
       - name: low-level op examples (host only)
         run: make primitives
       - name: documentation links

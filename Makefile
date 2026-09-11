@@ -7,13 +7,17 @@ MAINTAINED := src tests examples research/verify_suites.py research/campaign_swe
 
 .DEFAULT_GOAL := help
 
-.PHONY: help test lint test-one primitives baseline campaign docs-check wheel runtime clean
+.PHONY: help test lint test-one coverage primitives baseline campaign docs-check wheel runtime clean
 
 help:  ## list the targets
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
 
 test:  ## run the host test suite
 	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m unittest discover -s tests
+
+coverage:  ## run the tests under coverage and enforce the floor
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m coverage run --source=src/open_rknpu -m unittest discover -s tests
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m coverage report --skip-covered
 
 lint:  ## ruff on the maintained paths
 	$(RUFF) check $(MAINTAINED)

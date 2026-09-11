@@ -4,8 +4,9 @@ Each entry below is prepended newest-first; the older narrative from the first
 `regcmd` investigation is kept at the end.
 
 <details>
-<summary>Table of contents (67 entries)</summary>
+<summary>Table of contents (68 entries)</summary>
 
+* [2026-09-11: test expansion - 311 to 760 tests, 90% to 96% coverage](#2026-09-11-test-expansion---311-to-760-tests-90-to-96-coverage)
 * [2026-09-11: a trained audio model runs on the NPU (mel-CNN spoken digits)](#2026-09-11-a-trained-audio-model-runs-on-the-npu-mel-cnn-spoken-digits)
 * [2026-09-11: the driver ACTION surface measured; Silero VAD is outside the envelope](#2026-09-11-the-driver-action-surface-measured-silero-vad-is-outside-the-envelope)
 * [2026-09-11: codebase cleanup - dead code, layout, docs (no container changed)](#2026-09-11-codebase-cleanup---dead-code-layout-docs-no-container-changed)
@@ -76,6 +77,65 @@ Each entry below is prepended newest-first; the older narrative from the first
 * [Summary: `regcmd` investigation (older findings, kept as-is)](#rv1103-npu--rknn-regcmd-investigation--summary)
 
 </details>
+
+## 2026-09-11: test expansion - 311 to 760 tests, 90% to 96% coverage
+
+The published repository's suite was validated by expansion rather than by inspection:
+seven workstreams added 449 tests in 16 modules, measured with `coverage` and gated in CI.
+
+**What the new tests establish**
+
+* **Bounds, not just failures** - every profile family now has, for each documented limit,
+  the first out-of-bounds neighbour *and* a valid neighbour that compiles
+  (`test_profile_bounds.py`, 52 tests). The front end got the same treatment plus semantic
+  checks of folding and rewrites against ONNX's evaluator (`test_normalize_matrix.py`, 28).
+* **Independent semantics** - `test_emit_semantics.py` (36 cases) implements the graph
+  arithmetic in float64 in the test itself (dequantize the container bands, run the op with
+  the container's own dequantized weights, requantize) and compares the *container's*
+  integer output against it: 0 LSB for delta/identity constructions, <=1 LSB otherwise.
+  No emitter reference is used to compute the expected side.
+* **Numerics** - band selection, the `channel_multipliers == round(scale/max_scale*16384)`
+  invariant, zero-point boundaries, and, importantly, the tie behaviour: constructed
+  exact-`.5` accumulators pin round-half-to-even in both the channel and output steps
+  (`test_quantization_edge_cases.py`, 19). Calibration gained real measurements and every
+  error path for `minmax`/`percentile`/`kl` (`test_calibration_methods.py`, 18).
+* **Composer and arena** - alignment, lifetime disjointness, ping-pong reuse, and five real
+  compiled graphs checked for `allocated_bytes <= arena`, live-offset disjointness and
+  external/internal separation (`test_composer_arena.py`, 18).
+* **Containers and loader parity** - emitter meta vs decoded container for six emitters,
+  byte-identical re-encode for v3/v4/v5, every v5 validator rejection, legacy ORNPUBIN
+  round-trips, and a decode sweep over all 2,340 published suite containers
+  (`test_sequence_roundtrip.py`, 13).
+* **CLI matrix** - every compile flag, the calibration report, `inspect`, `normalize`, and
+  the documented argument errors (`test_cli_matrix.py`, 14).
+* **Published evidence replay** - a deterministic 58-model sample recompiles to the retained
+  container bytes (55 identical, 3 pinned drifts) and recorded cases replay through the
+  builders' integer references byte-exactly (`test_suite_replay.py`, 3).
+* **The remaining emitters** - activation profiles (Leaky/PReLU/Clip[0,6]), the reduction
+  and multi-input DAG profiles, the legacy single-Conv container, the join emitters
+  (two-head/diamond/join-chain), the pool/depthwise joins, pooled branches and
+  `QLinearConv`/QDQ import, all with independent float64 references and boundary tests
+  (`test_activation_profiles`, `test_reduction_and_dags`, `test_legacy_container`,
+  `test_join_emitters_deep`, `test_legacy_compiler_paths`, `test_join_variants_deep`,
+  `test_quantized_import_deep`).
+
+**Result**: 760 tests, `OK`, 96% line coverage (12 modules at 100%), engine floor now
+`fail_under = 95`. `research/container_baseline.json` is unchanged - the expansion added no
+container change - and the campaign sweep stays 157 same / 12 pinned drift / 0 err.
+
+**One real bug fixed**: `compose.compose` silently accepted duplicate stage names (two
+stages collapsed onto one program slot, losing a task) and a stage binding the same address
+register twice (one binding silently dropped); both now raise explicit errors. No emitted
+container changes, because no existing emitter does either.
+
+**Findings pinned rather than "fixed"**: `chain.py`/`chain_n.py` leave the internal border
+register `0x1184` at `-128` instead of the producer zero point (measured 38 LSB from the
+float model on a seeded 5-layer chain with hidden zero points `[-128,-17,-2,0,0]`; 178 of
+242 retained chain models are affected). The board evidence is byte-exact against that
+convention, so changing it would invalidate `research/native_chain_suite/`; the tests pin
+both the convention and the size of the gap, and `docs/roadmap.md` records it. Two API warts
+are recorded there as well (`model.decode` omits the `register_count` that `encode` needs;
+`native_input_reference` does not model the `Clip[0,6]` upper clamp).
 
 ## 2026-09-11: a trained audio model runs on the NPU (mel-CNN spoken digits)
 
@@ -186,7 +246,7 @@ three checked-in scripts: `research/verify_suites.py` (with the pre-cleanup map
   same `ValueError`, pinned as `ERR:ValueError` in the map
   (`tests/test_suite_evidence.py::test_container_baseline_covers_every_suite_model` keeps
   the map covering every `research/*suite*/model*.onnx`);
-* **311 host tests** pass under both `unittest` and `pytest`;
+* **760 host tests** pass under both `unittest` and `pytest`;
 * campaign sweep **157 same / 12 diff / 0 err**, the 12 now enumerated and pinned in
   `research/COVERAGE_EXPANSION_RESULTS.md` ("Pre-existing container drifts");
 * **85 markdown files, 0 broken links, 0 unresolved anchors** (the vendored
@@ -236,7 +296,7 @@ profile-matched. FENCE, a second RV1106 board, a vendor-zoo detector and publica
 reported as hardware/user decisions.
 
 Baseline at close: **1,680 models / 28,250 inferences / 10,206,227 exact output bytes**,
-**311 host tests**, 120 ledger rows, campaign sweep 157 same / 12 diff / 0 err (the 12 are
+**760 host tests**, 120 ledger rows, campaign sweep 157 same / 12 diff / 0 err (the 12 are
 documented pre-existing drifts), wheel (38 modules) byte-identical to the tree.
 
 ## 2026-09-11: the walk lowers fan-in joins, and the diamond tail Relu was dropped
@@ -1629,7 +1689,7 @@ Bias/scale groups are packed as four INT32 biases plus four UINT16 scales:
 24 bytes per four channels, not the 32-byte dense-Conv layout. Correcting this
 independently generated packing passed every channel count 5..16: 12 graphs,
 192 board inferences, 129,024 exact bytes. Public compiler binaries match all
-12 tested programs; the host suite has since grown to 311 tests, all passing.
+12 tested programs; the host suite has since grown to 760 tests, all passing.
 
 New bounded public profile: external RGB 8x8 -> 1x1 Conv stem with C5..16 outputs
 -> depthwise 3x3, pad1, stride1, multiplier1. Other kernels/strides/stem kernels

@@ -29,7 +29,8 @@ to refuse is a behaviour change too.
 ## 2. The host test suite
 
 ```sh
-PYTHONPATH=src python -m unittest discover -s tests      # 311 tests
+PYTHONPATH=src python -m unittest discover -s tests      # 760 tests
+make coverage                                            # 96% line coverage, floor 95% in pyproject.toml
 PYTHONPATH=src python -m pytest tests -q
 ```
 
@@ -50,6 +51,17 @@ What the tests pin, in broad strokes:
   (`research/check_docs_links.py`, also runnable stand-alone).
 
 PyTorch is never needed for the tests; NumPy and ONNX are.
+
+## Coverage
+
+The host suite is measured with `coverage` and gated at the floor configured in
+`pyproject.toml` (`[tool.coverage.report] fail_under`); `make coverage` runs it and
+`make coverage` is part of CI. The expansion added after the initial commit took the
+compiler from 90% to 92%+ line coverage, with the generated `graph.py` branches and the
+per-emitter rejection paths being the deliberately last areas to close. Coverage is a floor,
+not a goal: a line covered by a test that only asserts "it returned" is worth less than one
+covered by a boundary or semantic equality check, which is why the suite is organised around
+bounds and independent references rather than around coverage alone.
 
 ## 3. The board ledger
 

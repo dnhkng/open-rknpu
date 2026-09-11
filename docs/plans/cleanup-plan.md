@@ -2,7 +2,7 @@
 
 Goal: remove dead and stale weight from the codebase and make the documentation current,
 **without changing a single emitted container**. The evidence chain is the contract: the
-311 host tests, the 121-row board ledger, the campaign sweep baseline (157 same / 12 diff
+760 host tests, the 121-row board ledger, the campaign sweep baseline (157 same / 12 diff
 / 0 err) and a fresh-compile hash of all 2,244 suite models captured before the first edit
 (`/tmp/cleanup_baseline.json`) must be identical afterwards.
 
@@ -58,7 +58,7 @@ python3 research/check_docs_links.py                # relative links + heading a
    (`research/container_baseline.json`, captured before the first edit): **2,244 same /
    0 changed / 0 added / 0 removed**, including the 46 profiles that pin their rejection as
    `ERR:ValueError`;
-2. `python -m unittest discover -s tests` and `python -m pytest tests -q`: **311 passing**
+2. `python -m unittest discover -s tests` and `python -m pytest tests -q`: **760 passing**
    (the new `tests/test_suite_evidence.py::test_container_baseline_covers_every_suite_model`
    keeps the map complete when a suite is added);
 3. campaign sweep: **157 same / 12 diff / 0 err**, the 12 being the artifact drifts
