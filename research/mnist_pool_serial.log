@@ -1,0 +1,2 @@
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 12544 output bytes; invalid buffer sizes rejected

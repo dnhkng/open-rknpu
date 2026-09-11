@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/primitive_base/calibration_7.npy

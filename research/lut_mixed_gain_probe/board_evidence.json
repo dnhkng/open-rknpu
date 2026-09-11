@@ -1,0 +1,109 @@
+{
+  "rule": "H = 2**ceil(log2(BASE_WEIGHT_SCALE/weight_scale)); the accelerator shifts by whole bits",
+  "base_weight_scale": 0.00012254901960784314,
+  "mixed_stems": [
+    {
+      "name": "pair_20_5",
+      "max_weight_scale": 7.843137254901961e-05,
+      "ratio": 1.5625,
+      "predicted_gain": 2.0,
+      "measured_gain": 2.001
+    },
+    {
+      "name": "pair_20_10",
+      "max_weight_scale": 7.843137254901961e-05,
+      "ratio": 1.5625,
+      "predicted_gain": 2.0,
+      "measured_gain": 1.997
+    },
+    {
+      "name": "triple_10",
+      "max_weight_scale": 3.9215686274509805e-05,
+      "ratio": 3.125,
+      "predicted_gain": 4.0,
+      "measured_gain": 3.985
+    },
+    {
+      "name": "pair_30_10",
+      "max_weight_scale": 0.0001176470588235294,
+      "ratio": 1.0416666666666667,
+      "predicted_gain": 2.0,
+      "measured_gain": 1.999
+    },
+    {
+      "name": "pair_20_5_bias",
+      "max_weight_scale": 7.843137254901961e-05,
+      "ratio": 1.5625,
+      "predicted_gain": 2.0,
+      "measured_gain": 2.001
+    },
+    {
+      "name": "mixed_sign",
+      "max_weight_scale": 9.803921568627452e-05,
+      "ratio": 1.2499999999999998,
+      "predicted_gain": 2.0,
+      "measured_gain": 1.999
+    },
+    {
+      "name": "skew_30_2_1",
+      "max_weight_scale": 0.0001176470588235294,
+      "ratio": 1.0416666666666667,
+      "predicted_gain": 2.0,
+      "measured_gain": 1.999
+    },
+    {
+      "name": "diagonal_ref",
+      "max_weight_scale": 7.843137254901961e-05,
+      "ratio": 1.5625,
+      "predicted_gain": 2.0,
+      "measured_gain": 1.995
+    }
+  ],
+  "diagonal_non_power_of_two": [
+    {
+      "gain": 0.02,
+      "kind": "Sigmoid",
+      "predicted": 2.0,
+      "measured": 2.0,
+      "mismatches": 321
+    },
+    {
+      "gain": 0.02,
+      "kind": "Tanh",
+      "predicted": 2.0,
+      "measured": 2.0,
+      "mismatches": 394
+    },
+    {
+      "gain": 0.024,
+      "kind": "Sigmoid",
+      "predicted": 2.0,
+      "measured": 2.0,
+      "mismatches": 318
+    },
+    {
+      "gain": 0.020833333333333332,
+      "kind": "Sigmoid",
+      "predicted": 2.0,
+      "measured": 2.0,
+      "mismatches": 334
+    },
+    {
+      "gain": 0.041666666666666664,
+      "kind": "Sigmoid",
+      "predicted": 1.0,
+      "measured": 1.0,
+      "mismatches": 302
+    },
+    {
+      "gain": 0.041666666666666664,
+      "kind": "Tanh",
+      "predicted": 1.0,
+      "measured": 1.0,
+      "mismatches": 231
+    }
+  ],
+  "residual": "non-power-of-two bands leave \u00b11 on ~10% of values: the table gain is right, but the hardware's argument grid rounds differently from both the rounded and truncated code-shift models",
+  "exact_band": "BASE_WEIGHT_SCALE/weight_scale must be a power of two",
+  "output_bytes_per_case": 192
+}

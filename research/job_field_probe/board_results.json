@@ -1,0 +1,171 @@
+[
+  {
+    "case": "pair-serial-committed",
+    "suite": "mnist_pool_suite",
+    "index": 0,
+    "iterations": 16,
+    "passed": true,
+    "tasks": 2,
+    "mode": "serial",
+    "min_us": 266.0,
+    "median_us": 784.9,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "case": "pair-batched-cna-dpu-0x14",
+    "suite": "mnist_pool_suite",
+    "index": 0,
+    "iterations": 16,
+    "passed": true,
+    "tasks": 2,
+    "mode": "batched",
+    "min_us": 274.8,
+    "median_us": 832.4,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "case": "join6-serial-committed",
+    "suite": "pool_join_suite",
+    "index": 0,
+    "iterations": 16,
+    "passed": true,
+    "tasks": 6,
+    "mode": "serial",
+    "min_us": 88.1,
+    "median_us": 205.3,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "case": "join6-batched-dpu-dpu-0x14",
+    "suite": "pool_join_suite",
+    "index": 0,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=6 batched inputs=1 outputs=1"
+  },
+  {
+    "case": "join6-batched-dpu-dpu-0x40",
+    "suite": "pool_join_suite",
+    "index": 0,
+    "iterations": 16,
+    "passed": true,
+    "tasks": 6,
+    "mode": "batched",
+    "min_us": 37.3,
+    "median_us": 74.7,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "case": "mixedhead7-serial-committed",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": true,
+    "tasks": 7,
+    "mode": "serial",
+    "min_us": 182.6,
+    "median_us": 584.5,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x14",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=7 batched inputs=1 outputs=1"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x40",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=7 batched inputs=1 outputs=1"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x28",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x18",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=7 batched inputs=1 outputs=1"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x1c",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x2c",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=7 batched inputs=1 outputs=1"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x48",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x30",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=7 batched inputs=1 outputs=1"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x24",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x44",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=7 batched inputs=1 outputs=1"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x0c",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  },
+  {
+    "case": "mixedhead7-batched-dpu-cna-0x20",
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "iterations": 16,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=7 batched inputs=1 outputs=1"
+  }
+]

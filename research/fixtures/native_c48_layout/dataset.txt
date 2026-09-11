@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration0.npy
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration1.npy
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration2.npy
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration3.npy
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration4.npy
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration5.npy
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration6.npy
+/home/dnhkng/drone/research/fixtures/native_c48_layout/calibration7.npy

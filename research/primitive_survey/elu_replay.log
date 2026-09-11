@@ -1,0 +1,5 @@
+case=0 bytes=1024 mismatches=0
+case=1 bytes=1024 mismatches=0
+case=2 bytes=1024 mismatches=0
+case=3 bytes=1024 mismatches=0
+PASS cases=4 exact_bytes=4096

@@ -1,0 +1,131 @@
+I rknn-toolkit2 version: 2.3.0
+I Loading :   0%|                                                             | 0/1 [00:00<?, ?it/s]I Loading : 100%|██████████████████████████████████████████████████| 1/1 [00:00<00:00, 13662.23it/s]
+D base_optimize ...
+D base_optimize done.
+D 
+D fold_constant ...
+D fold_constant done.
+D 
+D correct_ops ...
+D correct_ops done.
+D 
+D fuse_ops ...
+D fuse_ops done.
+D 
+D sparse_weight ...
+D sparse_weight done.
+D 
+I GraphPreparing :   0%|                                                      | 0/1 [00:00<?, ?it/s]I GraphPreparing : 100%|████████████████████████████████████████████| 1/1 [00:00<00:00, 8371.86it/s]
+I Quantizating :   0%|                                                        | 0/1 [00:00<?, ?it/s]I Quantizating : 100%|███████████████████████████████████████████████| 1/1 [00:00<00:00, 555.76it/s]
+D 
+D quant_optimizer ...
+D quant_optimizer done.
+D 
+[1;33mW[0m [1;33mbuild: The default input dtype of 'input' is changed from 'float32' to 'int8' in rknn model for performance!
+                       Please take care of this change when deploy rknn model with Runtime API![0m
+[1;33mW[0m [1;33mbuild: The default output dtype of 'output' is changed from 'float32' to 'int8' in rknn model for performance!
+                      Please take care of this change when deploy rknn model with Runtime API![0m
+I rknn building ...
+I RKNN: [16:16:06.619] compress = 0, conv_eltwise_activation_fuse = 1, global_fuse = 1, multi-core-model-mode = 7, output_optimize = 1, layout_match = 1, enable_argb_group = 0, op_group_sram_opt = 0, enable_flash_attention = 0, op_group_nbuf_opt = 0
+I RKNN: librknnc version: 2.3.0 (c949ad889d@2024-11-07T11:39:30)
+D RKNN: [16:16:06.619] RKNN is invoked
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNExtractCustomOpAttrs
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNExtractCustomOpAttrs
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNSetOpTargetPass
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNSetOpTargetPass
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNBindNorm
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNBindNorm
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNEliminateQATDataConvert
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNEliminateQATDataConvert
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNConvStrideFixPass
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNConvStrideFixPass
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNTileGroupConv
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNTileGroupConv
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNTileFcBatchFuse
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNTileFcBatchFuse
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNAddConvBias
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNAddConvBias
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNTileChannel
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNTileChannel
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNDuplicateWeightPass
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNDuplicateWeightPass
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNPerChannelPrep
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNPerChannelPrep
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNBnQuant
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNBnQuant
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNFuseOptimizerPass
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNFuseOptimizerPass
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNTurnAutoPad
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNTurnAutoPad
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNInitRNNConst
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNInitRNNConst
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNInitCastConst
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNInitCastConst
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNMultiSurfacePass
+D RKNN: [16:16:06.619] <<<<<<<< end: rknn::RKNNMultiSurfacePass
+D RKNN: [16:16:06.619] >>>>>> start: rknn::RKNNReplaceConstantTensorPass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNReplaceConstantTensorPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNSubgraphManager
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNSubgraphManager
+D RKNN: [16:16:06.620] >>>>>> start: OpEmit
+D RKNN: [16:16:06.620] <<<<<<<< end: OpEmit
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNAddFirstConv
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNAddFirstConv
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNLayoutMatchPass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNLayoutMatchPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNAddSecondaryNode
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNAddSecondaryNode
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNAllocateConvCachePass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNAllocateConvCachePass
+D RKNN: [16:16:06.620] >>>>>> start: OpEmit
+D RKNN: [16:16:06.620] <<<<<<<< end: OpEmit
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNSubGraphMemoryPlanPass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNSubGraphMemoryPlanPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNProfileAnalysisPass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNProfileAnalysisPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNOperatorIdGenPass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNOperatorIdGenPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNWeightTransposePass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNWeightTransposePass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNCPUWeightTransposePass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNCPUWeightTransposePass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNModelBuildPass
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNModelBuildPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNModelRegCmdbuildPass
+D RKNN: [16:16:06.620] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [16:16:06.620]                                                         Network Layer Information Table                                                      
+D RKNN: [16:16:06.620] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [16:16:06.620] ID   OpType             DataType Target InputShape                               OutputShape            Cycles(DDR/NPU/Total)    RW(KB)       FullName        
+D RKNN: [16:16:06.620] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [16:16:06.620] 0    InputOperator      INT8     CPU    \                                        (1,1,28,28)            0/0/0                    0            InputOperator:input
+D RKNN: [16:16:06.620] 1    Conv               INT8     NPU    (1,1,28,28),(8,1,5,5),(8)                (1,8,28,28)            2315/19600/19600         1            Conv:output     
+D RKNN: [16:16:06.620] 2    OutputOperator     INT8     NPU    (1,8,28,28)                              \                      0/0/0                    12           OutputOperator:output
+D RKNN: [16:16:06.620] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNModelRegCmdbuildPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNFlatcModelBuildPass
+D RKNN: [16:16:06.620] Export Mini RKNN model to /tmp/tmpcn1w9meq/check.rknn
+D RKNN: [16:16:06.620] >>>>>> end: rknn::RKNNFlatcModelBuildPass
+D RKNN: [16:16:06.620] >>>>>> start: rknn::RKNNMemStatisticsPass
+D RKNN: [16:16:06.620] ---------------------------------------------------------------------------------------------------------------------------
+D RKNN: [16:16:06.620]                                          Feature Tensor Information Table                             
+D RKNN: [16:16:06.620] -----------------------------------------------------------------------------------------+---------------------------------
+D RKNN: [16:16:06.620] ID  User           Tensor             DataType  DataFormat   OrigShape    NativeShape    |     [Start       End)       Size
+D RKNN: [16:16:06.620] -----------------------------------------------------------------------------------------+---------------------------------
+D RKNN: [16:16:06.620] 1   Conv           input              INT8      NC1HWC2      (1,1,28,28)  (1,1,28,28,1)  | 0x00000e80 0x00001200 0x00000380
+D RKNN: [16:16:06.620] 2   OutputOperator output             INT8      NC1HWC2      (1,8,28,28)  (1,1,28,28,16) | 0x00001200 0x00004300 0x00003100
+D RKNN: [16:16:06.620] 2   OutputOperator output_exSecondary INT8      NHWC         (1,28,28,8)  (1,28,28,8)    | 0x00004300 0x00005b80 0x00001880
+D RKNN: [16:16:06.620] -----------------------------------------------------------------------------------------+---------------------------------
+D RKNN: [16:16:06.620] ---------------------------------------------------------------------------------
+D RKNN: [16:16:06.620]                            Const Tensor Information Table          
+D RKNN: [16:16:06.620] -----------------------------------------------+---------------------------------
+D RKNN: [16:16:06.620] ID  User Tensor         DataType  OrigShape    |     [Start       End)       Size
+D RKNN: [16:16:06.620] -----------------------------------------------+---------------------------------
+D RKNN: [16:16:06.620] 1   Conv weights        INT8      (8,I rknn building done.
+1,5,5)    | 0x00000000 0x00000340 0x00000340
+D RKNN: [16:16:06.620] 1   Conv weights_bias_0 INT32     (8)          | 0x00000340*0x000003c0 0x00000080
+D RKNN: [16:16:06.620] -----------------------------------------------+---------------------------------
+D RKNN: [16:16:06.620] ----------------------------------------
+D RKNN: [16:16:06.620] Total Internal Memory Size: 19.25KB
+D RKNN: [16:16:06.620] Total Weight Memory Size: 0.9375KB
+D RKNN: [16:16:06.620] ----------------------------------------
+D RKNN: [16:16:06.620] <<<<<<<< end: rknn::RKNNMemStatisticsPass

@@ -1,0 +1,135 @@
+[
+  {
+    "graph": "rgb",
+    "analytic": {
+      "metrics": {
+        "samples": 16,
+        "values": 3072,
+        "mae": 2.9575306710369964,
+        "rmse": 3.5571814452777404,
+        "max_error": 8.756599426269531,
+        "mean_relative": 0.1068680088727711,
+        "output_scale": 11.232717514038086,
+        "output_zero_point": 7
+      },
+      "layers": {
+        "output": {
+          "mae": 2.732858551903822,
+          "max_error": 5.6161956787109375,
+          "values": 3072
+        }
+      }
+    },
+    "calibrated": {
+      "metrics": {
+        "samples": 16,
+        "values": 3072,
+        "mae": 1.7418694914522348,
+        "rmse": 2.182162768516649,
+        "max_error": 17.40859079360962,
+        "mean_relative": 0.08994934325491051,
+        "output_scale": 5.502326488494873,
+        "output_zero_point": -3
+      },
+      "layers": {
+        "output": {
+          "mae": 1.3434512479434488,
+          "max_error": 17.40859079360962,
+          "values": 3072
+        }
+      }
+    }
+  },
+  {
+    "graph": "native",
+    "analytic": {
+      "metrics": {
+        "samples": 16,
+        "values": 32768,
+        "mae": 3.915893733289522,
+        "rmse": 4.663553632580826,
+        "max_error": 12.622339248657227,
+        "mean_relative": 0.11737145995294548,
+        "output_scale": 15.899358749389648,
+        "output_zero_point": -17
+      },
+      "layers": {
+        "output": {
+          "mae": 3.793509902337064,
+          "max_error": 7.949583053588867,
+          "values": 32768
+        }
+      }
+    },
+    "calibrated": {
+      "metrics": {
+        "samples": 16,
+        "values": 32768,
+        "mae": 3.049071444001129,
+        "rmse": 19.240920980057947,
+        "max_error": 573.7001647949219,
+        "mean_relative": 0.10025982089618528,
+        "output_scale": 9.2302827835083,
+        "output_zero_point": -33
+      },
+      "layers": {
+        "output": {
+          "mae": 2.8569994443305404,
+          "max_error": 573.7001647949219,
+          "values": 32768
+        }
+      }
+    }
+  },
+  {
+    "graph": "chain",
+    "analytic": {
+      "metrics": {
+        "samples": 16,
+        "values": 3072,
+        "mae": 0.796158969324703,
+        "rmse": 0.9149367358952253,
+        "max_error": 2.1701598167419434,
+        "mean_relative": 0.09204699869828643,
+        "output_scale": 2.9638466835021973,
+        "output_zero_point": -18
+      },
+      "layers": {
+        "r1": {
+          "mae": 0.10537790823727847,
+          "max_error": 0.5077288150787354,
+          "values": 5120
+        },
+        "output": {
+          "mae": 0.7740435523446649,
+          "max_error": 1.4815423488616943,
+          "values": 3072
+        }
+      }
+    },
+    "calibrated": {
+      "metrics": {
+        "samples": 16,
+        "values": 3072,
+        "mae": 0.324381838630264,
+        "rmse": 0.39912998401505306,
+        "max_error": 1.2366623878479004,
+        "mean_relative": 0.03436569919523324,
+        "output_scale": 0.8407331705093384,
+        "output_zero_point": 17
+      },
+      "layers": {
+        "r1": {
+          "mae": 0.17836003578267992,
+          "max_error": 5.429317116737366,
+          "values": 5120
+        },
+        "output": {
+          "mae": 0.2152841641800478,
+          "max_error": 0.42024850845336914,
+          "values": 3072
+        }
+      }
+    }
+  }
+]

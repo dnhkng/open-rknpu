@@ -1,0 +1,163 @@
+[
+  {
+    "index": 0,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "input_shape": [
+      33,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 1,
+    "kernel": 3,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "input_shape": [
+      33,
+      48,
+      3
+    ],
+    "output_channels": 3,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 2,
+    "kernel": 5,
+    "strides": [
+      2,
+      3
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "input_shape": [
+      48,
+      33,
+      17
+    ],
+    "output_channels": 1,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 3,
+    "kernel": 7,
+    "strides": [
+      4,
+      4
+    ],
+    "pads": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "input_shape": [
+      48,
+      64,
+      1
+    ],
+    "output_channels": 17,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 4,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "input_shape": [
+      64,
+      64,
+      3
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 5,
+    "kernel": 3,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "input_shape": [
+      96,
+      64,
+      1
+    ],
+    "output_channels": 1,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 6,
+    "kernel": 5,
+    "strides": [
+      2,
+      3
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "input_shape": [
+      128,
+      128,
+      1
+    ],
+    "output_channels": 1,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  }
+]

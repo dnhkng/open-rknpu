@@ -1,0 +1,1 @@
+batched rule: 11/11 cases as expected (committed controls exact and stable; batched completed only for chain_output_quantization_suite-committed; every mixed-engine or 3+ task batched container timed out)

@@ -1,0 +1,46 @@
+[
+  {
+    "suite": "pool_join_suite",
+    "index": 0,
+    "file": "pool_join_suite_model000_batched.bin",
+    "tasks": 6,
+    "mode": "batched",
+    "submission": "batched",
+    "input_bytes": 192,
+    "output_bytes": 48,
+    "cases": 4
+  },
+  {
+    "suite": "pool_join_suite",
+    "index": 1,
+    "file": "pool_join_suite_model001_batched.bin",
+    "tasks": 6,
+    "mode": "batched",
+    "submission": "batched",
+    "input_bytes": 192,
+    "output_bytes": 48,
+    "cases": 4
+  },
+  {
+    "suite": "pooled_branches_suite",
+    "index": 0,
+    "file": "pooled_branches_suite_model000_batched.bin",
+    "tasks": 7,
+    "mode": "batched",
+    "submission": "batched",
+    "input_bytes": 192,
+    "output_bytes": 48,
+    "cases": 4
+  },
+  {
+    "suite": "pooled_branches_suite",
+    "index": 3,
+    "file": "pooled_branches_suite_model003_batched.bin",
+    "tasks": 9,
+    "mode": "batched",
+    "submission": "batched",
+    "input_bytes": 192,
+    "output_bytes": 48,
+    "cases": 4
+  }
+]

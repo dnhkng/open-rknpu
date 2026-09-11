@@ -1,0 +1,1 @@
+CNA->DPU=0x14 DPU->DPU=0x40 DPU->CNA=none over 18 board attempts

@@ -1,0 +1,1 @@
+group probe: 2/5 cases exact and stable (G1-2xCNA-terminal-committed, G2-2xCNA-linked-batched)

@@ -1,0 +1,42 @@
+[
+  {
+    "config": "core=0x0",
+    "tasks": 2,
+    "runs": 32,
+    "mismatches": 0,
+    "changed": false,
+    "median_us": 170.0
+  },
+  {
+    "config": "core=0x7",
+    "tasks": 2,
+    "runs": 32,
+    "mismatches": 0,
+    "changed": false,
+    "median_us": 176.8
+  },
+  {
+    "config": "core=0x7+windows",
+    "tasks": 2,
+    "runs": 32,
+    "mismatches": 0,
+    "changed": false,
+    "median_us": 392.3
+  },
+  {
+    "config": "core=0x0+windows",
+    "tasks": 2,
+    "runs": 32,
+    "mismatches": 0,
+    "changed": false,
+    "median_us": 200.7
+  },
+  {
+    "config": "core=0x1+window1",
+    "tasks": 2,
+    "runs": 32,
+    "mismatches": 0,
+    "changed": false,
+    "median_us": 168.6
+  }
+]

@@ -1,0 +1,154 @@
+I rknn-toolkit2 version: 2.3.0
+I Loading :   0%|                                                             | 0/2 [00:00<?, ?it/s]I Loading : 100%|██████████████████████████████████████████████████| 2/2 [00:00<00:00, 24385.49it/s]
+D base_optimize ...
+D base_optimize done.
+D 
+D fold_constant ...
+D fold_constant done.
+D 
+D correct_ops ...
+D correct_ops done.
+D 
+D fuse_ops ...
+D fuse_ops results:
+D     convert_softmax_to_exsoftmax13: remove node = ['output'], add node = ['output']
+D     fold_constant ...
+D     fold_constant done.
+D fuse_ops done.
+D 
+D sparse_weight ...
+D sparse_weight done.
+D 
+I GraphPreparing :   0%|                                                      | 0/2 [00:00<?, ?it/s]I GraphPreparing : 100%|████████████████████████████████████████████| 2/2 [00:00<00:00, 9300.01it/s]
+I Quantizating :   0%|                                                        | 0/2 [00:00<?, ?it/s]I Quantizating : 100%|██████████████████████████████████████████████| 2/2 [00:00<00:00, 1091.41it/s]
+D 
+D fuse_ops ...
+D fuse_ops with passes results:
+D     fuse_two_dataconvert: remove node = ['output_int8__cvt_float16_int8', 'output__cvt_int8_to_float16'], add node = ['output_int8__cvt_float16_int8']
+D     remove_invalid_dataconvert: remove node = ['output_int8__cvt_float16_int8']
+D fuse_ops done.
+D 
+D quant_optimizer ...
+D quant_optimizer done.
+D 
+[1;33mW[0m [1;33mbuild: The default input dtype of 'input' is changed from 'float32' to 'int8' in rknn model for performance!
+                       Please take care of this change when deploy rknn model with Runtime API![0m
+I rknn building ...
+I RKNN: [19:18:14.520] compress = 0, conv_eltwise_activation_fuse = 1, global_fuse = 1, multi-core-model-mode = 7, output_optimize = 1, layout_match = 1, enable_argb_group = 0, op_group_sram_opt = 0, enable_flash_attention = 0, op_group_nbuf_opt = 0
+I RKNN: librknnc version: 2.3.0 (c949ad889d@2024-11-07T11:39:30)
+D RKNN: [19:18:14.520] RKNN is invoked
+I RKNN: [19:18:14.521] Meet hybrid type, dtype: float16, tensor: output
+I RKNN: [19:18:14.521] Meet hybrid type, dtype: float16, tensor: stem__float16
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNExtractCustomOpAttrs
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNExtractCustomOpAttrs
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNSetOpTargetPass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNSetOpTargetPass
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNBindNorm
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNBindNorm
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNEliminateQATDataConvert
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNEliminateQATDataConvert
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNConvStrideFixPass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNConvStrideFixPass
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNTileGroupConv
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNTileGroupConv
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNTileFcBatchFuse
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNTileFcBatchFuse
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNAddConvBias
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNAddConvBias
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNTileChannel
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNTileChannel
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNDuplicateWeightPass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNDuplicateWeightPass
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNPerChannelPrep
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNPerChannelPrep
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNBnQuant
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNBnQuant
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNFuseOptimizerPass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNFuseOptimizerPass
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNTurnAutoPad
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNTurnAutoPad
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNInitRNNConst
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNInitRNNConst
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNInitCastConst
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNInitCastConst
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNMultiSurfacePass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNMultiSurfacePass
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNReplaceConstantTensorPass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNReplaceConstantTensorPass
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNSubgraphManager
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNSubgraphManager
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNSubgraphManager
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNAddSecondaryNode
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNAddSecondaryNode
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNSubgraphManager
+D RKNN: [19:18:14.521] >>>>>> start: OpEmit
+D RKNN: [19:18:14.521] <<<<<<<< end: OpEmit
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNAddFirstConv
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNAddFirstConv
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNLayoutMatchPass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNLayoutMatchPass
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNAddSecondaryNode
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNAddSecondaryNode
+D RKNN: [19:18:14.521] >>>>>> start: rknn::RKNNAllocateConvCachePass
+D RKNN: [19:18:14.521] <<<<<<<< end: rknn::RKNNAllocateConvCachePass
+D RKNN: [19:18:14.521] >>>>>> start: OpEmit
+D RKNN: [19:18:14.523] <<<<<<<< end: OpEmit
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNSubGraphMemoryPlanPass
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNSubGraphMemoryPlanPass
+D RKNN: [19:18:14.523] <<<<<<<< end: rknn::RKNNSubGraphMemoryPlanPass
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNOperatorIdGenPass
+D RKNN: [19:18:14.523] <<<<<<<< end: rknn::RKNNOperatorIdGenPass
+D RKNN: [19:18:14.523] <<<<<<<< end: rknn::RKNNSubGraphMemoryPlanPass
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNProfileAnalysisPass
+D RKNN: [19:18:14.523] <<<<<<<< end: rknn::RKNNProfileAnalysisPass
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNOperatorIdGenPass
+D RKNN: [19:18:14.523] <<<<<<<< end: rknn::RKNNOperatorIdGenPass
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNWeightTransposePass
+D RKNN: [19:18:14.523] <<<<<<<< end: rknn::RKNNWeightTransposePass
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNCPUWeightTransposePass
+D RKNN: [19:18:14.523] <<<<<<<< end: rknn::RKNNCPUWeightTransposePass
+D RKNN: [19:18:14.523] >>>>>> start: rknn::RKNNModelBuildPass
+D RKNN: [19:18:14.525] <<<<<<<< end: rknn::RKNNModelBuildPass
+D RKNN: [19:18:14.525] >>>>>> start: rknn::RKNNModelRegCmdbuildPass
+D RKNN: [19:18:14.525] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [19:18:14.525]                                                         Network Layer Information Table                                                      
+D RKNN: [19:18:14.525] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [19:18:14.525] ID   OpType             DataType Target InputShape                               OutputShape            Cycles(DDR/NPU/Total)    RW(KB)       FullName        
+D RKNN: [19:18:14.525] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [19:18:14.525] 0    InputOperator      INT8     CPU    \                                        (1,3,8,8)              0/0/0                    0            InputOperator:input
+D RKNN: [19:18:14.525] 1    Conv               INT8     NPU    (1,3,8,8),(3,3,1,1),(3)                  (1,3,8,8)              221/256/256              0            Conv:stem       
+D RKNN: [19:18:14.525] 2    exDataConvert      INT8     NPU    (1,3,8,8)                                (1,3,8,8)              0/0/0                    1            exDataConvert:stem__cvt_int8_float16
+D RKNN: [19:18:14.525] 3    exSoftmax13        FLOAT16  NPU    (1,3,8,8),(16,16,1,1)                    (1,3,8,8)              0/0/0                    1            exSoftmax13:output
+D RKNN: [19:18:14.525] 4    OutputOperator     FLOAT16  NPU    (1,3,8,8)                                \                      0/0/0                    1            OutputOperator:output
+D RKNN: [19:18:14.525] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [19:18:14.525] <<<<<<<< end: rknn::RKNNModelRegCmdbuildPass
+D RKNN: [19:18:14.525] >>>>>> start: rknn::RKNNFlatcModelBuildPass
+D RKNN: [19:18:14.525] Export Mini RKNN model to /tmp/tmpw2iko7yv/check.rknn
+D RKNN: [19:18:14.525] >>>>>> end: rknn::RKNNFlatcModelBuildPass
+D RKNN: [19:18:14.525] >>>>>> start: rknn::RKNNMemStatisticsPass
+D RKNN: [19:18:14.526] --------------------------------------------------------------------------------------------------------------------------------
+D RKNN: [19:18:14.526]                                           Feature Tensor Information Table                                
+D RKNN: [19:18:14.526] ----------------------------------------------------------------------------------------------+---------------------------------
+D RKNN: [19:18:14.526] ID  User           Tensor                    DataType  DataFormat   OrigShape    NativeShape  |     [Start       End)       Size
+D RKNN: [19:18:14.526] ----------------------------------------------------------------------------------------------+---------------------------------
+D RKNN: [19:18:14.526] 1   Conv           input                     INT8  I rknn building done.
+    NC1HWC2      (1,3,8,8)    (1,2,8,8,3)  | 0x00007b80 0x00007d00 0x00000180
+D RKNN: [19:18:14.526] 2   exDataConvert  stem                      INT8      NC1HWC2      (1,3,8,8)    (1,1,8,8,16) | 0x00007d00 0x00008100 0x00000400
+D RKNN: [19:18:14.526] 3   exSoftmax13    stem__float16             FLOAT16   NC1HWC2      (1,3,8,8)    (1,8,8,8,8)  | 0x00008100 0x00008900 0x00000800
+D RKNN: [19:18:14.526] 3   exSoftmax13    stem__float16_exSecondary FLOAT16   NC1HWC2      (1,3,8,8)    (1,20,8,8,8) | 0x00008900 0x00009d40 0x00001440
+D RKNN: [19:18:14.526] 4   OutputOperator output                    FLOAT16   NC1HWC2      (1,3,8,8)    (1,4,8,8,8)  | 0x00007b80 0x00007f80 0x00000400
+D RKNN: [19:18:14.526] 4   OutputOperator output_exSecondary        FLOAT16   NHWC         (1,8,8,3)    (1,8,8,3)    | 0x00007f80 0x00008100 0x00000180
+D RKNN: [19:18:14.526] ----------------------------------------------------------------------------------------------+---------------------------------
+D RKNN: [19:18:14.526] ---------------------------------------------------------------------------
+D RKNN: [19:18:14.526]                          Const Tensor Information Table       
+D RKNN: [19:18:14.526] -----------------------------------------+---------------------------------
+D RKNN: [19:18:14.526] ID  User Tensor   DataType  OrigShape    |     [Start       End)       Size
+D RKNN: [19:18:14.526] -----------------------------------------+---------------------------------
+D RKNN: [19:18:14.526] 1   Conv stem_w   INT8      (3,3,1,1)    | 0x00000000 0x00000040 0x00000040
+D RKNN: [19:18:14.526] 1   Conv stem_b   INT32     (3)          | 0x00000040*0x000000c0 0x00000080
+D RKNN: [19:18:14.526] -----------------------------------------+---------------------------------
+D RKNN: [19:18:14.526] ----------------------------------------
+D RKNN: [19:18:14.526] Total Internal Memory Size: 8.4375KB
+D RKNN: [19:18:14.526] Total Weight Memory Size: 0.1875KB
+D RKNN: [19:18:14.526] ----------------------------------------
+D RKNN: [19:18:14.526] <<<<<<<< end: rknn::RKNNMemStatisticsPass

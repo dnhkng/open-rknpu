@@ -1,0 +1,5 @@
+fence-free completion (PIPELINING_PLAN.md S4 residual), tests/board_barrier.c and tests/board_async.c, 64 iterations:
+
+mixed_head_suite   model001.bin             tasks=7  sync=  183.5us barrier-completed=  134.5us barrier= 23.9us mismatches=0
+deep_chain_suite   batched/model002.bin     tasks=16 sync=  107.3us barrier-completed=  134.5us barrier= 24.8us mismatches=0
+fence_out rc=-22 ; two-instance drain pipeline ratio=1.132

@@ -1,0 +1,298 @@
+[
+  {
+    "index": 0,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "auto_pad": "NOTSET",
+    "resolved_pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_shape": [
+      12,
+      12,
+      3
+    ],
+    "cases": 16,
+    "output_bytes": 432,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 1.3841228485107422,
+    "output_zero_point": 17
+  },
+  {
+    "index": 1,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "auto_pad": "NOTSET",
+    "resolved_pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "output_shape": [
+      10,
+      10,
+      3
+    ],
+    "cases": 16,
+    "output_bytes": 300,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 2.6339406967163086,
+    "output_zero_point": 2
+  },
+  {
+    "index": 2,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "auto_pad": "NOTSET",
+    "resolved_pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_shape": [
+      19,
+      19,
+      3
+    ],
+    "cases": 16,
+    "output_bytes": 1083,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 1.9304944276809692,
+    "output_zero_point": 5
+  },
+  {
+    "index": 3,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "output_padding": [
+      1,
+      0
+    ],
+    "auto_pad": "NOTSET",
+    "resolved_pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "output_shape": [
+      18,
+      17,
+      3
+    ],
+    "cases": 16,
+    "output_bytes": 918,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 2.028650999069214,
+    "output_zero_point": 5
+  },
+  {
+    "index": 4,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "auto_pad": "NOTSET",
+    "resolved_pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_shape": [
+      8,
+      8,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 64,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 0.5317411422729492,
+    "output_zero_point": -52
+  },
+  {
+    "index": 5,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 4,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      1,
+      0
+    ],
+    "auto_pad": "NOTSET",
+    "resolved_pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_shape": [
+      16,
+      15,
+      4
+    ],
+    "cases": 16,
+    "output_bytes": 960,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 2.343759536743164,
+    "output_zero_point": 10
+  },
+  {
+    "index": 6,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 3,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      0,
+      0,
+      1
+    ],
+    "output_padding": [
+      0,
+      1
+    ],
+    "auto_pad": "NOTSET",
+    "resolved_pads": [
+      1,
+      0,
+      0,
+      1
+    ],
+    "output_shape": [
+      11,
+      19,
+      3
+    ],
+    "cases": 16,
+    "output_bytes": 627,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 2.0870325565338135,
+    "output_zero_point": -19
+  },
+  {
+    "index": 7,
+    "kernel": 3,
+    "dilation": 2,
+    "channels": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_padding": [
+      1,
+      1
+    ],
+    "auto_pad": "SAME_UPPER",
+    "resolved_pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_shape": [
+      16,
+      16,
+      3
+    ],
+    "cases": 16,
+    "output_bytes": 768,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "output_scale": 2.144043445587158,
+    "output_zero_point": 2
+  }
+]

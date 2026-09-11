@@ -1,0 +1,26 @@
+CASE 5
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 2048 output bytes; invalid buffer sizes rejected
+
+CASE 6
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 8192 output bytes; invalid buffer sizes rejected
+
+CASE 7
+model 0 failed: -110
+
+CASE 8
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 25088 output bytes; invalid buffer sizes rejected
+
+CASE 9
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 6272 output bytes; invalid buffer sizes rejected
+
+CASE 10
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 25088 output bytes; invalid buffer sizes rejected
+
+CASE 11
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 6272 output bytes; invalid buffer sizes rejected

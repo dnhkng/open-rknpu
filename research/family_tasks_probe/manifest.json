@@ -1,0 +1,146 @@
+[
+  {
+    "name": "conv_02",
+    "family": "conv",
+    "copies": 1,
+    "tasks": 2,
+    "family_tasks": 2,
+    "base_tasks": 1
+  },
+  {
+    "name": "conv_03",
+    "family": "conv",
+    "copies": 2,
+    "tasks": 3,
+    "family_tasks": 3,
+    "base_tasks": 1
+  },
+  {
+    "name": "conv_05",
+    "family": "conv",
+    "copies": 4,
+    "tasks": 5,
+    "family_tasks": 5,
+    "base_tasks": 1
+  },
+  {
+    "name": "conv_09",
+    "family": "conv",
+    "copies": 8,
+    "tasks": 9,
+    "family_tasks": 9,
+    "base_tasks": 1
+  },
+  {
+    "name": "conv_17",
+    "family": "conv",
+    "copies": 16,
+    "tasks": 17,
+    "family_tasks": 17,
+    "base_tasks": 1
+  },
+  {
+    "name": "conv_33",
+    "family": "conv",
+    "copies": 32,
+    "tasks": 33,
+    "family_tasks": 33,
+    "base_tasks": 1
+  },
+  {
+    "name": "pool_02",
+    "family": "pool",
+    "copies": 1,
+    "tasks": 3,
+    "family_tasks": 2,
+    "base_tasks": 2
+  },
+  {
+    "name": "pool_03",
+    "family": "pool",
+    "copies": 2,
+    "tasks": 4,
+    "family_tasks": 3,
+    "base_tasks": 2
+  },
+  {
+    "name": "pool_05",
+    "family": "pool",
+    "copies": 4,
+    "tasks": 6,
+    "family_tasks": 5,
+    "base_tasks": 2
+  },
+  {
+    "name": "pool_09",
+    "family": "pool",
+    "copies": 8,
+    "tasks": 10,
+    "family_tasks": 9,
+    "base_tasks": 2
+  },
+  {
+    "name": "pool_17",
+    "family": "pool",
+    "copies": 16,
+    "tasks": 18,
+    "family_tasks": 17,
+    "base_tasks": 2
+  },
+  {
+    "name": "pool_33",
+    "family": "pool",
+    "copies": 32,
+    "tasks": 34,
+    "family_tasks": 33,
+    "base_tasks": 2
+  },
+  {
+    "name": "elem_02",
+    "family": "elem",
+    "copies": 1,
+    "tasks": 3,
+    "family_tasks": 2,
+    "base_tasks": 2
+  },
+  {
+    "name": "elem_03",
+    "family": "elem",
+    "copies": 2,
+    "tasks": 4,
+    "family_tasks": 3,
+    "base_tasks": 2
+  },
+  {
+    "name": "elem_05",
+    "family": "elem",
+    "copies": 4,
+    "tasks": 6,
+    "family_tasks": 5,
+    "base_tasks": 2
+  },
+  {
+    "name": "elem_09",
+    "family": "elem",
+    "copies": 8,
+    "tasks": 10,
+    "family_tasks": 9,
+    "base_tasks": 2
+  },
+  {
+    "name": "elem_17",
+    "family": "elem",
+    "copies": 16,
+    "tasks": 18,
+    "family_tasks": 17,
+    "base_tasks": 2
+  },
+  {
+    "name": "elem_33",
+    "family": "elem",
+    "copies": 32,
+    "tasks": 34,
+    "family_tasks": 33,
+    "base_tasks": 2
+  }
+]

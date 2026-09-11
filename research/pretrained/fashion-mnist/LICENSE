@@ -1,0 +1,6 @@
+The Fashion-MNIST dataset is released by Zalando SE under the MIT license:
+https://github.com/zalandoresearch/fashion-mnist/blob/master/LICENSE
+
+The trained model in this directory was produced locally by
+examples/fashion/train.py, which is MIT licensed like the rest of this
+repository's handwritten compiler, example and runtime code.

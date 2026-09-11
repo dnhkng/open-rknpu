@@ -1,0 +1,82 @@
+{
+  "shape_nhwc": [
+    1,
+    8,
+    8,
+    3
+  ],
+  "float_weights": [
+    [
+      0.25,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.5,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.75
+    ]
+  ],
+  "float_bias": [
+    10.0,
+    -20.0,
+    30.0
+  ],
+  "output_scale": 0.9460784196853638,
+  "output_zero_point": -107,
+  "quantization": {
+    "weights": [
+      [
+        127,
+        -128,
+        -128
+      ],
+      [
+        -128,
+        127,
+        -128
+      ],
+      [
+        -128,
+        -128,
+        127
+      ]
+    ],
+    "weight_zero_points": [
+      -128,
+      -128,
+      -128
+    ],
+    "weight_scales": [
+      0.0009803922148421407,
+      0.0019607844296842813,
+      0.0029411765281111
+    ],
+    "biases": [
+      42840,
+      22440,
+      42840
+    ],
+    "channel_multipliers": [
+      5461,
+      10923,
+      16384
+    ],
+    "multiplier": 26079,
+    "shift": 23,
+    "output_scale": 0.9460784196853638,
+    "output_zero_point": -107
+  },
+  "register_count": 126,
+  "limitations": "experimental three-channel INT8 1x1 profile; register semantics partially recovered",
+  "input_channel_for_output": [
+    0,
+    1,
+    2
+  ]
+}

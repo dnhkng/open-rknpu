@@ -1,0 +1,47 @@
+[
+  {
+    "suite": "mixed_head_suite",
+    "model": "model001.bin",
+    "iterations": 64,
+    "output": "barrier: tasks=1 median=23.9us\nsingle-instance: runs=64 tasks=7 serial sync_median=183.5us mismatches=0\nbarrier-completed: median=134.5us overhead=-49.0us (-27%) mismatches=0",
+    "barrier_tasks": 1,
+    "barrier_median_us": 23.9,
+    "runs": 64,
+    "tasks": 7,
+    "mode": "serial",
+    "sync_median_us": 183.5,
+    "sync_mismatches": 0,
+    "completed_median_us": 134.5,
+    "overhead_us": -49.0,
+    "overhead_percent": -27,
+    "completed_mismatches": 0
+  },
+  {
+    "suite": "deep_chain_suite",
+    "model": "batched/model002.bin",
+    "iterations": 64,
+    "output": "barrier: tasks=1 median=24.8us\nsingle-instance: runs=64 tasks=16 batched sync_median=107.3us mismatches=0\nbarrier-completed: median=134.5us overhead=27.1us (25%) mismatches=0",
+    "barrier_tasks": 1,
+    "barrier_median_us": 24.8,
+    "runs": 64,
+    "tasks": 16,
+    "mode": "batched",
+    "sync_median_us": 107.3,
+    "sync_mismatches": 0,
+    "completed_median_us": 134.5,
+    "overhead_us": 27.1,
+    "overhead_percent": 25,
+    "completed_mismatches": 0
+  },
+  {
+    "suite": "pool_join_suite",
+    "model": "model000.bin",
+    "iterations": 64,
+    "fence_out_rc": -22,
+    "output": "sync: runs=64 tasks=6 serial median=109.4us\nnonblock: rc=0 return=21137.7us second_rc=0 wait=357.0us output_matches=yes\n  expected_match=yes\ntwo-instance pipeline: rounds=64 median sync=225us pipelined=199us ratio=1.132 outputs_ok=yes\nfence_out: rc=-22 fd=-1 submit=1175.1us",
+    "rounds": 64,
+    "pipeline_sync_us": 225.0,
+    "pipeline_drain_us": 199.0,
+    "pipeline_ratio": 1.132
+  }
+]

@@ -1,0 +1,10 @@
+/home/dnhkng/drone/research/fixtures/primitive_min/model.rknn: 1 file pushed, 0 skipped. 207.7 MB/s (26014 bytes in 0.000s)
+
+/userdata/open-npu-research/capture_primitive_min/./: 0 files pulled, 0 skipped.
+
+Traceback (most recent call last):
+  File "/home/dnhkng/drone/research/run_oracle.py", line 41, in <module>
+    run(parser.parse_args().name)
+  File "/home/dnhkng/drone/research/run_oracle.py", line 32, in run
+    raise RuntimeError("incomplete capture; board files retained")
+RuntimeError: incomplete capture; board files retained

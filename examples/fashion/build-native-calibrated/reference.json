@@ -1,0 +1,55 @@
+{
+  "cases": 8,
+  "placement": {
+    "NPU": [
+      "Conv1",
+      "Relu1",
+      "MaxPool1",
+      "Conv2"
+    ],
+    "CPU": [
+      "Relu2",
+      "MaxPool2",
+      "Reshape",
+      "MatMul",
+      "Add"
+    ]
+  },
+  "original_logits": [
+    -6.25649356842041,
+    -11.655670166015625,
+    -4.699188232421875,
+    -7.520054340362549,
+    -6.3646321296691895,
+    3.0380821228027344,
+    -5.657848834991455,
+    5.229432582855225,
+    0.9516738057136536,
+    8.121729850769043
+  ],
+  "hybrid_reference_logits": [
+    -6.234864234924316,
+    -11.523213386535645,
+    -4.590147495269775,
+    -7.51331901550293,
+    -6.367067337036133,
+    3.03821063041687,
+    -5.580822944641113,
+    5.131359577178955,
+    0.9154837727546692,
+    8.082010269165039
+  ],
+  "original_prediction": 9,
+  "hybrid_prediction": 9,
+  "fixture_max_logit_error": 0.13245677947998047,
+  "input_scale": 0.003921568859368563,
+  "input_zero_point": 0,
+  "output_scale": 0.08139381557703018,
+  "output_zero_point": -6,
+  "dataset_accuracy_measured": false,
+  "native_conv2_calibrated": true,
+  "native_conv2_output_range": {
+    "scale": 0.08139381557703018,
+    "zero_point": -6
+  }
+}

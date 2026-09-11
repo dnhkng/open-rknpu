@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/LuckfoxTECH/luckfox-pico",
+  "main_at_retrieval": "824b817f889c2cbff1d48fcdb18ab494a68f69d1",
+  "files": {
+    "rknpu_mem.c": "d5e67c328de61f46d457e0e144025e27eab826df467da44e4475b2ad98219ef9",
+    "rknpu_drv.c": "b4d7099391f5e804a8ba344d863ee826557d69c0916adfbd5d3542f1920fa64b",
+    "rknpu_job.c": "1235ce135a3e0a46e7339b929d8893ac67366e82261263877540fec61d886f3c",
+    "rknpu_ioctl.h": "2c0481a1549de4045b4c16410be2f2957c00668e8e743c4bacf2d5bfc3392da4"
+  }
+}

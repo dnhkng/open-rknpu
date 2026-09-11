@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/primitive_globalavg/calibration_7.npy

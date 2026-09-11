@@ -1,0 +1,28 @@
+{
+  "method": "minmax",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 24,
+  "files": [
+    "/home/dnhkng/drone/research/sequence_calibration_suite/chain_calibration/cal.npy"
+  ],
+  "tensors": [
+    "r1",
+    "output"
+  ],
+  "ranges": {
+    "r1": {
+      "min": 0.0,
+      "max": 253.98727416992188,
+      "scale": 0.9960285425186157,
+      "zero_point": -128
+    },
+    "output": {
+      "min": -122.16197204589844,
+      "max": 92.22498321533203,
+      "scale": 0.8407331705093384,
+      "zero_point": 17
+    }
+  }
+}

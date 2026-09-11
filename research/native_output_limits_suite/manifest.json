@@ -1,0 +1,86 @@
+[
+  {
+    "index": 0,
+    "input_shape": [
+      7,
+      6,
+      1
+    ],
+    "output_shape": [
+      7,
+      6,
+      65
+    ],
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "relu": false
+  },
+  {
+    "index": 1,
+    "input_shape": [
+      8,
+      7,
+      17
+    ],
+    "output_shape": [
+      8,
+      4,
+      80
+    ],
+    "kernel": 3,
+    "strides": [
+      1,
+      2
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "relu": true
+  },
+  {
+    "index": 2,
+    "input_shape": [
+      8,
+      8,
+      32
+    ],
+    "output_shape": [
+      4,
+      8,
+      127
+    ],
+    "kernel": 7,
+    "strides": [
+      2,
+      1
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "relu": false
+  },
+  {
+    "index": 3,
+    "input_shape": [
+      6,
+      5,
+      32
+    ],
+    "output_shape": [
+      3,
+      3,
+      128
+    ],
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "relu": true
+  }
+]

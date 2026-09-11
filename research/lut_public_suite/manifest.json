@@ -1,0 +1,22 @@
+[
+  {
+    "lut_profile": "sigmoid-identity-scale0.03125-8x8-c3",
+    "stem_factor": 0.03125,
+    "output_scale": 0.00392156862745098,
+    "output_zero_point": -128,
+    "index": 0,
+    "kind": "Sigmoid",
+    "input_scale": 1.0,
+    "input_zero_point": 128
+  },
+  {
+    "lut_profile": "tanh-identity-scale0.03125-8x8-c3",
+    "stem_factor": 0.03125,
+    "output_scale": 0.007874015748031496,
+    "output_zero_point": 0,
+    "index": 1,
+    "kind": "Tanh",
+    "input_scale": 1.0,
+    "input_zero_point": 128
+  }
+]

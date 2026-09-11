@@ -1,0 +1,75 @@
+[
+  {
+    "name": "C1-2xCNA-terminal",
+    "suite": "depthwise_asymmetric_suite",
+    "model": 0,
+    "why": "2 CNA, terminal tails, batched",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=2 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "C2-2xCNA-linked",
+    "suite": "depthwise_asymmetric_suite",
+    "model": 0,
+    "why": "2 CNA, link 0x440, per-task mask",
+    "serial": false,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  },
+  {
+    "name": "C3-3xCNA-linked",
+    "suite": "native_chain_suite",
+    "model": 0,
+    "why": "3 CNA, linked, per-task mask",
+    "serial": false,
+    "passed": true,
+    "output": "runs=32 tasks=3 batched min=39.7us median=187.0us mean=345.9us max=1450.2us unstable=0 mismatches=0",
+    "tasks": 3,
+    "mode": "batched",
+    "median_us": 187.0,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "C4-4xCNA-loop-linked",
+    "suite": "chain_output_quantization_suite",
+    "model": 0,
+    "why": "4 descriptors over a 2-program loop, linked",
+    "serial": false,
+    "passed": true,
+    "output": "runs=32 tasks=4 batched min=42.9us median=156.3us mean=346.7us max=1321.3us unstable=0 mismatches=0",
+    "tasks": 4,
+    "mode": "batched",
+    "median_us": 156.3,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "C5-6mixed-linked-union",
+    "suite": "pool_join_suite",
+    "model": 0,
+    "why": "v5 6 tasks CNA+DPU, linked, union mask 0xF00",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=6 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "C6-6mixed-linked",
+    "suite": "pool_join_suite",
+    "model": 0,
+    "why": "v5 6 tasks CNA+DPU, linked, per-task masks",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=6 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "C7-2mixed-linked-union",
+    "suite": "mnist_pool_suite",
+    "model": 0,
+    "why": "2 tasks DPU+CNA, linked, union mask",
+    "serial": false,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  }
+]

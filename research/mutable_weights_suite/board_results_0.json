@@ -1,0 +1,9 @@
+[
+  {
+    "model": "000",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 126,
+    "output": "PASS: v4 conv.parameters replaced; invalid index/size rejected; 126 exact bytes"
+  }
+]

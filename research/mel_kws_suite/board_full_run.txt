@@ -1,0 +1,16 @@
+container: 32x32x3 -> 8x8x10, 7 tasks, 0 engine run(s), submission serial
+samples: 300, rounds: 5
+PASS: 300 models, 1500 inferences, 191968 exact bytes
+FAIL: 4 samples differ from the reference (32 bytes)
+accuracy: 294/300 (98.00%)
+  digit 0: 29/30
+  digit 1: 30/30
+  digit 2: 30/30
+  digit 3: 30/30
+  digit 4: 30/30
+  digit 5: 28/30
+  digit 6: 29/30
+  digit 7: 30/30
+  digit 8: 28/30
+  digit 9: 30/30
+latency: first sweep 3471.0 us/inference, mean of 5 sweeps 2542.4 us/inference

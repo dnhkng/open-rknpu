@@ -1,0 +1,4 @@
+include README.md LICENSE
+recursive-include runtime *.c *.h Makefile
+# Workspace tests depend on hardware logs and ONNX fixtures in research/.
+prune tests

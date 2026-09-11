@@ -1,0 +1,95 @@
+CASE 0
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 1152 output bytes; invalid buffer sizes rejected
+
+CASE 1
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 4608 output bytes; invalid buffer sizes rejected
+
+CASE 2
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 9216 output bytes; invalid buffer sizes rejected
+
+CASE 3
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 1152 output bytes; invalid buffer sizes rejected
+
+CASE 4
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 4608 output bytes; invalid buffer sizes rejected
+
+CASE 5
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 9216 output bytes; invalid buffer sizes rejected
+
+CASE 6
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 3840 output bytes; invalid buffer sizes rejected
+
+CASE 7
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 15360 output bytes; invalid buffer sizes rejected
+
+CASE 8
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 30720 output bytes; invalid buffer sizes rejected
+
+CASE 9
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 3840 output bytes; invalid buffer sizes rejected
+
+CASE 10
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 15360 output bytes; invalid buffer sizes rejected
+
+CASE 11
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 30720 output bytes; invalid buffer sizes rejected
+
+CASE 12
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 4352 output bytes; invalid buffer sizes rejected
+
+CASE 13
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 17408 output bytes; invalid buffer sizes rejected
+
+CASE 14
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 34816 output bytes; invalid buffer sizes rejected
+
+CASE 15
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 4352 output bytes; invalid buffer sizes rejected
+
+CASE 16
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 17408 output bytes; invalid buffer sizes rejected
+
+CASE 17
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 34816 output bytes; invalid buffer sizes rejected
+
+CASE 18
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 12544 output bytes; invalid buffer sizes rejected
+
+CASE 19
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 50176 output bytes; invalid buffer sizes rejected
+
+CASE 20
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 100352 output bytes; invalid buffer sizes rejected
+
+CASE 21
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 16384 output bytes; invalid buffer sizes rejected
+
+CASE 22
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 65536 output bytes; invalid buffer sizes rejected
+
+CASE 23
+model 0: 8 inputs passed
+PASS: 1 models, 8 inferences, 131072 output bytes; invalid buffer sizes rejected

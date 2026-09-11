@@ -1,0 +1,386 @@
+[
+  {
+    "index": 0,
+    "join": "Add",
+    "dense_kernel": 1,
+    "depthwise_kernel": 3,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.19194583594799042,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.09597291797399521,
+      0.09597291797399521
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6144,
+    "expected_values": 6144
+  },
+  {
+    "index": 1,
+    "join": "Add",
+    "dense_kernel": 3,
+    "depthwise_kernel": 3,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.6257912516593933,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.31289562582969666,
+      0.31289562582969666
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6140,
+    "expected_values": 6144
+  },
+  {
+    "index": 2,
+    "join": "Mul",
+    "dense_kernel": 1,
+    "depthwise_kernel": 3,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.5446173548698425,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.03959239274263382,
+      0.10746566951274872
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6080,
+    "expected_values": 6144
+  },
+  {
+    "index": 3,
+    "join": "Mul",
+    "dense_kernel": 3,
+    "depthwise_kernel": 3,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 5.0246381759643555,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.32681572437286377,
+      0.12011351436376572
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 4,
+    "join": "Sub",
+    "dense_kernel": 1,
+    "depthwise_kernel": 5,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.4948289096355438,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.2474144548177719,
+      0.2474144548177719
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6080,
+    "expected_values": 6144
+  },
+  {
+    "index": 5,
+    "join": "Sub",
+    "dense_kernel": 3,
+    "depthwise_kernel": 5,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.5944727063179016,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.2972363531589508,
+      0.2972363531589508
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 5749,
+    "expected_values": 6144
+  },
+  {
+    "index": 6,
+    "join": "Max",
+    "dense_kernel": 1,
+    "depthwise_kernel": 1,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.053150493651628494,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.026575246825814247,
+      0.026575246825814247
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6094,
+    "expected_values": 6144
+  },
+  {
+    "index": 7,
+    "join": "Max",
+    "dense_kernel": 3,
+    "depthwise_kernel": 1,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.6631182432174683,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.33155912160873413,
+      0.33155912160873413
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6080,
+    "expected_values": 6144
+  },
+  {
+    "index": 8,
+    "join": "Add",
+    "dense_kernel": 3,
+    "depthwise_kernel": 5,
+    "stem_relu": false,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.6280503273010254,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.3140251636505127,
+      0.3140251636505127
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6080,
+    "expected_values": 6144
+  },
+  {
+    "index": 9,
+    "join": "Mul",
+    "dense_kernel": 1,
+    "depthwise_kernel": 5,
+    "stem_relu": true,
+    "asymmetric_depthwise": true,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.6957061290740967,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.032186076045036316,
+      0.16886818408966064
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 5651,
+    "expected_values": 6144
+  },
+  {
+    "index": 10,
+    "join": "Add",
+    "dense_kernel": 3,
+    "depthwise_kernel": 1,
+    "stem_relu": true,
+    "asymmetric_depthwise": true,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.4924827814102173,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.24624139070510864,
+      0.24624139070510864
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6080,
+    "expected_values": 6144
+  },
+  {
+    "index": 11,
+    "join": "Max",
+    "dense_kernel": 3,
+    "depthwise_kernel": 3,
+    "stem_relu": true,
+    "asymmetric_depthwise": false,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.5771842002868652,
+    "output_zero_point": 0,
+    "join_scales": [
+      0.2885921001434326,
+      0.2885921001434326
+    ],
+    "schedule": [
+      "stem",
+      "dense",
+      "depthwise",
+      "output"
+    ],
+    "tensor_offsets": {
+      "dense": 9600,
+      "depthwise": 10624,
+      "input0": 8192,
+      "output": 11648,
+      "stem": 8576
+    },
+    "expected_nonzero": 6080,
+    "expected_values": 6144
+  }
+]

@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/k3center/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/k3center/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/k3center/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/k3center/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/k3center/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/k3center/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/k3center/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/k3center/calibration_7.npy

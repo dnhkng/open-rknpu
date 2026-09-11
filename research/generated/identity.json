@@ -1,0 +1,23 @@
+{
+  "shape_nhwc": [
+    1,
+    8,
+    8,
+    3
+  ],
+  "input_channel_for_output": [
+    0,
+    1,
+    2
+  ],
+  "channel_multipliers": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "bias": 0,
+  "output_scale": 0.75,
+  "output_zero_point": -128,
+  "register_count": 126,
+  "limitations": "fixed experimental INT8 1x1 profile; register semantics partially recovered"
+}

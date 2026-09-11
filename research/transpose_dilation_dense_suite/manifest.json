@@ -1,0 +1,122 @@
+[
+  {
+    "index": 0,
+    "input_channels": 4,
+    "output_channels": 3,
+    "kernel": 3,
+    "dilation": 2,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "output_shape": [
+      12,
+      12,
+      3
+    ],
+    "cases": 8,
+    "output_bytes": 432,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "profile": "8x8-dense-c4-to-c3-k5-s1x1-pads[0, 0, 0, 0]"
+  },
+  {
+    "index": 1,
+    "input_channels": 4,
+    "output_channels": 3,
+    "kernel": 3,
+    "dilation": 2,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "output_shape": [
+      10,
+      10,
+      3
+    ],
+    "cases": 8,
+    "output_bytes": 300,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "profile": "8x8-dense-c4-to-c3-k5-s1x1-pads[1, 1, 1, 1]"
+  },
+  {
+    "index": 2,
+    "input_channels": 8,
+    "output_channels": 5,
+    "kernel": 3,
+    "dilation": 2,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "output_shape": [
+      17,
+      17,
+      5
+    ],
+    "cases": 8,
+    "output_bytes": 1445,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "profile": "8x8-dense-c8-to-c5-k5-s2x2-pads[1, 1, 1, 1]"
+  },
+  {
+    "index": 3,
+    "input_channels": 3,
+    "output_channels": 3,
+    "kernel": 3,
+    "dilation": 2,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "output_shape": [
+      8,
+      8,
+      3
+    ],
+    "cases": 8,
+    "output_bytes": 192,
+    "rewrite": "K3 dilation2 expanded to sparse K5",
+    "profile": "8x8-dense-c3-to-c3-k5-s1x1-pads[2, 2, 2, 2]"
+  }
+]

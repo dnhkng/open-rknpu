@@ -1,0 +1,30 @@
+{
+  "method": "percentile",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 32,
+  "files": [
+    "/home/dnhkng/drone/research/percentile_calibration_suite/calibration/cal.npy"
+  ],
+  "tensors": [
+    "r1",
+    "output"
+  ],
+  "ranges": {
+    "r1": {
+      "min": 0.0,
+      "max": 676.9820404052734,
+      "scale": 2.654831647872925,
+      "zero_point": -128
+    },
+    "output": {
+      "min": 0.0,
+      "max": 981.1715787649155,
+      "scale": 3.847731590270996,
+      "zero_point": -128
+    }
+  },
+  "bins": 2048,
+  "percentile": 99.9
+}

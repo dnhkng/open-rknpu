@@ -1,0 +1,172 @@
+[
+  {
+    "name": "k3",
+    "layers": 16,
+    "hidden_channels": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      3
+    ],
+    "kernels": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "cases": 4,
+    "untiled_tasks": 16,
+    "untiled_arena_bytes": 53248,
+    "untiled_bytes": 32096,
+    "output_bytes": 192,
+    "variants": {
+      "tiles1": {
+        "tasks": 16,
+        "arena_bytes": 40960,
+        "layout": "shared-surfaces",
+        "submission": "serial",
+        "bytes": 32672
+      },
+      "tiles1_batched": {
+        "tasks": 16,
+        "arena_bytes": 40960,
+        "layout": "shared-surfaces",
+        "submission": "batched",
+        "bytes": 32672
+      },
+      "tiles2": {
+        "tasks": 32,
+        "arena_bytes": 61440,
+        "layout": "shared-surfaces",
+        "submission": "serial",
+        "bytes": 50336
+      },
+      "tiles2_batched": {
+        "tasks": 32,
+        "arena_bytes": 61440,
+        "layout": "shared-surfaces",
+        "submission": "batched",
+        "bytes": 50336
+      },
+      "tiles4": {
+        "tasks": 64,
+        "arena_bytes": 94208,
+        "layout": "shared-surfaces",
+        "submission": "serial",
+        "bytes": 85664
+      },
+      "tiles4_batched": {
+        "tasks": 64,
+        "arena_bytes": 94208,
+        "layout": "shared-surfaces",
+        "submission": "batched",
+        "bytes": 85664
+      }
+    }
+  },
+  {
+    "name": "mixed",
+    "layers": 12,
+    "hidden_channels": [
+      4,
+      6,
+      8,
+      10,
+      10,
+      8,
+      6,
+      4,
+      3,
+      3,
+      3,
+      3
+    ],
+    "kernels": [
+      3,
+      1,
+      3,
+      1,
+      3,
+      1,
+      3,
+      1,
+      3,
+      1,
+      3,
+      1
+    ],
+    "cases": 4,
+    "untiled_tasks": 12,
+    "untiled_arena_bytes": 36864,
+    "untiled_bytes": 19488,
+    "output_bytes": 192,
+    "variants": {
+      "tiles1": {
+        "tasks": 12,
+        "arena_bytes": 28672,
+        "layout": "shared-surfaces",
+        "submission": "serial",
+        "bytes": 19872
+      },
+      "tiles1_batched": {
+        "tasks": 12,
+        "arena_bytes": 28672,
+        "layout": "shared-surfaces",
+        "submission": "batched",
+        "bytes": 19872
+      },
+      "tiles2": {
+        "tasks": 24,
+        "arena_bytes": 40960,
+        "layout": "shared-surfaces",
+        "submission": "serial",
+        "bytes": 33120
+      },
+      "tiles2_batched": {
+        "tasks": 24,
+        "arena_bytes": 40960,
+        "layout": "shared-surfaces",
+        "submission": "batched",
+        "bytes": 33120
+      },
+      "tiles4": {
+        "tasks": 48,
+        "arena_bytes": 69632,
+        "layout": "shared-surfaces",
+        "submission": "serial",
+        "bytes": 59616
+      },
+      "tiles4_batched": {
+        "tasks": 48,
+        "arena_bytes": 69632,
+        "layout": "shared-surfaces",
+        "submission": "batched",
+        "bytes": 59616
+      }
+    }
+  }
+]

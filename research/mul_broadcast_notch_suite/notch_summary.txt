@@ -1,0 +1,7 @@
+ERDMA notch broadcast variants (7x5x3 per-row constant, 32 cases):
+  baseline_materialized                  passed=True  exact=True  differing=0
+  compact_stride_plane_notch_w-1         passed=True  exact=False differing=3025
+  compact_stride_1_notch_w-1             passed=True  exact=False differing=3025
+  compact_stride_plane_notch_w           passed=True  exact=False differing=3025
+  compact_mode2_notch_w-1                passed=False exact=None  differing=None
+  compact_mode1_surf1_notch_w-1          passed=True  exact=False differing=3025

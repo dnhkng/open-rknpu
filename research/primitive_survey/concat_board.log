@@ -1,0 +1,16 @@
+/home/dnhkng/drone/research/fixtures/primitive_concat/model.rknn: 1 file pushed, 0 skipped. 221.1 MB/s (30968 bytes in 0.000s)
+
+/userdata/open-npu-research/capture_primitive_concat/./: 36 files pulled, 0 skipped. 0.2 MB/s (360864 bytes in 1.488s)
+
+ALLOC 0 fd=4 flags=a size=4096 object=b25dfda0 dma=3e4c000 ioctl=c0287202
+ALLOC 1 fd=5 flags=2 size=32768 object=b25dfee0 dma=3e4d000 ioctl=c0287202
+ATTR 1 name=input dims=1,8,8,3, fmt=1 type=2 size=192 stride_size=384 w_stride=16 zp=-128 scale=1
+ATTR 2 name=output dims=1,6,8,8, fmt=0 type=2 size=384 stride_size=384 w_stride=0 zp=-128 scale=0.00392156281
+ATTR 8 name=input dims=1,8,8,3, fmt=1 type=2 size=192 stride_size=384 w_stride=16 zp=-128 scale=1
+ATTR 9 name=output dims=1,1,8,8,16, fmt=2 type=2 size=2048 stride_size=2048 w_stride=8 zp=-128 scale=0.00392156281
+ALLOC 2 fd=6 flags=2 size=4096 object=b25dfe20 dma=3e55000 ioctl=c0287202
+ALLOC 3 fd=7 flags=2 size=4096 object=b25dff00 dma=3e56000 ioctl=c0287202
+SUBMIT 0 rc=0 size=104
+SUBMIT 1 rc=0 size=104
+SUBMIT 2 rc=0 size=104
+SUBMIT 3 rc=0 size=104

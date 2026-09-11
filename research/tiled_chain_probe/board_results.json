@@ -1,0 +1,93 @@
+[
+  {
+    "variant": "pre-s7",
+    "passed": true,
+    "cases": 16,
+    "iterations": 8,
+    "detail": "",
+    "tasks": 32,
+    "mode": "serial",
+    "min_us": 424.4,
+    "median_us": 10484.8,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "variant": "tiles1",
+    "passed": true,
+    "cases": 16,
+    "iterations": 8,
+    "detail": "",
+    "tasks": 16,
+    "mode": "serial",
+    "min_us": 212.6,
+    "median_us": 5306.3,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "variant": "tiles1_batched",
+    "passed": true,
+    "cases": 16,
+    "iterations": 8,
+    "detail": "",
+    "tasks": 16,
+    "mode": "batched",
+    "min_us": 76.1,
+    "median_us": 1575.6,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "variant": "tiles2",
+    "passed": true,
+    "cases": 16,
+    "iterations": 8,
+    "detail": "",
+    "tasks": 32,
+    "mode": "serial",
+    "min_us": 395.5,
+    "median_us": 4508.3,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "variant": "tiles2_batched",
+    "passed": true,
+    "cases": 16,
+    "iterations": 8,
+    "detail": "",
+    "tasks": 32,
+    "mode": "batched",
+    "min_us": 93.6,
+    "median_us": 733.5,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "variant": "tiles4",
+    "passed": true,
+    "cases": 16,
+    "iterations": 8,
+    "detail": "",
+    "tasks": 64,
+    "mode": "serial",
+    "min_us": 832.7,
+    "median_us": 4849.5,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "variant": "tiles4_batched",
+    "passed": true,
+    "cases": 16,
+    "iterations": 8,
+    "detail": "",
+    "tasks": 64,
+    "mode": "batched",
+    "min_us": 169.2,
+    "median_us": 1131.1,
+    "unstable": 0,
+    "mismatches": 0
+  }
+]

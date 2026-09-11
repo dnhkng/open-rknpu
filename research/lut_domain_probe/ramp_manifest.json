@@ -1,0 +1,26 @@
+[
+  {
+    "index": 100,
+    "variant": "ramp_scale2048",
+    "declared_scale": 0.00048828125,
+    "declared_zero_point": 0
+  },
+  {
+    "index": 101,
+    "variant": "ramp_scale1024",
+    "declared_scale": 0.0009765625,
+    "declared_zero_point": 0
+  },
+  {
+    "index": 102,
+    "variant": "ramp_scale4096",
+    "declared_scale": 0.000244140625,
+    "declared_zero_point": 0
+  },
+  {
+    "index": 103,
+    "variant": "ramp_scale512",
+    "declared_scale": 0.001953125,
+    "declared_zero_point": 0
+  }
+]

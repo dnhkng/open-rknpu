@@ -1,0 +1,110 @@
+[
+  {
+    "shape_nhwc": [
+      1,
+      7,
+      6,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      7,
+      6,
+      3
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 128,
+    "output_scale": 0.125,
+    "output_zero_point": -7,
+    "quantization": {
+      "weights": [
+        [
+          -128,
+          -1,
+          126
+        ],
+        [
+          -1,
+          126,
+          -128
+        ],
+        [
+          126,
+          -128,
+          -1
+        ]
+      ],
+      "weight_zero_points": [
+        -1,
+        -1,
+        -1
+      ],
+      "weight_scales": [
+        0.007843137718737125,
+        0.007843137718737125,
+        0.007843137718737125
+      ],
+      "biases": [
+        32,
+        -64,
+        96
+      ],
+      "channel_multipliers": [
+        16384,
+        16384,
+        16384
+      ],
+      "multiplier": 16448,
+      "shift": 18,
+      "output_scale": 0.125,
+      "output_zero_point": -7,
+      "kernel_size": 1,
+      "relu": false,
+      "input_scale": 1.0,
+      "input_zero_point": 128
+    },
+    "profile": "native16-input",
+    "fused_activation": null,
+    "conv_pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "conv_strides": [
+      1,
+      1
+    ],
+    "conv_dilations": [
+      1,
+      1
+    ],
+    "spatial_tiles": [
+      {
+        "output_rows": [
+          0,
+          7
+        ],
+        "input_rows": [
+          0,
+          7
+        ],
+        "pads": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "mutable_constants": [
+      "conv.parameters"
+    ],
+    "index": 0,
+    "compile_output_range": {
+      "scale": 0.125,
+      "zero_point": -7
+    },
+    "parameter_bytes": 128
+  }
+]

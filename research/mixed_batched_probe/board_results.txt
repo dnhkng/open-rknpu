@@ -1,0 +1,10 @@
+mixed-engine DAG in one linked job (PIPELINING_PLAN.md S8), tests/board_bench.c, 16 cases per mode, expected bytes are the suite's own board-verified files:
+
+pool_join_suite        serial  tasks= 6 cases=4 exact=True min=   73.5us median=   114.9us mismatches=0
+pool_join_suite        batched tasks= 6 cases=4 exact=True min=   32.4us median=   133.0us mismatches=0
+pool_join_suite        serial  tasks= 6 cases=4 exact=True min=   77.3us median=   167.4us mismatches=0
+pool_join_suite        batched tasks= 6 cases=4 exact=True min=   34.7us median=    87.8us mismatches=0
+pooled_branches_suite  serial  tasks= 7 cases=4 exact=True min=   81.4us median=   130.4us mismatches=0
+pooled_branches_suite  batched tasks= 7 cases=4 exact=True min=   36.5us median=   256.1us mismatches=0
+pooled_branches_suite  serial  tasks= 9 cases=4 exact=True min=  109.7us median=   224.6us mismatches=0
+pooled_branches_suite  batched tasks= 9 cases=4 exact=True min=   44.3us median=    91.3us mismatches=0

@@ -1,0 +1,20 @@
+[
+  {
+    "tasks": 8,
+    "passed": true,
+    "median_us": 73.2,
+    "output": "runs=32 tasks=8 batched min=45.8us median=73.2us mean=80.7us max=145.8us unstable=0 mismatches=0"
+  },
+  {
+    "tasks": 32,
+    "passed": true,
+    "median_us": 242.4,
+    "output": "runs=32 tasks=32 batched min=114.3us median=242.4us mean=617.0us max=7058.6us unstable=0 mismatches=0"
+  },
+  {
+    "tasks": 64,
+    "passed": true,
+    "median_us": 537.5,
+    "output": "runs=32 tasks=64 batched min=220.8us median=537.5us mean=2290.5us max=33175.3us unstable=0 mismatches=0"
+  }
+]

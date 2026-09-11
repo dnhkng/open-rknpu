@@ -1,0 +1,122 @@
+[
+  {
+    "index": 0,
+    "input_channels": 33,
+    "output_channels": 1,
+    "kernel": 1,
+    "height": 6,
+    "width": 5,
+    "cases": 16,
+    "output_bytes": 30
+  },
+  {
+    "index": 1,
+    "input_channels": 33,
+    "output_channels": 8,
+    "kernel": 3,
+    "height": 6,
+    "width": 5,
+    "cases": 16,
+    "output_bytes": 240
+  },
+  {
+    "index": 2,
+    "input_channels": 33,
+    "output_channels": 16,
+    "kernel": 3,
+    "height": 8,
+    "width": 8,
+    "cases": 16,
+    "output_bytes": 1024
+  },
+  {
+    "index": 3,
+    "input_channels": 33,
+    "output_channels": 3,
+    "kernel": 1,
+    "height": 8,
+    "width": 8,
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 4,
+    "input_channels": 40,
+    "output_channels": 1,
+    "kernel": 1,
+    "height": 6,
+    "width": 5,
+    "cases": 16,
+    "output_bytes": 30
+  },
+  {
+    "index": 5,
+    "input_channels": 40,
+    "output_channels": 8,
+    "kernel": 3,
+    "height": 6,
+    "width": 5,
+    "cases": 16,
+    "output_bytes": 240
+  },
+  {
+    "index": 6,
+    "input_channels": 40,
+    "output_channels": 16,
+    "kernel": 3,
+    "height": 8,
+    "width": 8,
+    "cases": 16,
+    "output_bytes": 1024
+  },
+  {
+    "index": 7,
+    "input_channels": 40,
+    "output_channels": 3,
+    "kernel": 1,
+    "height": 8,
+    "width": 8,
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 8,
+    "input_channels": 48,
+    "output_channels": 1,
+    "kernel": 1,
+    "height": 6,
+    "width": 5,
+    "cases": 16,
+    "output_bytes": 30
+  },
+  {
+    "index": 9,
+    "input_channels": 48,
+    "output_channels": 8,
+    "kernel": 3,
+    "height": 6,
+    "width": 5,
+    "cases": 16,
+    "output_bytes": 240
+  },
+  {
+    "index": 10,
+    "input_channels": 48,
+    "output_channels": 16,
+    "kernel": 3,
+    "height": 8,
+    "width": 8,
+    "cases": 16,
+    "output_bytes": 1024
+  },
+  {
+    "index": 11,
+    "input_channels": 48,
+    "output_channels": 3,
+    "kernel": 1,
+    "height": 8,
+    "width": 8,
+    "cases": 16,
+    "output_bytes": 192
+  }
+]

@@ -1,0 +1,94 @@
+[
+  {
+    "index": 0,
+    "input_scale": 1.0,
+    "input_zero_point": 128,
+    "compile_output_range": {
+      "scale": 0.1,
+      "zero_point": 0
+    },
+    "input_channels": 3,
+    "output_channels": 3,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "upper_code": 60
+  },
+  {
+    "index": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 128,
+    "compile_output_range": {
+      "scale": 0.1,
+      "zero_point": 0
+    },
+    "input_channels": 3,
+    "output_channels": 5,
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "upper_code": 60
+  },
+  {
+    "index": 2,
+    "input_scale": 1.0,
+    "input_zero_point": 128,
+    "compile_output_range": {
+      "scale": 0.05,
+      "zero_point": -100
+    },
+    "input_channels": 17,
+    "output_channels": 8,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "upper_code": 20
+  },
+  {
+    "index": 3,
+    "input_scale": 1.0,
+    "input_zero_point": 128,
+    "compile_output_range": {
+      "scale": 0.025,
+      "zero_point": -128
+    },
+    "input_channels": 32,
+    "output_channels": 16,
+    "kernel": 1,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "upper_code": 112
+  }
+]

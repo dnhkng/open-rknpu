@@ -1,0 +1,30 @@
+[
+  {
+    "model": "000",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 3456,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 3456 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "001",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 2400,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 2400 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "002",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 11560,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 11560 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "003",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1536,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1536 output bytes; invalid buffer sizes rejected\n"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "index": 0,
+    "channels": 4,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 0.125,
+      "zero_point": -128
+    }
+  },
+  {
+    "index": 1,
+    "channels": 5,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 0.5,
+      "zero_point": 127
+    }
+  },
+  {
+    "index": 2,
+    "channels": 8,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 1.25,
+      "zero_point": -31
+    }
+  },
+  {
+    "index": 3,
+    "channels": 16,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 2.0,
+      "zero_point": 73
+    }
+  }
+]

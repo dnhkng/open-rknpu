@@ -1,0 +1,400 @@
+[
+  {
+    "index": 0,
+    "input_shape": [
+      128,
+      128,
+      1
+    ],
+    "output_shape": [
+      128,
+      128,
+      1
+    ],
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          48
+        ],
+        "input_rows": [
+          0,
+          48
+        ],
+        "pads": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "output_rows": [
+          48,
+          96
+        ],
+        "input_rows": [
+          48,
+          96
+        ],
+        "pads": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "output_rows": [
+          96,
+          128
+        ],
+        "input_rows": [
+          96,
+          128
+        ],
+        "pads": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "index": 1,
+    "input_shape": [
+      127,
+      96,
+      1
+    ],
+    "output_shape": [
+      127,
+      96,
+      3
+    ],
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      1,
+      2,
+      1,
+      0
+    ],
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          63
+        ],
+        "input_rows": [
+          0,
+          64
+        ],
+        "pads": [
+          1,
+          2,
+          0,
+          0
+        ]
+      },
+      {
+        "output_rows": [
+          63,
+          125
+        ],
+        "input_rows": [
+          62,
+          126
+        ],
+        "pads": [
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      {
+        "output_rows": [
+          125,
+          127
+        ],
+        "input_rows": [
+          124,
+          127
+        ],
+        "pads": [
+          0,
+          2,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "input_shape": [
+      96,
+      96,
+      3
+    ],
+    "output_shape": [
+      48,
+      48,
+      1
+    ],
+    "kernel": 7,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          31
+        ],
+        "input_rows": [
+          0,
+          64
+        ],
+        "pads": [
+          3,
+          3,
+          0,
+          3
+        ]
+      },
+      {
+        "output_rows": [
+          31,
+          48
+        ],
+        "input_rows": [
+          59,
+          96
+        ],
+        "pads": [
+          0,
+          3,
+          2,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "input_shape": [
+      64,
+      64,
+      17
+    ],
+    "output_shape": [
+      64,
+      32,
+      1
+    ],
+    "kernel": 3,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          47
+        ],
+        "input_rows": [
+          0,
+          48
+        ],
+        "pads": [
+          1,
+          1,
+          0,
+          1
+        ]
+      },
+      {
+        "output_rows": [
+          47,
+          64
+        ],
+        "input_rows": [
+          46,
+          64
+        ],
+        "pads": [
+          0,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "input_shape": [
+      48,
+      96,
+      32
+    ],
+    "output_shape": [
+      24,
+      32,
+      1
+    ],
+    "kernel": 5,
+    "strides": [
+      2,
+      3
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          15
+        ],
+        "input_rows": [
+          0,
+          31
+        ],
+        "pads": [
+          2,
+          2,
+          0,
+          2
+        ]
+      },
+      {
+        "output_rows": [
+          15,
+          24
+        ],
+        "input_rows": [
+          28,
+          48
+        ],
+        "pads": [
+          0,
+          2,
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "input_shape": [
+      128,
+      64,
+      1
+    ],
+    "output_shape": [
+      32,
+      64,
+      17
+    ],
+    "kernel": 3,
+    "strides": [
+      4,
+      1
+    ],
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          24
+        ],
+        "input_rows": [
+          0,
+          95
+        ],
+        "pads": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      {
+        "output_rows": [
+          24,
+          32
+        ],
+        "input_rows": [
+          96,
+          127
+        ],
+        "pads": [
+          0,
+          1,
+          0,
+          1
+        ]
+      }
+    ]
+  }
+]

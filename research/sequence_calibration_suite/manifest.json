@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "graph": "rgb",
+    "calibrated": false,
+    "cases": 16,
+    "output_scale": 11.232717514038086,
+    "output_zero_point": 7,
+    "float_mae": 2.9575306710369964,
+    "float_max_error": 8.756599426269531
+  },
+  {
+    "index": 1,
+    "graph": "rgb",
+    "calibrated": true,
+    "cases": 16,
+    "output_scale": 5.502326488494873,
+    "output_zero_point": -3,
+    "float_mae": 1.7418694914522348,
+    "float_max_error": 17.40859079360962
+  },
+  {
+    "index": 2,
+    "graph": "native",
+    "calibrated": false,
+    "cases": 16,
+    "output_scale": 15.899358749389648,
+    "output_zero_point": -17,
+    "float_mae": 3.915893733289522,
+    "float_max_error": 12.622339248657227
+  },
+  {
+    "index": 3,
+    "graph": "native",
+    "calibrated": true,
+    "cases": 16,
+    "output_scale": 9.2302827835083,
+    "output_zero_point": -33,
+    "float_mae": 3.049071444001129,
+    "float_max_error": 573.7001647949219
+  },
+  {
+    "index": 4,
+    "graph": "chain",
+    "calibrated": false,
+    "cases": 16,
+    "output_scale": 2.9638466835021973,
+    "output_zero_point": -18,
+    "float_mae": 0.796158969324703,
+    "float_max_error": 2.1701598167419434
+  },
+  {
+    "index": 5,
+    "graph": "chain",
+    "calibrated": true,
+    "cases": 16,
+    "output_scale": 0.8407331705093384,
+    "output_zero_point": 17,
+    "float_mae": 0.324381838630264,
+    "float_max_error": 1.2366623878479004
+  }
+]

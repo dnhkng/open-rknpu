@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: install
+        run: python -m pip install -e ".[dev]"
+      - name: lint
+        run: |
+          ruff check src tests examples research/verify_suites.py \
+            research/campaign_sweep.py research/check_docs_links.py \
+            research/probe_conv_envelope.py research/build_mel_kws_suite.py
+      - name: tests
+        run: PYTHONPATH=src python -m unittest discover -s tests
+      - name: low-level op examples (host only)
+        run: make primitives
+      - name: documentation links
+        run: python research/check_docs_links.py
+      - name: container baseline (2,244 suite models)
+        if: matrix.python-version == '3.12'
+        run: PYTHONPATH=src python research/verify_suites.py
+      - name: campaign sweep
+        if: matrix.python-version == '3.12'
+        run: PYTHONPATH=src python research/campaign_sweep.py
+      - name: build distribution
+        run: python -m pip install build && python -m build --out-dir dist

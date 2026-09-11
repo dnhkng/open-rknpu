@@ -1,0 +1,112 @@
+[
+  {
+    "index": 0,
+    "batch": 2,
+    "input_shape": [
+      5,
+      6,
+      3
+    ],
+    "output_shape": [
+      5,
+      6,
+      17
+    ],
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "tasks": 2
+  },
+  {
+    "index": 1,
+    "batch": 3,
+    "input_shape": [
+      8,
+      7,
+      32
+    ],
+    "output_shape": [
+      8,
+      4,
+      65
+    ],
+    "kernel": 1,
+    "strides": [
+      1,
+      2
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "tasks": 3
+  },
+  {
+    "index": 2,
+    "batch": 4,
+    "input_shape": [
+      33,
+      48,
+      1
+    ],
+    "output_shape": [
+      17,
+      16,
+      3
+    ],
+    "kernel": 5,
+    "strides": [
+      2,
+      3
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "tasks": 4
+  },
+  {
+    "index": 3,
+    "batch": 2,
+    "input_shape": [
+      128,
+      128,
+      1
+    ],
+    "output_shape": [
+      64,
+      64,
+      1
+    ],
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "tasks": 6
+  },
+  {
+    "index": 4,
+    "batch": 16,
+    "input_shape": [
+      1,
+      1,
+      1
+    ],
+    "output_shape": [
+      1,
+      1,
+      1
+    ],
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "tasks": 16
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "model": "022",
+    "passed": true,
+    "inferences": 16,
+    "bytes": 48,
+    "output": "model 0: 16 inputs passed\nPASS: 1 models, 16 inferences, 48 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "023",
+    "passed": true,
+    "inferences": 16,
+    "bytes": 512,
+    "output": "model 0: 16 inputs passed\nPASS: 1 models, 16 inferences, 512 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "024",
+    "passed": true,
+    "inferences": 16,
+    "bytes": 640,
+    "output": "model 0: 16 inputs passed\nPASS: 1 models, 16 inferences, 640 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "025",
+    "passed": true,
+    "inferences": 16,
+    "bytes": 672,
+    "output": "model 0: 16 inputs passed\nPASS: 1 models, 16 inferences, 672 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "026",
+    "passed": true,
+    "inferences": 16,
+    "bytes": 1536,
+    "output": "model 0: 16 inputs passed\nPASS: 1 models, 16 inferences, 1536 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "027",
+    "passed": true,
+    "inferences": 16,
+    "bytes": 2304,
+    "output": "model 0: 16 inputs passed\nPASS: 1 models, 16 inferences, 2304 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "028",
+    "passed": true,
+    "inferences": 16,
+    "bytes": 19440,
+    "output": "model 0: 16 inputs passed\nPASS: 1 models, 16 inferences, 19440 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "029",
+    "passed": false,
+    "inferences": 16,
+    "bytes": 50176,
+    "output": ""
+  }
+]

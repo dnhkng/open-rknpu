@@ -1,0 +1,58 @@
+[
+  {
+    "index": 0,
+    "method": "analytic",
+    "cases": 19,
+    "output_bytes": 192,
+    "output_scale": 39.68902587890625,
+    "output_zero_point": -128,
+    "bulk_mae": 10.163012637756765,
+    "bulk_max_error": 28.97393798828125,
+    "extreme_max_error": 23.45037841796875,
+    "extreme_mae": 8.735788722832998
+  },
+  {
+    "index": 1,
+    "method": "minmax",
+    "cases": 19,
+    "output_bytes": 192,
+    "output_scale": 4.0724310874938965,
+    "output_zero_point": -128,
+    "bulk_mae": 1.892960003266732,
+    "bulk_max_error": 7.629683017730713,
+    "extreme_max_error": 850.3646674156189,
+    "extreme_mae": 200.01806323395834,
+    "measured_min": 0.0,
+    "measured_max": 4332.68505859375
+  },
+  {
+    "index": 2,
+    "method": "percentile",
+    "cases": 19,
+    "output_bytes": 192,
+    "output_scale": 3.847731590270996,
+    "output_zero_point": -128,
+    "bulk_mae": 1.0099910778614383,
+    "bulk_max_error": 5.348841667175293,
+    "extreme_max_error": 1569.4728727340698,
+    "extreme_mae": 578.592420955499,
+    "measured_min": 0.0,
+    "measured_max": 676.9820404052734,
+    "percentile": 99.9
+  },
+  {
+    "index": 3,
+    "method": "kl",
+    "cases": 19,
+    "output_bytes": 192,
+    "output_scale": 0.8391435742378235,
+    "output_zero_point": -128,
+    "bulk_mae": 0.30896390883329633,
+    "bulk_max_error": 1.1708523631095886,
+    "extreme_max_error": 1674.8529832959175,
+    "extreme_mae": 599.4189931816525,
+    "measured_min": 0.0,
+    "measured_max": 700.2532980442047,
+    "kl_bins": 2048
+  }
+]

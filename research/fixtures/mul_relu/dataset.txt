@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration0.npy
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration1.npy
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration2.npy
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration3.npy
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration4.npy
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration5.npy
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration6.npy
+/home/dnhkng/drone/research/fixtures/mul_relu/calibration7.npy

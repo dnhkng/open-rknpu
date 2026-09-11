@@ -1,0 +1,13 @@
+{
+  "status": "mixed hardware probe",
+  "primary_offset": {
+    "registers": {"0x4040": "0x120050", "0x4044": "signed constant"},
+    "result": "verified; +1/-1 caused product-dependent one-code output changes"
+  },
+  "operand_only": "0x4044 changes nothing while BS ALU remains bypassed",
+  "failed_hypothesis": {
+    "registers": {"0x4040": "0x120150"},
+    "result": "NPU job timeout and soft reset",
+    "interpretation": "Mesa memory-source BS ALU form is invalid without a configured operand stream in this pure elementwise profile"
+  }
+}

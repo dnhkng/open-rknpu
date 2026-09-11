@@ -1,0 +1,10 @@
+per-channel Mul output conversion via BS_OW_CFG.OW_SRC (8x6x3, 32 cases):
+  model000  passed=True exact=True bytes=4608
+      vs baseline: c0 1536/1536 same (first -126 vs -126), c1 1536/1536 same (first -126 vs -126), c2 1536/1536 same (first -126 vs -126)
+  model001  passed=False exact=None bytes=None
+  model002  passed=False exact=None bytes=None
+  model003  passed=False exact=None bytes=None
+  model004  passed=True exact=True bytes=4608
+      vs baseline: c0 1536/1536 same (first -126 vs -126), c1 1536/1536 same (first -126 vs -126), c2 1536/1536 same (first -126 vs -126)
+  model005  passed=True exact=True bytes=4608
+      vs baseline: c0 1536/1536 same (first -126 vs -126), c1 1536/1536 same (first -126 vs -126), c2 1536/1536 same (first -126 vs -126)

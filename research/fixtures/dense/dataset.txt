@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/dense/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/dense/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/dense/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/dense/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/dense/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/dense/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/dense/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/dense/calibration_7.npy

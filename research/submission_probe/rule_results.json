@@ -1,0 +1,131 @@
+[
+  {
+    "name": "chain_output_quantization_suite-committed",
+    "suite": "chain_output_quantization_suite",
+    "model": 0,
+    "why": "committed container (serial=False): 2 tasks, CNA",
+    "serial": false,
+    "passed": true,
+    "output": "runs=16 tasks=2 batched min=39.7us median=177.0us mean=599.0us max=3534.4us unstable=0 mismatches=0",
+    "tasks": 2,
+    "mode": "batched",
+    "median_us": 177.0,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "mnist_pool_suite-batched",
+    "suite": "mnist_pool_suite",
+    "model": 0,
+    "why": "batched flag twin: 2 tasks, CNA/DPU",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=2 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "mnist_pool_suite-committed",
+    "suite": "mnist_pool_suite",
+    "model": 0,
+    "why": "committed container (serial=True): 2 tasks, CNA/DPU",
+    "serial": true,
+    "passed": true,
+    "output": "runs=16 tasks=2 serial min=437.8us median=1186.5us mean=4601.3us max=54364.0us unstable=0 mismatches=0",
+    "tasks": 2,
+    "mode": "serial",
+    "median_us": 1186.5,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "mul_broadcast_mode_suite-batched",
+    "suite": "mul_broadcast_mode_suite",
+    "model": 0,
+    "why": "batched flag twin: 2 tasks, CNA/DPU",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=2 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "mul_broadcast_mode_suite-committed",
+    "suite": "mul_broadcast_mode_suite",
+    "model": 0,
+    "why": "committed container (serial=True): 2 tasks, CNA/DPU",
+    "serial": true,
+    "passed": true,
+    "output": "runs=16 tasks=2 serial min=48.4us median=249.1us mean=663.6us max=2566.1us unstable=0 mismatches=0",
+    "tasks": 2,
+    "mode": "serial",
+    "median_us": 249.1,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "native_chain_suite-batched-linked",
+    "suite": "native_chain_suite",
+    "model": 0,
+    "why": "batched 3x conv with links ['0x4d0', '0x910']",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=3 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "native_chain_suite-committed",
+    "suite": "native_chain_suite",
+    "model": 0,
+    "why": "committed serial 3x conv (control)",
+    "serial": true,
+    "passed": true,
+    "output": "runs=16 tasks=3 serial min=125.7us median=801.8us mean=737.0us max=1236.7us unstable=0 mismatches=0",
+    "tasks": 3,
+    "mode": "serial",
+    "median_us": 801.8,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "pool_join_suite-batched",
+    "suite": "pool_join_suite",
+    "model": 0,
+    "why": "batched flag twin: 6 tasks, CNA/DPU",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=6 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "pool_join_suite-committed",
+    "suite": "pool_join_suite",
+    "model": 0,
+    "why": "committed container (serial=True): 6 tasks, CNA/DPU",
+    "serial": true,
+    "passed": true,
+    "output": "runs=16 tasks=6 serial min=74.7us median=168.6us mean=3675.7us max=48938.2us unstable=0 mismatches=0",
+    "tasks": 6,
+    "mode": "serial",
+    "median_us": 168.6,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "runtime_scale_suite-batched",
+    "suite": "runtime_scale_suite",
+    "model": 0,
+    "why": "batched flag twin: 2 tasks, CNA/DPU",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=2 batched inputs=2 outputs=1"
+  },
+  {
+    "name": "runtime_scale_suite-committed",
+    "suite": "runtime_scale_suite",
+    "model": 0,
+    "why": "committed container (serial=True): 2 tasks, CNA/DPU",
+    "serial": true,
+    "passed": true,
+    "output": "runs=16 tasks=2 serial min=162.8us median=648.7us mean=917.1us max=4043.4us unstable=0 mismatches=0",
+    "tasks": 2,
+    "mode": "serial",
+    "median_us": 648.7,
+    "unstable": 0,
+    "mismatches": 0
+  }
+]

@@ -1,0 +1,206 @@
+[
+  {
+    "index": 0,
+    "input_shape": [
+      9,
+      11,
+      3
+    ],
+    "output_shape": [
+      9,
+      11,
+      3
+    ],
+    "multiplier": 1,
+    "kernel": [
+      3,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 1,
+    "input_shape": [
+      10,
+      12,
+      5
+    ],
+    "output_shape": [
+      10,
+      6,
+      10
+    ],
+    "multiplier": 2,
+    "kernel": [
+      3,
+      3
+    ],
+    "dilations": [
+      3,
+      2
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      3,
+      2,
+      3,
+      2
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 2,
+    "input_shape": [
+      11,
+      13,
+      4
+    ],
+    "output_shape": [
+      11,
+      13,
+      8
+    ],
+    "multiplier": 2,
+    "kernel": [
+      2,
+      4
+    ],
+    "dilations": [
+      1,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      1,
+      2,
+      0,
+      1
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 3,
+    "input_shape": [
+      12,
+      14,
+      8
+    ],
+    "output_shape": [
+      6,
+      14,
+      8
+    ],
+    "multiplier": 1,
+    "kernel": [
+      2,
+      3
+    ],
+    "dilations": [
+      1,
+      1
+    ],
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      1,
+      1,
+      0,
+      1
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 4,
+    "input_shape": [
+      13,
+      15,
+      16
+    ],
+    "output_shape": [
+      13,
+      15,
+      48
+    ],
+    "multiplier": 3,
+    "kernel": [
+      1,
+      1
+    ],
+    "dilations": [
+      1,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 5,
+    "input_shape": [
+      14,
+      16,
+      32
+    ],
+    "output_shape": [
+      14,
+      16,
+      128
+    ],
+    "multiplier": 4,
+    "kernel": [
+      1,
+      1
+    ],
+    "dilations": [
+      1,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  }
+]

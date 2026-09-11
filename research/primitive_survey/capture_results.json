@@ -1,0 +1,86 @@
+{
+  "base": {
+    "capture_exit": 0
+  },
+  "depthwise": {
+    "capture_exit": 0
+  },
+  "relu": {
+    "capture_exit": 0
+  },
+  "clip": {
+    "capture_exit": 0
+  },
+  "leakyrelu": {
+    "capture_exit": 0
+  },
+  "prelu": {
+    "capture_exit": 0
+  },
+  "sigmoid": {
+    "capture_exit": 0
+  },
+  "tanh": {
+    "capture_exit": 0
+  },
+  "hardsigmoid": {
+    "capture_exit": 0
+  },
+  "hardswish": {
+    "capture_exit": 0
+  },
+  "softplus": {
+    "capture_exit": 0
+  },
+  "elu": {
+    "capture_exit": 0
+  },
+  "swish": {
+    "capture_exit": 0
+  },
+  "mish": {
+    "capture_exit": 0
+  },
+  "add": {
+    "capture_exit": 0
+  },
+  "mul": {
+    "capture_exit": 0
+  },
+  "sub": {
+    "capture_exit": 0
+  },
+  "div": {
+    "capture_exit": 0
+  },
+  "max": {
+    "capture_exit": 0
+  },
+  "min": {
+    "capture_exit": 1
+  },
+  "matmul": {
+    "capture_exit": 0
+  },
+  "softmax": {
+    "capture_exit": 0
+  },
+  "concat": {
+    "capture_exit": 0
+  },
+  "transpose": {
+    "capture_exit": 0
+  },
+  "reshape": {
+    "capture_exit": 0
+  },
+  "resize": {
+    "capture_exit": 0
+  },
+  "globalavg": {
+    "capture_exit": 0
+  },
+  "batchnorm": {
+    "capture_exit": 0
+  }
+}

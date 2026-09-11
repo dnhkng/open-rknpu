@@ -1,0 +1,321 @@
+[
+  {
+    "index": 0,
+    "name": "vendor",
+    "kernel": 5,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "channels": 3,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      15,
+      15,
+      3
+    ],
+    "profile": "8x8-c3-k5-s2x2-pads[2, 2, 2, 2]-output-padding[0, 0]",
+    "weight_zero_points": [
+      8,
+      4,
+      0
+    ],
+    "output_scale": 19.299100875854492,
+    "output_zero_point": 4
+  },
+  {
+    "index": 1,
+    "name": "stride1",
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "channels": 3,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      8,
+      8,
+      3
+    ],
+    "profile": "8x8-c3-k5-s1x1-pads[2, 2, 2, 2]-output-padding[0, 0]",
+    "weight_zero_points": [
+      0,
+      -7,
+      1
+    ],
+    "output_scale": 14.849796295166016,
+    "output_zero_point": -2
+  },
+  {
+    "index": 2,
+    "name": "pad1",
+    "kernel": 5,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "channels": 3,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      17,
+      17,
+      3
+    ],
+    "profile": "8x8-c3-k5-s2x2-pads[1, 1, 1, 1]-output-padding[0, 0]",
+    "weight_zero_points": [
+      -12,
+      -5,
+      5
+    ],
+    "output_scale": 17.04104995727539,
+    "output_zero_point": 4
+  },
+  {
+    "index": 3,
+    "name": "pad0",
+    "kernel": 5,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "channels": 3,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      19,
+      19,
+      3
+    ],
+    "profile": "8x8-c3-k5-s2x2-pads[0, 0, 0, 0]-output-padding[0, 0]",
+    "weight_zero_points": [
+      -15,
+      5,
+      0
+    ],
+    "output_scale": 15.160785675048828,
+    "output_zero_point": -1
+  },
+  {
+    "index": 4,
+    "name": "output_padding",
+    "kernel": 5,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      1,
+      1
+    ],
+    "channels": 3,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      16,
+      16,
+      3
+    ],
+    "profile": "8x8-c3-k5-s2x2-pads[2, 2, 2, 2]-output-padding[1, 1]",
+    "weight_zero_points": [
+      1,
+      2,
+      -1
+    ],
+    "output_scale": 15.329400062561035,
+    "output_zero_point": -2
+  },
+  {
+    "index": 5,
+    "name": "rectangular",
+    "kernel": 5,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      4,
+      0,
+      1,
+      3
+    ],
+    "output_padding": [
+      0,
+      1
+    ],
+    "channels": 3,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      7,
+      17,
+      3
+    ],
+    "profile": "8x8-c3-k5-s1x2-pads[4, 0, 1, 3]-output-padding[0, 1]",
+    "weight_zero_points": [
+      11,
+      17,
+      10
+    ],
+    "output_scale": 15.694331169128418,
+    "output_zero_point": -4
+  },
+  {
+    "index": 6,
+    "name": "c1",
+    "kernel": 5,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "channels": 1,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      15,
+      15,
+      1
+    ],
+    "profile": "8x8-c1-k5-s2x2-pads[2, 2, 2, 2]-output-padding[0, 0]",
+    "weight_zero_points": [
+      -1
+    ],
+    "output_scale": 14.374316215515137,
+    "output_zero_point": -1
+  },
+  {
+    "index": 7,
+    "name": "c4",
+    "kernel": 5,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "channels": 4,
+    "cases": 16,
+    "stem_kernel": 3,
+    "output_shape": [
+      15,
+      15,
+      4
+    ],
+    "profile": "8x8-c4-k5-s2x2-pads[2, 2, 2, 2]-output-padding[0, 0]",
+    "weight_zero_points": [
+      -1,
+      3,
+      -1,
+      0
+    ],
+    "output_scale": 14.213544845581055,
+    "output_zero_point": 0
+  },
+  {
+    "index": 8,
+    "name": "c8",
+    "kernel": 5,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "channels": 8,
+    "cases": 16,
+    "stem_kernel": 1,
+    "output_shape": [
+      15,
+      15,
+      8
+    ],
+    "profile": "8x8-c8-k5-s2x2-pads[2, 2, 2, 2]-output-padding[0, 0]",
+    "weight_zero_points": [
+      -1,
+      -5,
+      8,
+      1,
+      -1,
+      0,
+      -31,
+      4
+    ],
+    "output_scale": 5.559804439544678,
+    "output_zero_point": 1
+  }
+]

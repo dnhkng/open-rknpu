@@ -1,0 +1,66 @@
+[
+  {
+    "index": 0,
+    "source": "transpose_stride1_suite/model002",
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 0.25,
+      "zero_point": -128
+    },
+    "mode": "depthwise",
+    "output_shape": [
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 1,
+    "source": "transpose_padding_suite/model000",
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 1.5,
+      "zero_point": 127
+    },
+    "mode": "depthwise",
+    "output_shape": [
+      16,
+      16,
+      3
+    ]
+  },
+  {
+    "index": 2,
+    "source": "transpose_dense_suite/model000",
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 0.75,
+      "zero_point": -37
+    },
+    "mode": "dense",
+    "output_shape": [
+      8,
+      8,
+      5
+    ]
+  },
+  {
+    "index": 3,
+    "source": "transpose_dense_suite/model003",
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 2.0,
+      "zero_point": 91
+    },
+    "mode": "dense",
+    "output_shape": [
+      17,
+      8,
+      8
+    ]
+  }
+]

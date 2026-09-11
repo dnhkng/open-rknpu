@@ -1,0 +1,72 @@
+[
+  {
+    "index": 0,
+    "hidden_channels": 3,
+    "inputs": 32
+  },
+  {
+    "index": 1,
+    "hidden_channels": 4,
+    "inputs": 32
+  },
+  {
+    "index": 2,
+    "hidden_channels": 5,
+    "inputs": 32
+  },
+  {
+    "index": 3,
+    "hidden_channels": 6,
+    "inputs": 32
+  },
+  {
+    "index": 4,
+    "hidden_channels": 7,
+    "inputs": 32
+  },
+  {
+    "index": 5,
+    "hidden_channels": 8,
+    "inputs": 32
+  },
+  {
+    "index": 6,
+    "hidden_channels": 9,
+    "inputs": 32
+  },
+  {
+    "index": 7,
+    "hidden_channels": 10,
+    "inputs": 32
+  },
+  {
+    "index": 8,
+    "hidden_channels": 11,
+    "inputs": 32
+  },
+  {
+    "index": 9,
+    "hidden_channels": 12,
+    "inputs": 32
+  },
+  {
+    "index": 10,
+    "hidden_channels": 13,
+    "inputs": 32
+  },
+  {
+    "index": 11,
+    "hidden_channels": 14,
+    "inputs": 32
+  },
+  {
+    "index": 12,
+    "hidden_channels": 15,
+    "inputs": 32
+  },
+  {
+    "index": 13,
+    "hidden_channels": 16,
+    "inputs": 32
+  }
+]

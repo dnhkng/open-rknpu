@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration0.npy
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration1.npy
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration2.npy
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration3.npy
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration4.npy
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration5.npy
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration6.npy
+/home/dnhkng/drone/research/fixtures/native_c65_channels/calibration7.npy

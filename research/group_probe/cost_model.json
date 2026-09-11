@@ -1,0 +1,62 @@
+[
+  {
+    "name": "conv+pool-2task",
+    "suite": "scheduled_pool_suite",
+    "model": 0,
+    "why": "CNA Conv then DPU pool, serial",
+    "iterations": 128,
+    "passed": true,
+    "tasks": 2,
+    "mode": "serial",
+    "median_us": 48.1,
+    "min_us": 37.6
+  },
+  {
+    "name": "conv+pool-2task-b",
+    "suite": "mnist_pool_suite",
+    "model": 0,
+    "why": "CNA Conv then DPU pool, serial",
+    "iterations": 128,
+    "passed": true,
+    "tasks": 2,
+    "mode": "serial",
+    "median_us": 200.7,
+    "min_us": 117.5
+  },
+  {
+    "name": "conv-1task",
+    "suite": "accumulator_boundary_suite",
+    "model": 0,
+    "why": "one CNA Conv task",
+    "iterations": 128,
+    "passed": true,
+    "tasks": 1,
+    "mode": "serial",
+    "median_us": 2707.0,
+    "min_us": 844.7
+  },
+  {
+    "name": "conv-chain-3",
+    "suite": "native_chain_suite",
+    "model": 0,
+    "why": "3 CNA tasks, serial",
+    "iterations": 128,
+    "passed": true,
+    "tasks": 3,
+    "mode": "serial",
+    "median_us": 569.0,
+    "min_us": 51.0
+  },
+  {
+    "name": "conv2+ew-3task",
+    "suite": "add_suite",
+    "model": 0,
+    "why": "CNA Conv, CNA Conv, DPU elementwise, serial",
+    "iterations": 128,
+    "passed": true,
+    "tasks": 3,
+    "mode": "serial",
+    "median_us": 300.1,
+    "min_us": 54.0
+  }
+]

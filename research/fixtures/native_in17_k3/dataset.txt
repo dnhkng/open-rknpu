@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration0.npy
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration1.npy
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration2.npy
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration3.npy
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration4.npy
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration5.npy
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration6.npy
+/home/dnhkng/drone/research/fixtures/native_in17_k3/calibration7.npy

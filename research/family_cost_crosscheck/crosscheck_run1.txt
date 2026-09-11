@@ -1,0 +1,28 @@
+per-family cost cross-check on 23 held-out containers (64 runs each, serial):
+  table (duplicated idempotent tasks): conv 12.2, pool 15.4, elem 20.3 us/task
+  held-out fit (real dependency chains): intercept 6.3 us, conv 13.9+-1.0, pool 6.6+-4.5, elem 14.5+-1.3 us/task (R2 0.964)
+  table slope-only prediction error: median -4.4%, mean +7.5%, max |error| 123.9%
+  chain_multi_suite_000        tasks= 3 conv=3 pool=0 elem=0 min=   81.7us median=  327.5us table=  36.5us noise=4.01x exact=True
+  chain_multi_suite_003        tasks= 4 conv=4 pool=0 elem=0 min=  100.9us median=  172.7us table=  48.7us noise=1.71x exact=True
+  deep_chain_suite_000         tasks= 8 conv=8 pool=0 elem=0 min=  117.5us median=  356.4us table=  97.3us noise=3.03x exact=True
+  deep_chain_suite_001         tasks=12 conv=12 pool=0 elem=0 min=  183.8us median= 1667.2us table= 146.0us noise=9.07x exact=True
+  deep_chain_suite_002         tasks=16 conv=16 pool=0 elem=0 min=  207.4us median=  350.9us table= 194.6us noise=1.69x exact=True
+  diamond_suite_000            tasks= 4 conv=3 pool=0 elem=1 min=   62.4us median=  104.1us table=  56.8us noise=1.67x exact=True
+  elementwise_deep_suite_000   tasks= 4 conv=2 pool=0 elem=2 min=   57.8us median=   74.4us table=  65.0us noise=1.29x exact=True
+  elementwise_deep_suite_002   tasks= 5 conv=2 pool=0 elem=3 min=   68.3us median=   89.5us table=  85.3us noise=1.31x exact=True
+  elementwise_deep_suite_004   tasks= 6 conv=2 pool=0 elem=4 min=   77.6us median=  141.2us table= 105.6us noise=1.82x exact=True
+  join_dag_suite_000           tasks= 6 conv=4 pool=0 elem=2 min=   86.6us median=  145.3us table=  89.3us noise=1.68x exact=True
+  join_dag_suite_004           tasks= 7 conv=4 pool=0 elem=3 min=   97.1us median=  176.8us table= 109.6us noise=1.82x exact=True
+  mul_batch_broadcast_suite_001 tasks= 6 conv=3 pool=0 elem=3 min=   84.9us median=  234.2us table=  97.5us noise=2.76x exact=True
+  mul_batch_broadcast_suite_002 tasks=16 conv=8 pool=0 elem=8 min=  191.9us median= 1866.7us table= 259.9us noise=9.73x exact=True
+  mul_batch_broadcast_suite_003 tasks=32 conv=16 pool=0 elem=16 min=  496.7us median= 3362.9us table= 519.8us noise=6.77x exact=True
+  pooled_branches_suite_004    tasks=10 conv=5 pool=3 elem=2 min=  116.4us median=  516.3us table= 147.6us noise=4.44x exact=True
+  pooled_branches_suite_009    tasks=15 conv=10 pool=3 elem=2 min=  200.4us median= 1457.5us table= 208.5us noise=7.27x exact=True
+  pooled_dag_suite_000         tasks= 8 conv=5 pool=1 elem=2 min=  103.0us median=  183.2us table= 116.9us noise=1.78x exact=True
+  pooled_dag_suite_002         tasks= 9 conv=6 pool=1 elem=2 min=  118.4us median=  211.5us table= 129.0us noise=1.79x exact=True
+  pooled_dag_suite_007         tasks=10 conv=6 pool=1 elem=3 min=  134.5us median=  218.8us table= 149.3us noise=1.63x exact=True
+  pooled_dag_suite_008         tasks=12 conv=8 pool=1 elem=3 min=  161.0us median=  240.0us table= 173.7us noise=1.49x exact=True
+  runtime_scale_suite_000      tasks= 2 conv=1 pool=0 elem=1 min=   37.3us median=  332.5us table=  32.5us noise=8.91x exact=True
+  scheduled_pool_suite_000     tasks= 2 conv=1 pool=1 elem=0 min=   37.9us median=   82.8us table=  27.6us noise=2.18x exact=True
+  scheduled_pool_suite_001     tasks= 3 conv=1 pool=2 elem=0 min=   44.9us median=   60.4us table=  42.9us noise=1.35x exact=True
+  median/min noise ratio: min 1.29x, median 1.82x, max 9.73x

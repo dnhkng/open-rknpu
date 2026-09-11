@@ -1,0 +1,89 @@
+[
+  {
+    "index": 0,
+    "layers": 3,
+    "outputs": [
+      "layer1",
+      "layer2",
+      "output"
+    ],
+    "hidden_channels": [
+      5,
+      5,
+      3
+    ],
+    "kernels": [
+      1,
+      3,
+      1
+    ],
+    "cases": 8,
+    "output_bytes": 832
+  },
+  {
+    "index": 1,
+    "layers": 3,
+    "outputs": [
+      "layer1",
+      "layer2",
+      "output"
+    ],
+    "hidden_channels": [
+      8,
+      3,
+      3
+    ],
+    "kernels": [
+      3,
+      1,
+      3
+    ],
+    "cases": 8,
+    "output_bytes": 896
+  },
+  {
+    "index": 2,
+    "layers": 3,
+    "outputs": [
+      "layer1",
+      "layer2",
+      "output"
+    ],
+    "hidden_channels": [
+      16,
+      12,
+      3
+    ],
+    "kernels": [
+      3,
+      3,
+      1
+    ],
+    "cases": 8,
+    "output_bytes": 1984
+  },
+  {
+    "index": 3,
+    "layers": 4,
+    "outputs": [
+      "layer1",
+      "layer2",
+      "layer3",
+      "output"
+    ],
+    "hidden_channels": [
+      4,
+      8,
+      6,
+      3
+    ],
+    "kernels": [
+      3,
+      3,
+      1,
+      3
+    ],
+    "cases": 8,
+    "output_bytes": 1344
+  }
+]

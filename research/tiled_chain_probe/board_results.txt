@@ -1,0 +1,9 @@
+1x1 height-strip tiled chain (PIPELINING_PLAN.md S3, re-run for the S7 pad/activation fix), tests/board_bench.c, 16 board cases per variant (every input in the file, not just the first), same input/expected bytes as the untiled deep_chain_suite/model002 container; `pre-s7` is the container the directory held before the fix:
+
+pre-s7           tasks=32 serial  cases=16 exact=True min=  424.4us median= 10484.8us mismatches=0
+tiles1           tasks=16 serial  cases=16 exact=True min=  212.6us median=  5306.3us mismatches=0
+tiles1_batched   tasks=16 batched cases=16 exact=True min=   76.1us median=  1575.6us mismatches=0
+tiles2           tasks=32 serial  cases=16 exact=True min=  395.5us median=  4508.3us mismatches=0
+tiles2_batched   tasks=32 batched cases=16 exact=True min=   93.6us median=   733.5us mismatches=0
+tiles4           tasks=64 serial  cases=16 exact=True min=  832.7us median=  4849.5us mismatches=0
+tiles4_batched   tasks=64 batched cases=16 exact=True min=  169.2us median=  1131.1us mismatches=0

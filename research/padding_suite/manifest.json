@@ -1,0 +1,206 @@
+[
+  {
+    "index": 0,
+    "mode": "constant",
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  },
+  {
+    "index": 1,
+    "mode": "constant",
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "padded_shape": [
+      1,
+      3,
+      12,
+      12
+    ],
+    "cases": 16
+  },
+  {
+    "index": 2,
+    "mode": "constant",
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  },
+  {
+    "index": 3,
+    "mode": "reflect",
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  },
+  {
+    "index": 4,
+    "mode": "reflect",
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "padded_shape": [
+      1,
+      3,
+      12,
+      12
+    ],
+    "cases": 16
+  },
+  {
+    "index": 5,
+    "mode": "reflect",
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  },
+  {
+    "index": 6,
+    "mode": "edge",
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  },
+  {
+    "index": 7,
+    "mode": "edge",
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "padded_shape": [
+      1,
+      3,
+      12,
+      12
+    ],
+    "cases": 16
+  },
+  {
+    "index": 8,
+    "mode": "edge",
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  },
+  {
+    "index": 9,
+    "mode": "wrap",
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  },
+  {
+    "index": 10,
+    "mode": "wrap",
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "padded_shape": [
+      1,
+      3,
+      12,
+      12
+    ],
+    "cases": 16
+  },
+  {
+    "index": 11,
+    "mode": "wrap",
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "padded_shape": [
+      1,
+      3,
+      10,
+      10
+    ],
+    "cases": 16
+  }
+]

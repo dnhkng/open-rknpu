@@ -1,0 +1,18 @@
+ABI attr=376 mem=40 ctx=4
+ALLOC 0 fd=4 flags=a size=4096 object=b25dfec0 dma=3e4c000 ioctl=c0287202
+ALLOC 1 fd=5 flags=2 size=12288 object=b25dfc60 dma=3e4d000 ioctl=c0287202
+ATTR 1 name=input dims=1,8,8,3, fmt=1 type=2 size=192 stride_size=384 w_stride=16 zp=-128 scale=1
+ATTR 2 name=output dims=1,3,1,1, fmt=0 type=2 size=3 stride_size=3 w_stride=0 zp=-2 scale=0.0144068971
+ATTR 8 name=input dims=1,8,8,3, fmt=1 type=2 size=192 stride_size=384 w_stride=16 zp=-128 scale=1
+ATTR 9 name=output dims=1,2,1,1,16, fmt=2 type=2 size=32 stride_size=32 w_stride=1 zp=-2 scale=0.0144068971
+ALLOC 2 fd=6 flags=2 size=4096 object=b25dfee0 dma=3e50000 ioctl=c0287202
+ALLOC 3 fd=7 flags=2 size=4096 object=b25df920 dma=3e51000 ioctl=c0287202
+MEM input=384@3e50000 output=32@3e51000
+SUBMIT 0 rc=0 size=104
+OUTPUT zero b81f440000000000000000000000000000000000000000000000000000000000
+SUBMIT 1 rc=0 size=104
+OUTPUT constant 5a9e710000000000000000000000000000000000000000000000000000000000
+SUBMIT 2 rc=0 size=104
+OUTPUT ramp 30bf650000000000000000000000000000000000000000000000000000000000
+SUBMIT 3 rc=0 size=104
+OUTPUT impulse bd1c450000000000000000000000000000000000000000000000000000000000

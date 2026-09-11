@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/gray28pool/calibration_7.npy

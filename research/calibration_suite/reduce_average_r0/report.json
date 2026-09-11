@@ -1,0 +1,18 @@
+{
+  "method": "minmax",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 32,
+  "files": [
+    "/home/dnhkng/drone/research/calibration_suite/reduce_average_r0/calibration.npy"
+  ],
+  "ranges": {
+    "hidden": {
+      "min": -208.69387817382812,
+      "max": 136.06494140625,
+      "scale": 1.3519953489303589,
+      "zero_point": 26
+    }
+  }
+}

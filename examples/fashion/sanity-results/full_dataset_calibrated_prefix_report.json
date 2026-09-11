@@ -1,0 +1,22 @@
+{
+  "count": 10000,
+  "prefix": "calibrated_prefix.bin",
+  "chunk": 1000,
+  "local_only": false,
+  "board_accuracy": 0.8815,
+  "float_accuracy": 0.8818,
+  "agreement_with_float": 9957,
+  "correct": 8815,
+  "prediction_histogram": [
+    1019,
+    985,
+    1013,
+    1016,
+    1049,
+    997,
+    913,
+    1010,
+    998,
+    1000
+  ]
+}

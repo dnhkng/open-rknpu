@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv*/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# board build outputs and regenerable example artifacts
+runtime/*.o
+runtime/*.a
+runtime/open-rknpu-run
+examples/*/build/
+examples/mel-kws/build/
+
+# fetched, not redistributed: toolchain, datasets, vendor documents
+research/toolchain/
+research/pretrained/*/data/
+research/pretrained/*/test-data/
+research/pretrained/fsdd/recordings/
+research/hardware_refs/*.pdf
+research/hardware_refs/*.txt

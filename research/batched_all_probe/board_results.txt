@@ -1,0 +1,16 @@
+one linked job for containers whose emitters never knew about the mode (PIPELINING_PLAN.md S10 residual), tests/board_bench.c, 16 cases per mode, clean boot per model; `ioctls` is `ornpu_info.engine_runs`:
+
+add_suite                  model000 serial  tasks= 3 ioctls=3  cases=4 exact=True  min=   64.8us median=  1202.0us mismatches=0
+add_suite                  model000 one-job tasks= 3 ioctls=1  cases=4 exact=True  min=   29.5us median=   527.9us mismatches=0
+mul_batch_suite            model001 serial  tasks=12 ioctls=12 cases=3 exact=True  min=  192.8us median=  1598.9us mismatches=0
+mul_batch_suite            model001 one-job tasks=12 ioctls=1  cases=3 exact=True  min=   99.2us median=  1019.1us mismatches=0
+mul_batch_suite            model002 serial  tasks=48 ioctls=48 cases=3 exact=True  min=  889.0us median=  5239.5us mismatches=0
+mul_batch_suite            model002 one-job tasks=48 ioctls=1  cases=3 exact=True  min=  445.4us median=  2408.3us mismatches=0
+mul_batch_broadcast_suite  model003 serial  tasks=32 ioctls=32 cases=4 exact=True  min=  409.8us median=   670.5us mismatches=0
+mul_batch_broadcast_suite  model003 one-job tasks=32 ioctls=1  cases=4 exact=True  min=  128.6us median=   390.3us mismatches=0
+elementwise_deep_suite     model002 serial  tasks= 5 ioctls=5  cases=4 exact=True  min=   73.5us median=  1726.7us mismatches=0
+elementwise_deep_suite     model002 one-job tasks= 5 ioctls=1  cases=4 exact=True  min=   37.9us median=   211.2us mismatches=0
+add_geometry_suite         model000 serial  tasks= 3 ioctls=3  cases=4 exact=True  min=   49.0us median=   229.3us mismatches=0
+add_geometry_suite         model000 one-job tasks= 3 ioctls=1  cases=4 exact=True  min=   26.0us median=   233.0us mismatches=0
+conv_geometry_suite        model000 serial  tasks= 1 ioctls=1  cases=4 exact=True  min=   22.5us median=   816.7us mismatches=0
+conv_geometry_suite        model000 one-job tasks= 1 ioctls=1  cases=4 exact=True  min=   21.9us median=   949.1us mismatches=0

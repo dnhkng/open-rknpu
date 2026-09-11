@@ -1,0 +1,10 @@
+RKNN Toolkit2 2.3.0, target_platform=rv1103, identity Conv model
+config: 0
+load_onnx: 0
+build(do_quantization=False): -1
+diagnostic: Current target_platform(rv1103) not support do_quantization = False!
+export_rknn: -1 (no model after failed build)
+
+This vendor-development probe is capability evidence only. It does not prove
+the silicon lacks every floating-point path. Related Rocket precision fields
+are not sufficient to define RV1103 tensor layouts or commands.

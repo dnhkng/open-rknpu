@@ -1,0 +1,9 @@
+per-task cost model (median of 128 runs, board otherwise idle):
+  conv+pool-2task           2 task(s)      48.1 us  24.1 us/task
+  conv+pool-2task-b         2 task(s)     200.7 us  100.3 us/task
+  conv-1task                1 task(s)    2707.0 us  2707.0 us/task
+  conv-chain-3              3 task(s)     569.0 us  189.7 us/task
+  conv2+ew-3task            3 task(s)     300.1 us  100.0 us/task
+  derived: one-task round trip 2707.0 us
+    pool task          ~ -2658.9 us (from a 2-task graph minus 1 conv task(s))
+    elementwise task   ~ -5113.9 us (from a 3-task graph minus 2 conv task(s))

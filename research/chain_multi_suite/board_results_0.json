@@ -1,0 +1,30 @@
+[
+  {
+    "model": "000",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 6656,
+    "output": "model 0: 8 inputs passed (3 outputs)"
+  },
+  {
+    "model": "001",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 7168,
+    "output": "model 1: 8 inputs passed (3 outputs)"
+  },
+  {
+    "model": "002",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 15872,
+    "output": "model 2: 8 inputs passed (3 outputs)"
+  },
+  {
+    "model": "003",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 10752,
+    "output": "model 3: 8 inputs passed (4 outputs)"
+  }
+]

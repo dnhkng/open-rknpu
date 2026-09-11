@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration0.npy
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration1.npy
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration2.npy
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration3.npy
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration4.npy
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration5.npy
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration6.npy
+/home/dnhkng/drone/research/fixtures/depthwise_h6/calibration7.npy

@@ -1,0 +1,1307 @@
+[
+  {
+    "index": 0,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_0"
+      ],
+      [
+        "Mul",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.31371819972991943,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 13696,
+      "b0_1": 14720,
+      "b0_2": 15744,
+      "b1_0": 16768,
+      "b2_0": 17792,
+      "input0": 12288,
+      "j0": 18816,
+      "output": 19840,
+      "stem": 12672
+    },
+    "expected_nonzero": 6144,
+    "expected_values": 6144
+  },
+  {
+    "index": 1,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "depthwise",
+          3,
+          3,
+          3
+        ],
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Sub",
+        "b0_1",
+        "b1_0"
+      ],
+      [
+        "Add",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.1668923944234848,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1"
+      ],
+      [
+        "b1_0"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b1_0",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 9600,
+      "b0_1": 10624,
+      "b1_0": 11648,
+      "b2_0": 12672,
+      "input0": 8192,
+      "j0": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 6144,
+    "expected_values": 6144
+  },
+  {
+    "index": 2,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          16,
+          1
+        ],
+        [
+          "depthwise",
+          16,
+          16,
+          3
+        ],
+        [
+          "dense",
+          16,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_0"
+      ],
+      [
+        "Mul",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.340534508228302,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 13696,
+      "b0_1": 14720,
+      "b0_2": 15744,
+      "b1_0": 16768,
+      "b2_0": 17792,
+      "input0": 12288,
+      "j0": 18816,
+      "output": 19840,
+      "stem": 12672
+    },
+    "expected_nonzero": 5850,
+    "expected_values": 6144
+  },
+  {
+    "index": 3,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          8,
+          3
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          1
+        ],
+        [
+          "dense",
+          8,
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_0"
+      ],
+      [
+        "Sub",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.19511933624744415,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 13696,
+      "b0_1": 14720,
+      "b0_2": 15744,
+      "b1_0": 16768,
+      "b2_0": 17792,
+      "input0": 12288,
+      "j0": 18816,
+      "output": 19840,
+      "stem": 12672
+    },
+    "expected_nonzero": 6144,
+    "expected_values": 6144
+  },
+  {
+    "index": 4,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_2"
+      ],
+      [
+        "Mul",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.17298169434070587,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0",
+        "b1_1",
+        "b1_2"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b1_1",
+      "b1_2",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 17792,
+      "b0_1": 18816,
+      "b0_2": 19840,
+      "b1_0": 20864,
+      "b1_1": 21888,
+      "b1_2": 22912,
+      "b2_0": 23936,
+      "input0": 16384,
+      "j0": 24960,
+      "output": 25984,
+      "stem": 16768
+    },
+    "expected_nonzero": 4808,
+    "expected_values": 6144
+  },
+  {
+    "index": 5,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          4,
+          1
+        ],
+        [
+          "depthwise",
+          4,
+          4,
+          3
+        ],
+        [
+          "dense",
+          4,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_0"
+      ],
+      [
+        "Mul",
+        "j0",
+        "b2_0"
+      ],
+      [
+        "Mul",
+        "j1",
+        "b3_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 2.2163777351379395,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0"
+      ],
+      [
+        "b2_0"
+      ],
+      [
+        "b3_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b2_0",
+      "b3_0",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 13696,
+      "b0_1": 14720,
+      "b0_2": 15744,
+      "b1_0": 16768,
+      "b2_0": 17792,
+      "b3_0": 18816,
+      "input0": 12288,
+      "j0": 19840,
+      "j1": 20864,
+      "output": 21888,
+      "stem": 12672
+    },
+    "expected_nonzero": 4911,
+    "expected_values": 6144
+  },
+  {
+    "index": 6,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b1_2",
+        "b0_0"
+      ],
+      [
+        "Mul",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.32477524876594543,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0"
+      ],
+      [
+        "b1_0",
+        "b1_1",
+        "b1_2"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b1_0",
+      "b1_1",
+      "b1_2",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 13696,
+      "b1_0": 14720,
+      "b1_1": 15744,
+      "b1_2": 16768,
+      "b2_0": 17792,
+      "input0": 12288,
+      "j0": 18816,
+      "output": 19840,
+      "stem": 12672
+    },
+    "expected_nonzero": 6081,
+    "expected_values": 6144
+  },
+  {
+    "index": 7,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "depthwise",
+          3,
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_0"
+      ],
+      [
+        "Sub",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.38473454117774963,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "depthwise",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 13696,
+      "b0_1": 14720,
+      "b0_2": 15744,
+      "b1_0": 16768,
+      "b2_0": 17792,
+      "input0": 12288,
+      "j0": 18816,
+      "output": 19840,
+      "stem": 12672
+    },
+    "expected_nonzero": 5661,
+    "expected_values": 6144
+  },
+  {
+    "index": 8,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          16,
+          3
+        ],
+        [
+          "depthwise",
+          16,
+          16,
+          3
+        ],
+        [
+          "dense",
+          16,
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Mul",
+        "b0_2",
+        "b1_0"
+      ],
+      [
+        "Add",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 7.136551856994629,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 17792,
+      "b0_1": 18816,
+      "b0_2": 19840,
+      "b1_0": 20864,
+      "b2_0": 21888,
+      "input0": 16384,
+      "j0": 22912,
+      "output": 23936,
+      "stem": 16768
+    },
+    "expected_nonzero": 5752,
+    "expected_values": 6144
+  },
+  {
+    "index": 9,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          1
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_2"
+      ],
+      [
+        "Sub",
+        "j0",
+        "b2_2"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.05527739226818085,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0",
+        "b1_1",
+        "b1_2"
+      ],
+      [
+        "b2_0",
+        "b2_1",
+        "b2_2"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b1_1",
+      "b1_2",
+      "b2_0",
+      "b2_1",
+      "b2_2",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 17792,
+      "b0_1": 18816,
+      "b0_2": 19840,
+      "b1_0": 20864,
+      "b1_1": 21888,
+      "b1_2": 22912,
+      "b2_0": 23936,
+      "b2_1": 24960,
+      "b2_2": 25984,
+      "input0": 16384,
+      "j0": 27008,
+      "output": 28032,
+      "stem": 16768
+    },
+    "expected_nonzero": 6025,
+    "expected_values": 6144
+  },
+  {
+    "index": 10,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "depthwise",
+          3,
+          3,
+          3
+        ],
+        [
+          "dense",
+          3,
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          8,
+          1
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b1_2",
+        "b0_1"
+      ],
+      [
+        "Mul",
+        "j0",
+        "b2_0"
+      ],
+      [
+        "Mul",
+        "j1",
+        "b3_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 5.833305835723877,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1"
+      ],
+      [
+        "b1_0",
+        "b1_1",
+        "b1_2"
+      ],
+      [
+        "b2_0"
+      ],
+      [
+        "b3_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b1_0",
+      "b1_1",
+      "b1_2",
+      "b2_0",
+      "b3_0",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 17792,
+      "b0_1": 18816,
+      "b1_0": 19840,
+      "b1_1": 20864,
+      "b1_2": 21888,
+      "b2_0": 22912,
+      "b3_0": 23936,
+      "input0": 16384,
+      "j0": 24960,
+      "j1": 25984,
+      "output": 27008,
+      "stem": 16768
+    },
+    "expected_nonzero": 4816,
+    "expected_values": 6144
+  },
+  {
+    "index": 11,
+    "hidden_channels": 3,
+    "branches": [
+      [
+        [
+          "dense",
+          3,
+          8,
+          3
+        ],
+        [
+          "depthwise",
+          8,
+          8,
+          3
+        ],
+        [
+          "dense",
+          8,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "depthwise",
+          3,
+          3,
+          3
+        ],
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ],
+      [
+        [
+          "dense",
+          3,
+          3,
+          1
+        ]
+      ]
+    ],
+    "expression": [
+      [
+        "Add",
+        "b0_2",
+        "b1_1"
+      ],
+      [
+        "Mul",
+        "j0",
+        "b2_0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.427455335855484,
+    "output_zero_point": 0,
+    "branch_names": [
+      [
+        "b0_0",
+        "b0_1",
+        "b0_2"
+      ],
+      [
+        "b1_0",
+        "b1_1"
+      ],
+      [
+        "b2_0"
+      ]
+    ],
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "schedule": [
+      "stem",
+      "b0_0",
+      "b0_1",
+      "b0_2",
+      "b1_0",
+      "b1_1",
+      "b2_0",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "b0_0": 17792,
+      "b0_1": 18816,
+      "b0_2": 19840,
+      "b1_0": 20864,
+      "b1_1": 21888,
+      "b2_0": 22912,
+      "input0": 16384,
+      "j0": 23936,
+      "output": 24960,
+      "stem": 16768
+    },
+    "expected_nonzero": 5996,
+    "expected_values": 6144
+  }
+]

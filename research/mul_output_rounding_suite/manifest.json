@@ -1,0 +1,15 @@
+[
+  {
+    "index": 0,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "output_scale": 8.06311609607701,
+    "output_zero_point": 1,
+    "multiplier": 16384,
+    "shift": 15,
+    "compile_output_range": {
+      "scale": 8.06311609607701,
+      "zero_point": 1
+    }
+  }
+]

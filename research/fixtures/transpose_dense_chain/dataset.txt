@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration0.npy
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration1.npy
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration2.npy
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration3.npy
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration4.npy
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration5.npy
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration6.npy
+/home/dnhkng/drone/research/fixtures/transpose_dense_chain/calibration7.npy

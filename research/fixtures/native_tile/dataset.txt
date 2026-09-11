@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/native_tile/calibration0.npy
+/home/dnhkng/drone/research/fixtures/native_tile/calibration1.npy
+/home/dnhkng/drone/research/fixtures/native_tile/calibration2.npy
+/home/dnhkng/drone/research/fixtures/native_tile/calibration3.npy
+/home/dnhkng/drone/research/fixtures/native_tile/calibration4.npy
+/home/dnhkng/drone/research/fixtures/native_tile/calibration5.npy
+/home/dnhkng/drone/research/fixtures/native_tile/calibration6.npy
+/home/dnhkng/drone/research/fixtures/native_tile/calibration7.npy

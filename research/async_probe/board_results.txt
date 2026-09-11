@@ -1,0 +1,13 @@
+== batched 3-conv chain (one job per inference), 48 rounds, interleaved pairs
+sync: runs=48 tasks=3 batched median=71.2us
+nonblock: rc=0 return=233.9us second_rc=0 wait=76.7us output_matches=yes
+  expected_match=yes
+two-instance pipeline: rounds=48 median sync=195us pipelined=87us ratio=2.253 outputs_ok=yes
+fence_out: rc=-22 fd=-1 submit=224.6us
+
+== serial 3-conv chain (three jobs per inference), 48 rounds, interleaved pairs
+sync: runs=48 tasks=3 serial median=86.6us
+nonblock: rc=0 return=383.5us second_rc=0 wait=162.5us output_matches=yes
+  expected_match=yes
+two-instance pipeline: rounds=48 median sync=220us pipelined=148us ratio=1.487 outputs_ok=yes
+fence_out: rc=-22 fd=-1 submit=275.0us

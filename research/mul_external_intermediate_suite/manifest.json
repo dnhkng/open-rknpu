@@ -1,0 +1,75 @@
+[
+  {
+    "index": 0,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 0.5,
+      "zero_point": -37
+    },
+    "mul_operand_zero_points": [
+      0,
+      0
+    ],
+    "shape": [
+      5,
+      8,
+      3
+    ],
+    "rewrite": "external operand converted by identity Conv"
+  },
+  {
+    "index": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 2.0,
+      "zero_point": 91
+    },
+    "mul_operand_zero_points": [
+      -128,
+      127
+    ],
+    "shape": [
+      8,
+      5,
+      3
+    ],
+    "rewrite": "external operand converted by identity Conv"
+  },
+  {
+    "index": 2,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": null,
+    "mul_operand_zero_points": [
+      31,
+      -64
+    ],
+    "shape": [
+      7,
+      7,
+      3
+    ],
+    "rewrite": "external operand converted by identity Conv"
+  },
+  {
+    "index": 3,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "compile_output_range": {
+      "scale": 1.25,
+      "zero_point": 0
+    },
+    "mul_operand_zero_points": [
+      127,
+      -128
+    ],
+    "shape": [
+      6,
+      8,
+      3
+    ],
+    "rewrite": "external operand converted by identity Conv"
+  }
+]

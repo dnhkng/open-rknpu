@@ -1,0 +1,326 @@
+[
+  {
+    "index": 0,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 0,
+    "input_shape": [
+      5,
+      5,
+      2
+    ],
+    "output_channels": 2,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 1,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 0,
+    "input_shape": [
+      6,
+      5,
+      4
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 2,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 0,
+    "input_shape": [
+      7,
+      5,
+      5
+    ],
+    "output_channels": 4,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 3,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 0,
+    "input_shape": [
+      8,
+      5,
+      8
+    ],
+    "output_channels": 5,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 4,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 0,
+    "input_shape": [
+      5,
+      6,
+      9
+    ],
+    "output_channels": 8,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 5,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 0,
+    "input_shape": [
+      6,
+      6,
+      16
+    ],
+    "output_channels": 16,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 6,
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 1,
+    "input_shape": [
+      7,
+      6,
+      2
+    ],
+    "output_channels": 2,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 7,
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 1,
+    "input_shape": [
+      8,
+      6,
+      4
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 8,
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 1,
+    "input_shape": [
+      5,
+      7,
+      5
+    ],
+    "output_channels": 4,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 9,
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 1,
+    "input_shape": [
+      6,
+      7,
+      8
+    ],
+    "output_channels": 5,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 10,
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 1,
+    "input_shape": [
+      7,
+      7,
+      9
+    ],
+    "output_channels": 8,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 11,
+    "kernel": 3,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 1,
+    "input_shape": [
+      8,
+      7,
+      16
+    ],
+    "output_channels": 16,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 12,
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 2,
+    "input_shape": [
+      5,
+      8,
+      2
+    ],
+    "output_channels": 2,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 13,
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 2,
+    "input_shape": [
+      6,
+      8,
+      4
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 14,
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 2,
+    "input_shape": [
+      7,
+      8,
+      5
+    ],
+    "output_channels": 4,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 15,
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 2,
+    "input_shape": [
+      8,
+      8,
+      8
+    ],
+    "output_channels": 5,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 16,
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 2,
+    "input_shape": [
+      5,
+      5,
+      9
+    ],
+    "output_channels": 8,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 17,
+    "kernel": 5,
+    "strides": [
+      1,
+      1
+    ],
+    "pad": 2,
+    "input_shape": [
+      6,
+      5,
+      16
+    ],
+    "output_channels": 16,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  }
+]

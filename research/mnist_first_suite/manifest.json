@@ -1,0 +1,38 @@
+[
+  {
+    "index": 0,
+    "input_scale": 0.2710929811000824,
+    "input_zero_point": 135,
+    "output_scale": 1.2440464496612549,
+    "fixture_mae": 0.16512122110710764,
+    "fixture_max_error": 1.2003004550933838,
+    "inputs": 8
+  },
+  {
+    "index": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 0,
+    "output_scale": 1.0535989999771118,
+    "fixture_mae": 4.328163950007922,
+    "fixture_max_error": 51.49461126327515,
+    "inputs": 8
+  },
+  {
+    "index": 2,
+    "input_scale": 0.5,
+    "input_zero_point": 128,
+    "output_scale": 2.2853293418884277,
+    "fixture_mae": 0.29629379060423494,
+    "fixture_max_error": 2.0247673988342285,
+    "inputs": 8
+  },
+  {
+    "index": 3,
+    "input_scale": 0.25,
+    "input_zero_point": 255,
+    "output_scale": 1.3794505596160889,
+    "fixture_mae": 4.418618858385622,
+    "fixture_max_error": 41.23333549499512,
+    "inputs": 8
+  }
+]

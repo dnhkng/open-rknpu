@@ -1,0 +1,2 @@
+hybrid cases=100 npu_ms=8.643 cpu_ms=9.578 total_ms=18.221 maxrss_kib=796
+native cases=100 npu_ms=1.748 cpu_ms=0.054 total_ms=1.802 maxrss_kib=796

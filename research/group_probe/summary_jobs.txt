@@ -1,0 +1,1 @@
+job-shape probe: 2/7 completed (C3-3xCNA-linked, C4-4xCNA-loop-linked)

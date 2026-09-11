@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "open-rknpu"
+version = "0.1.0.dev0"
+description = "Open compiler and libc-only runtime for the Rockchip RV1103/RV1106 NPU"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy", "onnx"]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["rockchip", "rv1103", "rv1106", "npu", "onnx", "compiler", "edge-ai"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: C",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Compilers",
+]
+
+# Placeholders: update before publishing a release. There is deliberately no author
+# list — see CONTRIBUTING.md.
+[project.urls]
+Homepage = "https://github.com/open-rknpu/open-rknpu"
+Repository = "https://github.com/open-rknpu/open-rknpu"
+Documentation = "https://github.com/open-rknpu/open-rknpu/tree/main/docs"
+Issues = "https://github.com/open-rknpu/open-rknpu/issues"
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "build"]
+
+[project.scripts]
+open-rknpu = "open_rknpu.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Ship the libc-only board runtime sources with the distribution so a user can
+# build the RV1103 runtime without a source checkout. The wheel is the compiler;
+# the runtime is cross-compiled for the board with the vendor toolchain.
+[tool.setuptools.data-files]
+"share/open-rknpu/runtime" = ["runtime/open_rknpu.c", "runtime/open_rknpu.h", "runtime/main.c", "runtime/Makefile", "runtime/sequence_format.md"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E9", "F"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

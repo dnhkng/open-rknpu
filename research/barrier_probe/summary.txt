@@ -1,0 +1,1 @@
+barrier probe: 2 containers, all outputs exact, fence_out rc=-22

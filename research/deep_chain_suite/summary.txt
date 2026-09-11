@@ -1,0 +1,1 @@
+deep chain: 3 graphs, both modes exact=True, batched speedup 2.00x..7.18x over 128 runs each

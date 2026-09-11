@@ -1,0 +1,22 @@
+the tail control is the successor's fetch amount (PIPELINING_PLAN.md S8/S10), tests/board_bench.c, 16 cases per mode, clean boot per model; `ioctls` is what the runtime reports (`ornpu_info.engine_runs`):
+
+conv->elementwise amount 0x28              tasks= 6 ioctls=2  exact=True  mismatches=0
+conv->elementwise 0x14 (counter-example)   tasks=None ioctls=None exact=False mismatches=None
+elementwise->elementwise amount 0x28       tasks= 6 ioctls=1  exact=True  mismatches=0
+conv->pool amount 0x14                     tasks= 2 ioctls=1  exact=True  mismatches=0
+diamond_tail_suite   model000 serial  tasks= 5 ioctls=5  cases=4 exact=True  min=   73.8us median=   673.5us mismatches=0
+diamond_tail_suite   model000 one-job tasks= 5 ioctls=1  cases=4 exact=True  min=   45.8us median=   311.5us mismatches=0
+depthwise_join_suite model000 serial  tasks= 4 ioctls=4  cases=4 exact=True  min=   63.6us median=   876.5us mismatches=0
+depthwise_join_suite model000 one-job tasks= 4 ioctls=1  cases=4 exact=True  min=   54.3us median=   888.7us mismatches=0
+pooled_dag_suite     model000 serial  tasks= 8 ioctls=8  cases=4 exact=True  min=  170.6us median=   996.0us mismatches=0
+pooled_dag_suite     model000 one-job tasks= 8 ioctls=1  cases=4 exact=True  min=   51.0us median=   588.9us mismatches=0
+join_dag_suite       model000 serial  tasks= 6 ioctls=6  cases=4 exact=True  min=   98.0us median=  1711.2us mismatches=0
+join_dag_suite       model000 one-job tasks= 6 ioctls=1  cases=4 exact=True  min=   45.2us median=   338.6us mismatches=0
+pool_join_suite      model000 serial  tasks= 6 ioctls=6  cases=4 exact=True  min=  109.7us median=   830.7us mismatches=0
+pool_join_suite      model000 one-job tasks= 6 ioctls=1  cases=4 exact=True  min=   46.4us median=   935.1us mismatches=0
+pooled_branches_suite model000 serial  tasks= 7 ioctls=7  cases=4 exact=True  min=   87.2us median=  2977.3us mismatches=0
+pooled_branches_suite model000 one-job tasks= 7 ioctls=1  cases=4 exact=True  min=   42.0us median=   129.5us mismatches=0
+mixed_head_suite     model001 serial  tasks= 7 ioctls=7  cases=4 exact=True  min=  101.8us median=  2264.8us mismatches=0
+mixed_head_suite     model001 one-job tasks= 7 ioctls=1  cases=4 exact=True  min=   50.8us median=   152.5us mismatches=0
+join_chain_suite     model005 serial  tasks= 9 ioctls=9  cases=4 exact=True  min=  141.5us median=  1837.5us mismatches=0
+join_chain_suite     model005 one-job tasks= 9 ioctls=1  cases=4 exact=True  min=   55.4us median=   960.8us mismatches=0

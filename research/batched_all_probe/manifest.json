@@ -1,0 +1,232 @@
+[
+  {
+    "suite": "add_suite",
+    "index": 0,
+    "file": "add_suite_model000_onejob.bin",
+    "tasks": 3,
+    "enables": [
+      29,
+      29,
+      24
+    ],
+    "input_bytes": 192,
+    "output_bytes": 192,
+    "cases": 4,
+    "runs": [
+      [
+        0,
+        3
+      ]
+    ],
+    "emitter_matches": true
+  },
+  {
+    "suite": "mul_batch_suite",
+    "index": 1,
+    "file": "mul_batch_suite_model001_onejob.bin",
+    "tasks": 12,
+    "enables": [
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24
+    ],
+    "input_bytes": 840,
+    "output_bytes": 840,
+    "cases": 3,
+    "runs": [
+      [
+        0,
+        12
+      ]
+    ],
+    "emitter_matches": null
+  },
+  {
+    "suite": "mul_batch_suite",
+    "index": 2,
+    "file": "mul_batch_suite_model002_onejob.bin",
+    "tasks": 48,
+    "enables": [
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24,
+      29,
+      29,
+      24
+    ],
+    "input_bytes": 5120,
+    "output_bytes": 5120,
+    "cases": 3,
+    "runs": [
+      [
+        0,
+        48
+      ]
+    ],
+    "emitter_matches": null
+  },
+  {
+    "suite": "mul_batch_broadcast_suite",
+    "index": 3,
+    "file": "mul_batch_broadcast_suite_model003_onejob.bin",
+    "tasks": 32,
+    "enables": [
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24,
+      29,
+      24
+    ],
+    "input_bytes": 1536,
+    "output_bytes": 1536,
+    "cases": 4,
+    "runs": [
+      [
+        0,
+        32
+      ]
+    ],
+    "emitter_matches": null
+  },
+  {
+    "suite": "elementwise_deep_suite",
+    "index": 2,
+    "file": "elementwise_deep_suite_model002_onejob.bin",
+    "tasks": 5,
+    "enables": [
+      29,
+      29,
+      24,
+      24,
+      24
+    ],
+    "input_bytes": 384,
+    "output_bytes": 192,
+    "cases": 4,
+    "runs": [
+      [
+        0,
+        5
+      ]
+    ],
+    "emitter_matches": true
+  },
+  {
+    "suite": "add_geometry_suite",
+    "index": 0,
+    "file": "add_geometry_suite_model000_onejob.bin",
+    "tasks": 3,
+    "enables": [
+      29,
+      29,
+      24
+    ],
+    "input_bytes": 75,
+    "output_bytes": 50,
+    "cases": 4,
+    "runs": [
+      [
+        0,
+        3
+      ]
+    ],
+    "emitter_matches": true
+  },
+  {
+    "suite": "conv_geometry_suite",
+    "index": 0,
+    "file": "conv_geometry_suite_model000_onejob.bin",
+    "tasks": 1,
+    "enables": [
+      29
+    ],
+    "input_bytes": 25,
+    "output_bytes": 50,
+    "cases": 4,
+    "runs": [
+      [
+        0,
+        1
+      ]
+    ],
+    "emitter_matches": true
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "model000": {
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "bytes": 4608,
+    "exact": true
+  },
+  "model001": {
+    "output": "runs=0 rc=1",
+    "passed": false,
+    "dmesg": "[    6.261140] rkisp-vir0: wrap_line mode can not set the mirror\n[    6.274381] vepu_pp_create_chn 0\n[    6.519393] adbd (420): /proc/420/oom_adj is deprecated, please use /proc/420/oom_score_adj instead.\n[  196.400969] RKNPU: failed to wait job, task counter: 0, flags: 0x5, ret = 0, elapsed time: 1022243us\n[  196.507564] RKNPU: job timeout, flags: 0x0, irq status: 0x0, raw status: 0x0, require mask: 0x300, task counter: 0x0, elapsed time: 1128830us\n[  196.614206] RKNPU: soft reset"
+  },
+  "model002": {
+    "output": "runs=0 rc=1",
+    "passed": false,
+    "dmesg": "[    6.306375] rkisp-vir0: wrap_line mode can not set the mirror\n[    6.324307] vepu_pp_create_chn 0\n[    8.772539] adbd (444): /proc/444/oom_adj is deprecated, please use /proc/444/oom_score_adj instead.\n[   18.454279] RKNPU: failed to wait job, task counter: 0, flags: 0x5, ret = 0, elapsed time: 1011100us\n[   18.562465] RKNPU: job timeout, flags: 0x0, irq status: 0x0, raw status: 0x0, require mask: 0x300, task counter: 0x0, elapsed time: 1119288us\n[   18.667715] RKNPU: soft reset"
+  },
+  "model003": {
+    "output": "runs=0 rc=1",
+    "passed": false,
+    "dmesg": "[    6.285924] rkisp-vir0: wrap_line mode can not set the mirror\n[    6.308765] vepu_pp_create_chn 0\n[   23.553272] adbd (470): /proc/470/oom_adj is deprecated, please use /proc/470/oom_score_adj instead.\n[   34.722988] RKNPU: failed to wait job, task counter: 0, flags: 0x5, ret = 0, elapsed time: 1020188us\n[   34.827697] RKNPU: job timeout, flags: 0x0, irq status: 0x0, raw status: 0x0, require mask: 0x300, task counter: 0x0, elapsed time: 1124899us\n[   34.934187] RKNPU: soft reset"
+  },
+  "model004": {
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "bytes": 4608,
+    "exact": true
+  },
+  "model005": {
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "bytes": 4608,
+    "exact": true
+  }
+}

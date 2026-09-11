@@ -1,0 +1,186 @@
+[
+  {
+    "index": 0,
+    "kernel": 17,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "input_shape": [
+      32,
+      32,
+      1
+    ],
+    "output_channels": 1,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 1,
+    "kernel": 17,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "input_shape": [
+      32,
+      32,
+      17
+    ],
+    "output_channels": 3,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 2,
+    "kernel": 21,
+    "strides": [
+      2,
+      3
+    ],
+    "pads": [
+      20,
+      0,
+      1,
+      19
+    ],
+    "input_shape": [
+      32,
+      32,
+      3
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 3,
+    "kernel": 21,
+    "strides": [
+      4,
+      4
+    ],
+    "pads": [
+      1,
+      20,
+      19,
+      0
+    ],
+    "input_shape": [
+      32,
+      32,
+      32
+    ],
+    "output_channels": 1,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 4,
+    "kernel": 25,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "input_shape": [
+      32,
+      32,
+      1
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 5,
+    "kernel": 25,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      12,
+      12,
+      12,
+      12
+    ],
+    "input_shape": [
+      32,
+      32,
+      17
+    ],
+    "output_channels": 1,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 6,
+    "kernel": 31,
+    "strides": [
+      2,
+      3
+    ],
+    "pads": [
+      30,
+      0,
+      1,
+      29
+    ],
+    "input_shape": [
+      32,
+      32,
+      1
+    ],
+    "output_channels": 1,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 7,
+    "kernel": 31,
+    "strides": [
+      4,
+      4
+    ],
+    "pads": [
+      1,
+      30,
+      29,
+      0
+    ],
+    "input_shape": [
+      32,
+      32,
+      3
+    ],
+    "output_channels": 3,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  }
+]

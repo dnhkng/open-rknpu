@@ -1,0 +1,4 @@
+per-family task cost from duplicated-task containers (64 runs each, serial):
+  conv exact=True  median fit:   35.1 us +  17.8 us/task (R2 0.99) | min fit:    6.7 us +  12.2 us/task (R2 1.00)
+  pool exact=True  median fit: -310.7 us + 124.3 us/task (R2 0.97) | min fit:   -4.5 us +  15.4 us/task (R2 0.98)
+  elem exact=True  median fit: -705.3 us + 220.1 us/task (R2 0.85) | min fit:  -22.2 us +  20.3 us/task (R2 0.97)

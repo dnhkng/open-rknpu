@@ -1,0 +1,86 @@
+[
+  {
+    "model": "000",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 0: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "001",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 1: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "002",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 2: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "003",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 3: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "004",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 4: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "005",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 5: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "006",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 6: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "007",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 7: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "008",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 8: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "009",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 9: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "010",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 10: 32 inputs passed (1 outputs)"
+  },
+  {
+    "model": "011",
+    "passed": true,
+    "inferences": 32,
+    "bytes": 1536,
+    "output": "model 11: 32 inputs passed (1 outputs)"
+  }
+]

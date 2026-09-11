@@ -1,0 +1,338 @@
+[
+  {
+    "model": "000",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 8,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 8 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "001",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 16,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 16 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "002",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 24,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 24 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "003",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 40,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 40 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "004",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 64,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 64 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "005",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 128,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 128 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "006",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 64,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 64 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "007",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 128,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 128 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "008",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 192,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 192 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "009",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 320,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 320 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "010",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 512,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 512 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "011",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1024,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1024 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "012",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 96,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 96 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "013",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 192,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 192 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "014",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 288,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 288 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "015",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 480,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 480 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "016",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 768,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 768 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "017",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1536,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1536 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "018",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 200,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 200 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "019",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 400,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 400 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "020",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 600,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 600 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "021",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1000,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1000 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "022",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1600,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1600 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "023",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 3200,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 3200 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "024",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 336,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 336 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "025",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 672,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 672 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "026",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1008,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1008 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "027",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1680,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1680 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "028",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 2688,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 2688 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "029",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 5376,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 5376 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "030",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 648,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 648 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "031",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1296,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1296 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "032",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1944,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1944 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "033",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 3240,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 3240 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "034",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 5184,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 5184 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "035",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 10368,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 10368 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "036",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 1568,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 1568 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "037",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 3136,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 3136 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "038",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 4704,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 4704 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "039",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 7840,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 7840 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "040",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 12544,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 12544 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "041",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 25088,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 25088 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "042",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 8192,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 8192 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "043",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 16384,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 16384 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "044",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 24576,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 24576 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "045",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 40960,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 40960 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "046",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 65536,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 65536 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "047",
+    "passed": true,
+    "inferences": 8,
+    "bytes": 131072,
+    "output": "model 0: 8 inputs passed\nPASS: 1 models, 8 inferences, 131072 output bytes; invalid buffer sizes rejected\n"
+  }
+]

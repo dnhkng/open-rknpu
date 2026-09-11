@@ -1,0 +1,6 @@
+per-family task cost (8x8/C3, 128 runs, serial submission):
+  conv       1 task(s)  median   402.8us  min    45.5us
+  conv_pool  2 task(s)  median    89.3us  min    30.3us
+  ew2        2 task(s)  median    65.9us  min    38.8us
+  derived pool task        ~ -313.5us median,  -15.2us min (vs one CNA task; min is the board floor, medians are load-dominated)
+  derived elementwise task ~ -336.9us median,   -6.7us min (vs one CNA task; min is the board floor, medians are load-dominated)

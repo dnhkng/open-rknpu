@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/pool_average/calibration_7.npy

@@ -1,0 +1,6 @@
+ABI attr=376 mem=40 ctx=4
+ALLOC 0 fd=4 flags=a size=4096 object=b25dfc80 dma=3e4c000 ioctl=c0287202
+ALLOC 1 fd=5 flags=2 size=24576 object=b25dfe20 dma=3e4d000 ioctl=c0287202
+E RKNN: unsupport cpu Min op, op name: Min:output in current, please try updating to the latest version of the toolkit2 and runtime from: https://console.zbox.filez.com/l/I00fc3 (PWD: rknn)
+E RKNN: rknn fallback cpu failed
+rknn_init(&ctx, model, size, 0, NULL): -1

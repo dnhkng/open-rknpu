@@ -1,0 +1,9 @@
+{
+  "cases": 8,
+  "exact_npu_bytes": 25088,
+  "logits": 80,
+  "suffix_max_abs_error": 3.0517578125e-05,
+  "fixture_prediction": 3,
+  "fixture_float_model_max_abs_error": 17.805816650390625,
+  "dataset_accuracy_measured": false
+}

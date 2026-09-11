@@ -1,0 +1,68 @@
+{
+  "baseline_materialized": {
+    "index": 0,
+    "variant": "baseline_materialized",
+    "0x5040": "0x240",
+    "0x506c": "0x0",
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "exact": true,
+    "bytes": 3360,
+    "differing_bytes": 0
+  },
+  "compact_stride_plane_notch_w-1": {
+    "index": 1,
+    "variant": "compact_stride_plane_notch_w-1",
+    "0x5040": "0x240",
+    "0x506c": "0x40",
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "exact": false,
+    "bytes": 3360,
+    "differing_bytes": 3025
+  },
+  "compact_stride_1_notch_w-1": {
+    "index": 2,
+    "variant": "compact_stride_1_notch_w-1",
+    "0x5040": "0x10",
+    "0x506c": "0x40",
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "exact": false,
+    "bytes": 3360,
+    "differing_bytes": 3025
+  },
+  "compact_stride_plane_notch_w": {
+    "index": 3,
+    "variant": "compact_stride_plane_notch_w",
+    "0x5040": "0x240",
+    "0x506c": "0x50",
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "exact": false,
+    "bytes": 3360,
+    "differing_bytes": 3025
+  },
+  "compact_mode2_notch_w-1": {
+    "index": 4,
+    "variant": "compact_mode2_notch_w-1",
+    "0x5034": "0x80000004",
+    "0x5040": "0x240",
+    "0x506c": "0x40",
+    "output": "runs=0 rc=1",
+    "passed": false,
+    "dmesg": "[    6.377964] rkisp queue buf done\n[    6.398893] rkisp-vir0: wrap_line mode can not set the mirror\n[    6.420376] vepu_pp_create_chn 0\n[ 1126.268088] RKNPU: failed to wait job, task counter: 0, flags: 0x5, ret = 0, elapsed time: 1015138us\n[ 1126.374056] RKNPU: job timeout, flags: 0x0, irq status: 0x0, raw status: 0x0, require mask: 0x300, task counter: 0x0, elapsed time: 1121039us\n[ 1126.481048] RKNPU: soft reset"
+  },
+  "compact_mode1_surf1_notch_w-1": {
+    "index": 5,
+    "variant": "compact_mode1_surf1_notch_w-1",
+    "0x5034": "0x60000004",
+    "0x5040": "0x240",
+    "0x506c": "0x40",
+    "output": "runs=32 rc=0",
+    "passed": true,
+    "exact": false,
+    "bytes": 3360,
+    "differing_bytes": 3025
+  }
+}

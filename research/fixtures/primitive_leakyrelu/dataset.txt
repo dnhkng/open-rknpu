@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/primitive_leakyrelu/calibration_7.npy

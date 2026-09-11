@@ -1,0 +1,1510 @@
+[
+  {
+    "index": 0,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 2,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      5,
+      2
+    ],
+    "output_channels": 2,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 1,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 2,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      5,
+      2
+    ],
+    "output_channels": 2,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 2,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 2,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      5,
+      2
+    ],
+    "output_channels": 2,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 3,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 2,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      5,
+      2
+    ],
+    "output_channels": 2,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 4,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 2,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      6,
+      2
+    ],
+    "output_channels": 4,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 5,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 2,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      6,
+      2
+    ],
+    "output_channels": 4,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 6,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 2,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      6,
+      2
+    ],
+    "output_channels": 4,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 7,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 2,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      6,
+      2
+    ],
+    "output_channels": 4,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 8,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 3,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      7,
+      3
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 9,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 3,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      7,
+      3
+    ],
+    "output_channels": 3,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 10,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 3,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      7,
+      3
+    ],
+    "output_channels": 3,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 11,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 3,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      7,
+      3
+    ],
+    "output_channels": 3,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 12,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 3,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      8,
+      3
+    ],
+    "output_channels": 6,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 13,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 3,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      8,
+      3
+    ],
+    "output_channels": 6,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 14,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 3,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      8,
+      3
+    ],
+    "output_channels": 6,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 15,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 3,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      8,
+      3
+    ],
+    "output_channels": 6,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 16,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 4,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      5,
+      4
+    ],
+    "output_channels": 4,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 17,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 4,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      5,
+      4
+    ],
+    "output_channels": 4,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 18,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 4,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      5,
+      4
+    ],
+    "output_channels": 4,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 19,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 4,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      5,
+      4
+    ],
+    "output_channels": 4,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 20,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 4,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      6,
+      4
+    ],
+    "output_channels": 8,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 21,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 4,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      6,
+      4
+    ],
+    "output_channels": 8,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 22,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 4,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      6,
+      4
+    ],
+    "output_channels": 8,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 23,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 4,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      6,
+      4
+    ],
+    "output_channels": 8,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 24,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 5,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      7,
+      5
+    ],
+    "output_channels": 5,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 25,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 5,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      7,
+      5
+    ],
+    "output_channels": 5,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 26,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 5,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      7,
+      5
+    ],
+    "output_channels": 5,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 27,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 5,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      7,
+      5
+    ],
+    "output_channels": 5,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 28,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 5,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      8,
+      5
+    ],
+    "output_channels": 10,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 29,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 5,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      8,
+      5
+    ],
+    "output_channels": 10,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 30,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 5,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      8,
+      5
+    ],
+    "output_channels": 10,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 31,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 5,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      8,
+      5
+    ],
+    "output_channels": 10,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 32,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 7,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      5,
+      7
+    ],
+    "output_channels": 7,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 33,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 7,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      5,
+      7
+    ],
+    "output_channels": 7,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 34,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 7,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      5,
+      7
+    ],
+    "output_channels": 7,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 35,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 7,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      5,
+      7
+    ],
+    "output_channels": 7,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 36,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 7,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      6,
+      7
+    ],
+    "output_channels": 14,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 37,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 7,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      6,
+      7
+    ],
+    "output_channels": 14,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 38,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 7,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      6,
+      7
+    ],
+    "output_channels": 14,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 39,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 7,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      6,
+      7
+    ],
+    "output_channels": 14,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 40,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 8,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      7,
+      8
+    ],
+    "output_channels": 8,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 41,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 8,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      7,
+      8
+    ],
+    "output_channels": 8,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 42,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 8,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      7,
+      8
+    ],
+    "output_channels": 8,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 43,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 8,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      7,
+      8
+    ],
+    "output_channels": 8,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 44,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 8,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      8,
+      8
+    ],
+    "output_channels": 16,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 45,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 8,
+    "multiplier": 2,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      8,
+      8
+    ],
+    "output_channels": 16,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 46,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 8,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      8,
+      8
+    ],
+    "output_channels": 16,
+    "relu": false,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 47,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 8,
+    "multiplier": 2,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      8,
+      8
+    ],
+    "output_channels": 16,
+    "relu": true,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 48,
+    "kernel": 1,
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "group": 16,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      1
+    ],
+    "input_shape": [
+      5,
+      5,
+      16
+    ],
+    "output_channels": 16,
+    "relu": false,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 49,
+    "kernel": 2,
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "group": 16,
+    "multiplier": 1,
+    "dilation": [
+      1,
+      2
+    ],
+    "input_shape": [
+      6,
+      5,
+      16
+    ],
+    "output_channels": 16,
+    "relu": true,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 50,
+    "kernel": 3,
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      1,
+      2,
+      1
+    ],
+    "group": 16,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      1
+    ],
+    "input_shape": [
+      7,
+      5,
+      16
+    ],
+    "output_channels": 16,
+    "relu": false,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 51,
+    "kernel": 3,
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "group": 16,
+    "multiplier": 1,
+    "dilation": [
+      2,
+      2
+    ],
+    "input_shape": [
+      8,
+      5,
+      16
+    ],
+    "output_channels": 16,
+    "relu": true,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  }
+]

@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/primitive_hardswish/calibration_7.npy

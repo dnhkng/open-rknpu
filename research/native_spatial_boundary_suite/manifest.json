@@ -1,0 +1,310 @@
+[
+  {
+    "index": 0,
+    "input_shape": [
+      34,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 1,
+    "input_shape": [
+      34,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 2,
+    "input_shape": [
+      35,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 3,
+    "input_shape": [
+      35,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 4,
+    "input_shape": [
+      36,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 5,
+    "input_shape": [
+      36,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 6,
+    "input_shape": [
+      39,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 7,
+    "input_shape": [
+      39,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 8,
+    "input_shape": [
+      40,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 9,
+    "input_shape": [
+      40,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 10,
+    "input_shape": [
+      41,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 11,
+    "input_shape": [
+      41,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 12,
+    "input_shape": [
+      47,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 13,
+    "input_shape": [
+      47,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 14,
+    "input_shape": [
+      48,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 15,
+    "input_shape": [
+      48,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 16,
+    "input_shape": [
+      49,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 17,
+    "input_shape": [
+      49,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 18,
+    "input_shape": [
+      63,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 19,
+    "input_shape": [
+      63,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 20,
+    "input_shape": [
+      64,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 21,
+    "input_shape": [
+      64,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 22,
+    "input_shape": [
+      65,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 23,
+    "input_shape": [
+      65,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 24,
+    "input_shape": [
+      96,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 25,
+    "input_shape": [
+      96,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 26,
+    "input_shape": [
+      128,
+      17,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 27,
+    "input_shape": [
+      128,
+      33,
+      1
+    ],
+    "output_channels": 1,
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  }
+]

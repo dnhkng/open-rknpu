@@ -1,0 +1,146 @@
+[
+  {
+    "index": 0,
+    "first_stage": "Add",
+    "inputs": 3,
+    "chain": "Mul(Add(a,b),c)",
+    "output_scale": 1333.7369384765625,
+    "cases": 8
+  },
+  {
+    "index": 1,
+    "first_stage": "Add",
+    "inputs": 3,
+    "chain": "Mul(Add(a,b),c)",
+    "output_scale": 3197.694091796875,
+    "cases": 8
+  },
+  {
+    "index": 2,
+    "first_stage": "Add",
+    "inputs": 4,
+    "chain": "Mul(Mul(Add(a,b),c),c)",
+    "output_scale": 635389.0625,
+    "cases": 8
+  },
+  {
+    "index": 3,
+    "first_stage": "Add",
+    "inputs": 4,
+    "chain": "Mul(Mul(Add(a,b),c),c)",
+    "output_scale": 583225.25,
+    "cases": 8
+  },
+  {
+    "index": 4,
+    "first_stage": "Add",
+    "inputs": 5,
+    "chain": "Mul(Mul(Mul(Add(a,b),c),c),c)",
+    "output_scale": 54183220.0,
+    "cases": 8
+  },
+  {
+    "index": 5,
+    "first_stage": "Add",
+    "inputs": 5,
+    "chain": "Mul(Mul(Mul(Add(a,b),c),c),c)",
+    "output_scale": 985462208.0,
+    "cases": 8
+  },
+  {
+    "index": 6,
+    "first_stage": "Mul",
+    "inputs": 3,
+    "chain": "Mul(Mul(a,b),c)",
+    "output_scale": 246952.609375,
+    "cases": 8
+  },
+  {
+    "index": 7,
+    "first_stage": "Mul",
+    "inputs": 3,
+    "chain": "Mul(Mul(a,b),c)",
+    "output_scale": 265410.90625,
+    "cases": 8
+  },
+  {
+    "index": 8,
+    "first_stage": "Mul",
+    "inputs": 4,
+    "chain": "Mul(Mul(Mul(a,b),c),c)",
+    "output_scale": 160224864.0,
+    "cases": 8
+  },
+  {
+    "index": 9,
+    "first_stage": "Mul",
+    "inputs": 4,
+    "chain": "Mul(Mul(Mul(a,b),c),c)",
+    "output_scale": 100073760.0,
+    "cases": 8
+  },
+  {
+    "index": 10,
+    "first_stage": "Mul",
+    "inputs": 5,
+    "chain": "Mul(Mul(Mul(Mul(a,b),c),c),c)",
+    "output_scale": 13716994048.0,
+    "cases": 8
+  },
+  {
+    "index": 11,
+    "first_stage": "Mul",
+    "inputs": 5,
+    "chain": "Mul(Mul(Mul(Mul(a,b),c),c),c)",
+    "output_scale": 24482504704.0,
+    "cases": 8
+  },
+  {
+    "index": 12,
+    "first_stage": "Max",
+    "inputs": 3,
+    "chain": "Mul(Max(a,b),c)",
+    "output_scale": 1121.80712890625,
+    "cases": 8
+  },
+  {
+    "index": 13,
+    "first_stage": "Max",
+    "inputs": 3,
+    "chain": "Mul(Max(a,b),c)",
+    "output_scale": 1157.3197021484375,
+    "cases": 8
+  },
+  {
+    "index": 14,
+    "first_stage": "Max",
+    "inputs": 4,
+    "chain": "Mul(Mul(Max(a,b),c),c)",
+    "output_scale": 472169.78125,
+    "cases": 8
+  },
+  {
+    "index": 15,
+    "first_stage": "Max",
+    "inputs": 4,
+    "chain": "Mul(Mul(Max(a,b),c),c)",
+    "output_scale": 717275.875,
+    "cases": 8
+  },
+  {
+    "index": 16,
+    "first_stage": "Max",
+    "inputs": 5,
+    "chain": "Mul(Mul(Mul(Max(a,b),c),c),c)",
+    "output_scale": 1461789568.0,
+    "cases": 8
+  },
+  {
+    "index": 17,
+    "first_stage": "Max",
+    "inputs": 5,
+    "chain": "Mul(Mul(Mul(Max(a,b),c),c),c)",
+    "output_scale": 908719488.0,
+    "cases": 8
+  }
+]

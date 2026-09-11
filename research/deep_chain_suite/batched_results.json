@@ -1,0 +1,134 @@
+[
+  {
+    "index": 0,
+    "layers": 8,
+    "iterations": 128,
+    "serial": {
+      "passed": true,
+      "tasks": 8,
+      "mode": "serial",
+      "median_us": 498.8,
+      "min_us": 111.7,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "batched": {
+      "passed": true,
+      "tasks": 8,
+      "mode": "batched",
+      "median_us": 249.7,
+      "min_us": 61.0,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "reuse": {
+      "passed": true,
+      "tasks": 8,
+      "mode": "serial",
+      "median_us": 545.7,
+      "min_us": 129.2,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "reuse_batched": {
+      "passed": true,
+      "tasks": 8,
+      "mode": "batched",
+      "median_us": 121.3,
+      "min_us": 54.3,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "speedup": 1.997597116539848,
+    "arena_bytes": 28672,
+    "reuse_arena_bytes": 20480
+  },
+  {
+    "index": 1,
+    "layers": 12,
+    "iterations": 128,
+    "serial": {
+      "passed": true,
+      "tasks": 12,
+      "mode": "serial",
+      "median_us": 1527.2,
+      "min_us": 178.2,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "batched": {
+      "passed": true,
+      "tasks": 12,
+      "mode": "batched",
+      "median_us": 212.6,
+      "min_us": 77.0,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "reuse": {
+      "passed": true,
+      "tasks": 12,
+      "mode": "serial",
+      "median_us": 319.7,
+      "min_us": 181.1,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "reuse_batched": {
+      "passed": true,
+      "tasks": 12,
+      "mode": "batched",
+      "median_us": 137.4,
+      "min_us": 70.6,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "speedup": 7.183443085606774,
+    "arena_bytes": 36864,
+    "reuse_arena_bytes": 24576
+  },
+  {
+    "index": 2,
+    "layers": 16,
+    "iterations": 128,
+    "serial": {
+      "passed": true,
+      "tasks": 16,
+      "mode": "serial",
+      "median_us": 1696.3,
+      "min_us": 231.3,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "batched": {
+      "passed": true,
+      "tasks": 16,
+      "mode": "batched",
+      "median_us": 269.5,
+      "min_us": 76.7,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "reuse": {
+      "passed": true,
+      "tasks": 16,
+      "mode": "serial",
+      "median_us": 1494.8,
+      "min_us": 206.5,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "reuse_batched": {
+      "passed": true,
+      "tasks": 16,
+      "mode": "batched",
+      "median_us": 278.5,
+      "min_us": 77.0,
+      "unstable": 0,
+      "mismatches": 0
+    },
+    "speedup": 6.294248608534323,
+    "arena_bytes": 40960,
+    "reuse_arena_bytes": 24576
+  }
+]

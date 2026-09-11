@@ -1,0 +1,26 @@
+{
+  "status": "failed hypothesis; retained artifacts are stale and cannot reproduce the recorded count",
+  "profile": "depthwise C3 K5 stride2 pads2",
+  "result": "The shipped model000.bin is a stale artifact: its 25-row weight table populates only 17 taps and stores a reversed kernel, while its expected000.i8 was generated from a 25-tap reference. Re-running it on the board (16 inferences captured) gives an output that is uncorrelated with both its own expected bytes (correlation 0.006) and the float ONNX model (0.0017), so the historical 98/675 off-by-one figure cannot be reproduced from these files. The board run itself is clean (runs=16 rc=0).",
+  "evidence": [
+    "board_results_0.json",
+    "../capture_transpose_k5",
+    "../transpose_k5_capture.log",
+    "../analyze_transpose_k5_failure.py",
+    "../transpose_stem_debug_suite"
+  ],
+  "conclusion": "K5 stays rejected. To revisit it, the emitter must pack all 25 taps in the vendor's 32-byte lane layout with per-channel weight zero points and reuse the vendor register set; the current depthwise-transpose path only emits K2/K3 and reuses K3 defaults.",
+  "vendor_ground_truth": {
+    "capture": "../capture_transpose_k5/run0_before_mem1.bin",
+    "task": "second task, 126 register words; kernel 5, stride 2, pads 2, group 3",
+    "register_set": "matches the retained binary in every field except the addresses (0x1070 input base, 0x1110 weight base, 0x4020 output base) and 0x1010",
+    "output_conversion": {
+      "0x4080": "0xffffffed",
+      "0x4084": "0x7d36",
+      "0x4088": "0x18",
+      "note": "vendor output zero point -19 and scale 0.00793062337 per the capture ATTR line"
+    },
+    "weight_table": "25 taps x 32 bytes; each tap is 16 lanes of (value int8, -weight_zero_point int8). The vendor's per-lane zero points are (2, 1, -3) for the captured fixture, i.e. asymmetric per-channel weight quantization, unlike the symmetric weights the retained experiment used."
+  },
+  "reproduction": "../analyze_k5_vendor_layout.py prints the register diff and both weight tables; the board output was captured with tests/board_run.c"
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "model": "000",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 105,
+    "output": "PASS: v4 mul.factor replaced; invalid index/size rejected; 105 exact bytes"
+  }
+]

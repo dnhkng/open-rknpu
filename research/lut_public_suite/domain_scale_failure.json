@@ -1,0 +1,9 @@
+{
+  "status": "failed hypothesis",
+  "operation": "Sigmoid",
+  "stem": "C3 diagonal 1/64, zero bias, input scale 1, zero point 128",
+  "input_code": 0,
+  "expected": -98,
+  "rv1103_output": -123,
+  "conclusion": "Changing only the preceding Conv factor does not retarget the LUT domain. The public profile remains fixed at identity/32 pending isolation of LUT_INFO/start/end and slope fields."
+}

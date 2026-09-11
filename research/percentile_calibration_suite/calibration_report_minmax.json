@@ -1,0 +1,28 @@
+{
+  "method": "minmax",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 32,
+  "files": [
+    "/home/dnhkng/drone/research/percentile_calibration_suite/calibration/cal.npy"
+  ],
+  "tensors": [
+    "r1",
+    "output"
+  ],
+  "ranges": {
+    "r1": {
+      "min": 0.0,
+      "max": 4332.68505859375,
+      "scale": 16.990921020507812,
+      "zero_point": -128
+    },
+    "output": {
+      "min": 0.0,
+      "max": 1038.469970703125,
+      "scale": 4.0724310874938965,
+      "zero_point": -128
+    }
+  }
+}

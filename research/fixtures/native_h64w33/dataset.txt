@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration0.npy
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration1.npy
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration2.npy
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration3.npy
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration4.npy
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration5.npy
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration6.npy
+/home/dnhkng/drone/research/fixtures/native_h64w33/calibration7.npy

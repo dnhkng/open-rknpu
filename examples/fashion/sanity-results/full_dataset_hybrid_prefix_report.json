@@ -1,0 +1,22 @@
+{
+  "count": 10000,
+  "prefix": "hybrid_prefix.bin",
+  "chunk": 1000,
+  "local_only": false,
+  "board_accuracy": 0.8815,
+  "float_accuracy": 0.8818,
+  "agreement_with_float": 9979,
+  "correct": 8815,
+  "prediction_histogram": [
+    1014,
+    984,
+    1019,
+    1021,
+    1039,
+    994,
+    915,
+    1012,
+    1002,
+    1000
+  ]
+}

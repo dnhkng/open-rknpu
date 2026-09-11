@@ -1,0 +1,114 @@
+[
+  {
+    "model": "000",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 0: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "001",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 1: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "002",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 2: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "003",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 3: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "004",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 4: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "005",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 5: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "006",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 6: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "007",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 7: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "008",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 8: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "009",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 9: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "010",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 10: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "011",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 11: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "012",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 12: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "013",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 13: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "014",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 14: 1 inputs passed (1 outputs)"
+  },
+  {
+    "model": "015",
+    "passed": true,
+    "inferences": 1,
+    "bytes": 640,
+    "output": "model 15: 1 inputs passed (1 outputs)"
+  }
+]

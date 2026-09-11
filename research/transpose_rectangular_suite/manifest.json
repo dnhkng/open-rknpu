@@ -1,0 +1,137 @@
+[
+  {
+    "index": 0,
+    "kernel": [
+      1,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "output_shape": [
+      8,
+      8,
+      3
+    ],
+    "rewrite": "K1x1 expanded to sparse K3"
+  },
+  {
+    "index": 1,
+    "kernel": [
+      1,
+      1
+    ],
+    "strides": [
+      2,
+      2
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_padding": [
+      1,
+      1
+    ],
+    "output_shape": [
+      16,
+      16,
+      3
+    ],
+    "rewrite": "K1x1 expanded to sparse K3"
+  },
+  {
+    "index": 2,
+    "kernel": [
+      2,
+      3
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      1,
+      0,
+      0,
+      2
+    ],
+    "output_padding": [
+      0,
+      1
+    ],
+    "output_shape": [
+      8,
+      16,
+      3
+    ],
+    "rewrite": "K2x3 expanded to sparse K3"
+  },
+  {
+    "index": 3,
+    "kernel": [
+      3,
+      2
+    ],
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      0,
+      1,
+      2,
+      0
+    ],
+    "output_padding": [
+      1,
+      0
+    ],
+    "output_shape": [
+      16,
+      8,
+      3
+    ],
+    "rewrite": "K3x2 expanded to sparse K3"
+  },
+  {
+    "index": 4,
+    "kernel": [
+      1,
+      3
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      0,
+      1,
+      0,
+      1
+    ],
+    "output_padding": [
+      0,
+      0
+    ],
+    "output_shape": [
+      8,
+      15,
+      3
+    ],
+    "rewrite": "K1x3 expanded to sparse K3"
+  }
+]

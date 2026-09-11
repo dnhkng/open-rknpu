@@ -1,0 +1,24 @@
+{
+  "method": "minmax",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 32,
+  "files": [
+    "/home/dnhkng/drone/research/calibration_suite/chain_heldout16/calibration.npy"
+  ],
+  "ranges": {
+    "hidden": {
+      "min": 0.0,
+      "max": 356.9363708496094,
+      "scale": 1.3997504711151123,
+      "zero_point": -128
+    },
+    "output": {
+      "min": -81.47283935546875,
+      "max": 477.6904602050781,
+      "scale": 2.1927971839904785,
+      "zero_point": -91
+    }
+  }
+}

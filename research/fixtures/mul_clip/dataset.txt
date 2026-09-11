@@ -1,0 +1,4 @@
+/home/dnhkng/drone/research/fixtures/mul_clip/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/mul_clip/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/mul_clip/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/mul_clip/calibration_3.npy

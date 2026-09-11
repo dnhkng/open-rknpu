@@ -1,0 +1,26 @@
+[
+  {
+    "index": 0,
+    "pool": "max",
+    "relu": 0,
+    "inputs": 64
+  },
+  {
+    "index": 1,
+    "pool": "max",
+    "relu": 1,
+    "inputs": 64
+  },
+  {
+    "index": 2,
+    "pool": "average",
+    "relu": 0,
+    "inputs": 64
+  },
+  {
+    "index": 3,
+    "pool": "average",
+    "relu": 1,
+    "inputs": 64
+  }
+]

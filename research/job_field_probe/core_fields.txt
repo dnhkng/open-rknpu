@@ -1,0 +1,8 @@
+S8 F1: core_mask / subcore_task inertness on RV1103, tests/board_core.c,
+32 runs per configuration, `mnist_pool_suite/model000` (2 tasks CNA->DPU, serial, verified):
+
+core=0x0 task=2 windows=0 runs=32 mismatches=0 changed=0 median=170.0us
+core=0x7 task=2 runs=32 mismatches=0 changed=0 median=176.8us
+core=0x7+windows task=2 runs=32 mismatches=0 changed=0 median=392.3us
+core=0x0+windows task=2 runs=32 mismatches=0 changed=0 median=200.7us
+core=0x1+window1 task=2 runs=32 mismatches=0 changed=0 median=168.6us

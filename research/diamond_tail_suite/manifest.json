@@ -1,0 +1,714 @@
+[
+  {
+    "index": 0,
+    "join": "Add",
+    "tail_kernels": [
+      1
+    ],
+    "hidden_channels": 15,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 108.25505828857422,
+    "output_zero_point": -1,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 1,
+    "join": "Add",
+    "tail_kernels": [
+      3
+    ],
+    "hidden_channels": 5,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 143.5243377685547,
+    "output_zero_point": -1,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 2,
+    "join": "Add",
+    "tail_kernels": [
+      1,
+      3
+    ],
+    "hidden_channels": 9,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "tail0",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        5,
+        5
+      ],
+      "stem": [
+        0,
+        2
+      ],
+      "tail0": [
+        4,
+        5
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576,
+      "tail0": 9600
+    },
+    "output_scale": 1057.2567138671875,
+    "output_zero_point": -1,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 5120
+  },
+  {
+    "index": 3,
+    "join": "Mul",
+    "tail_kernels": [
+      1
+    ],
+    "hidden_channels": 9,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 50608.4375,
+    "output_zero_point": 0,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 4,
+    "join": "Mul",
+    "tail_kernels": [
+      3
+    ],
+    "hidden_channels": 4,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 407949.28125,
+    "output_zero_point": -1,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 5,
+    "join": "Mul",
+    "tail_kernels": [
+      1,
+      3
+    ],
+    "hidden_channels": 3,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "tail0",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        5,
+        5
+      ],
+      "stem": [
+        0,
+        2
+      ],
+      "tail0": [
+        4,
+        5
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576,
+      "tail0": 9600
+    },
+    "output_scale": 30230.064453125,
+    "output_zero_point": -1,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 5120
+  },
+  {
+    "index": 6,
+    "join": "Sub",
+    "tail_kernels": [
+      1
+    ],
+    "hidden_channels": 5,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 51.439903259277344,
+    "output_zero_point": 0,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 7,
+    "join": "Sub",
+    "tail_kernels": [
+      3
+    ],
+    "hidden_channels": 13,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 932.6885375976562,
+    "output_zero_point": 0,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 8,
+    "join": "Sub",
+    "tail_kernels": [
+      1,
+      3
+    ],
+    "hidden_channels": 13,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "tail0",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        5,
+        5
+      ],
+      "stem": [
+        0,
+        2
+      ],
+      "tail0": [
+        4,
+        5
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576,
+      "tail0": 9600
+    },
+    "output_scale": 921.8726806640625,
+    "output_zero_point": -1,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 5120
+  },
+  {
+    "index": 9,
+    "join": "Max",
+    "tail_kernels": [
+      1
+    ],
+    "hidden_channels": 3,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 43.824214935302734,
+    "output_zero_point": -1,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 10,
+    "join": "Max",
+    "tail_kernels": [
+      3
+    ],
+    "hidden_channels": 8,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        4,
+        4
+      ],
+      "stem": [
+        0,
+        2
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576
+    },
+    "output_scale": 780.8256225585938,
+    "output_zero_point": 0,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 4096
+  },
+  {
+    "index": 11,
+    "join": "Max",
+    "tail_kernels": [
+      1,
+      3
+    ],
+    "hidden_channels": 16,
+    "cases": 16,
+    "outputs": 1,
+    "output_bytes": 192,
+    "profile": "diamond-tail",
+    "schedule": [
+      "stem",
+      "head_a",
+      "head_b",
+      "join",
+      "tail0",
+      "output"
+    ],
+    "tensor_lifetimes": {
+      "head_a": [
+        1,
+        3
+      ],
+      "head_b": [
+        2,
+        3
+      ],
+      "input0": [
+        -1,
+        0
+      ],
+      "join": [
+        3,
+        4
+      ],
+      "output": [
+        5,
+        5
+      ],
+      "stem": [
+        0,
+        2
+      ],
+      "tail0": [
+        4,
+        5
+      ]
+    },
+    "tensor_offsets": {
+      "head_a": 9600,
+      "head_b": 10624,
+      "input0": 8192,
+      "join": 8576,
+      "output": 11648,
+      "stem": 8576,
+      "tail0": 9600
+    },
+    "output_scale": 1410.6790771484375,
+    "output_zero_point": 0,
+    "lifetime_bytes": 3072,
+    "allocated_bytes": 5120
+  }
+]

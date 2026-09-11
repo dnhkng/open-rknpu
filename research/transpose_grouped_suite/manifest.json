@@ -1,0 +1,44 @@
+[
+  {
+    "index": 0,
+    "input_channels": 4,
+    "output_channels": 8,
+    "group": 2,
+    "rewrite": "group2 expanded to zero-filled dense C4-to-C8"
+  },
+  {
+    "index": 1,
+    "input_channels": 6,
+    "output_channels": 4,
+    "group": 2,
+    "rewrite": "group2 expanded to zero-filled dense C6-to-C4"
+  },
+  {
+    "index": 2,
+    "input_channels": 6,
+    "output_channels": 9,
+    "group": 3,
+    "rewrite": "group3 expanded to zero-filled dense C6-to-C9"
+  },
+  {
+    "index": 3,
+    "input_channels": 8,
+    "output_channels": 4,
+    "group": 4,
+    "rewrite": "group4 expanded to zero-filled dense C8-to-C4"
+  },
+  {
+    "index": 4,
+    "input_channels": 16,
+    "output_channels": 16,
+    "group": 8,
+    "rewrite": "group8 expanded to zero-filled dense C16-to-C16"
+  },
+  {
+    "index": 5,
+    "input_channels": 4,
+    "output_channels": 8,
+    "group": 4,
+    "rewrite": "group4 expanded to zero-filled dense C4-to-C8"
+  }
+]

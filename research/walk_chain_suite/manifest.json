@@ -1,0 +1,353 @@
+[
+  {
+    "index": 0,
+    "label": "conv-relu-pool-conv",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 1,
+    "label": "conv-poolavg-conv-relu",
+    "ops": [
+      "conv",
+      "AveragePool",
+      "conv"
+    ],
+    "activations": [
+      null,
+      "Relu"
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 2,
+    "label": "two-pools",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      2,
+      2
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 12
+  },
+  {
+    "index": 3,
+    "label": "hidden16",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 4,
+    "label": "post-pool-chain",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 5,
+    "label": "mixed-pools",
+    "ops": [
+      "conv",
+      "AveragePool",
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      2,
+      2
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 12
+  },
+  {
+    "index": 6,
+    "label": "h8w6",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      6
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      3
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 36
+  },
+  {
+    "index": 7,
+    "label": "h6w8",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      6,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      3,
+      4
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 36
+  },
+  {
+    "index": 8,
+    "label": "h6w6",
+    "ops": [
+      "conv",
+      "AveragePool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      6,
+      6
+    ],
+    "output_shape": [
+      1,
+      3,
+      3,
+      3
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 27
+  },
+  {
+    "index": 9,
+    "label": "three-pools",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv",
+      "AveragePool",
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      "Relu",
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      1,
+      1
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 3
+  },
+  {
+    "index": 10,
+    "label": "pool-last-chain",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv",
+      "MaxPool"
+    ],
+    "activations": [
+      "Relu",
+      "Relu"
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      8,
+      2,
+      2
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 32
+  },
+  {
+    "index": 11,
+    "label": "hidden3",
+    "ops": [
+      "conv",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      "Relu",
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  }
+]

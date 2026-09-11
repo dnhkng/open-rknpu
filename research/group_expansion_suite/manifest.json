@@ -1,0 +1,188 @@
+[
+  {
+    "index": 0,
+    "input_shape": [
+      9,
+      10,
+      32
+    ],
+    "output_shape": [
+      9,
+      10,
+      128
+    ],
+    "group": 2,
+    "kernel": 3,
+    "dilations": [
+      1,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 1,
+    "input_shape": [
+      10,
+      11,
+      30
+    ],
+    "output_shape": [
+      10,
+      6,
+      99
+    ],
+    "group": 3,
+    "kernel": 3,
+    "dilations": [
+      2,
+      3
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      2,
+      3,
+      2,
+      3
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 2,
+    "input_shape": [
+      11,
+      12,
+      32
+    ],
+    "output_shape": [
+      6,
+      12,
+      68
+    ],
+    "group": 4,
+    "kernel": 5,
+    "dilations": [
+      1,
+      2
+    ],
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      4,
+      2,
+      4
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  },
+  {
+    "index": 3,
+    "input_shape": [
+      12,
+      13,
+      32
+    ],
+    "output_shape": [
+      12,
+      13,
+      64
+    ],
+    "group": 16,
+    "kernel": 3,
+    "dilations": [
+      3,
+      2
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      3,
+      2,
+      3,
+      2
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0
+  },
+  {
+    "index": 4,
+    "input_shape": [
+      13,
+      14,
+      32
+    ],
+    "output_shape": [
+      13,
+      7,
+      32
+    ],
+    "group": 32,
+    "kernel": 1,
+    "dilations": [
+      1,
+      1
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128
+  },
+  {
+    "index": 5,
+    "input_shape": [
+      14,
+      15,
+      16
+    ],
+    "output_shape": [
+      7,
+      15,
+      128
+    ],
+    "group": 16,
+    "kernel": 3,
+    "dilations": [
+      2,
+      3
+    ],
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      2,
+      3,
+      2,
+      3
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255
+  }
+]

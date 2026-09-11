@@ -1,0 +1,110 @@
+[
+  {
+    "index": 0,
+    "model": "dense_heldout",
+    "calibrated": false,
+    "samples": 64,
+    "mae": 0.44099041401031647,
+    "max_error": 1.4815677404403687,
+    "output_scale": 1.6113725900650024
+  },
+  {
+    "index": 1,
+    "model": "dense_heldout",
+    "calibrated": true,
+    "samples": 64,
+    "mae": 0.43126297011668424,
+    "max_error": 1.4580086469650269,
+    "output_scale": 1.542117714881897
+  },
+  {
+    "index": 2,
+    "model": "chain_heldout16",
+    "calibrated": false,
+    "samples": 64,
+    "mae": 2.6777521272791396,
+    "max_error": 8.798965454101562,
+    "output_scale": 10.279563903808594
+  },
+  {
+    "index": 3,
+    "model": "chain_heldout16",
+    "calibrated": true,
+    "samples": 64,
+    "mae": 1.008174425524582,
+    "max_error": 4.8847856521606445,
+    "output_scale": 2.1927971839904785
+  },
+  {
+    "index": 4,
+    "model": "pool_max_r1",
+    "calibrated": false,
+    "samples": 64,
+    "mae": 0.05579595317249186,
+    "max_error": 0.5935961604118347,
+    "output_scale": 0.5237684845924377
+  },
+  {
+    "index": 5,
+    "model": "pool_max_r1",
+    "calibrated": true,
+    "samples": 64,
+    "mae": 0.0612834898250488,
+    "max_error": 12.577566295862198,
+    "output_scale": 0.4616986811161041
+  },
+  {
+    "index": 6,
+    "model": "pool_average_r0",
+    "calibrated": false,
+    "samples": 64,
+    "mae": 0.41722033380453166,
+    "max_error": 1.4125218391418457,
+    "output_scale": 1.4078809022903442
+  },
+  {
+    "index": 7,
+    "model": "pool_average_r0",
+    "calibrated": true,
+    "samples": 64,
+    "mae": 0.40093716519186273,
+    "max_error": 1.368847131729126,
+    "output_scale": 1.3425991535186768
+  },
+  {
+    "index": 8,
+    "model": "reduce_max_r1",
+    "calibrated": false,
+    "samples": 64,
+    "mae": 0.10380963701754808,
+    "max_error": 0.5591890215873718,
+    "output_scale": 0.5237684845924377
+  },
+  {
+    "index": 9,
+    "model": "reduce_max_r1",
+    "calibrated": true,
+    "samples": 64,
+    "mae": 0.14659263752400875,
+    "max_error": 5.901162505149841,
+    "output_scale": 0.47694528102874756
+  },
+  {
+    "index": 10,
+    "model": "reduce_average_r0",
+    "calibrated": false,
+    "samples": 64,
+    "mae": 0.4186721316849192,
+    "max_error": 1.1754662990570068,
+    "output_scale": 1.4078809022903442
+  },
+  {
+    "index": 11,
+    "model": "reduce_average_r0",
+    "calibrated": true,
+    "samples": 64,
+    "mae": 0.38801019607732695,
+    "max_error": 1.166055679321289,
+    "output_scale": 1.3519953489303589
+  }
+]

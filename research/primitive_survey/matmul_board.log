@@ -1,0 +1,16 @@
+/home/dnhkng/drone/research/fixtures/primitive_matmul/model.rknn: 1 file pushed, 0 skipped. 154.7 MB/s (12664 bytes in 0.000s)
+
+/userdata/open-npu-research/capture_primitive_matmul/./: 36 files pulled, 0 skipped. 0.1 MB/s (197024 bytes in 1.463s)
+
+ALLOC 0 fd=4 flags=a size=4096 object=b25dfda0 dma=3e4c000 ioctl=c0287202
+ALLOC 1 fd=5 flags=2 size=12288 object=b25dfee0 dma=3e4d000 ioctl=c0287202
+ATTR 1 name=input dims=1,8,8,3, fmt=1 type=2 size=192 stride_size=384 w_stride=16 zp=-128 scale=1
+ATTR 2 name=output dims=1,8, fmt=3 type=2 size=8 stride_size=8 w_stride=0 zp=33 scale=0.0639227033
+ATTR 8 name=input dims=1,8,8,3, fmt=1 type=2 size=192 stride_size=384 w_stride=16 zp=-128 scale=1
+ATTR 9 name=output dims=1,8, fmt=3 type=2 size=64 stride_size=64 w_stride=0 zp=33 scale=0.0639227033
+ALLOC 2 fd=6 flags=2 size=4096 object=b25dfe20 dma=3e50000 ioctl=c0287202
+ALLOC 3 fd=7 flags=2 size=4096 object=b25dfb80 dma=3e51000 ioctl=c0287202
+SUBMIT 0 rc=0 size=104
+SUBMIT 1 rc=0 size=104
+SUBMIT 2 rc=0 size=104
+SUBMIT 3 rc=0 size=104

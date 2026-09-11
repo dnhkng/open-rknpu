@@ -1,0 +1,32 @@
+[
+  {
+    "name": "8-task serial",
+    "passed": true,
+    "median_us": 377.1
+  },
+  {
+    "name": "8-task batched linked",
+    "passed": true,
+    "median_us": 200.7
+  },
+  {
+    "name": "32-task serial",
+    "passed": true,
+    "median_us": 3172.2
+  },
+  {
+    "name": "32-task batched linked",
+    "passed": true,
+    "median_us": 229.3
+  },
+  {
+    "name": "64-task serial",
+    "passed": true,
+    "median_us": 1527.5
+  },
+  {
+    "name": "64-task batched linked",
+    "passed": true,
+    "median_us": 448.6
+  }
+]

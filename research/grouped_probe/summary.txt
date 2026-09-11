@@ -1,0 +1,1 @@
+grouped: 8 containers serial and one-job exact=True, 4 discovery cases as expected=True

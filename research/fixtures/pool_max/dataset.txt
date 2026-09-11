@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_0.npy
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_1.npy
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_2.npy
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_3.npy
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_4.npy
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_5.npy
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_6.npy
+/home/dnhkng/drone/research/fixtures/pool_max/calibration_7.npy

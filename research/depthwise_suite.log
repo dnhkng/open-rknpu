@@ -1,0 +1,13 @@
+model 0: 16 inputs passed
+model 1: 16 inputs passed
+model 2: 16 inputs passed
+model 3: 16 inputs passed
+model 4: 16 inputs passed
+model 5: 16 inputs passed
+model 6: 16 inputs passed
+model 7: 16 inputs passed
+model 8: 16 inputs passed
+model 9: 16 inputs passed
+model 10: 16 inputs passed
+model 11: 16 inputs passed
+PASS: 12 models, 192 inferences, 36864 output bytes; invalid buffer sizes rejected

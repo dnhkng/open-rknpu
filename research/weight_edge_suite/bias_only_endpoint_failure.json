@@ -1,0 +1,12 @@
+{
+  "status": "resolved numerical ordering probe",
+  "model": "C17 to C5 K1, all-zero weights, bias [-2,-1,0,1,2]",
+  "output_scale": 0.01568627543747425,
+  "output_zero_point": -1,
+  "register_multiplier": 32640,
+  "register_shift": 26,
+  "case": "positive bias endpoint",
+  "integer_reference": 127,
+  "rv1103_output": 126,
+  "conclusion": "The output zero point is included before the final ties-even shift. Rounding 127.5-1 gives the even integer 126. This also preserves the older saturated case; pre-offset saturation was rejected."
+}

@@ -1,0 +1,322 @@
+[
+  {
+    "index": 0,
+    "height": 8,
+    "width": 8,
+    "codes": [
+      127,
+      127,
+      127
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      192,
+      3
+    ],
+    "output_bytes": 192
+  },
+  {
+    "index": 1,
+    "height": 8,
+    "width": 8,
+    "codes": [
+      64,
+      0,
+      -64
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      192,
+      3
+    ],
+    "output_bytes": 192
+  },
+  {
+    "index": 2,
+    "height": 8,
+    "width": 8,
+    "codes": [
+      -128,
+      127,
+      32
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      192,
+      3
+    ],
+    "output_bytes": 192
+  },
+  {
+    "index": 3,
+    "height": 8,
+    "width": 8,
+    "codes": [
+      1,
+      2,
+      3
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      192,
+      3
+    ],
+    "output_bytes": 192
+  },
+  {
+    "index": 4,
+    "height": 5,
+    "width": 5,
+    "codes": [
+      127,
+      127,
+      127
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      75,
+      3
+    ],
+    "output_bytes": 75
+  },
+  {
+    "index": 5,
+    "height": 5,
+    "width": 5,
+    "codes": [
+      64,
+      0,
+      -64
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      75,
+      3
+    ],
+    "output_bytes": 75
+  },
+  {
+    "index": 6,
+    "height": 5,
+    "width": 5,
+    "codes": [
+      -128,
+      127,
+      32
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      75,
+      3
+    ],
+    "output_bytes": 75
+  },
+  {
+    "index": 7,
+    "height": 5,
+    "width": 5,
+    "codes": [
+      1,
+      2,
+      3
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      75,
+      3
+    ],
+    "output_bytes": 75
+  },
+  {
+    "index": 8,
+    "height": 6,
+    "width": 7,
+    "codes": [
+      127,
+      127,
+      127
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      126,
+      3
+    ],
+    "output_bytes": 126
+  },
+  {
+    "index": 9,
+    "height": 6,
+    "width": 7,
+    "codes": [
+      64,
+      0,
+      -64
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      126,
+      3
+    ],
+    "output_bytes": 126
+  },
+  {
+    "index": 10,
+    "height": 6,
+    "width": 7,
+    "codes": [
+      -128,
+      127,
+      32
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      126,
+      3
+    ],
+    "output_bytes": 126
+  },
+  {
+    "index": 11,
+    "height": 6,
+    "width": 7,
+    "codes": [
+      1,
+      2,
+      3
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      126,
+      3
+    ],
+    "output_bytes": 126
+  },
+  {
+    "index": 12,
+    "height": 5,
+    "width": 8,
+    "codes": [
+      127,
+      127,
+      127
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      120,
+      3
+    ],
+    "output_bytes": 120
+  },
+  {
+    "index": 13,
+    "height": 5,
+    "width": 8,
+    "codes": [
+      64,
+      0,
+      -64
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      120,
+      3
+    ],
+    "output_bytes": 120
+  },
+  {
+    "index": 14,
+    "height": 5,
+    "width": 8,
+    "codes": [
+      -128,
+      127,
+      32
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      120,
+      3
+    ],
+    "output_bytes": 120
+  },
+  {
+    "index": 15,
+    "height": 5,
+    "width": 8,
+    "codes": [
+      1,
+      2,
+      3
+    ],
+    "cases": 16,
+    "profile": "runtime-scale-mul",
+    "operand_scale": 0.007874015748031496,
+    "output_scale": 2.023684024810791,
+    "output_zero_point": 0,
+    "input_bytes": [
+      120,
+      3
+    ],
+    "output_bytes": 120
+  }
+]

@@ -1,0 +1,150 @@
+[
+  {
+    "index": 0,
+    "label": "add-mixed-pools",
+    "join": "Add",
+    "stem_relu": true,
+    "head_a": [
+      1,
+      null,
+      "MaxPool"
+    ],
+    "head_b": [
+      1,
+      null,
+      "AveragePool"
+    ],
+    "tails": [],
+    "profile": "walk-join",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 1,
+    "label": "mul-mixed-pools",
+    "join": "Mul",
+    "stem_relu": true,
+    "head_a": [
+      1,
+      "Relu",
+      "AveragePool"
+    ],
+    "head_b": [
+      3,
+      "Relu",
+      "MaxPool"
+    ],
+    "tails": [],
+    "profile": "walk-join",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 2,
+    "label": "max-mixed-pools-tail",
+    "join": "Max",
+    "stem_relu": true,
+    "head_a": [
+      3,
+      "Relu",
+      "MaxPool"
+    ],
+    "head_b": [
+      3,
+      null,
+      "AveragePool"
+    ],
+    "tails": [
+      [
+        3,
+        null
+      ]
+    ],
+    "profile": "walk-join",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 3,
+    "label": "sub-mixed-pools-two-tails",
+    "join": "Sub",
+    "stem_relu": true,
+    "head_a": [
+      1,
+      null,
+      "AveragePool"
+    ],
+    "head_b": [
+      1,
+      "Relu",
+      "MaxPool"
+    ],
+    "tails": [
+      [
+        1,
+        "Relu"
+      ],
+      [
+        3,
+        null
+      ]
+    ],
+    "profile": "walk-join",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 4,
+    "label": "add-mixed-pools-two-tails",
+    "join": "Add",
+    "stem_relu": true,
+    "head_a": [
+      3,
+      null,
+      "MaxPool"
+    ],
+    "head_b": [
+      3,
+      "Relu",
+      "AveragePool"
+    ],
+    "tails": [
+      [
+        1,
+        "Relu"
+      ],
+      [
+        1,
+        null
+      ]
+    ],
+    "profile": "walk-join",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 5,
+    "label": "mul-mixed-pools-tail-norelu",
+    "join": "Mul",
+    "stem_relu": false,
+    "head_a": [
+      1,
+      null,
+      "MaxPool"
+    ],
+    "head_b": [
+      3,
+      "Relu",
+      "AveragePool"
+    ],
+    "tails": [
+      [
+        1,
+        null
+      ]
+    ],
+    "profile": "walk-join",
+    "cases": 16,
+    "output_bytes": 48
+  }
+]

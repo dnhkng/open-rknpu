@@ -1,0 +1,550 @@
+[
+  {
+    "index": 0,
+    "join_kinds": [
+      "Add",
+      "Add"
+    ],
+    "hidden_channels": 8,
+    "head_kernels": [
+      1,
+      3,
+      1
+    ],
+    "tail_kernel": null,
+    "stem_relu": true,
+    "head_count": 3,
+    "join_count": 2,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 3.321528196334839,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "join0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 9600,
+      "head1": 10624,
+      "head2": 11648,
+      "input0": 8192,
+      "join0": 8576,
+      "output": 12672,
+      "stem": 8576
+    },
+    "expected_nonzero": 6076,
+    "expected_values": 6144
+  },
+  {
+    "index": 1,
+    "join_kinds": [
+      "Sub",
+      "Add"
+    ],
+    "hidden_channels": 16,
+    "head_kernels": [
+      3,
+      1,
+      3
+    ],
+    "tail_kernel": null,
+    "stem_relu": true,
+    "head_count": 3,
+    "join_count": 2,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 7.2215142250061035,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "join0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 9600,
+      "head1": 10624,
+      "head2": 11648,
+      "input0": 8192,
+      "join0": 8576,
+      "output": 12672,
+      "stem": 8576
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 2,
+    "join_kinds": [
+      "Max",
+      "Add"
+    ],
+    "hidden_channels": 8,
+    "head_kernels": [
+      1,
+      1,
+      3
+    ],
+    "tail_kernel": null,
+    "stem_relu": true,
+    "head_count": 3,
+    "join_count": 2,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.4243888258934021,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "join0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 9600,
+      "head1": 10624,
+      "head2": 11648,
+      "input0": 8192,
+      "join0": 8576,
+      "output": 12672,
+      "stem": 8576
+    },
+    "expected_nonzero": 6144,
+    "expected_values": 6144
+  },
+  {
+    "index": 3,
+    "join_kinds": [
+      "Mul",
+      "Add"
+    ],
+    "hidden_channels": 16,
+    "head_kernels": [
+      3,
+      3,
+      1
+    ],
+    "tail_kernel": null,
+    "stem_relu": true,
+    "head_count": 3,
+    "join_count": 2,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 674.4782104492188,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "join0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 9600,
+      "head1": 10624,
+      "head2": 11648,
+      "input0": 8192,
+      "join0": 8576,
+      "output": 12672,
+      "stem": 8576
+    },
+    "expected_nonzero": 5949,
+    "expected_values": 6144
+  },
+  {
+    "index": 4,
+    "join_kinds": [
+      "Mul",
+      "Mul"
+    ],
+    "hidden_channels": 8,
+    "head_kernels": [
+      1,
+      3,
+      3
+    ],
+    "tail_kernel": null,
+    "stem_relu": true,
+    "head_count": 3,
+    "join_count": 2,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 923.5763549804688,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "join0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 9600,
+      "head1": 10624,
+      "head2": 11648,
+      "input0": 8192,
+      "join0": 8576,
+      "output": 12672,
+      "stem": 8576
+    },
+    "expected_nonzero": 5864,
+    "expected_values": 6144
+  },
+  {
+    "index": 5,
+    "join_kinds": [
+      "Add",
+      "Add",
+      "Add"
+    ],
+    "hidden_channels": 8,
+    "head_kernels": [
+      1,
+      3,
+      1,
+      3
+    ],
+    "tail_kernel": 1,
+    "stem_relu": true,
+    "head_count": 4,
+    "join_count": 3,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.7592543959617615,
+    "output_zero_point": -1,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "head3",
+      "join0",
+      "join1",
+      "join2",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 13696,
+      "head1": 14720,
+      "head2": 15744,
+      "head3": 16768,
+      "input0": 12288,
+      "join0": 12672,
+      "join1": 13696,
+      "join2": 12672,
+      "output": 17792,
+      "stem": 12672
+    },
+    "expected_nonzero": 6080,
+    "expected_values": 6144
+  },
+  {
+    "index": 6,
+    "join_kinds": [
+      "Sub",
+      "Max",
+      "Add"
+    ],
+    "hidden_channels": 16,
+    "head_kernels": [
+      3,
+      1,
+      3,
+      1
+    ],
+    "tail_kernel": 3,
+    "stem_relu": true,
+    "head_count": 4,
+    "join_count": 3,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 14.480456352233887,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "head3",
+      "join0",
+      "join1",
+      "join2",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 13696,
+      "head1": 14720,
+      "head2": 15744,
+      "head3": 16768,
+      "input0": 12288,
+      "join0": 12672,
+      "join1": 13696,
+      "join2": 12672,
+      "output": 17792,
+      "stem": 12672
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 7,
+    "join_kinds": [
+      "Mul",
+      "Add",
+      "Add"
+    ],
+    "hidden_channels": 8,
+    "head_kernels": [
+      1,
+      3,
+      1,
+      3
+    ],
+    "tail_kernel": 1,
+    "stem_relu": true,
+    "head_count": 4,
+    "join_count": 3,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 6.366708278656006,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "head3",
+      "join0",
+      "join1",
+      "join2",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 13696,
+      "head1": 14720,
+      "head2": 15744,
+      "head3": 16768,
+      "input0": 12288,
+      "join0": 12672,
+      "join1": 13696,
+      "join2": 12672,
+      "output": 17792,
+      "stem": 12672
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 8,
+    "join_kinds": [
+      "Add",
+      "Sub",
+      "Max",
+      "Add"
+    ],
+    "hidden_channels": 8,
+    "head_kernels": [
+      1,
+      3,
+      1,
+      3,
+      1
+    ],
+    "tail_kernel": null,
+    "stem_relu": true,
+    "head_count": 5,
+    "join_count": 4,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 14.609099388122559,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "head3",
+      "head4",
+      "join0",
+      "join1",
+      "join2",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 13696,
+      "head1": 14720,
+      "head2": 15744,
+      "head3": 16768,
+      "head4": 17792,
+      "input0": 12288,
+      "join0": 12672,
+      "join1": 13696,
+      "join2": 12672,
+      "output": 18816,
+      "stem": 12672
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 9,
+    "join_kinds": [
+      "Max",
+      "Add",
+      "Mul",
+      "Add"
+    ],
+    "hidden_channels": 16,
+    "head_kernels": [
+      3,
+      1,
+      3,
+      1,
+      3
+    ],
+    "tail_kernel": null,
+    "stem_relu": true,
+    "head_count": 5,
+    "join_count": 4,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 402.41619873046875,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "head3",
+      "head4",
+      "join0",
+      "join1",
+      "join2",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 13696,
+      "head1": 14720,
+      "head2": 15744,
+      "head3": 16768,
+      "head4": 17792,
+      "input0": 12288,
+      "join0": 12672,
+      "join1": 13696,
+      "join2": 12672,
+      "output": 18816,
+      "stem": 12672
+    },
+    "expected_nonzero": 5821,
+    "expected_values": 6144
+  },
+  {
+    "index": 10,
+    "join_kinds": [
+      "Add",
+      "Add"
+    ],
+    "hidden_channels": 16,
+    "head_kernels": [
+      3,
+      3,
+      1
+    ],
+    "tail_kernel": null,
+    "stem_relu": false,
+    "head_count": 3,
+    "join_count": 2,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 7.910065650939941,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "join0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 9600,
+      "head1": 10624,
+      "head2": 11648,
+      "input0": 8192,
+      "join0": 8576,
+      "output": 12672,
+      "stem": 8576
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 11,
+    "join_kinds": [
+      "Mul",
+      "Add",
+      "Add"
+    ],
+    "hidden_channels": 8,
+    "head_kernels": [
+      1,
+      3,
+      1,
+      3
+    ],
+    "tail_kernel": 3,
+    "stem_relu": true,
+    "head_count": 4,
+    "join_count": 3,
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 62.82977294921875,
+    "output_zero_point": 0,
+    "schedule": [
+      "stem",
+      "head0",
+      "head1",
+      "head2",
+      "head3",
+      "join0",
+      "join1",
+      "join2",
+      "output"
+    ],
+    "tensor_offsets": {
+      "head0": 13696,
+      "head1": 14720,
+      "head2": 15744,
+      "head3": 16768,
+      "input0": 12288,
+      "join0": 12672,
+      "join1": 13696,
+      "join2": 12672,
+      "output": 17792,
+      "stem": 12672
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  }
+]

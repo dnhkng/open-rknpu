@@ -1,0 +1,8 @@
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration0.npy
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration1.npy
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration2.npy
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration3.npy
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration4.npy
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration5.npy
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration6.npy
+/home/dnhkng/drone/research/fixtures/native_c48_markers/calibration7.npy

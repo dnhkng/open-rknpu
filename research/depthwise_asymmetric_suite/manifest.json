@@ -1,0 +1,344 @@
+[
+  {
+    "index": 0,
+    "channels": 1,
+    "kernel": 1,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 1,
+    "channels": 1,
+    "kernel": 1,
+    "sign": "negative",
+    "weight_zero_points": [
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 2,
+    "channels": 1,
+    "kernel": 1,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 3,
+    "channels": 1,
+    "kernel": 3,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 4,
+    "channels": 1,
+    "kernel": 3,
+    "sign": "negative",
+    "weight_zero_points": [
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 5,
+    "channels": 1,
+    "kernel": 3,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      2
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 6,
+    "channels": 1,
+    "kernel": 5,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 7,
+    "channels": 1,
+    "kernel": 5,
+    "sign": "negative",
+    "weight_zero_points": [
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 8,
+    "channels": 1,
+    "kernel": 5,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      -8
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 9,
+    "channels": 3,
+    "kernel": 1,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128,
+      -128,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 10,
+    "channels": 3,
+    "kernel": 1,
+    "sign": "negative",
+    "weight_zero_points": [
+      127,
+      127,
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 11,
+    "channels": 3,
+    "kernel": 1,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      -128,
+      127,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 12,
+    "channels": 3,
+    "kernel": 3,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128,
+      -128,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 13,
+    "channels": 3,
+    "kernel": 3,
+    "sign": "negative",
+    "weight_zero_points": [
+      127,
+      127,
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 14,
+    "channels": 3,
+    "kernel": 3,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      7,
+      -25,
+      17
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 15,
+    "channels": 3,
+    "kernel": 5,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128,
+      -128,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 16,
+    "channels": 3,
+    "kernel": 5,
+    "sign": "negative",
+    "weight_zero_points": [
+      127,
+      127,
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 17,
+    "channels": 3,
+    "kernel": 5,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      -4,
+      -3,
+      -5
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 18,
+    "channels": 4,
+    "kernel": 1,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128,
+      -128,
+      -128,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 19,
+    "channels": 4,
+    "kernel": 1,
+    "sign": "negative",
+    "weight_zero_points": [
+      127,
+      127,
+      127,
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 20,
+    "channels": 4,
+    "kernel": 1,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      -128,
+      127,
+      127,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 21,
+    "channels": 4,
+    "kernel": 3,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128,
+      -128,
+      -128,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 22,
+    "channels": 4,
+    "kernel": 3,
+    "sign": "negative",
+    "weight_zero_points": [
+      127,
+      127,
+      127,
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 23,
+    "channels": 4,
+    "kernel": 3,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      -7,
+      12,
+      -4,
+      37
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 24,
+    "channels": 4,
+    "kernel": 5,
+    "sign": "positive",
+    "weight_zero_points": [
+      -128,
+      -128,
+      -128,
+      -128
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 25,
+    "channels": 4,
+    "kernel": 5,
+    "sign": "negative",
+    "weight_zero_points": [
+      127,
+      127,
+      127,
+      127
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  },
+  {
+    "index": 26,
+    "channels": 4,
+    "kernel": 5,
+    "sign": "mixed_zero",
+    "weight_zero_points": [
+      1,
+      2,
+      -4,
+      1
+    ],
+    "asymmetric_pair": true,
+    "cases": 16
+  }
+]

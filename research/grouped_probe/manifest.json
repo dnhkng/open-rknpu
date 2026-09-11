@@ -1,0 +1,146 @@
+[
+  {
+    "suite": "diamond_tail_suite",
+    "index": 0,
+    "file": "diamond_tail_suite_model000_onejob.bin",
+    "tasks": 5,
+    "input_bytes": 192,
+    "output_bytes": 192,
+    "cases": 4,
+    "meta_runs": [
+      5
+    ],
+    "runs": [
+      [
+        0,
+        5
+      ]
+    ]
+  },
+  {
+    "suite": "depthwise_join_suite",
+    "index": 0,
+    "file": "depthwise_join_suite_model000_onejob.bin",
+    "tasks": 4,
+    "input_bytes": 192,
+    "output_bytes": 192,
+    "cases": 4,
+    "meta_runs": [
+      4
+    ],
+    "runs": [
+      [
+        0,
+        4
+      ]
+    ]
+  },
+  {
+    "suite": "pooled_dag_suite",
+    "index": 0,
+    "file": "pooled_dag_suite_model000_onejob.bin",
+    "tasks": 8,
+    "input_bytes": 192,
+    "output_bytes": 48,
+    "cases": 4,
+    "meta_runs": [
+      8
+    ],
+    "runs": [
+      [
+        0,
+        8
+      ]
+    ]
+  },
+  {
+    "suite": "join_dag_suite",
+    "index": 0,
+    "file": "join_dag_suite_model000_onejob.bin",
+    "tasks": 6,
+    "input_bytes": 192,
+    "output_bytes": 192,
+    "cases": 4,
+    "meta_runs": [
+      6
+    ],
+    "runs": [
+      [
+        0,
+        6
+      ]
+    ]
+  },
+  {
+    "suite": "pool_join_suite",
+    "index": 0,
+    "file": "pool_join_suite_model000_onejob.bin",
+    "tasks": 6,
+    "input_bytes": 192,
+    "output_bytes": 48,
+    "cases": 4,
+    "meta_runs": [
+      6
+    ],
+    "runs": [
+      [
+        0,
+        6
+      ]
+    ]
+  },
+  {
+    "suite": "pooled_branches_suite",
+    "index": 0,
+    "file": "pooled_branches_suite_model000_onejob.bin",
+    "tasks": 7,
+    "input_bytes": 192,
+    "output_bytes": 48,
+    "cases": 4,
+    "meta_runs": [
+      7
+    ],
+    "runs": [
+      [
+        0,
+        7
+      ]
+    ]
+  },
+  {
+    "suite": "mixed_head_suite",
+    "index": 1,
+    "file": "mixed_head_suite_model001_onejob.bin",
+    "tasks": 7,
+    "input_bytes": 192,
+    "output_bytes": 192,
+    "cases": 4,
+    "meta_runs": [
+      7
+    ],
+    "runs": [
+      [
+        0,
+        7
+      ]
+    ]
+  },
+  {
+    "suite": "join_chain_suite",
+    "index": 5,
+    "file": "join_chain_suite_model005_onejob.bin",
+    "tasks": 9,
+    "input_bytes": 192,
+    "output_bytes": 192,
+    "cases": 4,
+    "meta_runs": [
+      9
+    ],
+    "runs": [
+      [
+        0,
+        9
+      ]
+    ]
+  }
+]

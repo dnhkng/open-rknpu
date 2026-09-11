@@ -1,0 +1,12 @@
+{
+  "dataset": "Free Spoken Digit Dataset (FSDD)",
+  "url": "https://github.com/Jakobovski/free-spoken-digit-dataset/archive/refs/heads/master.zip",
+  "archive_sha256": "63938a0ef8dee8870149d18fd455ff86e5edb1c7a783b87dd39f23a730cb6d53",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "recordings": 3000,
+  "speakers": 6,
+  "sample_rate": 8000,
+  "split": "index 0-4 test, 5-49 train (official)",
+  "note": "Data is not redistributed with this repository; this script downloads it."
+}

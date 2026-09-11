@@ -1,0 +1,110 @@
+{
+  "base": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "depthwise": {
+    "passed": true,
+    "output": "case=0 bytes=2048 mismatches=0\ncase=1 bytes=2048 mismatches=0\ncase=2 bytes=2048 mismatches=0\ncase=3 bytes=2048 mismatches=0\nPASS cases=4 exact_bytes=8192"
+  },
+  "relu": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "clip": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "leakyrelu": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "prelu": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "sigmoid": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "tanh": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "hardsigmoid": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "hardswish": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "softplus": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "elu": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "swish": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "mish": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "add": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "mul": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "sub": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "div": {
+    "passed": false,
+    "output": "case=0 bytes=1024 mismatches=192"
+  },
+  "max": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "matmul": {
+    "passed": true,
+    "output": "case=0 bytes=64 mismatches=0\ncase=1 bytes=64 mismatches=0\ncase=2 bytes=64 mismatches=0\ncase=3 bytes=64 mismatches=0\nPASS cases=4 exact_bytes=256"
+  },
+  "softmax": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "concat": {
+    "passed": true,
+    "output": "case=0 bytes=2048 mismatches=0\ncase=1 bytes=2048 mismatches=0\ncase=2 bytes=2048 mismatches=0\ncase=3 bytes=2048 mismatches=0\nPASS cases=4 exact_bytes=8192"
+  },
+  "transpose": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "reshape": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  },
+  "resize": {
+    "passed": true,
+    "output": "case=0 bytes=8192 mismatches=0\ncase=1 bytes=8192 mismatches=0\ncase=2 bytes=8192 mismatches=0\ncase=3 bytes=8192 mismatches=0\nPASS cases=4 exact_bytes=32768"
+  },
+  "globalavg": {
+    "passed": true,
+    "output": "case=0 bytes=32 mismatches=0\ncase=1 bytes=32 mismatches=0\ncase=2 bytes=32 mismatches=0\ncase=3 bytes=32 mismatches=0\nPASS cases=4 exact_bytes=128"
+  },
+  "batchnorm": {
+    "passed": true,
+    "output": "case=0 bytes=1024 mismatches=0\ncase=1 bytes=1024 mismatches=0\ncase=2 bytes=1024 mismatches=0\ncase=3 bytes=1024 mismatches=0\nPASS cases=4 exact_bytes=4096"
+  }
+}

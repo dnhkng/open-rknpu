@@ -1,0 +1,40 @@
+[
+  {
+    "index": 0,
+    "variant": "baseline_materialized",
+    "0x5040": "0x240",
+    "0x506c": "0x0"
+  },
+  {
+    "index": 1,
+    "variant": "compact_stride_plane_notch_w-1",
+    "0x5040": "0x240",
+    "0x506c": "0x40"
+  },
+  {
+    "index": 2,
+    "variant": "compact_stride_1_notch_w-1",
+    "0x5040": "0x10",
+    "0x506c": "0x40"
+  },
+  {
+    "index": 3,
+    "variant": "compact_stride_plane_notch_w",
+    "0x5040": "0x240",
+    "0x506c": "0x50"
+  },
+  {
+    "index": 4,
+    "variant": "compact_mode2_notch_w-1",
+    "0x5034": "0x80000004",
+    "0x5040": "0x240",
+    "0x506c": "0x40"
+  },
+  {
+    "index": 5,
+    "variant": "compact_mode1_surf1_notch_w-1",
+    "0x5034": "0x60000004",
+    "0x5040": "0x240",
+    "0x506c": "0x40"
+  }
+]

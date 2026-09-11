@@ -1,0 +1,21 @@
+{
+  "method": "minmax",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 24,
+  "files": [
+    "/home/dnhkng/drone/research/sequence_calibration_suite/native_calibration/cal.npy"
+  ],
+  "tensors": [
+    "output"
+  ],
+  "ranges": {
+    "output": {
+      "min": -876.64990234375,
+      "max": 1477.0721435546875,
+      "scale": 9.2302827835083,
+      "zero_point": -33
+    }
+  }
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "tiles1",
+    "tiles": 1,
+    "tasks": 16,
+    "mode": "serial",
+    "layout": "strip-surfaces",
+    "arena_bytes": 28672
+  },
+  {
+    "name": "tiles1_batched",
+    "tiles": 1,
+    "tasks": 16,
+    "mode": "batched",
+    "layout": "strip-surfaces",
+    "arena_bytes": 28672
+  },
+  {
+    "name": "tiles2",
+    "tiles": 2,
+    "tasks": 32,
+    "mode": "serial",
+    "layout": "strip-surfaces",
+    "arena_bytes": 45056
+  },
+  {
+    "name": "tiles2_batched",
+    "tiles": 2,
+    "tasks": 32,
+    "mode": "batched",
+    "layout": "strip-surfaces",
+    "arena_bytes": 45056
+  },
+  {
+    "name": "tiles4",
+    "tiles": 4,
+    "tasks": 64,
+    "mode": "serial",
+    "layout": "strip-surfaces",
+    "arena_bytes": 81920
+  },
+  {
+    "name": "tiles4_batched",
+    "tiles": 4,
+    "tasks": 64,
+    "mode": "batched",
+    "layout": "strip-surfaces",
+    "arena_bytes": 81920
+  }
+]

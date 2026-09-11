@@ -1,0 +1,102 @@
+{
+  "ctrl_1_32": {
+    "ratio": 0.99999994086102,
+    "hardware_gain": 1.0,
+    "readable": 768,
+    "index_exact": 768,
+    "index_signed": {
+      "0": 768
+    },
+    "bytes_mismatch": 0,
+    "bytes_worst": 0,
+    "pos_pairs": 128,
+    "neg_pairs": 128,
+    "pos_affine": 527,
+    "neg_affine": 527
+  },
+  "npot_0_02": {
+    "ratio": 1.5624999655756262,
+    "hardware_gain": 2.0,
+    "readable": 552,
+    "index_exact": 459,
+    "index_signed": {
+      "-1": 75,
+      "0": 459,
+      "1": 18
+    },
+    "bytes_mismatch": 87,
+    "bytes_worst": 1,
+    "pos_pairs": 113,
+    "neg_pairs": 71,
+    "pos_affine": 0,
+    "neg_affine": 0
+  },
+  "npot_0_03": {
+    "ratio": 1.0416667081396267,
+    "hardware_gain": 2.0,
+    "readable": 534,
+    "index_exact": 444,
+    "index_signed": {
+      "-1": 75,
+      "0": 444,
+      "1": 15
+    },
+    "bytes_mismatch": 69,
+    "bytes_worst": 1,
+    "pos_pairs": 96,
+    "neg_pairs": 82,
+    "pos_affine": 0,
+    "neg_affine": 0
+  },
+  "npot_1_48": {
+    "ratio": 1.4999999558203867,
+    "hardware_gain": 2.0,
+    "readable": 573,
+    "index_exact": 489,
+    "index_signed": {
+      "-1": 66,
+      "0": 489,
+      "1": 18
+    },
+    "bytes_mismatch": 90,
+    "bytes_worst": 1,
+    "pos_pairs": 117,
+    "neg_pairs": 74,
+    "pos_affine": 0,
+    "neg_affine": 0
+  },
+  "npot_0_024": {
+    "ratio": 1.302083324778399,
+    "hardware_gain": 2.0,
+    "readable": 504,
+    "index_exact": 414,
+    "index_signed": {
+      "-1": 72,
+      "0": 414,
+      "1": 18
+    },
+    "bytes_mismatch": 84,
+    "bytes_worst": 1,
+    "pos_pairs": 106,
+    "neg_pairs": 62,
+    "pos_affine": 0,
+    "neg_affine": 0
+  },
+  "npot_0_012": {
+    "ratio": 2.604166649556798,
+    "hardware_gain": 4.0,
+    "readable": 570,
+    "index_exact": 468,
+    "index_signed": {
+      "-1": 84,
+      "0": 468,
+      "1": 18
+    },
+    "bytes_mismatch": 93,
+    "bytes_worst": 1,
+    "pos_pairs": 128,
+    "neg_pairs": 62,
+    "pos_affine": 0,
+    "neg_affine": 0
+  }
+}

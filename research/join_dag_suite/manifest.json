@@ -1,0 +1,754 @@
+[
+  {
+    "index": 0,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      1,
+      3,
+      1
+    ],
+    "expression": [
+      [
+        "Add",
+        "h0",
+        "h1"
+      ],
+      [
+        "Mul",
+        "j0",
+        "h0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 27.709508895874023,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.3289988934993744,
+      0.3289988934993744,
+      0.03647800534963608
+    ],
+    "join_scales": [
+      0.6579977869987488,
+      27.709508895874023
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "output": 13696,
+      "stem": 8576
+    },
+    "expected_nonzero": 5411,
+    "expected_values": 6144
+  },
+  {
+    "index": 1,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      3,
+      1,
+      3
+    ],
+    "expression": [
+      [
+        "Add",
+        "h0",
+        "h1"
+      ],
+      [
+        "Mul",
+        "j0",
+        "h1"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 19.38555145263672,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.2751814126968384,
+      0.2751814126968384,
+      0.2896624207496643
+    ],
+    "join_scales": [
+      0.5503628253936768,
+      19.38555145263672
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "output": 13696,
+      "stem": 8576
+    },
+    "expected_nonzero": 4177,
+    "expected_values": 6144
+  },
+  {
+    "index": 2,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      1,
+      1,
+      1
+    ],
+    "expression": [
+      [
+        "Mul",
+        "h0",
+        "h1"
+      ],
+      [
+        "Mul",
+        "j0",
+        "h0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 0.9278128147125244,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.03972553089261055,
+      0.035884011536836624,
+      0.04341377317905426
+    ],
+    "join_scales": [
+      0.18246546387672424,
+      0.9278128147125244
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "output": 13696,
+      "stem": 8576
+    },
+    "expected_nonzero": 4753,
+    "expected_values": 6144
+  },
+  {
+    "index": 3,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      3,
+      3,
+      3
+    ],
+    "expression": [
+      [
+        "Sub",
+        "h1",
+        "h0"
+      ],
+      [
+        "Add",
+        "j0",
+        "h2"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 1.340354561805725,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.3350886404514313,
+      0.3350886404514313,
+      0.6701772809028625
+    ],
+    "join_scales": [
+      0.6701772809028625,
+      1.340354561805725
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "output": 13696,
+      "stem": 8576
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 4,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      1,
+      3,
+      1
+    ],
+    "expression": [
+      [
+        "Max",
+        "h0",
+        "h1"
+      ],
+      [
+        "Sub",
+        "h2",
+        "j0"
+      ],
+      [
+        "Mul",
+        "j1",
+        "h0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 39.515689849853516,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.2778112292289734,
+      0.2778112292289734,
+      0.5556224584579468
+    ],
+    "join_scales": [
+      0.5556224584579468,
+      1.1112449169158936,
+      39.515689849853516
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "j1": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 3311,
+    "expected_values": 6144
+  },
+  {
+    "index": 5,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      3,
+      1,
+      3
+    ],
+    "expression": [
+      [
+        "Add",
+        "h0",
+        "h1"
+      ],
+      [
+        "Add",
+        "j0",
+        "h2"
+      ],
+      [
+        "Mul",
+        "j1",
+        "h1"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 39.35353469848633,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.2772406339645386,
+      0.2772406339645386,
+      0.5544812679290771
+    ],
+    "join_scales": [
+      0.5544812679290771,
+      1.1089625358581543,
+      39.35353469848633
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "j1": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 4249,
+    "expected_values": 6144
+  },
+  {
+    "index": 6,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      1,
+      3,
+      3
+    ],
+    "expression": [
+      [
+        "Mul",
+        "h0",
+        "h1"
+      ],
+      [
+        "Sub",
+        "j0",
+        "h2"
+      ],
+      [
+        "Mul",
+        "j1",
+        "h0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 21.221405029296875,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.0451376736164093,
+      0.31786730885505676,
+      1.8365172147750854
+    ],
+    "join_scales": [
+      1.8365172147750854,
+      3.673034429550171,
+      21.221405029296875
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "j1": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 3844,
+    "expected_values": 6144
+  },
+  {
+    "index": 7,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      3,
+      3,
+      1
+    ],
+    "expression": [
+      [
+        "Add",
+        "h0",
+        "h1"
+      ],
+      [
+        "Sub",
+        "j0",
+        "h2"
+      ],
+      [
+        "Mul",
+        "j1",
+        "h2"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 131.99441528320312,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.35902756452560425,
+      0.35902756452560425,
+      0.7180551290512085
+    ],
+    "join_scales": [
+      0.7180551290512085,
+      1.436110258102417,
+      131.99441528320312
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "j1": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 2185,
+    "expected_values": 6144
+  },
+  {
+    "index": 8,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      1,
+      1,
+      3
+    ],
+    "expression": [
+      [
+        "Mul",
+        "h0",
+        "h1"
+      ],
+      [
+        "Mul",
+        "h1",
+        "h2"
+      ],
+      [
+        "Mul",
+        "j0",
+        "j1"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 78.19156646728516,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.04490027204155922,
+      0.04704974591732025,
+      0.3751167356967926
+    ],
+    "join_scales": [
+      0.27040594816207886,
+      2.2590909004211426,
+      78.19156646728516
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "j1": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 4326,
+    "expected_values": 6144
+  },
+  {
+    "index": 9,
+    "head_kinds": [
+      "dense",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      3,
+      1,
+      1
+    ],
+    "expression": [
+      [
+        "Add",
+        "h0",
+        "h1"
+      ],
+      [
+        "Mul",
+        "j0",
+        "h2"
+      ],
+      [
+        "Mul",
+        "j1",
+        "h0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 187.06065368652344,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.36818960309028625,
+      0.36818960309028625,
+      0.04211040958762169
+    ],
+    "join_scales": [
+      0.7363792061805725,
+      3.969181537628174,
+      187.06065368652344
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "j1": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 5337,
+    "expected_values": 6144
+  },
+  {
+    "index": 10,
+    "head_kinds": [
+      "depthwise",
+      "dense",
+      "dense"
+    ],
+    "head_kernels": [
+      3,
+      1,
+      3
+    ],
+    "expression": [
+      [
+        "Add",
+        "h0",
+        "h1"
+      ],
+      [
+        "Mul",
+        "j0",
+        "h0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 3.028963327407837,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.10877448320388794,
+      0.10877448320388794,
+      0.3299678564071655
+    ],
+    "join_scales": [
+      0.21754896640777588,
+      3.028963327407837
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "output": 13696,
+      "stem": 8576
+    },
+    "expected_nonzero": 5952,
+    "expected_values": 6144
+  },
+  {
+    "index": 11,
+    "head_kinds": [
+      "dense",
+      "depthwise",
+      "depthwise"
+    ],
+    "head_kernels": [
+      1,
+      3,
+      1
+    ],
+    "expression": [
+      [
+        "Add",
+        "h0",
+        "h1"
+      ],
+      [
+        "Sub",
+        "j0",
+        "h2"
+      ],
+      [
+        "Mul",
+        "j1",
+        "h0"
+      ]
+    ],
+    "cases": 32,
+    "outputs": 1,
+    "output_bytes": 192,
+    "output_scale": 6.433359146118164,
+    "output_zero_point": 0,
+    "head_scales": [
+      0.11209440231323242,
+      0.11209440231323242,
+      0.22418880462646484
+    ],
+    "join_scales": [
+      0.22418880462646484,
+      0.4483776092529297,
+      6.433359146118164
+    ],
+    "schedule": [
+      "stem",
+      "h0",
+      "h1",
+      "h2",
+      "j0",
+      "j1",
+      "output"
+    ],
+    "tensor_offsets": {
+      "h0": 9600,
+      "h1": 10624,
+      "h2": 11648,
+      "input0": 8192,
+      "j0": 12672,
+      "j1": 13696,
+      "output": 14720,
+      "stem": 8576
+    },
+    "expected_nonzero": 5265,
+    "expected_values": 6144
+  }
+]

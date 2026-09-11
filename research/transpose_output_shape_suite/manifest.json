@@ -1,0 +1,111 @@
+[
+  {
+    "index": 0,
+    "attributes": {
+      "output_shape": [
+        15,
+        17
+      ],
+      "output_padding": [
+        0,
+        1
+      ],
+      "auto_pad": "SAME_UPPER"
+    },
+    "resolved_pads": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "output_shape": [
+      15,
+      17,
+      3
+    ]
+  },
+  {
+    "index": 1,
+    "attributes": {
+      "output_shape": [
+        15,
+        17
+      ],
+      "output_padding": [
+        0,
+        1
+      ],
+      "auto_pad": "SAME_LOWER"
+    },
+    "resolved_pads": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "output_shape": [
+      15,
+      17,
+      3
+    ]
+  },
+  {
+    "index": 2,
+    "attributes": {
+      "output_padding": [
+        1,
+        1
+      ],
+      "auto_pad": "SAME_UPPER"
+    },
+    "resolved_pads": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "output_shape": [
+      16,
+      16,
+      3
+    ]
+  },
+  {
+    "index": 3,
+    "attributes": {
+      "output_padding": [
+        1,
+        1
+      ],
+      "auto_pad": "SAME_LOWER"
+    },
+    "resolved_pads": [
+      1,
+      1,
+      0,
+      0
+    ],
+    "output_shape": [
+      16,
+      16,
+      3
+    ]
+  },
+  {
+    "index": 4,
+    "attributes": {
+      "auto_pad": "VALID"
+    },
+    "resolved_pads": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "output_shape": [
+      16,
+      16,
+      3
+    ]
+  }
+]

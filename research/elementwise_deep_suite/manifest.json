@@ -1,0 +1,98 @@
+[
+  {
+    "index": 0,
+    "first_stage": "Add",
+    "stages": 2,
+    "chain": "Mul(Add(a,b),a)",
+    "output_scale": 889.6893920898438,
+    "cases": 16
+  },
+  {
+    "index": 1,
+    "first_stage": "Add",
+    "stages": 2,
+    "chain": "Mul(Add(a,b),a)",
+    "output_scale": 2435.5439453125,
+    "cases": 16
+  },
+  {
+    "index": 2,
+    "first_stage": "Add",
+    "stages": 3,
+    "chain": "Mul(Mul(Add(a,b),a),a)",
+    "output_scale": 674210.4375,
+    "cases": 16
+  },
+  {
+    "index": 3,
+    "first_stage": "Add",
+    "stages": 3,
+    "chain": "Mul(Mul(Add(a,b),a),a)",
+    "output_scale": 572972.875,
+    "cases": 16
+  },
+  {
+    "index": 4,
+    "first_stage": "Add",
+    "stages": 4,
+    "chain": "Mul(Mul(Mul(Add(a,b),a),a),a)",
+    "output_scale": 124531584.0,
+    "cases": 16
+  },
+  {
+    "index": 5,
+    "first_stage": "Add",
+    "stages": 4,
+    "chain": "Mul(Mul(Mul(Add(a,b),a),a),a)",
+    "output_scale": 221329152.0,
+    "cases": 16
+  },
+  {
+    "index": 6,
+    "first_stage": "Mul",
+    "stages": 2,
+    "chain": "Mul(Mul(a,b),a)",
+    "output_scale": 107102.90625,
+    "cases": 16
+  },
+  {
+    "index": 7,
+    "first_stage": "Mul",
+    "stages": 2,
+    "chain": "Mul(Mul(a,b),a)",
+    "output_scale": 277236.78125,
+    "cases": 16
+  },
+  {
+    "index": 8,
+    "first_stage": "Mul",
+    "stages": 3,
+    "chain": "Mul(Mul(Mul(a,b),a),a)",
+    "output_scale": 79934408.0,
+    "cases": 16
+  },
+  {
+    "index": 9,
+    "first_stage": "Mul",
+    "stages": 3,
+    "chain": "Mul(Mul(Mul(a,b),a),a)",
+    "output_scale": 13271326.0,
+    "cases": 16
+  },
+  {
+    "index": 10,
+    "first_stage": "Mul",
+    "stages": 4,
+    "chain": "Mul(Mul(Mul(Mul(a,b),a),a),a)",
+    "output_scale": 15535119360.0,
+    "cases": 16
+  },
+  {
+    "index": 11,
+    "first_stage": "Mul",
+    "stages": 4,
+    "chain": "Mul(Mul(Mul(Mul(a,b),a),a),a)",
+    "output_scale": 30992451584.0,
+    "cases": 16
+  }
+]

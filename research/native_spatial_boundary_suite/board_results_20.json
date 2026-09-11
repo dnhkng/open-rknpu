@@ -1,0 +1,16 @@
+[
+  {
+    "model": "020",
+    "passed": true,
+    "inferences": 2,
+    "bytes": 2176,
+    "output": "model 0: 2 inputs passed\nPASS: 1 models, 2 inferences, 2176 output bytes; invalid buffer sizes rejected\n"
+  },
+  {
+    "model": "021",
+    "passed": false,
+    "inferences": 2,
+    "bytes": 4224,
+    "output": "model 0 run 0 output 0: got 0 expected -128\nmodel 0 failed: -22\n"
+  }
+]

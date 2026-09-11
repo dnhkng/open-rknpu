@@ -1,0 +1,170 @@
+[
+  {
+    "index": 0,
+    "hidden_channels": 3,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 1,
+    "hidden_channels": 3,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 2,
+    "hidden_channels": 4,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 3,
+    "hidden_channels": 4,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 4,
+    "hidden_channels": 5,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 5,
+    "hidden_channels": 5,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 6,
+    "hidden_channels": 6,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 7,
+    "hidden_channels": 6,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 8,
+    "hidden_channels": 7,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 9,
+    "hidden_channels": 7,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 10,
+    "hidden_channels": 8,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 11,
+    "hidden_channels": 8,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 12,
+    "hidden_channels": 9,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 13,
+    "hidden_channels": 9,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 14,
+    "hidden_channels": 10,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 15,
+    "hidden_channels": 10,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 16,
+    "hidden_channels": 11,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 17,
+    "hidden_channels": 11,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 18,
+    "hidden_channels": 12,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 19,
+    "hidden_channels": 12,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 20,
+    "hidden_channels": 13,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 21,
+    "hidden_channels": 13,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 22,
+    "hidden_channels": 14,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 23,
+    "hidden_channels": 14,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 24,
+    "hidden_channels": 15,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 25,
+    "hidden_channels": 15,
+    "pool": "AveragePool",
+    "inputs": 32
+  },
+  {
+    "index": 26,
+    "hidden_channels": 16,
+    "pool": "MaxPool",
+    "inputs": 32
+  },
+  {
+    "index": 27,
+    "hidden_channels": 16,
+    "pool": "AveragePool",
+    "inputs": 32
+  }
+]

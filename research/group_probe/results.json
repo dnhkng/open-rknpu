@@ -1,0 +1,57 @@
+[
+  {
+    "name": "G1-2xCNA-terminal-batched",
+    "suite": "depthwise_asymmetric_suite",
+    "model": 0,
+    "why": "batched, terminal tails (no links)",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=2 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "G1-2xCNA-terminal-committed",
+    "suite": "depthwise_asymmetric_suite",
+    "model": 0,
+    "why": "committed serial control",
+    "serial": true,
+    "passed": true,
+    "output": "runs=16 tasks=2 serial min=122.8us median=587.7us mean=910.2us max=4033.2us unstable=0 mismatches=0",
+    "tasks": 2,
+    "mode": "serial",
+    "median_us": 587.7,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "G2-2xCNA-linked-batched",
+    "suite": "chain_output_quantization_suite",
+    "model": 0,
+    "why": "committed batched control (linked tails)",
+    "serial": false,
+    "passed": true,
+    "output": "runs=16 tasks=2 batched min=89.3us median=294.3us mean=553.4us max=2328.4us unstable=0 mismatches=0",
+    "tasks": 2,
+    "mode": "batched",
+    "median_us": 294.3,
+    "unstable": 0,
+    "mismatches": 0
+  },
+  {
+    "name": "G3-4xCNA-linked-batched",
+    "suite": "chain_output_quantization_suite",
+    "model": 0,
+    "why": "batched four-descriptor job (second pair idempotent)",
+    "serial": false,
+    "passed": false,
+    "output": "warmup run failed: rc=-110 tasks=4 batched inputs=1 outputs=1"
+  },
+  {
+    "name": "G3-4xCNA-linked-serial",
+    "suite": "chain_output_quantization_suite",
+    "model": 0,
+    "why": "four tasks, one ioctl each (control)",
+    "serial": true,
+    "passed": false,
+    "output": "adb: device '498063e3262e55b7' not found"
+  }
+]

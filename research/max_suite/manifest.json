@@ -1,0 +1,3362 @@
+[
+  {
+    "index": 0,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.13821159303188324
+              ]
+            ],
+            [
+              [
+                0.10110916197299957
+              ]
+            ],
+            [
+              [
+                0.08202198147773743
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.11048027873039246
+              ]
+            ],
+            [
+              [
+                -0.1043422594666481
+              ]
+            ],
+            [
+              [
+                0.16651690006256104
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.28889909386634827
+              ]
+            ],
+            [
+              [
+                0.10489615797996521
+              ]
+            ],
+            [
+              [
+                -0.23412823677062988
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          0.1625203639268875,
+          1.6829181909561157,
+          0.8787248134613037
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 0.9091856479644775,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -128,
+              127,
+              106
+            ],
+            [
+              -128,
+              -122,
+              127
+            ],
+            [
+              127,
+              37,
+              -128
+            ]
+          ],
+          "weight_zero_points": [
+            19,
+            -26,
+            -14
+          ],
+          "weight_scales": [
+            0.0009385127923451364,
+            0.0010862634517252445,
+            0.002051087561994791
+          ],
+          "biases": [
+            6317,
+            -4211,
+            10412
+          ],
+          "channel_multipliers": [
+            7497,
+            8677,
+            16384
+          ],
+          "multiplier": 18924,
+          "shift": 23,
+          "output_scale": 0.9091856479644775,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.20903070271015167
+              ]
+            ],
+            [
+              [
+                -0.14167238771915436
+              ]
+            ],
+            [
+              [
+                0.23373709619045258
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.1084161102771759
+              ]
+            ],
+            [
+              [
+                0.22629079222679138
+              ]
+            ],
+            [
+              [
+                -0.14066879451274872
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.28650838136672974
+              ]
+            ],
+            [
+              [
+                -0.12896402180194855
+              ]
+            ],
+            [
+              [
+                0.17868638038635254
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -2.1063058376312256,
+          -0.3307749629020691,
+          -2.8083086013793945
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 0.9091856479644775,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -128,
+              -90,
+              127
+            ],
+            [
+              45,
+              127,
+              -128
+            ],
+            [
+              127,
+              -128,
+              61
+            ]
+          ],
+          "weight_zero_points": [
+            -8,
+            -30,
+            -49
+          ],
+          "weight_scales": [
+            0.0017363443039357662,
+            0.0014390571741387248,
+            0.0016293034423142672
+          ],
+          "biases": [
+            -9789,
+            16922,
+            24772
+          ],
+          "channel_multipliers": [
+            16384,
+            13579,
+            15374
+          ],
+          "multiplier": 32041,
+          "shift": 24,
+          "output_scale": 0.9091856479644775,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 1.818371295928955,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 1,
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.1306457370519638
+              ]
+            ],
+            [
+              [
+                0.11277618259191513
+              ]
+            ],
+            [
+              [
+                0.2088644951581955
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.16941200196743011
+              ]
+            ],
+            [
+              [
+                0.017794877290725708
+              ]
+            ],
+            [
+              [
+                0.17260517179965973
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.0206050556153059
+              ]
+            ],
+            [
+              [
+                0.27806687355041504
+              ]
+            ],
+            [
+              [
+                0.2917667627334595
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          1.1411865949630737,
+          1.292341947555542,
+          -1.8305858373641968
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.16954976320266724,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              32,
+              10,
+              127
+            ],
+            [
+              122,
+              -102,
+              127
+            ],
+            [
+              -110,
+              115,
+              127
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -128,
+            -128
+          ],
+          "weight_scales": [
+            0.0008190764347091317,
+            0.0006768830353394151,
+            0.0011441833339631557
+          ],
+          "biases": [
+            5573,
+            7637,
+            -6400
+          ],
+          "channel_multipliers": [
+            11729,
+            9693,
+            16384
+          ],
+          "multiplier": 28305,
+          "shift": 24,
+          "output_scale": 0.16954976320266724,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.019506562501192093
+              ]
+            ],
+            [
+              [
+                0.19832998514175415
+              ]
+            ],
+            [
+              [
+                0.07120727002620697
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.2987971305847168
+              ]
+            ],
+            [
+              [
+                0.19308535754680634
+              ]
+            ],
+            [
+              [
+                0.1104341372847557
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.14606919884681702
+              ]
+            ],
+            [
+              [
+                0.0480492040514946
+              ]
+            ],
+            [
+              [
+                0.15052282810211182
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -0.23079538345336914,
+          2.4626224040985107,
+          -2.5275487899780273
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.16954976320266724,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -103,
+              127,
+              -36
+            ],
+            [
+              127,
+              37,
+              -34
+            ],
+            [
+              119,
+              -47,
+              127
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -128,
+            -128
+          ],
+          "weight_scales": [
+            0.0007777646533213556,
+            0.0011717535089701414,
+            0.0005902855773456395
+          ],
+          "biases": [
+            -1187,
+            8407,
+            -17128
+          ],
+          "channel_multipliers": [
+            10875,
+            16384,
+            8254
+          ],
+          "multiplier": 28987,
+          "shift": 24,
+          "output_scale": 0.16954976320266724,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 0.3390995264053345,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 2,
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.27172160148620605
+              ]
+            ],
+            [
+              [
+                -0.22968633472919464
+              ]
+            ],
+            [
+              [
+                -0.17170053720474243
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.20265285670757294
+              ]
+            ],
+            [
+              [
+                -0.15196888148784637
+              ]
+            ],
+            [
+              [
+                -0.10945633053779602
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.05441318079829216
+              ]
+            ],
+            [
+              [
+                -0.04276767745614052
+              ]
+            ],
+            [
+              [
+                -0.26789364218711853
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          1.4250301122665405,
+          1.2357155084609985,
+          -2.6910078525543213
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.6859512329101562,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -128,
+              -89,
+              -34
+            ],
+            [
+              -128,
+              -64,
+              -11
+            ],
+            [
+              75,
+              86,
+              -128
+            ]
+          ],
+          "weight_zero_points": [
+            127,
+            127,
+            127
+          ],
+          "weight_scales": [
+            0.0010655749356374145,
+            0.0007947171106934547,
+            0.001050563296303153
+          ],
+          "biases": [
+            82939,
+            77278,
+            39073
+          ],
+          "channel_multipliers": [
+            16384,
+            12219,
+            16153
+          ],
+          "multiplier": 26062,
+          "shift": 25,
+          "output_scale": 0.6859512329101562,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.14261072874069214
+              ]
+            ],
+            [
+              [
+                -0.17459677159786224
+              ]
+            ],
+            [
+              [
+                -0.14494092762470245
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.051349788904190063
+              ]
+            ],
+            [
+              [
+                -0.07665946334600449
+              ]
+            ],
+            [
+              [
+                -0.20545870065689087
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.2541274428367615
+              ]
+            ],
+            [
+              [
+                -0.14313861727714539
+              ]
+            ],
+            [
+              [
+                -0.03320950269699097
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          2.779573440551758,
+          0.17303471267223358,
+          -1.990196704864502
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.6859512329101562,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -81,
+              -128,
+              -85
+            ],
+            [
+              63,
+              32,
+              -128
+            ],
+            [
+              -128,
+              -17,
+              94
+            ]
+          ],
+          "weight_zero_points": [
+            127,
+            127,
+            127
+          ],
+          "weight_scales": [
+            0.0006846932228654623,
+            0.000805720395874232,
+            0.0009965782519429922
+          ],
+          "biases": [
+            93844,
+            53008,
+            50870
+          ],
+          "channel_multipliers": [
+            11257,
+            13246,
+            16384
+          ],
+          "multiplier": 24375,
+          "shift": 25,
+          "output_scale": 0.6859512329101562,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 1.3719024658203125,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 3,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.0541355274617672
+              ]
+            ],
+            [
+              [
+                -0.17730487883090973
+              ]
+            ],
+            [
+              [
+                0.28350767493247986
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.07858449965715408
+              ]
+            ],
+            [
+              [
+                0.26977407932281494
+              ]
+            ],
+            [
+              [
+                0.2282867729663849
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.14295746386051178
+              ]
+            ],
+            [
+              [
+                0.19364529848098755
+              ]
+            ],
+            [
+              [
+                0.22673575580120087
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -2.291841983795166,
+          -0.22719840705394745,
+          1.5444145202636719
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 1.1567939519882202,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -60,
+              -128,
+              127
+            ],
+            [
+              -54,
+              127,
+              88
+            ],
+            [
+              -128,
+              105,
+              127
+            ]
+          ],
+          "weight_zero_points": [
+            -30,
+            -128,
+            -29
+          ],
+          "weight_scales": [
+            0.0018071080558001995,
+            0.0010579375084489584,
+            0.001449777279049158
+          ],
+          "biases": [
+            2444,
+            69545,
+            25513
+          ],
+          "channel_multipliers": [
+            16384,
+            9592,
+            13144
+          ],
+          "multiplier": 26209,
+          "shift": 24,
+          "output_scale": 1.1567939519882202,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.0007480233907699585
+              ]
+            ],
+            [
+              [
+                0.011054436676204205
+              ]
+            ],
+            [
+              [
+                0.012838904745876789
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.010248875245451927
+              ]
+            ],
+            [
+              [
+                -0.012053453363478184
+              ]
+            ],
+            [
+              [
+                -0.0035913370084017515
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.005247538443654776
+              ]
+            ],
+            [
+              [
+                0.007500078063458204
+              ]
+            ],
+            [
+              [
+                0.009806377813220024
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -0.18253763020038605,
+          -2.0352120399475098,
+          -0.6110471487045288
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 1.1567939519882202,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -113,
+              92,
+              127
+            ],
+            [
+              -90,
+              -128,
+              51
+            ],
+            [
+              -128,
+              88,
+              127
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            127,
+            -39
+          ],
+          "weight_scales": [
+            5.034864443587139e-05,
+            4.726844417746179e-05,
+            5.903496639803052e-05
+          ],
+          "biases": [
+            59095,
+            -113200,
+            15761
+          ],
+          "channel_multipliers": [
+            13973,
+            13118,
+            16384
+          ],
+          "multiplier": 27398,
+          "shift": 29,
+          "output_scale": 1.1567939519882202,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 2.3135879039764404,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 4,
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.24851569533348083
+              ]
+            ],
+            [
+              [
+                0.04226864501833916
+              ]
+            ],
+            [
+              [
+                -0.09438622742891312
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.11126850545406342
+              ]
+            ],
+            [
+              [
+                -0.12647725641727448
+              ]
+            ],
+            [
+              [
+                -0.041738998144865036
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.21768295764923096
+              ]
+            ],
+            [
+              [
+                0.19037079811096191
+              ]
+            ],
+            [
+              [
+                -0.0031684106215834618
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          0.18185077607631683,
+          1.3302013874053955,
+          -0.11789117008447647
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.13204534351825714,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              127,
+              -27,
+              -128
+            ],
+            [
+              127,
+              -128,
+              -37
+            ],
+            [
+              127,
+              96,
+              -128
+            ]
+          ],
+          "weight_zero_points": [
+            -58,
+            8,
+            -124
+          ],
+          "weight_scales": [
+            0.001344713382422924,
+            0.0009323363192379475,
+            0.0008660837775096297
+          ],
+          "biases": [
+            541,
+            5707,
+            -544
+          ],
+          "channel_multipliers": [
+            16384,
+            11360,
+            10552
+          ],
+          "multiplier": 21357,
+          "shift": 23,
+          "output_scale": 0.13204534351825714,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.11069000512361526
+              ]
+            ],
+            [
+              [
+                -0.08714587241411209
+              ]
+            ],
+            [
+              [
+                0.1394367516040802
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.04539424553513527
+              ]
+            ],
+            [
+              [
+                0.07999324798583984
+              ]
+            ],
+            [
+              [
+                -0.11014825105667114
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.11865006387233734
+              ]
+            ],
+            [
+              [
+                0.2588125467300415
+              ]
+            ],
+            [
+              [
+                0.14252988994121552
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -0.5999646186828613,
+          -1.5806490182876587,
+          0.3173046112060547
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.13204534351825714,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              95,
+              -128,
+              127
+            ],
+            [
+              -41,
+              127,
+              -128
+            ],
+            [
+              -11,
+              127,
+              12
+            ]
+          ],
+          "weight_zero_points": [
+            -30,
+            20,
+            -128
+          ],
+          "weight_scales": [
+            0.0008885592687875032,
+            0.0007456529419869184,
+            0.0010149511508643627
+          ],
+          "biases": [
+            -2701,
+            -8479,
+            1251
+          ],
+          "channel_multipliers": [
+            14344,
+            12037,
+            16384
+          ],
+          "multiplier": 32239,
+          "shift": 24,
+          "output_scale": 0.13204534351825714,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 0.2640906870365143,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 5,
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.11322573572397232
+              ]
+            ],
+            [
+              [
+                0.2672034800052643
+              ]
+            ],
+            [
+              [
+                0.19238348305225372
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.06833167374134064
+              ]
+            ],
+            [
+              [
+                0.19729463756084442
+              ]
+            ],
+            [
+              [
+                0.06514107435941696
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.21144098043441772
+              ]
+            ],
+            [
+              [
+                0.012439457699656487
+              ]
+            ],
+            [
+              [
+                0.029857514426112175
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          1.7365108728408813,
+          -2.1652889251708984,
+          -2.1878621578216553
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.5615368485450745,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -20,
+              127,
+              56
+            ],
+            [
+              -40,
+              127,
+              -44
+            ],
+            [
+              127,
+              -113,
+              -92
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -128,
+            -128
+          ],
+          "weight_scales": [
+            0.0010478567564859986,
+            0.0007737044361419976,
+            0.0008291802951134741
+          ],
+          "biases": [
+            -66155,
+            -59826,
+            -44139
+          ],
+          "channel_multipliers": [
+            16384,
+            12097,
+            12965
+          ],
+          "multiplier": 31307,
+          "shift": 25,
+          "output_scale": 0.5615368485450745,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.13497808575630188
+              ]
+            ],
+            [
+              [
+                0.0051794578321278095
+              ]
+            ],
+            [
+              [
+                0.23120509088039398
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.19190041720867157
+              ]
+            ],
+            [
+              [
+                0.07246731966733932
+              ]
+            ],
+            [
+              [
+                0.05738036334514618
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.026734016835689545
+              ]
+            ],
+            [
+              [
+                0.13237364590168
+              ]
+            ],
+            [
+              [
+                0.1091286689043045
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          0.46593090891838074,
+          0.7864437699317932,
+          -2.8341386318206787
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.5615368485450745,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              21,
+              -122,
+              127
+            ],
+            [
+              127,
+              -32,
+              -52
+            ],
+            [
+              -77,
+              127,
+              82
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -128,
+            -128
+          ],
+          "weight_scales": [
+            0.0009066866477951407,
+            0.0007525506662204862,
+            0.0005191123345866799
+          ],
+          "biases": [
+            -51042,
+            -52139,
+            -76451
+          ],
+          "channel_multipliers": [
+            16384,
+            13599,
+            9380
+          ],
+          "multiplier": 27089,
+          "shift": 25,
+          "output_scale": 0.5615368485450745,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 1.123073697090149,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 6,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.24514442682266235
+              ]
+            ],
+            [
+              [
+                -0.04582606628537178
+              ]
+            ],
+            [
+              [
+                -0.2799549400806427
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.11344810575246811
+              ]
+            ],
+            [
+              [
+                -0.014462285675108433
+              ]
+            ],
+            [
+              [
+                -0.07057659327983856
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.22929620742797852
+              ]
+            ],
+            [
+              [
+                -0.18876026570796967
+              ]
+            ],
+            [
+              [
+                -0.2729616165161133
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -1.38784921169281,
+          -2.395128011703491,
+          -2.1730105876922607
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 1.4045875072479248,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -96,
+              85,
+              -128
+            ],
+            [
+              -128,
+              94,
+              -32
+            ],
+            [
+              -87,
+              -49,
+              -128
+            ]
+          ],
+          "weight_zero_points": [
+            127,
+            127,
+            127
+          ],
+          "weight_scales": [
+            0.0010978624923154712,
+            0.0004448945401236415,
+            0.0010704377200454473
+          ],
+          "biases": [
+            -67824,
+            -62600,
+            -84590
+          ],
+          "channel_multipliers": [
+            16384,
+            6639,
+            15975
+          ],
+          "multiplier": 26227,
+          "shift": 25,
+          "output_scale": 1.4045875072479248,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.2013857662677765
+              ]
+            ],
+            [
+              [
+                -0.10244754701852798
+              ]
+            ],
+            [
+              [
+                -0.1882050633430481
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.17868274450302124
+              ]
+            ],
+            [
+              [
+                -0.23617680370807648
+              ]
+            ],
+            [
+              [
+                -0.07944859564304352
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.19416247308254242
+              ]
+            ],
+            [
+              [
+                -0.0074256728403270245
+              ]
+            ],
+            [
+              [
+                -0.27355140447616577
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          1.5648521184921265,
+          0.8594735264778137,
+          -1.1931709051132202
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 1.4045875072479248,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -128,
+              -3,
+              -111
+            ],
+            [
+              -66,
+              -128,
+              41
+            ],
+            [
+              -54,
+              120,
+              -128
+            ]
+          ],
+          "weight_zero_points": [
+            127,
+            127,
+            127
+          ],
+          "weight_scales": [
+            0.0007897480973042548,
+            0.0009261835366487503,
+            0.0010727506596595049
+          ],
+          "biases": [
+            -77763,
+            -67424,
+            -57816
+          ],
+          "channel_multipliers": [
+            12062,
+            14145,
+            16384
+          ],
+          "multiplier": 25627,
+          "shift": 25,
+          "output_scale": 1.4045875072479248,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 2.8091750144958496,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 7,
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.18011870980262756
+              ]
+            ],
+            [
+              [
+                0.23348863422870636
+              ]
+            ],
+            [
+              [
+                -0.05682779476046562
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.25636446475982666
+              ]
+            ],
+            [
+              [
+                -0.01171257346868515
+              ]
+            ],
+            [
+              [
+                -0.11267509311437607
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.27220141887664795
+              ]
+            ],
+            [
+              [
+                0.25679245591163635
+              ]
+            ],
+            [
+              [
+                0.2289963960647583
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          0.26894357800483704,
+          -0.6700140237808228,
+          1.5106419324874878
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.2014344185590744,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -128,
+              127,
+              -52
+            ],
+            [
+              127,
+              -58,
+              -128
+            ],
+            [
+              127,
+              113,
+              87
+            ]
+          ],
+          "weight_zero_points": [
+            -17,
+            -50,
+            -128
+          ],
+          "weight_scales": [
+            0.00162198964972049,
+            0.0014472139300778508,
+            0.0010674565564841032
+          ],
+          "biases": [
+            663,
+            -1852,
+            5661
+          ],
+          "channel_multipliers": [
+            16384,
+            14619,
+            10783
+          ],
+          "multiplier": 16887,
+          "shift": 23,
+          "output_scale": 0.2014344185590744,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.013271229341626167
+              ]
+            ],
+            [
+              [
+                -0.0030949278734624386
+              ]
+            ],
+            [
+              [
+                0.0036213588900864124
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.005868070758879185
+              ]
+            ],
+            [
+              [
+                -0.014592546038329601
+              ]
+            ],
+            [
+              [
+                0.0077414498664438725
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.007974770851433277
+              ]
+            ],
+            [
+              [
+                -0.0010503483936190605
+              ]
+            ],
+            [
+              [
+                0.0018870093626901507
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          2.734300136566162,
+          -0.4469449520111084,
+          -2.061810255050659
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.2014344185590744,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -128,
+              25,
+              127
+            ],
+            [
+              -28,
+              -128,
+              127
+            ],
+            [
+              127,
+              -128,
+              -45
+            ]
+          ],
+          "weight_zero_points": [
+            72,
+            39,
+            -98
+          ],
+          "weight_scales": [
+            6.62454403936863e-05,
+            8.75842961249873e-05,
+            3.53926261595916e-05
+          ],
+          "biases": [
+            165101,
+            -20412,
+            -233021
+          ],
+          "channel_multipliers": [
+            12392,
+            16384,
+            6621
+          ],
+          "multiplier": 29179,
+          "shift": 28,
+          "output_scale": 0.2014344185590744,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 0.4028688371181488,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 8,
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.11403848975896835
+              ]
+            ],
+            [
+              [
+                0.27340787649154663
+              ]
+            ],
+            [
+              [
+                0.26539960503578186
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.09145664423704147
+              ]
+            ],
+            [
+              [
+                0.28877148032188416
+              ]
+            ],
+            [
+              [
+                -0.1045868918299675
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.01223090011626482
+              ]
+            ],
+            [
+              [
+                -0.2642812430858612
+              ]
+            ],
+            [
+              [
+                0.24876855313777924
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          0.6352608799934387,
+          -2.2484591007232666,
+          0.7186012864112854
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.651740550994873,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -22,
+              127,
+              120
+            ],
+            [
+              -1,
+              127,
+              -128
+            ],
+            [
+              -3,
+              -128,
+              127
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -60,
+            3
+          ],
+          "weight_scales": [
+            0.0010721877915784717,
+            0.0015425818273797631,
+            0.002011959906667471
+          ],
+          "biases": [
+            -76158,
+            -25521,
+            2365
+          ],
+          "channel_multipliers": [
+            8731,
+            12562,
+            16384
+          ],
+          "multiplier": 25896,
+          "shift": 24,
+          "output_scale": 0.651740550994873,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.15796776115894318
+              ]
+            ],
+            [
+              [
+                0.2761988043785095
+              ]
+            ],
+            [
+              [
+                -0.21676868200302124
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.025007907301187515
+              ]
+            ],
+            [
+              [
+                -0.13200323283672333
+              ]
+            ],
+            [
+              [
+                -0.042364757508039474
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.23163031041622162
+              ]
+            ],
+            [
+              [
+                -0.2620658576488495
+              ]
+            ],
+            [
+              [
+                -0.10097803175449371
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          0.08651269972324371,
+          -0.30247512459754944,
+          2.397996425628662
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.651740550994873,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -98,
+              127,
+              -128
+            ],
+            [
+              79,
+              -128,
+              45
+            ],
+            [
+              127,
+              -128,
+              -45
+            ]
+          ],
+          "weight_zero_points": [
+            -16,
+            127,
+            7
+          ],
+          "weight_scales": [
+            0.0019332058727741241,
+            0.0005176597624085844,
+            0.001936063403263688
+          ],
+          "biases": [
+            6567,
+            47726,
+            10986
+          ],
+          "channel_multipliers": [
+            16360,
+            4381,
+            16384
+          ],
+          "multiplier": 24919,
+          "shift": 24,
+          "output_scale": 0.651740550994873,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 1.303481101989746,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 9,
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.04923627898097038
+              ]
+            ],
+            [
+              [
+                0.026151183992624283
+              ]
+            ],
+            [
+              [
+                0.1376306116580963
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.11730361729860306
+              ]
+            ],
+            [
+              [
+                0.08155307173728943
+              ]
+            ],
+            [
+              [
+                0.11022662371397018
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.29133573174476624
+              ]
+            ],
+            [
+              [
+                0.13015522062778473
+              ]
+            ],
+            [
+              [
+                0.16544242203235626
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          1.2189981937408447,
+          -0.42565369606018066,
+          -2.480717182159424
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 1.182450771331787,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -37,
+              -80,
+              127
+            ],
+            [
+              127,
+              49,
+              112
+            ],
+            [
+              127,
+              -14,
+              17
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -128,
+            -128
+          ],
+          "weight_scales": [
+            0.0005397279164753854,
+            0.00046001418377272785,
+            0.0011424930999055505
+          ],
+          "biases": [
+            52691,
+            85091,
+            63621
+          ],
+          "channel_multipliers": [
+            7740,
+            6597,
+            16384
+          ],
+          "multiplier": 32421,
+          "shift": 25,
+          "output_scale": 1.182450771331787,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.09063812345266342
+              ]
+            ],
+            [
+              [
+                0.22787761688232422
+              ]
+            ],
+            [
+              [
+                0.27977606654167175
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.14707936346530914
+              ]
+            ],
+            [
+              [
+                0.2495509386062622
+              ]
+            ],
+            [
+              [
+                0.15400472283363342
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.19203557074069977
+              ]
+            ],
+            [
+              [
+                0.1522674709558487
+              ]
+            ],
+            [
+              [
+                0.06991836428642273
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -2.3660457134246826,
+          1.0360333919525146,
+          2.4639978408813477
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 1.0,
+        "input_zero_point": 0,
+        "output_scale": 1.182450771331787,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -45,
+              80,
+              127
+            ],
+            [
+              22,
+              127,
+              29
+            ],
+            [
+              127,
+              74,
+              -35
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -128,
+            -128
+          ],
+          "weight_scales": [
+            0.0010971610900014639,
+            0.0009786310838535428,
+            0.0007530806469731033
+          ],
+          "biases": [
+            67731,
+            72995,
+            73672
+          ],
+          "channel_multipliers": [
+            16384,
+            14614,
+            11246
+          ],
+          "multiplier": 31134,
+          "shift": 25,
+          "output_scale": 1.182450771331787,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 1.0,
+          "input_zero_point": 0
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 2.364901542663574,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 10,
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.09432914853096008
+              ]
+            ],
+            [
+              [
+                -0.021235086023807526
+              ]
+            ],
+            [
+              [
+                -0.2049851268529892
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.009926727041602135
+              ]
+            ],
+            [
+              [
+                -0.2705274522304535
+              ]
+            ],
+            [
+              [
+                -0.21363303065299988
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.09744352102279663
+              ]
+            ],
+            [
+              [
+                -0.05171005800366402
+              ]
+            ],
+            [
+              [
+                -0.04836815968155861
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          2.9495902061462402,
+          0.6093382835388184,
+          2.2498350143432617
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.15547414124011993,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              10,
+              101,
+              -128
+            ],
+            [
+              118,
+              -128,
+              -74
+            ],
+            [
+              -128,
+              -8,
+              0
+            ]
+          ],
+          "weight_zero_points": [
+            127,
+            127,
+            127
+          ],
+          "weight_scales": [
+            0.000803863222245127,
+            0.0010608920129016042,
+            0.00038213146035559475
+          ],
+          "biases": [
+            14677,
+            2297,
+            23550
+          ],
+          "channel_multipliers": [
+            12415,
+            16384,
+            5901
+          ],
+          "multiplier": 28620,
+          "shift": 24,
+          "output_scale": 0.15547414124011993,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                -0.07199428230524063
+              ]
+            ],
+            [
+              [
+                -0.12510237097740173
+              ]
+            ],
+            [
+              [
+                -0.11744936555624008
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.2873823642730713
+              ]
+            ],
+            [
+              [
+                -0.13721057772636414
+              ]
+            ],
+            [
+              [
+                -0.10548000782728195
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.13810715079307556
+              ]
+            ],
+            [
+              [
+                -0.18905971944332123
+              ]
+            ],
+            [
+              [
+                -0.019986668601632118
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -0.11665040999650955,
+          2.8001668453216553,
+          1.2710022926330566
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.25,
+        "input_zero_point": 128,
+        "output_scale": 0.15547414124011993,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              -20,
+              -128,
+              -112
+            ],
+            [
+              -128,
+              5,
+              33
+            ],
+            [
+              -59,
+              -128,
+              100
+            ]
+          ],
+          "weight_zero_points": [
+            127,
+            127,
+            127
+          ],
+          "weight_scales": [
+            0.0004905975074507296,
+            0.0011269896058365703,
+            0.0007414106512442231
+          ],
+          "biases": [
+            -951,
+            9939,
+            6857
+          ],
+          "channel_multipliers": [
+            7132,
+            16384,
+            10779
+          ],
+          "multiplier": 30403,
+          "shift": 24,
+          "output_scale": 0.15547414124011993,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.25,
+          "input_zero_point": 128
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 0.31094828248023987,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  },
+  {
+    "index": 11,
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "elementwise_profile": "max-8x8-c3-equal-scale",
+    "branches": [
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.2249646633863449
+              ]
+            ],
+            [
+              [
+                0.0194234699010849
+              ]
+            ],
+            [
+              [
+                0.04184091091156006
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.15640635788440704
+              ]
+            ],
+            [
+              [
+                0.035436008125543594
+              ]
+            ],
+            [
+              [
+                -0.03982337936758995
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -0.2794713079929352
+              ]
+            ],
+            [
+              [
+                0.007218307815492153
+              ]
+            ],
+            [
+              [
+                0.06064577400684357
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          1.5859003067016602,
+          -1.2478888034820557,
+          2.9653849601745605
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.30414825677871704,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              127,
+              -106,
+              -81
+            ],
+            [
+              127,
+              -30,
+              -128
+            ],
+            [
+              -128,
+              87,
+              127
+            ]
+          ],
+          "weight_zero_points": [
+            -128,
+            -76,
+            82
+          ],
+          "weight_scales": [
+            0.0008822143427096307,
+            0.0007695283857174218,
+            0.0013337925774976611
+          ],
+          "biases": [
+            -37553,
+            -28262,
+            24767
+          ],
+          "channel_multipliers": [
+            10837,
+            9453,
+            16384
+          ],
+          "multiplier": 18393,
+          "shift": 23,
+          "output_scale": 0.30414825677871704,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      },
+      {
+        "shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "output_shape_nhwc": [
+          1,
+          8,
+          8,
+          3
+        ],
+        "float_weights": [
+          [
+            [
+              [
+                0.014673157595098019
+              ]
+            ],
+            [
+              [
+                -0.001912758918479085
+              ]
+            ],
+            [
+              [
+                -0.007485579699277878
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.006102382205426693
+              ]
+            ],
+            [
+              [
+                0.01397012360394001
+              ]
+            ],
+            [
+              [
+                -0.007927755825221539
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                0.010364568792283535
+              ]
+            ],
+            [
+              [
+                0.004187538754194975
+              ]
+            ],
+            [
+              [
+                0.0019436636939644814
+              ]
+            ]
+          ]
+        ],
+        "float_bias": [
+          -1.1721045970916748,
+          2.9576659202575684,
+          -1.6550012826919556
+        ],
+        "kernel_size": 1,
+        "relu": false,
+        "input_stride": 16,
+        "arena_bytes": 16384,
+        "input_scale": 0.5,
+        "input_zero_point": 255,
+        "output_scale": 0.30414825677871704,
+        "output_zero_point": 0,
+        "quantization": {
+          "weights": [
+            [
+              127,
+              -64,
+              -128
+            ],
+            [
+              35,
+              127,
+              -128
+            ],
+            [
+              127,
+              -25,
+              -80
+            ]
+          ],
+          "weight_zero_points": [
+            -42,
+            -36,
+            -128
+          ],
+          "weight_scales": [
+            8.689700916875154e-05,
+            8.587403135607019e-05,
+            4.064536915393546e-05
+          ],
+          "biases": [
+            -34724,
+            50850,
+            -132998
+          ],
+          "channel_multipliers": [
+            16384,
+            16191,
+            7663
+          ],
+          "multiplier": 19173,
+          "shift": 27,
+          "output_scale": 0.30414825677871704,
+          "output_zero_point": 0,
+          "kernel_size": 1,
+          "relu": false,
+          "input_scale": 0.5,
+          "input_zero_point": 255
+        },
+        "register_count": 126,
+        "limitations": "experimental one/three-input-channel INT8 convolution profile; register semantics partially recovered"
+      }
+    ],
+    "output_scale": 0.6082965135574341,
+    "output_zero_point": 0,
+    "shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape_nhwc": [
+      1,
+      8,
+      8,
+      3
+    ]
+  }
+]

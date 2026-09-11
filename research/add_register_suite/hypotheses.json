@@ -1,0 +1,12 @@
+[
+  {
+    "index": 0,
+    "hypothesis": "out_cvt_round_bit30",
+    "predicted_changed_outputs": 1438
+  },
+  {
+    "index": 1,
+    "hypothesis": "ew_alu_algo_max",
+    "predicted_changed_outputs": 5966
+  }
+]

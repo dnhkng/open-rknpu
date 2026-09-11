@@ -1,0 +1,58 @@
+[
+  {
+    "index": 0,
+    "cases": 16,
+    "output_scale": 3759.977294921875,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  },
+  {
+    "index": 1,
+    "cases": 16,
+    "output_scale": 1831.0406494140625,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  },
+  {
+    "index": 2,
+    "cases": 16,
+    "output_scale": 1464.7996826171875,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  },
+  {
+    "index": 3,
+    "cases": 16,
+    "output_scale": 1629.0032958984375,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  },
+  {
+    "index": 4,
+    "cases": 16,
+    "output_scale": 1289.038330078125,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  },
+  {
+    "index": 5,
+    "cases": 16,
+    "output_scale": 1629.7257080078125,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  },
+  {
+    "index": 6,
+    "cases": 16,
+    "output_scale": 2481.352783203125,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  },
+  {
+    "index": 7,
+    "cases": 16,
+    "output_scale": 624.1680297851562,
+    "chain": "Mul(Add(a,b),a)",
+    "output_bytes": 192
+  }
+]

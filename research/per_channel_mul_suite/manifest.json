@@ -1,0 +1,374 @@
+[
+  {
+    "index": 0,
+    "pattern": "mild",
+    "geometry": [
+      5,
+      5
+    ],
+    "constant": [
+      1.185989260673523,
+      1.4887326955795288,
+      1.4777235984802246
+    ],
+    "cases": 16,
+    "shared_scale": 0.011722304858267307,
+    "shared_operand": [
+      101,
+      127,
+      126
+    ],
+    "per_channel_weight_scales": [
+      0.00933849811553955,
+      0.011722304858267307,
+      0.011635619215667248
+    ],
+    "shared_max_error": 2.6002924724434706,
+    "per_channel_max_error": 0.7461140155792236,
+    "output_scale": 1.4887326955795288,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 1,
+    "pattern": "wide",
+    "geometry": [
+      5,
+      8
+    ],
+    "constant": [
+      0.021937720477581024,
+      0.37514564394950867,
+      1.7792692184448242
+    ],
+    "cases": 16,
+    "shared_scale": 0.014009993523359299,
+    "shared_operand": [
+      2,
+      27,
+      127
+    ],
+    "per_channel_weight_scales": [
+      0.00017273795674555004,
+      0.002953902818262577,
+      0.014009993523359299
+    ],
+    "shared_max_error": 2.989314955664213,
+    "per_channel_max_error": 0.8895117342472076,
+    "output_scale": 1.7792692184448242,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 2,
+    "pattern": "extreme",
+    "geometry": [
+      6,
+      7
+    ],
+    "constant": [
+      0.004746885038912296,
+      0.29850465059280396,
+      2.220004081726074
+    ],
+    "cases": 16,
+    "shared_scale": 0.01748034730553627,
+    "shared_operand": [
+      0,
+      17,
+      127
+    ],
+    "per_channel_weight_scales": [
+      3.7377049011411145e-05,
+      0.0023504302371293306,
+      0.01748034730553627
+    ],
+    "shared_max_error": 3.3650384767825017,
+    "per_channel_max_error": 1.1107710991054773,
+    "output_scale": 2.220004081726074,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 3,
+    "pattern": "mixed_sign",
+    "geometry": [
+      8,
+      8
+    ],
+    "constant": [
+      -0.3785201609134674,
+      0.8417915105819702,
+      -2.251824378967285
+    ],
+    "cases": 16,
+    "shared_scale": 0.017730901017785072,
+    "shared_operand": [
+      -21,
+      47,
+      -127
+    ],
+    "per_channel_weight_scales": [
+      0.0029804736841470003,
+      0.006628279574215412,
+      0.017730901017785072
+    ],
+    "shared_max_error": 4.250445077932795,
+    "per_channel_max_error": 1.5424941182136536,
+    "output_scale": 3.093615770339966,
+    "output_zero_point": 58,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 4,
+    "pattern": "small_all",
+    "geometry": [
+      7,
+      5
+    ],
+    "constant": [
+      0.010074853897094727,
+      0.018331319093704224,
+      0.032658692449331284
+    ],
+    "cases": 16,
+    "shared_scale": 0.000257155072176829,
+    "shared_operand": [
+      39,
+      71,
+      127
+    ],
+    "per_channel_weight_scales": [
+      7.932955486467108e-05,
+      0.00014434110198635608,
+      0.000257155072176829
+    ],
+    "shared_max_error": 0.051068776016663264,
+    "per_channel_max_error": 0.01629643887281418,
+    "output_scale": 0.032658692449331284,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 5,
+    "pattern": "zero_channel",
+    "geometry": [
+      6,
+      6
+    ],
+    "constant": [
+      0.0,
+      0.5381839275360107,
+      -1.565274715423584
+    ],
+    "cases": 16,
+    "shared_scale": 0.012324998155236244,
+    "shared_operand": [
+      0,
+      44,
+      -127
+    ],
+    "per_channel_weight_scales": [
+      0.012324998155236244,
+      0.004237668588757515,
+      0.012324998155236244
+    ],
+    "shared_max_error": 2.8610773567830847,
+    "per_channel_max_error": 1.0464098453521729,
+    "output_scale": 2.1034586429595947,
+    "output_zero_point": 62,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 6,
+    "pattern": "mild",
+    "geometry": [
+      5,
+      5
+    ],
+    "constant": [
+      1.2782145738601685,
+      1.4195489883422852,
+      1.5867607593536377
+    ],
+    "cases": 16,
+    "shared_scale": 0.012494179420173168,
+    "shared_operand": [
+      102,
+      114,
+      127
+    ],
+    "per_channel_weight_scales": [
+      0.010064681991934776,
+      0.011177551001310349,
+      0.012494179420173168
+    ],
+    "shared_max_error": 3.8752840611915644,
+    "per_channel_max_error": 0.8010375499725342,
+    "output_scale": 1.5867607593536377,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 7,
+    "pattern": "wide",
+    "geometry": [
+      5,
+      8
+    ],
+    "constant": [
+      0.02157505415380001,
+      0.36703088879585266,
+      1.9135040044784546
+    ],
+    "cases": 16,
+    "shared_scale": 0.015066960826516151,
+    "shared_operand": [
+      1,
+      24,
+      127
+    ],
+    "per_channel_weight_scales": [
+      0.00016988231800496578,
+      0.0028900071047246456,
+      0.015066960826516151
+    ],
+    "shared_max_error": 3.263237821271332,
+    "per_channel_max_error": 0.9607128202915192,
+    "output_scale": 1.9135040044784546,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 8,
+    "pattern": "extreme",
+    "geometry": [
+      6,
+      7
+    ],
+    "constant": [
+      0.005373144056648016,
+      0.31977275013923645,
+      2.4692492485046387
+    ],
+    "cases": 16,
+    "shared_scale": 0.019442906603217125,
+    "shared_operand": [
+      0,
+      16,
+      127
+    ],
+    "per_channel_weight_scales": [
+      4.230822014505975e-05,
+      0.0025178957730531693,
+      0.019442906603217125
+    ],
+    "shared_max_error": 4.549329642345356,
+    "per_channel_max_error": 1.244172403588891,
+    "output_scale": 2.4692492485046387,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 9,
+    "pattern": "mixed_sign",
+    "geometry": [
+      8,
+      8
+    ],
+    "constant": [
+      -0.3832554221153259,
+      0.8304570317268372,
+      -2.236891746520996
+    ],
+    "cases": 16,
+    "shared_scale": 0.017613321542739868,
+    "shared_operand": [
+      -22,
+      47,
+      -127
+    ],
+    "per_channel_weight_scales": [
+      0.003017759183421731,
+      0.0065390318632125854,
+      0.017613321542739868
+    ],
+    "shared_max_error": 3.390644643106498,
+    "per_channel_max_error": 1.5414325594902039,
+    "output_scale": 3.0673487186431885,
+    "output_zero_point": 58,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 10,
+    "pattern": "small_all",
+    "geometry": [
+      7,
+      5
+    ],
+    "constant": [
+      0.00916361901909113,
+      0.019001919776201248,
+      0.030856650322675705
+    ],
+    "cases": 16,
+    "shared_scale": 0.00024296574702020735,
+    "shared_operand": [
+      38,
+      78,
+      127
+    ],
+    "per_channel_weight_scales": [
+      7.215447840280831e-05,
+      0.00014962140994612128,
+      0.00024296574702020735
+    ],
+    "shared_max_error": 0.05618179069471818,
+    "per_channel_max_error": 0.015504683367908001,
+    "output_scale": 0.030856650322675705,
+    "output_zero_point": -128,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  },
+  {
+    "index": 11,
+    "pattern": "zero_channel",
+    "geometry": [
+      6,
+      6
+    ],
+    "constant": [
+      0.0,
+      0.5002647638320923,
+      -1.4005645513534546
+    ],
+    "cases": 16,
+    "shared_scale": 0.011028067208826542,
+    "shared_operand": [
+      0,
+      45,
+      -127
+    ],
+    "per_channel_weight_scales": [
+      0.011028067208826542,
+      0.0039390926249325275,
+      0.011028067208826542
+    ],
+    "shared_max_error": 2.356444823930758,
+    "per_channel_max_error": 0.9117909669876099,
+    "output_scale": 1.9008293151855469,
+    "output_zero_point": 60,
+    "input_scale": 1.0,
+    "input_zero_point": -128
+  }
+]

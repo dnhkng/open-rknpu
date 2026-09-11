@@ -1,0 +1,9 @@
+[
+  {
+    "model": "000",
+    "passed": false,
+    "inferences": 32,
+    "bytes": 6144,
+    "output": "model 0 run 0 output 0: got 27 expected 28\nmodel 0 failed: -22\n"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "mesa_registers.xml": {
+    "url": "https://gitlab.freedesktop.org/mesa/mesa/-/raw/main/src/gallium/drivers/rocket/registers.xml",
+    "sha256": "38147bfc90a450cb6dd40f02e9a314f3ea4c8715321a86571c2bd90e61a555d8",
+    "retrieved": "2026-09-08"
+  },
+  "mesa_rkt_regcmd.c": {
+    "url": "https://gitlab.freedesktop.org/mesa/mesa/-/raw/main/src/gallium/drivers/rocket/rkt_regcmd.c",
+    "sha256": "efd1de1cc1802f1b89d777b488c0867489261b4f6301af569bc2d4ff0ae0c407",
+    "retrieved": "2026-09-08"
+  },
+  "rocket_registers.h": {
+    "url": "https://raw.githubusercontent.com/torvalds/linux/master/drivers/accel/rocket/rocket_registers.h",
+    "sha256": "7214696ed897f1afe416aadacc6414597ba62aab8204d154fbde43f32bb25dbe",
+    "retrieved": "2026-09-08"
+  },
+  "rk3588-trm-part1.pdf": {
+    "url": "https://gitlab.com/api/v4/projects/rock-chips%2Frk3588%2Frk3588-doc/repository/files/Rockchip%20RK3588%20TRM%20V1.0-Part1-20220309.pdf/raw?ref=master",
+    "sha256": "52fd969a33c0cfc4b14e90fb395c7bc71ac0132a1f65ab0e827e9b63c3404bc3",
+    "retrieved": "2026-09-08"
+  }
+}

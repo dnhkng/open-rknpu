@@ -1,0 +1,13 @@
+Source model 0
+model 0: 32 inputs passed
+PASS: 1 models, 32 inferences, 1536 output bytes; invalid buffer sizes rejected
+
+Source model 1
+model 0: 32 inputs passed
+PASS: 1 models, 32 inferences, 1536 output bytes; invalid buffer sizes rejected
+
+Source model 2
+model 0: 32 inputs passed
+PASS: 1 models, 32 inferences, 1536 output bytes; invalid buffer sizes rejected
+
+PASS: 3 models, 96 inferences, 4608 output bytes

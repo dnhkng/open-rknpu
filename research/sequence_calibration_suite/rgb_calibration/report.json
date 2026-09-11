@@ -1,0 +1,21 @@
+{
+  "method": "minmax",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 24,
+  "files": [
+    "/home/dnhkng/drone/research/sequence_calibration_suite/rgb_calibration/cal.npy"
+  ],
+  "tensors": [
+    "output"
+  ],
+  "ranges": {
+    "output": {
+      "min": -688.340087890625,
+      "max": 714.753173828125,
+      "scale": 5.502326488494873,
+      "zero_point": -3
+    }
+  }
+}

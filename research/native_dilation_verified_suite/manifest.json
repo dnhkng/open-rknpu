@@ -1,0 +1,416 @@
+[
+  {
+    "index": 0,
+    "input_shape": [
+      8,
+      9,
+      3
+    ],
+    "output_shape": [
+      8,
+      9,
+      5
+    ],
+    "kernel": 3,
+    "dilations": [
+      2,
+      3
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      2,
+      3,
+      2,
+      3
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "relu": false,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          8
+        ],
+        "input_rows": [
+          0,
+          8
+        ],
+        "pads": [
+          2,
+          3,
+          2,
+          3
+        ]
+      }
+    ],
+    "exploration_index": 0
+  },
+  {
+    "index": 1,
+    "input_shape": [
+      16,
+      17,
+      17
+    ],
+    "output_shape": [
+      8,
+      17,
+      3
+    ],
+    "kernel": 3,
+    "dilations": [
+      3,
+      2
+    ],
+    "strides": [
+      2,
+      1
+    ],
+    "pads": [
+      3,
+      2,
+      3,
+      2
+    ],
+    "input_scale": 0.25,
+    "input_zero_point": 128,
+    "relu": true,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          8
+        ],
+        "input_rows": [
+          0,
+          16
+        ],
+        "pads": [
+          3,
+          2,
+          3,
+          2
+        ]
+      }
+    ],
+    "exploration_index": 1
+  },
+  {
+    "index": 2,
+    "input_shape": [
+      24,
+      25,
+      32
+    ],
+    "output_shape": [
+      24,
+      13,
+      1
+    ],
+    "kernel": 5,
+    "dilations": [
+      2,
+      2
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "pads": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "relu": false,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          24
+        ],
+        "input_rows": [
+          0,
+          24
+        ],
+        "pads": [
+          4,
+          4,
+          4,
+          4
+        ]
+      }
+    ],
+    "exploration_index": 2
+  },
+  {
+    "index": 3,
+    "input_shape": [
+      40,
+      33,
+      1
+    ],
+    "output_shape": [
+      14,
+      33,
+      17
+    ],
+    "kernel": 3,
+    "dilations": [
+      8,
+      4
+    ],
+    "strides": [
+      3,
+      1
+    ],
+    "pads": [
+      8,
+      4,
+      8,
+      4
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "relu": true,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          14
+        ],
+        "input_rows": [
+          0,
+          40
+        ],
+        "pads": [
+          8,
+          4,
+          8,
+          4
+        ]
+      }
+    ],
+    "exploration_index": 3
+  },
+  {
+    "index": 4,
+    "input_shape": [
+      128,
+      128,
+      1
+    ],
+    "output_shape": [
+      64,
+      43,
+      3
+    ],
+    "kernel": 7,
+    "dilations": [
+      3,
+      2
+    ],
+    "strides": [
+      2,
+      3
+    ],
+    "pads": [
+      9,
+      6,
+      9,
+      6
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "relu": true,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          20
+        ],
+        "input_rows": [
+          0,
+          48
+        ],
+        "pads": [
+          9,
+          6,
+          0,
+          6
+        ]
+      },
+      {
+        "output_rows": [
+          20,
+          32
+        ],
+        "input_rows": [
+          31,
+          72
+        ],
+        "pads": [
+          0,
+          6,
+          0,
+          6
+        ]
+      },
+      {
+        "output_rows": [
+          32,
+          44
+        ],
+        "input_rows": [
+          55,
+          96
+        ],
+        "pads": [
+          0,
+          6,
+          0,
+          6
+        ]
+      },
+      {
+        "output_rows": [
+          44,
+          56
+        ],
+        "input_rows": [
+          79,
+          120
+        ],
+        "pads": [
+          0,
+          6,
+          0,
+          6
+        ]
+      },
+      {
+        "output_rows": [
+          56,
+          64
+        ],
+        "input_rows": [
+          103,
+          128
+        ],
+        "pads": [
+          0,
+          6,
+          8,
+          6
+        ]
+      }
+    ],
+    "exploration_index": 5
+  },
+  {
+    "index": 5,
+    "input_shape": [
+      50,
+      52,
+      1
+    ],
+    "output_shape": [
+      48,
+      50,
+      1
+    ],
+    "kernel": 3,
+    "dilations": [
+      16,
+      16
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      15,
+      15,
+      15,
+      15
+    ],
+    "input_scale": 0.5,
+    "input_zero_point": 255,
+    "relu": false,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          48
+        ],
+        "input_rows": [
+          0,
+          50
+        ],
+        "pads": [
+          15,
+          15,
+          15,
+          15
+        ]
+      }
+    ],
+    "exploration_index": 8
+  },
+  {
+    "index": 6,
+    "input_shape": [
+      50,
+      52,
+      1
+    ],
+    "output_shape": [
+      46,
+      50,
+      1
+    ],
+    "kernel": 3,
+    "dilations": [
+      17,
+      16
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "pads": [
+      15,
+      15,
+      15,
+      15
+    ],
+    "input_scale": 1.0,
+    "input_zero_point": 0,
+    "relu": true,
+    "tiles": [
+      {
+        "output_rows": [
+          0,
+          46
+        ],
+        "input_rows": [
+          0,
+          50
+        ],
+        "pads": [
+          15,
+          15,
+          15,
+          15
+        ]
+      }
+    ],
+    "exploration_index": 9
+  }
+]
