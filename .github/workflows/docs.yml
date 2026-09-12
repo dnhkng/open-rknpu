@@ -29,7 +29,7 @@ jobs:
       # verified and the failure mode is a skipped deploy instead of a red workflow.
       pages: ${{ steps.pages.outcome }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # The documentation site is optional while `mkdocs.yml` does not exist, so
       # the whole job is skipped rather than failed.
