@@ -48,13 +48,25 @@ def main():
     prefix = subgraph(list(g.node[:3]), list(g.input), [split_info])
     suffix = subgraph(list(g.node[3:]), [split_info], list(g.output))
     onnx.save(prefix, OUT / "prefix.onnx")
-    # No ONNX fixture ships with the locally trained model: take the input range
-    # from the first test image, which is in [0, 1] like the training data.
+    # No ONNX fixture ships with the locally trained model: take the input range from the
+    # first test image, which is in [0, 1] like the training data. The dataset is fetched,
+    # not vendored, so fall back to a documented analytic range when it is absent - the
+    # compiled prefix is identical either way, only the chosen input band changes.
     import gzip
-    raw = gzip.decompress((SOURCE / "test-data" / "t10k-images-idx3-ubyte.gz").read_bytes())
-    x = (np.frombuffer(raw, np.uint8, offset=16).reshape(-1, 28, 28)[0].astype(np.float32) / 255)[None, None]
-    scale = float(np.float32((x.max() - x.min()) / 255))
-    zp = int(np.clip(np.rint(-x.min() / scale), 0, 255))
+    dataset = SOURCE / "test-data" / "t10k-images-idx3-ubyte.gz"
+    if dataset.is_file():
+        raw = gzip.decompress(dataset.read_bytes())
+        first = np.frombuffer(raw, np.uint8, offset=16).reshape(-1, 28, 28)[0].astype(np.float32) / 255
+        x = first[None, None]
+        scale = float(np.float32((x.max() - x.min()) / 255)) or 1 / 255
+        zp = int(np.clip(np.rint(-x.min() / scale), 0, 255))
+    else:
+        print("Fashion-MNIST test data not found at %s; using the documented analytic\n"
+              "scale 1/255, zero point 0 input band. Run\n"
+              "`python examples/fetch_idx.py --dataset fashion` to derive it from the data."
+              % dataset.relative_to(ROOT))
+        x = np.zeros((1, 1, 28, 28), np.float32)
+        scale, zp = 1 / 255, 0
     binary, meta = compile_sequence(OUT / "prefix.onnx", scale, zp)
     (OUT / "prefix.bin").write_bytes(binary)
     q = Quantization(**{k: np.array(v) if isinstance(v, list) else v

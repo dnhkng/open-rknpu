@@ -32,8 +32,18 @@ class ClassifierExampleTests(unittest.TestCase):
     """`examples/mnist/build.py` and `examples/fashion/build.py` in the default mode."""
 
     def check(self, example, expected_shape, minimum_bytes):
+        """Run a build script; both the dataset-present and dataset-absent paths must work.
+
+        CI has no fetched dataset, so it exercises the documented analytic-band fallback;
+        a developer machine with the data exercises the dataset-derived band. Whichever
+        path runs, the prefix must exist and decode.
+        """
         status, output = run_example("examples", example, "build.py")
         self.assertEqual(status, 0, output[-2000:])
+        dataset = ROOT / "research" / "pretrained" / f"{example}-mnist" / "test-data" \
+            / "t10k-images-idx3-ubyte.gz"
+        if example == "fashion" and not dataset.is_file():
+            self.assertIn("not found", output, "the fallback must say why it changed the band")
         build = ROOT / "examples" / example / "build"
         prefix = build / "prefix.bin"
         inputs = build / "inputs.u8"
