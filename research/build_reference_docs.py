@@ -283,6 +283,18 @@ def build_registers_doc() -> str:
 TYPED_EXCEPTIONS = ("ValueError", "RuntimeError", "KeyError")
 
 
+def _canonical_expression(expression):
+    """A version-independent key for a message expression.
+
+    ``ast.unparse`` chooses quote characters per Python version (3.10/3.13 render an
+    f-string with double quotes where 3.12 uses single quotes), so the raw unparse output
+    cannot be a stable dictionary key. Collapsing whitespace and normalising quotes to the
+    single-quote form makes the curated meanings and the drift guard portable across the
+    supported interpreters.
+    """
+    return " ".join(expression.split()).replace('"', "'")
+
+
 def _leading_literal(node):
     """Return ``(text, dynamic)`` for a raised message expression.
 
@@ -320,7 +332,7 @@ def _walk_raises(path):
             continue
         argument = node.exc.args[0] if node.exc.args else None
         text, dynamic = _leading_literal(argument) if argument is not None else (None, True)
-        expression = ast.unparse(argument) if argument is not None else ""
+        expression = _canonical_expression(ast.unparse(argument)) if argument is not None else ""
         yield node.lineno, func.id, text, dynamic, expression
 
 
@@ -333,7 +345,7 @@ def _walk_parser_exits(path):
         if node.func.attr != "exit" or len(node.args) < 2:
             continue
         text, dynamic = _leading_literal(node.args[1])
-        yield node.lineno, text, dynamic, ast.unparse(node.args[1])
+        yield node.lineno, text, dynamic, _canonical_expression(ast.unparse(node.args[1]))
 
 
 def extract_compiler_messages(src=SRC):

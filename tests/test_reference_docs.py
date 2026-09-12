@@ -140,6 +140,20 @@ class ReferenceDocsTest(unittest.TestCase):
                       else "(dynamic) " + entry["expression"])
             self.generator.error_meaning(entry["module"], lookup)
 
+    def test_message_keys_are_interpreter_portable(self):
+        """`ast.unparse` quoting differs across Python versions; the key must not.
+
+        The drift guard keys dynamic messages by their unparsed expression, and Python 3.10
+        and 3.13 render f-strings with double quotes where 3.12 uses single quotes. The
+        canonical form (whitespace collapsed, quotes normalised) must map both to the same
+        curated entry, otherwise the reference-doc tests pass on one interpreter only.
+        """
+        canonical = self.generator._canonical_expression
+        single = "f'{path}: expected uint8/float32 [N,{','.join(map(str, shape[1:]))}]'"
+        double = 'f"{path}: expected uint8/float32 [N,{\',\'.join(map(str, shape[1:]))}]"'
+        self.assertEqual(canonical(single), canonical(double))
+        self.assertIn("(dynamic) " + canonical(double), self.generator.ERROR_MEANINGS)
+
     def test_regenerating_matches_the_committed_files(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.generator.write_documents(tmp)

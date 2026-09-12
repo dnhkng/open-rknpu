@@ -45,7 +45,7 @@ jobs:
       - name: build distribution and validate metadata
         if: matrix.python-version == '3.12'
         run: |
-          python -m build --out-dir dist
+          python -m build --outdir dist
           python -m twine check --strict dist/*
 
   runtime:
@@ -75,7 +75,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: build
-        run: python -m pip install build && python -m build --out-dir dist
+        run: python -m pip install build && python -m build --outdir dist
       - name: install the wheel in a clean venv and smoke test it
         run: |
           python -m venv /tmp/ornpu-clean
