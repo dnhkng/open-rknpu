@@ -48,7 +48,7 @@ SEQUENCE_REJECTION = "sequence lowering currently supports Conv[/Relu] followed 
 POOL_REJECTION = "unsupported pooling attributes, shape, or graph connections"
 NATIVE_GEOMETRY = "invalid native Conv output geometry"
 NATIVE_KERNEL = ("native Conv supports odd K1..31, explicit padding, stride 1..4, "
-                 "input C1..128/output C1..128")
+                 "input C1..16352/output C1..8192")
 BOUND = ("lowering supports exactly a terminal static [N,C,8,8] tensor with one input, "
          "one output and no other attributes")
 CONCAT_BOUND = ("Concat lowering requires a terminal axis-1 Concat of two or more Conv "

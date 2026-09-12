@@ -41,7 +41,7 @@ inputs are excluded, and each is replaced by something a reader can run:
 | Rockchip documents (`hardware_refs/*.pdf`) | Copyright | referenced by title and section only |
 | Build outputs (`dist/`, `build/`, `examples/*/build/`) | Reproducible | rebuilt by `make wheel`, `examples/*/build.py` |
 
-`research/container_baseline.json` (2,328 sha256 or `ERR:` entries), the 129-row board
+`research/container_baseline.json` (2,341 sha256 or `ERR:` entries), the 130-row board
 ledger and all 183 suite READMEs stay in-tree: they are small text, and they are the index
 that makes the binaries meaningful.
 

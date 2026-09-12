@@ -137,11 +137,10 @@ activation parameters (`quantized_import.py`). Float Q/DQ bias is rounded once t
 
 | Graph | Why |
 | --- | --- |
-| 1-D convolution (`kernel_shape [k]`, rank-3 input) | the front end requires static NCHW rank 4 |
 | rectangular kernels with one-sided padding | the native profile accepts odd square kernels (even/rectangular only through 5×5 rewrites) |
-| input channels > 128 | `native Conv requires ... input C1..128` |
+| input channels > 16352 or output channels > 8192 | the 511-part weight table and the nine-bit output block index are measured hardware walls (`wide_channel_suite`) |
 | kernels > 31 (e.g. the STFT Conv of Silero VAD) | odd K1..31 is the verified range |
-| LSTM/GRU, `MatMul`/`Gemm`, `Softmax`, `ReduceMean`, `Concat`, `Slice`, `Shape`-driven control flow | no primitive: the project accepts a bounded static CNN class only |
+| LSTM/GRU, `Softmax`, `Slice`, `Pow`, `Sqrt`, `Shape`-driven control flow | no primitive: the project accepts a bounded static CNN class only |
 | dynamic shapes | every dimension must be static at compile time; recompile for a new shape |
 | calibration + output override together | the scheduler rejects the combination; put the output band in the calibration report instead |
 

@@ -5,7 +5,7 @@ from onnx import helper as h, numpy_helper as nh
 from .chain import NATIVE, native_quantize
 from .quantization import receptive_fields
 from .register_profile import REGISTERS
-from .sequence import encode_sequence
+from .sequence import MAX_NATIVE_CHANNELS, MAX_OUTPUT_CHANNELS, MAX_WEIGHT_PARTS, encode_sequence
 
 
 def native_input_reference(inputs, q, zero_point, pads=None, strides=(1,1),dilations=(1,1),
@@ -89,8 +89,8 @@ def compile_native_input(model,input_scale=1.,input_zero_point=0,output_range=No
     shape=[d.dim_value for d in g.input[0].type.tensor_type.shape.dim]
     if (n.domain not in ('','ai.onnx') or len(n.input) not in (2,3) or n.input[0]!=g.input[0].name
         or list(g.node[-1].output)!=[g.output[0].name] or any(v not in constants for v in n.input[1:])
-        or len(shape)!=4 or not 1<=shape[0]<=16 or not 1<=shape[1]<=128 or not all(1<=x<=128 for x in shape[2:])):
-        raise ValueError('native Conv requires static batch1..16, H/W1..128, input C1..128, constant weights/bias')
+        or len(shape)!=4 or not 1<=shape[0]<=16 or not 1<=shape[1]<=MAX_NATIVE_CHANNELS or not all(1<=x<=128 for x in shape[2:])):
+        raise ValueError('native Conv requires static batch1..16, H/W1..128, input C1..16352, constant weights/bias')
     batch,ic,ih,iw=shape;w=constants[n.input[1]]
     b=constants[n.input[2]] if len(n.input)==3 else np.zeros(w.shape[0],np.float32)
     if w.ndim!=4:raise ValueError('native Conv weights must have rank four')
@@ -104,12 +104,12 @@ def compile_native_input(model,input_scale=1.,input_zero_point=0,output_range=No
     oh=(ih+pt+pb-ekh)//sy+1;ow=(iw+pl+pr-ekw)//sx+1
     if oh<1 or ow<1 or pt>=ekh or pb>=ekh or pl>=ekw or pr>=ekw:raise ValueError('invalid native Conv output geometry')
     allowed={'kernel_shape':[k,k],'pads':pads,'strides':strides,'dilations':dilations,'group':1}
-    if (not 1<=oc<=128 or not 1<=k<=31 or k%2==0 or w.shape!=(oc,ic,k,k) or b.shape!=(oc,)
+    if (not 1<=oc<=MAX_OUTPUT_CHANNELS or not 1<=k<=31 or k%2==0 or w.shape!=(oc,ic,k,k) or b.shape!=(oc,)
         or w.dtype!=np.float32 or b.dtype!=np.float32
         or any(key not in allowed or value!=allowed[key] for key,value in attrs.items())
         or any(v.type.tensor_type.elem_type!=1 for v in (*g.input,*g.output))
         or [d.dim_value for d in g.output[0].type.tensor_type.shape.dim]!=[batch,oc,oh,ow]):
-        raise ValueError('native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..128/output C1..128')
+        raise ValueError('native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..16352/output C1..8192')
     if not isinstance(input_zero_point,int) or not 0<=input_zero_point<=255:raise ValueError('invalid input zero point')
     selected_range=({'scale':6/255,'zero_point':-128} if clip6 and output_range is None else output_range)
     q=native_quantize(w,b,input_scale,input_zero_point-128,selected_range) if quantization is None else quantization
@@ -160,7 +160,8 @@ def compile_native_input(model,input_scale=1.,input_zero_point=0,output_range=No
             struct.pack_into('<Q',data,command+i*8,tag<<48|f.get(reg,default)<<16|reg)
         for i,(reg,value,tag) in enumerate(((0x10,0,0x101),(0x14,0x28,0x101),(0,0,0x41),(8,29,0x81))):
             struct.pack_into('<Q',data,command+(126+i)*8,tag<<48|value<<16|reg)
-    if lanes%16 or not 16<=lanes<=128:raise ValueError('native input channel tiling unsupported')
+    if lanes%16 or not 16<=lanes<=MAX_NATIVE_CHANNELS or (lanes+31)//32>MAX_WEIGHT_PARTS:
+        raise ValueError('native input channel tiling unsupported')
     def weight_byte(o,t,c):
         """Byte offset of one quantized weight (output o, tap t, input channel c).
 

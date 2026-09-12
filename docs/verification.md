@@ -7,7 +7,7 @@ checked-in contracts make that enforceable.
 ## 1. The container baseline
 
 `research/container_baseline.json` maps every published suite model
-(`research/*suite*/model*.onnx`, 2,328 of them) to either
+(`research/*suite*/model*.onnx`, 2,341 of them) to either
 
 * the sha256 of the container the compiler produces for it, or
 * `ERR:<ExceptionType>` for the 47 models whose profiles deliberately reject them (46 from the original
@@ -15,7 +15,7 @@ checked-in contracts make that enforceable.
 
 ```sh
 PYTHONPATH=src python research/verify_suites.py
-# models=2268 baseline=2268 same=2268 changed=0 added=0 removed=0
+# models=2341 baseline=2341 same=2341 changed=0 added=0 removed=0
 # rejections: Counter({'ERR:ValueError': 47})
 ```
 
@@ -24,14 +24,22 @@ change" contract: a refactor that alters any accepted container, or that silentl
 accepting a rejected model, fails here. Update it (`--update`) **only** when a container
 change is intended and the affected suites have fresh board evidence.
 
+The check is run against two NumPy builds (2.0.2 and 2.5.3) before a release, because the
+output-scale range in `chain.native_quantize` is a float32 reduction whose summation order
+follows the build's SIMD path. All 2,341 entries are identical under both. One first draft of
+`wide_channel_suite` was not: its 1,360-channel K3 model (`12,240`-element reduction per
+output channel) landed on a rounding tie and produced a one-ULP different `output_scale`, so
+that model's weights were redrawn. A future model with a very wide reduction should be
+checked the same way.
+
 Pinned rejections matter as much as hashes: a profile that starts compiling a graph it used
 to refuse is a behaviour change too.
 
 ## 2. The host test suite
 
 ```sh
-PYTHONPATH=src python -m unittest discover -s tests      # 1,157 tests
-make coverage                                            # 99.20% line coverage, floor 99% in pyproject.toml
+PYTHONPATH=src python -m unittest discover -s tests      # 1,167 tests
+make coverage                                            # 99.18% line coverage, floor 99% in pyproject.toml
 PYTHONPATH=src python -m pytest tests -q
 ```
 
@@ -57,7 +65,7 @@ PyTorch is never needed for the tests; NumPy and ONNX are.
 
 The host suite is measured with `coverage` and gated at the floor configured in
 `pyproject.toml` (`[tool.coverage.report] fail_under`, 99%); `make coverage` runs it and CI
-runs both. The measured value is **99.20%** - 6,851 statements with 55 uncovered lines in 10
+runs both. The measured value is **99.18%** - 6,863 statements with 56 uncovered lines in 11
 modules; each one is listed with its reason in the generated table below. That took the compiler from 90% to here
 through two passes: the test expansion that closed the profile bounds, the emitter
 rejections and the parser errors, and a later pass that closed the remaining boundary guards
@@ -73,7 +81,7 @@ in [mutation-testing.md](mutation-testing.md).
 ### The uncovered lines
 
 <!-- coverage-table:start -->
-Coverage is 99.20% (6,859 statements, 55 uncovered lines in 10 of 39 modules). Every remaining line is listed here because a floor nobody can explain is useless; the reason column is the module-level justification and the quoted source is there to check it against.
+Coverage is 99.18% (6,863 statements, 56 uncovered lines in 11 of 39 modules). Every remaining line is listed here because a floor nobody can explain is useless; the reason column is the module-level justification and the quoted source is there to check it against.
 
 | Line | Source | Why it is not executed |
 | --- | --- | --- |
@@ -93,6 +101,7 @@ Coverage is 99.20% (6,859 statements, 55 uncovered lines in 10 of 39 modules). E
 | `join_dag.py:481` | `raise ValueError('join DAG external tensor %s overlaps %s' % (external, name))` | offsets are laid by the cursor loop after input0 and the output after the last end, so an overlap cannot occur |
 | `join_dag.py:539` | `payload, _ = compile_depthwise(entry['standalone'],` | _prepare recompiles every branch final and a depthwise entry can only be a single-layer branch final, so recompiled is never None |
 | `liveness.py:165` | `raise ValueError("no arena placement for tensor %s" % name)` | first-fit always finds a slot; an exhaustive and randomized search found no counterexample |
+| `native.py:164` | `raise ValueError('native input channel tiling unsupported')` | prequantized-weights guard; the importer always supplies plain float weights here |
 | `normalize.py:101` | `continue` | a pads attribute the rank promotion does not rewrite (not a two- or one-element list) leaves the node untouched for the scheduler to reject |
 | `normalize.py:148` | `return None, None, None` | the Flatten/Reshape matcher declines an unproven or non-[N,C] shape and leaves the graph to the normal rejection |
 | `normalize.py:156` | `return None, None, None` | as 148: the flatten axis is not 1, or it carries an attribute the matcher does not model |
@@ -141,9 +150,9 @@ claim can be checked by reading the two lines above it.
 
 ## 3. The board ledger
 
-`research/COVERAGE_EXPANSION_RESULTS.md` is the evidence index: 121 rows, each pointing at a
+`research/COVERAGE_EXPANSION_RESULTS.md` is the evidence index: 130 rows, each pointing at a
 suite directory and counting models, inferences and **exact output bytes**. Ledger totals:
-**1,786 models / 29,706 inferences / 10,605,299 exact output bytes**.
+**1,799 models / 29,751 inferences / 10,774,293 exact output bytes**.
 
 A suite directory contains:
 
@@ -181,9 +190,9 @@ Run from the repository root; all of them are host-only and CI runs the applicab
 
 | Command | What it proves |
 | --- | --- |
-| `make test` | the 1,157-test host suite passes on 3.10-3.13 |
-| `make coverage` | the suite executes 99.20% of the compiler's lines, floor 99% |
-| `make baseline` | all 2,328 published suite models still compile to identical bytes (or stay rejected) |
+| `make test` | the 1,167-test host suite passes on 3.10-3.13 |
+| `make coverage` | the suite executes 99.18% of the compiler's lines, floor 99% |
+| `make baseline` | all 2,341 published suite models still compile to identical bytes (or stay rejected) |
 | `make campaign` | the largest suites recompile to their published containers; the 12 known drifts stay known |
 | `make evidence` | every retained suite agrees with its manifest, board results, references and README |
 | `make perf` | the cost model (tasks, engine blocks, registers, arena, payload) did not regress |

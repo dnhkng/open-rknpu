@@ -1,11 +1,12 @@
 # Examples
 
-Four sets of examples, ordered from "one primitive at a time" to "a trained model that runs
-entirely on the NPU". All of them are host-only unless a step says otherwise; board steps
-name their measured result.
+Ten sets of examples, ordered from "one primitive at a time" to "the camera pipeline the
+board exists for". All of them are host-only unless a step says otherwise; board steps name
+their measured result.
 
 | Example | What it shows | Measured result |
 | --- | --- | --- |
+| [`camera/`](camera/README.md) | the V4L2 -> NPU pipeline: capture (or replay) a YUYV/NV12/RGB frame, convert and downsample with the documented integer rule, then run a chain-walk container; the harness also carries the zero-copy hand-off | recorded replay 8 inferences / 8,192 exact bytes / 0 mismatches (512 runs, 1.5 ms/run), and `--emit-input` equals the Python converter byte-for-byte for all three formats; live capture is a measured negative (multi-planar nodes, `EBUSY` on `rkisp_mainpath`) |
 | [`notebooks/`](notebooks/README.md) | the guided walkthrough: a Jupyter/Colab notebook that compiles, decodes, cross-checks the integer references and calibrates, with the board section marked as needing hardware | every host cell runs green (8 of 8 code cells); the recorded board run it replays is `walk_chain_suite/model000` (768 exact bytes) |
 | [`depthwise_separable/`](depthwise_separable/README.md) | the depthwise-separable block (depthwise -> pointwise -> pool -> 1x1 head) compiled by the chain walk, with the integer reference and the board harness | 8/8 cases exact (512 bytes), 1.063 ms per inference on a quiet board |
 | [`multi_model/`](multi_model/README.md) | the multi-model lifecycle: two containers open at once, alternated, one arena each, one open per model | 800 board inferences, 1,843,200 exact bytes, 3.534 ms per inference (A 2.080, B 4.987) |

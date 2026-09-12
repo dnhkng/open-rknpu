@@ -1,7 +1,7 @@
 # Branch protection
 
 `main` is where the evidence contracts live: `research/container_baseline.json` (all 2,244
-suite models), the 121-row board ledger, the cost-model baseline and the coverage table in
+suite models), the 130-row board ledger, the cost-model baseline and the coverage table in
 [verification.md](verification.md). A change merged without a review or with a red gate makes
 one of those claims false, so `main` is protected by a repository **ruleset** whose required
 checks are the CI jobs. The checks are code in

@@ -9,7 +9,7 @@ accuracy tuning remains deferred; exact integer agreement is a separate claim.
 
 | Area | Implemented and board-verified bounds | Remaining work |
 |---|---|---|
-| Dense Conv | Native16 input packing, input C1..128/output C1..128; static batch1..16; H/W 1..128; odd K1..31; optional ReLU; strides 1..4; explicit padding 0..K-1; VALID/SAME_UPPER/SAME_LOWER. Inputs above6144 pixel-planes are split into aligned serial height tasks with overlap halos. | Unaligned tile geometries remain. K33 and native dilation18+ failed and are rejected. Runtime dimensions are immutable, so dynamic ONNX shapes require recompilation. |
+| Dense Conv | Native16 input packing, input C1..16352/output C1..8192 (measured walls: 511 32-lane weight parts in, nine-bit surface block index out; `wide_channel_suite/`); static batch1..16; H/W 1..128; odd K1..31; optional ReLU; strides 1..4; explicit padding 0..K-1; VALID/SAME_UPPER/SAME_LOWER. Inputs above6144 pixel-planes are split into aligned serial height tasks with overlap halos. | Unaligned tile geometries remain. K33 and native dilation18+ failed and are rejected. Runtime dimensions are immutable, so dynamic ONNX shapes require recompilation. |
 | Kernel rewrites | Even/rectangular constant kernels through5x5 embed into odd square kernels. Grouped kernels through group32/inputC32/outputC128 become zero-filled dense kernels. Effective dilation≤5 may expand into weights; larger dilation uses native registers through17. | Runtime weights and dedicated depthwise multiplier modes. Vendor group4 also chose dense expansion, so a separate native-group path is not required for ONNX semantics. |
 | Depthwise | RGB stem → multiplier1 depthwise, H/W5..8, C1..16, K1/3/5, stride1/2, with optional bias. A dense pointwise successor is verified from depthwise C3/5/9/16 to output C1/7/16/32. Direct-input depthwise uses the dense rewrite through C32→C128. | Wider chained spatial profiles, dedicated native dilation/asymmetric weight zero points and arbitrary chained padding. |
 | Arithmetic | Dense outputC1, optional bias, all-zero/bias-only and individually zero output channels; asymmetric dense and symmetric depthwise weights. Independent output conversion covers all public profiles. V4 permits complete packed native-Conv parameter replacement. Accumulators pass through about +/-2.076 billion. | Channel-tiled accumulation and unverified precisions. |
@@ -538,7 +538,8 @@ legacy-C1, halfway-rounding and first transposed probes.
 | [rect_pad](rect_pad_suite/) | 12 | 192 | 30,144 |
 | [global_pool](global_pool_suite/) | 12 | 192 | 1,248 |
 | [global_pool_reduce](global_pool_reduce_suite/) | 12 | 192 | 1,408 |
-| **Total** | **1,786** | **29,706** | **10,605,299** |
+| [wide_channel](wide_channel_suite/) | 13 | 45 | 168,994 |
+| **Total** | **1,799** | **29,751** | **10,774,293** |
 
 ## Final validation for this pass
 

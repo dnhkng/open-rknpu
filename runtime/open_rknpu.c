@@ -196,7 +196,7 @@ static int load_v5(FILE *f,const uint32_t *v,struct header *h,uint8_t **payload,
         struct tensor_spec *t=&tensors[i];
         if(!t->name[0] || !memchr(t->name,0,sizeof(t->name)) || t->role>ROLE_INTERNAL || t->layout>LAYOUT_PACKED_I8 ||
            t->batch<1 || t->batch>16 || t->height<1 || t->height>1024 || t->width<1 || t->width>1024 ||
-           t->channels<1 || t->channels>128 || (t->role==ROLE_INPUT && t->layout==LAYOUT_NATIVE16 && t->channels>128)) return rc;
+           t->channels<1 || t->channels>ORNPU_MAX_TENSOR_CHANNELS) return rc;
         uint64_t expected=tensor_arena_bytes(t->layout,t->batch,t->height,t->width,t->channels);
         if(!expected || t->size!=expected) return rc;
         if(t->offset<v[9] || (uint64_t)t->offset+t->size>v[10]) return rc;
@@ -310,8 +310,8 @@ static int load_program(const char *path,struct header *h,uint8_t **payload,
     int rc=-EINVAL;
     unsigned flags=v[19]&255,constants_count=v[19]>>8;
     if((v[0]!=3 && v[0]!=4) || v[1]!=96 || flags>3 || constants_count>MAX_CONSTANTS || ((v[0]==3)!=(constants_count==0)) || v[20]>1 || v[21]>15 ||
-       !v[2] || v[2]>1024 || !v[3] || v[3]>1024 || (v[20]?(!v[4] || v[4]>128):(v[4]!=1 && v[4]!=3)) ||
-       !v[5] || v[5]>1024 || !v[6] || v[6]>1024 || !v[7] || v[7]>128 ||
+       !v[2] || v[2]>1024 || !v[3] || v[3]>1024 || (v[20]?(!v[4] || v[4]>ORNPU_MAX_NATIVE_CHANNELS):(v[4]!=1 && v[4]!=3)) ||
+       !v[5] || v[5]>1024 || !v[6] || v[6]>1024 || !v[7] || v[7]>ORNPU_MAX_OUTPUT_CHANNELS ||
        v[8]!=(v[20]?v[3]:(v[3]+15)/16*16) || !v[9] || v[9]>1048576 || v[9]%64 ||
        !v[10] || v[10]>4194304 || v[10]%4096 || !v[13] || v[13]>MAX_TASKS) goto done;
     uint32_t batch=v[21]+1;

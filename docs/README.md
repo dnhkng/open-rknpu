@@ -55,7 +55,9 @@ documents are ordered from "run your first model" to "recover a new register fie
 Examples with measured board results live in [`../examples/`](../examples/README.md):
 `primitives/` (one script per op), `cookbook/` (task-oriented recipes),
 `notebooks/` (a runnable end-to-end walkthrough), `mnist/` and `fashion/` (hybrid
-classifiers), `mel-kws/` (a trained audio model running entirely on the NPU). [THIRD_PARTY.md](../THIRD_PARTY.md) lists every non-MIT component.
+classifiers), `mel-kws/` (a trained audio model running entirely on the NPU),
+`depthwise_separable/`, `benchmark/`, `multi_model/` and `camera/` (the V4L2 pipeline).
+[THIRD_PARTY.md](../THIRD_PARTY.md) lists every non-MIT component.
 
 ## Conventions used throughout
 

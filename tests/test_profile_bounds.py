@@ -37,10 +37,10 @@ from open_rknpu.tiled_chain import compile_tiled_chain
 from open_rknpu.transposed import compile_transposed
 from open_rknpu.walk import compile_chain_walk, parse_chain
 
-NATIVE_SHAPE = ("native Conv requires static batch1..16, H/W1..128, input C1..128, "
+NATIVE_SHAPE = ("native Conv requires static batch1..16, H/W1..128, input C1..16352, "
                 "constant weights/bias")
 NATIVE_ATTRS = ("native Conv supports odd K1..31, explicit padding, stride 1..4, "
-                "input C1..128/output C1..128")
+                "input C1..16352/output C1..8192")
 NATIVE_GEOMETRY = "native padding/stride/dilation unsupported"
 NATIVE_OUTPUT = "invalid native Conv output geometry"
 
@@ -514,24 +514,30 @@ class NativeConvBoundsTests(unittest.TestCase):
     """Dense/image Conv bounds in `native.compile_native_input`."""
 
     def test_input_channel_boundary(self):
-        for channels in (1, 128):
+        # 16352 is the largest 16-lane count inside the 511-part weight-table budget; the
+        # board hangs at 16368 (512 parts) and the driver soft-resets the core, so the
+        # emitter refuses it. See docs/investigation-log.md ("channel-plane wall").
+        for channels, size in ((1, 8), (128, 8), (129, 8), (1024, 8), (16352, 2)):
             with self.subTest(channels=channels):
-                _, meta = compile_native_input(native_model(ic=channels))
+                _, meta = compile_native_input(native_model(ic=channels, k=1, pads=[0, 0, 0, 0],
+                                                            ih=size, iw=size))
                 self.assertEqual(meta["shape_nhwc"][3], channels)
-        for channels in (0, 129):
+        for channels in (0, 16353, 16368):
             with self.subTest(channels=channels):
                 with self.assertRaisesRegex(ValueError, re.escape(NATIVE_SHAPE)):
                     compile_native_input(native_model(ic=channels, k=1, pads=[0, 0, 0, 0]))
 
     def test_output_channel_boundary(self):
-        for channels in (1, 128):
+        # 8192 output channels (512 16-channel surface blocks) is the largest exact
+        # geometry; C16384 writes the first 8192 channels and then wrong bytes.
+        for channels in (1, 128, 129, 1024, 8192):
             with self.subTest(channels=channels):
-                _, meta = compile_native_input(native_model(oc=channels))
+                _, meta = compile_native_input(native_model(oc=channels, k=1, pads=[0, 0, 0, 0]))
                 self.assertEqual(meta["output_shape_nhwc"][3], channels)
-        for channels in (0, 129):
+        for channels in (0, 8193, 16384):
             with self.subTest(channels=channels):
                 with self.assertRaisesRegex(ValueError, re.escape(NATIVE_ATTRS)):
-                    compile_native_input(native_model(oc=channels))
+                    compile_native_input(native_model(oc=channels, k=1, pads=[0, 0, 0, 0]))
 
     def test_spatial_boundary(self):
         for size in (1, 128):

@@ -6,6 +6,7 @@ CC ?= cc
 CFLAGS ?= -O2 -std=gnu99 -Wall -Wextra -Werror -D_GNU_SOURCE
 MAINTAINED := src tests examples research/verify_suites.py research/campaign_sweep.py \
               research/check_docs_links.py research/probe_conv_envelope.py \
+              research/probe_wide_channel_wall.py research/build_wide_channel_suite.py \
               research/build_mel_kws_suite.py research/build_reference_docs.py \
               research/build_suite_readmes.py research/run_mutation_tests.py \
               research/perf_regression.py research/check_reproducible_build.py \

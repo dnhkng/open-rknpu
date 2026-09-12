@@ -461,17 +461,17 @@ This index covers 578 messages across 37 modules; 4 are pure expressions with no
 | `native input profile requires one Conv` | `native.py:78` | The native input profile is one Conv with an optional Relu or Clip. |
 | `invalid native Relu connection` | `native.py:81` | The Relu must be the standard node directly fed by the Conv. |
 | `native Clip fusion requires constant scalar range [0,6]` | `native.py:88` | The fused Clip must use constant scalar bounds 0 and 6. |
-| `native Conv requires static batch1..16, H/W1..128, input C1..128, constant weights/bias` | `native.py:93` | Use a static batch 1-16, H/W 1-128, input C 1-128 Conv with constant weights/bias. |
+| `native Conv requires static batch1..16, H/W1..128, input C1..16352, constant weights/bias` | `native.py:93` | Use a static batch 1-16, H/W 1-128, input C 1-16352 Conv with constant weights/bias. |
 | `native Conv weights must have rank four` | `native.py:96` | Native Conv weights must be a rank-4 [O,I,K,K] tensor. |
 | `native padding/stride/dilation unsupported` | `native.py:102` | Use pads 0-255, stride 1-4 and dilation 1-17. |
 | `invalid native Conv output geometry` | `native.py:105` | The output geometry is not positive or the padding exceeds the kernel. |
-| `native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..128/output C1..128` | `native.py:112` | Only odd K1-31, explicit padding, stride 1-4 and C1-128 in/out are lowered. |
+| `native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..16352/output C1..8192` | `native.py:112` | Only odd K1-31, explicit padding, stride 1-4 and C1-16352 in/C1-8192 out are lowered. |
 | `invalid input zero point` | `native.py:113` | The input zero point must be an integer in [0,255]. |
 | `prequantized native Conv already carries output quantization` | `native.py:117` | A prequantized Conv cannot also take Clip/Relu/output-range options. |
 | `native Conv geometry cannot be safely height-tiled` | `native.py:126` | The image exceeds the CNA atom budget and cannot be split into safe height tiles. |
 | `native Conv geometry has no aligned height tiling` | `native.py:137` | No 64-byte-aligned height tiling fits the atom budget; change the geometry. |
 | `native Conv height tiling made no progress` | `native.py:139` | The tiler could not advance a row; check the geometry bounds. |
-| `native input channel tiling unsupported` | `native.py:163` | Input channels must align to a 16-lane plane count of 1-8. |
+| `native input channel tiling unsupported` | `native.py:164` | Input channels must align to 16-lane planes within the 511-part weight-table budget (C1-16352). |
 
 ## `native_elementwise.py`
 
@@ -667,41 +667,41 @@ This index covers 578 messages across 37 modules; 4 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `unknown tensor layout` | `sequence.py:38` | A tensor layout code is not packed-U8, native16 or packed-INT8. |
-| `invalid tensor descriptor` | `sequence.py:53,165` | A version-5 tensor descriptor is malformed. |
-| `tensor descriptor size mismatch` | `sequence.py:55,167` | A tensor's declared size does not match its layout and shape. |
-| `v5 requires at least one external input and output` | `sequence.py:62` | A version-5 container needs at least one external input and one output. |
-| `external tensor indices must be contiguous from zero` | `sequence.py:64,178` | External input/output indices must run 0, 1, 2, ... |
-| `v5 containers have no constant descriptor table; runtime replaceable parameters require a v4 container` | `sequence.py:79` | Version 5 has no constant table; use a v4 container (encode_sequence) for runtime-replaceable parameters. |
-| `unknown input layout` | `sequence.py:104` | The header input-layout flag is not packed UINT8 or native16. |
-| `batch must be 1..16` | `sequence.py:105` | The container batch must be 1-16. |
-| `logical input tensor count unsupported` | `sequence.py:107` | Only the supported external-input counts encode in this container version. |
-| `too many constant descriptors` | `sequence.py:108` | The container has more than the 64 constant-descriptor slots. |
-| `invalid constant descriptor` | `sequence.py:114,258` | A version-4 constant descriptor is malformed. |
-| `invalid v5 sequence header` | `sequence.py:130` | The version-5 header fields are inconsistent. |
-| `truncated v5 extension` | `sequence.py:131` | The file ends inside the version-5 extension. |
-| `invalid v5 extension` | `sequence.py:134` | A version-5 extension field is invalid. |
-| `invalid task count` | `sequence.py:135` | The declared task count is outside the loader's table. |
-| `invalid sequence allocation` | `sequence.py:137,227` | Payload, arena or IO offsets and sizes violate the layout. |
-| `incorrect sequence length` | `sequence.py:139,240` | The declared payload length does not match the file. |
-| `invalid sequence quantization` | `sequence.py:145,238` | A header scale or zero point field is out of range. |
-| `invalid task descriptor` | `sequence.py:153,249` | A task descriptor's offset, count, enable or mask is inconsistent. |
-| `invalid tensor name` | `sequence.py:160` | A tensor name is empty, too long or not NUL-terminated. |
-| `tensor outside arena` | `sequence.py:168` | A tensor's byte range leaves the arena. |
-| `overlapping external tensors` | `sequence.py:182` | Two external tensors share arena bytes; they must be disjoint. |
-| `internal tensor overlaps external tensor` | `sequence.py:187` | An internal tensor overlaps an external one. |
-| `v5 primary tensor mismatch` | `sequence.py:194` | The header's primary shape/offset does not match external tensor 0. |
-| `sequence checksum mismatch` | `sequence.py:196,263` | The FNV-1a checksum failed; the file was modified or corrupted. |
-| `truncated sequence header` | `sequence.py:210` | The file is shorter than the 96-byte sequence header. |
-| `invalid sequence magic` | `sequence.py:213` | The file does not start with the ORNPUSEQ magic. |
-| `invalid sequence header` | `sequence.py:217` | A header version or size field is unsupported. |
-| `invalid two-input tensor layout` | `sequence.py:220` | The two-input layout does not match the declared input count. |
-| `batched sequence requires native16 layout` | `sequence.py:221` | Batched submission needs the native16 input layout. |
-| `invalid sequence shape` | `sequence.py:223` | A declared dimension is outside the loader's bounds. |
-| `invalid stride/task count` | `sequence.py:225` | The input row stride or task count is inconsistent with the header. |
-| `overlapping or out-of-bounds IO buffers` | `sequence.py:232` | Input/output extents leave the arena or overlap each other. |
-| `invalid constant name` | `sequence.py:256` | A constant name is empty, too long or not NUL-terminated. |
-| `constant overlaps command program` | `sequence.py:260` | A constant region overlaps a command program. |
+| `unknown tensor layout` | `sequence.py:50` | A tensor layout code is not packed-U8, native16 or packed-INT8. |
+| `invalid tensor descriptor` | `sequence.py:65,177` | A version-5 tensor descriptor is malformed. |
+| `tensor descriptor size mismatch` | `sequence.py:67,179` | A tensor's declared size does not match its layout and shape. |
+| `v5 requires at least one external input and output` | `sequence.py:74` | A version-5 container needs at least one external input and one output. |
+| `external tensor indices must be contiguous from zero` | `sequence.py:76,190` | External input/output indices must run 0, 1, 2, ... |
+| `v5 containers have no constant descriptor table; runtime replaceable parameters require a v4 container` | `sequence.py:91` | Version 5 has no constant table; use a v4 container (encode_sequence) for runtime-replaceable parameters. |
+| `unknown input layout` | `sequence.py:116` | The header input-layout flag is not packed UINT8 or native16. |
+| `batch must be 1..16` | `sequence.py:117` | The container batch must be 1-16. |
+| `logical input tensor count unsupported` | `sequence.py:119` | Only the supported external-input counts encode in this container version. |
+| `too many constant descriptors` | `sequence.py:120` | The container has more than the 64 constant-descriptor slots. |
+| `invalid constant descriptor` | `sequence.py:126,271` | A version-4 constant descriptor is malformed. |
+| `invalid v5 sequence header` | `sequence.py:142` | The version-5 header fields are inconsistent. |
+| `truncated v5 extension` | `sequence.py:143` | The file ends inside the version-5 extension. |
+| `invalid v5 extension` | `sequence.py:146` | A version-5 extension field is invalid. |
+| `invalid task count` | `sequence.py:147` | The declared task count is outside the loader's table. |
+| `invalid sequence allocation` | `sequence.py:149,240` | Payload, arena or IO offsets and sizes violate the layout. |
+| `incorrect sequence length` | `sequence.py:151,253` | The declared payload length does not match the file. |
+| `invalid sequence quantization` | `sequence.py:157,251` | A header scale or zero point field is out of range. |
+| `invalid task descriptor` | `sequence.py:165,262` | A task descriptor's offset, count, enable or mask is inconsistent. |
+| `invalid tensor name` | `sequence.py:172` | A tensor name is empty, too long or not NUL-terminated. |
+| `tensor outside arena` | `sequence.py:180` | A tensor's byte range leaves the arena. |
+| `overlapping external tensors` | `sequence.py:194` | Two external tensors share arena bytes; they must be disjoint. |
+| `internal tensor overlaps external tensor` | `sequence.py:199` | An internal tensor overlaps an external one. |
+| `v5 primary tensor mismatch` | `sequence.py:206` | The header's primary shape/offset does not match external tensor 0. |
+| `sequence checksum mismatch` | `sequence.py:208,276` | The FNV-1a checksum failed; the file was modified or corrupted. |
+| `truncated sequence header` | `sequence.py:222` | The file is shorter than the 96-byte sequence header. |
+| `invalid sequence magic` | `sequence.py:225` | The file does not start with the ORNPUSEQ magic. |
+| `invalid sequence header` | `sequence.py:229` | A header version or size field is unsupported. |
+| `invalid two-input tensor layout` | `sequence.py:232` | The two-input layout does not match the declared input count. |
+| `batched sequence requires native16 layout` | `sequence.py:233` | Batched submission needs the native16 input layout. |
+| `invalid sequence shape` | `sequence.py:236` | A declared dimension is outside the loader's bounds. |
+| `invalid stride/task count` | `sequence.py:238` | The input row stride or task count is inconsistent with the header. |
+| `overlapping or out-of-bounds IO buffers` | `sequence.py:245` | Input/output extents leave the arena or overlap each other. |
+| `invalid constant name` | `sequence.py:269` | A constant name is empty, too long or not NUL-terminated. |
+| `constant overlaps command program` | `sequence.py:273` | A constant region overlaps a command program. |
 
 ## `strided.py`
 

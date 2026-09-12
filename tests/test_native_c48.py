@@ -142,15 +142,22 @@ class NativeC48Tests(unittest.TestCase):
                 self.assertEqual(decode_sequence(binary)["shape_nhwc"][3], ic)
                 self.assertEqual(meta["shape_nhwc"][3], ic)
 
-    def test_above_128_rejected(self):
+    def test_above_128_is_now_lowered_and_the_wide_wall_is_enforced(self):
+        # F10 (2026-09-12): the old C1..128 front-end cap was a vendor-fixture artifact, not a
+        # hardware wall. C144 lowers; the real wall is the 511-part weight table, so C16352 is
+        # the largest accepted input and C16368 (512 parts) is refused (it hangs the CNA job).
         model = c48_model(ic=144)
         path = ROOT / "research" / "_native_c144.onnx"
         onnx.save(model, path)
         try:
-            with self.assertRaises(ValueError):
-                compile_sequence(path)
+            binary, meta = compile_sequence(path)
         finally:
             path.unlink()
+        self.assertEqual(decode_sequence(binary)["input_layout"], "native16")
+        self.assertEqual(meta["shape_nhwc"][3], 144)
+        with self.assertRaises(ValueError) as caught:
+            compile_sequence(c48_model(ic=16368))
+        self.assertIn("input C1..16352", str(caught.exception))
 
 
 if __name__ == "__main__":

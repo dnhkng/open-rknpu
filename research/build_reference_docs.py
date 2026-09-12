@@ -1093,16 +1093,16 @@ ERROR_MEANINGS = {
         "The Relu must be the standard node directly fed by the Conv.",
     "native Clip fusion requires constant scalar range [0,6]":
         "The fused Clip must use constant scalar bounds 0 and 6.",
-    "native Conv requires static batch1..16, H/W1..128, input C1..128, constant weights/bias":
-        "Use a static batch 1-16, H/W 1-128, input C 1-128 Conv with constant weights/bias.",
+    "native Conv requires static batch1..16, H/W1..128, input C1..16352, constant weights/bias":
+        "Use a static batch 1-16, H/W 1-128, input C 1-16352 Conv with constant weights/bias.",
     "native Conv weights must have rank four":
         "Native Conv weights must be a rank-4 [O,I,K,K] tensor.",
     "native padding/stride/dilation unsupported":
         "Use pads 0-255, stride 1-4 and dilation 1-17.",
     "invalid native Conv output geometry":
         "The output geometry is not positive or the padding exceeds the kernel.",
-    "native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..128/output C1..128":
-        "Only odd K1-31, explicit padding, stride 1-4 and C1-128 in/out are lowered.",
+    "native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..16352/output C1..8192":
+        "Only odd K1-31, explicit padding, stride 1-4 and C1-16352 in/C1-8192 out are lowered.",
     "invalid input zero point":
         "The input zero point must be an integer in [0,255].",
     "prequantized native Conv already carries output quantization":
@@ -1114,7 +1114,7 @@ ERROR_MEANINGS = {
     "native Conv height tiling made no progress":
         "The tiler could not advance a row; check the geometry bounds.",
     "native input channel tiling unsupported":
-        "Input channels must align to a 16-lane plane count of 1-8.",
+        "Input channels must align to 16-lane planes within the 511-part weight-table budget (C1-16352).",
     # --- native_elementwise.py -----------------------------------------------
     "native elementwise requires two Conv branches":
         "The native elementwise profile is two Conv[/Relu] branches and one join.",

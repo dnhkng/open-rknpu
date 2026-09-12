@@ -14,7 +14,7 @@ scope. The chronological record behind every item is in
 | Per-family cost model | duplicated-task fitting cross-checked on held-out containers (`research/family_cost_crosscheck/`) |
 | Calibration | `minmax` / `percentile` / `kl` measured and used per Conv, including the walk (`research/percentile_calibration_suite/`, `examples/mel-kws/`) |
 | Dense K3-dilation2 ConvTranspose | `research/transpose_dilation_dense_suite/` |
-| Input channels to C128 | a vendor C128 Conv is a single CNA task, so no channel-split accumulation is needed (`research/native_c65_suite/`) |
+| Input channels past C128 | a CNA task reads far more than eight 16-lane planes: the limit is the 511-part weight table, so C1..16352 in / C1..8192 out are lowered and the emitted containers are board-exact (`research/wide_channel_suite/`, `research/probe_wide_channel_wall.py`) |
 | Emitter port to the composer | every DAG emitter composes byte-identically (`research/composer_port_reference.json`, `tests/test_composer_emitters.py`) |
 | Trained audio model, whole graph on the NPU | `examples/mel-kws/`: 98.00% INT8, 191,968/192,000 exact bytes |
 | Large-image chains | native16 image input for `3x32x32` (single task, ≤6144 atoms) with calibrated bands |
@@ -100,19 +100,23 @@ bytes), and the two height-strip probes were regenerated and re-run.
 | Capability | Why | Closest workaround |
 | --- | --- | --- |
 | 1-D convolution (`kernel_shape [k]`) | **supported since 2026-09-12**: a rank-3 `[N,C,L]` graph is promoted to `[N,C,1,L]` in place (`research/conv1d_suite/`) | none needed; the container reports `H = 1` |
-| Rectangular kernels with one-sided padding | the native profile accepts odd square kernels | even/rectangular kernels through 5×5 are rewritten to odd square |
+| Rectangular kernels with one-sided padding | **supported since 2026-09-12** where the explicit-pad path accepts them: one-sided top/bottom/left/right, asymmetric pairs and rectangular K1xK3 (`research/rect_pad_suite/`) | none needed inside those bounds |
 | Kernels > 31 | outside the verified register encoding | split large kernels (e.g. an STFT basis) into shorter taps |
 | `MatMul`/`Gemm` with a constant rank-2 weight | **supported since 2026-09-12** by lowering to the verified 1×1 Conv path (`research/matmul_suite/`) | none needed for the `[N,C,1,1]` / Flatten form |
-| `Softmax`, `Concat`, `Slice`, `Pad` (non-constant), `ReduceMean`, `Shape`-driven control flow | no primitive; the project accepts a bounded static CNN class | host-side post-processing for the rest |
+| `Concat` of sibling Conv branches; terminal `ReduceMean(axes=[2,3])` on 8x8 | **supported since 2026-09-12** in the bounded cases (stacked weights / three chained pools) | `Softmax`, `Slice`, `Resize`, non-constant `Pad` and `Shape`-driven control flow stay out of scope; host-side post-processing for the rest |
 | LSTM/GRU and other recurrence | no hardware primitive and no GEMM to decompose into | keep the recurrent part on the CPU (`examples/mel-kws/` shows host-side pooling/argmax; a hybrid LSTM model is the same pattern) |
 | Dynamic shapes / variable batch | containers are immutable | recompile per shape; batch ≤16 is supported inside one container |
 | Multi-stage detection heads (upsample/concat/anchors) | build on unsupported ops | none yet |
 | dma-buf zero-copy from the ISP | not implemented | stage through the runtime's buffers (measured overhead is in the example READMEs) |
 
 A real pretrained model (Silero VAD) was checked against this envelope and blocked by four
-independent gaps at once — 1-D convs, a 256-tap STFT kernel, input C129, and an LSTM — so the
-project's audio milestone was instead a purpose-built mel-CNN that only uses verified
-primitives (`examples/mel-kws/`). The full table is in
+independent gaps at once — 1-D convs, a 256-tap STFT kernel, input C129, and an LSTM. Two of
+those are closed (a rank-3 1-D Conv lowers through the promotion path, and the channel wall
+is now C16352), so the model's remaining blockers are the 256-tap/stride-128 STFT basis, the
+two `LSTM` layers and the `If`/`Shape`/`Gather`/dynamic-`Slice` control flow; a multi-layer
+1-D chain is still not dispatched (the walk rejects `[1,129,...,1,L]` chains with
+`unsupported chain walk graph`). The project's audio milestone was instead a purpose-built
+mel-CNN that only uses verified primitives (`examples/mel-kws/`). The full table is in
 [plans/primitive-roadmap.md](plans/primitive-roadmap.md).
 
 ## How to contribute a primitive

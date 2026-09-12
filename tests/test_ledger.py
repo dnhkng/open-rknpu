@@ -55,7 +55,7 @@ class LedgerTests(unittest.TestCase):
         cls.total = tuple(_number(value) for value in total.groups())
 
     def test_rows_sum_to_the_total(self):
-        self.assertEqual(len(self.rows), 129)
+        self.assertEqual(len(self.rows), 130)
         self.assertEqual(tuple(sum(row[index] for row in self.rows) for index in (2, 3, 4)),
                          self.total)
 

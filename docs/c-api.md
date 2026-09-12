@@ -73,6 +73,11 @@ uint32_t engine_runs;         /* ioctls a non-serial container is submitted as *
 * `height`/`width`/`input_channels` and `output_height`/`output_width`/`output_channels`
   are the **primary** input and output (role index 0) — for a legacy executable the fixed
   header geometry.
+* The native16 channel bounds are compile-time constants in `open_rknpu.h`:
+  `ORNPU_MAX_NATIVE_CHANNELS` (16352: 511 32-lane weight parts) and
+  `ORNPU_MAX_OUTPUT_CHANNELS` (8192: a nine-bit surface block index). They are the measured
+  walls behind `research/wide_channel_suite/`; the header names the probe that re-measures
+  the refused sides.
 * `input_bytes = batch × H × W × C` and `output_bytes = batch × H × W × C` of the primary
   tensors. These are the sizes `ornpu_run` requires, with **no row or pixel padding**.
 * `input_scale`/`input_zero_point` dequantize the UINT8 input:

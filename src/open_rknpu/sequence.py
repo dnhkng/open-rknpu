@@ -19,6 +19,18 @@ V5_TENSOR_SIZE=64
 ROLE_INPUT,ROLE_OUTPUT,ROLE_INTERNAL=0,1,2
 LAYOUT_PACKED_U8,LAYOUT_NATIVE16,LAYOUT_PACKED_I8=0,1,2
 LAYOUT_NAMES={LAYOUT_PACKED_U8:"packed",LAYOUT_NATIVE16:"native16",LAYOUT_PACKED_I8:"packed-int8"}
+# Native16 channel bounds. Both are structural walls measured on the board rather than
+# guesses. Input: the CNA reads channel planes in 16-lane steps and its weight table groups
+# them in 32-lane parts, so `ceildiv(lanes,32) <= 511` fixes the largest input at 16352
+# channels; C16352 (511 parts) is byte-exact and C16368 (512 parts) never completes (job
+# timeout, driver soft reset). Output: the surface block index `(oc-1)//16` is nine bits, so
+# 8192 output channels (512 blocks) is the largest exact geometry; C16384 writes the first
+# 8192 channels correctly and then wrong bytes. The v5 tensor table uses the input bound for
+# every role because an internal tensor can be either side of a chain.
+MAX_NATIVE_CHANNELS=16352
+MAX_OUTPUT_CHANNELS=8192
+# The weight table is built from 32-lane parts and the driver completes at most 511 of them.
+MAX_WEIGHT_PARTS=511
 
 
 def float_bits(value):
@@ -48,7 +60,7 @@ def _pack_tensors(tensors):
         if (not name or len(encoded)>23 or name in names or role not in (ROLE_INPUT,ROLE_OUTPUT,ROLE_INTERNAL)
             or layout not in (LAYOUT_PACKED_U8,LAYOUT_NATIVE16,LAYOUT_PACKED_I8)
             or not 1<=batch<=16 or not all(1<=v<=1024 for v in (height,width))
-            or not 1<=channels<=128
+            or not 1<=channels<=MAX_NATIVE_CHANNELS
             or offset<0 or size<1):
             raise ValueError('invalid tensor descriptor')
         expected=tensor_native_bytes(layout,batch,height,width,channels)
@@ -161,7 +173,7 @@ def _decode_v5(data):
         if (not name or len(name_bytes)>=24 or raw[len(name_bytes)]!=0 or reserved or name in names
             or role not in (ROLE_INPUT,ROLE_OUTPUT,ROLE_INTERNAL) or layout not in LAYOUT_NAMES
             or not 1<=batch<=16 or not all(1<=v<=1024 for v in (height,width))
-            or not 1<=channels<=128):
+            or not 1<=channels<=MAX_NATIVE_CHANNELS):
             raise ValueError('invalid tensor descriptor')
         expected=tensor_native_bytes(layout,batch,height,width,channels)
         if size!=expected:raise ValueError('tensor descriptor size mismatch')
@@ -219,7 +231,8 @@ def decode_sequence(data):
     input_tensor_count=(flags>>1)+1
     if input_tensor_count==2 and ih%2:raise ValueError('invalid two-input tensor layout')
     if batch!=1 and not r1:raise ValueError("batched sequence requires native16 layout")
-    if not (all(1<=n<=1024 for n in (ih,iw,oh,ow)) and ((1<=ic<=128) if r1 else ic in (1,3)) and 1<=oc<=128):
+    if not (all(1<=n<=1024 for n in (ih,iw,oh,ow))
+            and ((1<=ic<=MAX_NATIVE_CHANNELS) if r1 else ic in (1,3)) and 1<=oc<=MAX_OUTPUT_CHANNELS):
         raise ValueError("invalid sequence shape")
     if stride!=(iw if r1 else (iw+15)//16*16) or not 1<=count<=64:
         raise ValueError("invalid stride/task count")

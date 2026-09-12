@@ -561,7 +561,7 @@ class UnsupportedInputTests(_PathMixin, unittest.TestCase):
                 self.reject_saved(message, model)
 
     def test_dynamic_shapes(self):
-        self.reject_saved("native Conv requires static batch1..16, H/W1..128, input C1..128",
+        self.reject_saved("native Conv requires static batch1..16, H/W1..128, input C1..16352",
                           dynamic_conv())
 
     def test_second_graph_input(self):

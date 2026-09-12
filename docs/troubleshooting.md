@@ -37,8 +37,8 @@ graph ([getting-started.md](getting-started.md), [roadmap.md](roadmap.md)).
 | `sequence lowering requires one input, one output, and an initial Conv` | a graph the scheduler cannot start on: multiple inputs/outputs, or a first node that is not `Conv` |
 | `sequence lowering currently supports Conv[/Relu] followed by 2x2 pooling` | a node after the first Conv that is neither a pool nor one of the matched profiles |
 | `static NCHW input required` | rank-3 / 1-D convolution, or a non-static input rank |
-| `native Conv requires static batch1..16, H/W1..128, input C1..128, constant weights/bias` | batch/shape/channel outside the native range, a dynamic dimension, or non-constant weights |
-| `native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..128/output C1..128` | even or >31 kernels that no rewrite covered, `group != 1`, wrong dtype, or an output shape that disagrees with the graph |
+| `native Conv requires static batch1..16, H/W1..128, input C1..16352, constant weights/bias` | batch/shape/channel outside the native range, a dynamic dimension, non-constant weights, or input channels above the measured 16352-channel (511-part) wall |
+| `native Conv supports odd K1..31, explicit padding, stride 1..4, input C1..16352/output C1..8192` | even or >31 kernels that no rewrite covered, `group != 1`, wrong dtype, output channels above the measured 8192-channel (512-block) wall, or an output shape that disagrees with the graph |
 | `native padding/stride/dilation unsupported` | stride outside 1..4, dilation outside 1..17, or more than four pads |
 | `invalid native Conv output geometry` | padding so large the effective kernel does not fit the input |
 | `elementwise profile requires two Conv branches feeding Add, Mul, Sub or Max` | a join whose operands are not two Conv[/Relu] branches |

@@ -4,8 +4,9 @@ Each entry below is prepended newest-first; the older narrative from the first
 `regcmd` investigation is kept at the end.
 
 <details>
-<summary>Table of contents (73 entries)</summary>
+<summary>Table of contents (74 entries)</summary>
 
+* [2026-09-12: the channel-plane wall is the weight table, not C128 (F10 closed)](#2026-09-12-the-channel-plane-wall-is-the-weight-table-not-c128-f10-closed)
 * [2026-09-12: the chain border zero point is programmed (F4)](#2026-09-12-the-chain-border-zero-point-is-programmed-f4)
 * [2026-09-12: the camera path is held by rkipc (E5 probe)](#2026-09-12-the-camera-path-is-held-by-rkipc-e5-probe)
 * [2026-09-12: dma-buf zero-copy input is implemented and board-verified (F8)](#2026-09-12-dma-buf-zero-copy-input-is-implemented-and-board-verified-f8)
@@ -82,6 +83,67 @@ Each entry below is prepended newest-first; the older narrative from the first
 * [Summary: `regcmd` investigation (older findings, kept as-is)](#rv1103-npu--rknn-regcmd-investigation--summary)
 
 </details>
+
+## 2026-09-12: the channel-plane wall is the weight table, not C128 (F10 closed)
+
+"Channel-split accumulation for C > 128" was carried as an XL research item on the theory
+that more than 128 input channels need the undocumented INT32 partial-sum path. It does not:
+one CNA task reads many more than eight 16-lane planes, and the only wall is structural.
+This pass measured both walls, lifted the front-end cap to them, and pinned a suite on each
+side.
+
+**Input.** The weight table is built from 32-lane parts (`native.weight_byte`: all taps of
+lanes 0..31, then of lanes 32..63, ..., inside each 16-output block), and the driver
+completes at most **511 parts**. `ceildiv(lanes, 32) <= 511` therefore caps the input at
+**16352 channels**. The boundary is exact and was measured twice - once with a scratch tree,
+once with the shipped emitter and the shipped runtime built with the bounds lifted
+(`research/probe_wide_channel_wall.py`):
+
+| Model | planes | parts | Board result |
+| --- | ---: | ---: | --- |
+| `c16352-in-k1` (2x2, K1) | 1022 | 511 | PASS, byte-exact |
+| `c16368-in-k1` (2x2, K1) | 1023 | 512 | never completes: `RKNPU: job timeout ... soft reset`, `-EINVAL` to the caller |
+| `c14560-in-k3` (1x1, K3) | 910 | 455 | PASS (K3, `0x1188 = 65520`) |
+| `c1808-in-k3` (8x8, K3) | 113 | 57 | PASS |
+| `c1360-in-k3` (16x16, K3, height-tiled) | 85 | 43 | PASS |
+
+The `0x1188 = 8*k*k*tiles` register is *not* the wall: C14560/K3 programs 65520 there, and
+`c1808-in-k3` programs 8136 (above the 6144-atom height-tiling budget) - both exact. The
+6144-atom budget in `native.tile_geometry` governs input atoms per task, so wide channels
+shrink the per-task image and trigger height tiling instead (`c1360-in-k3`, 16x16, 7 tasks).
+
+**Output.** The surface block index `(oc-1)//16` is nine bits, so **8192 output channels**
+(512 blocks) is the largest exact geometry. C16384 (1024 blocks) runs and then lies: the
+first 8192 channels come back correct and every byte after that is wrong (`output 8192: got
+0 expected -21`), which is exactly the block-boundary signature. C8192 is byte-exact.
+
+**What changed.** `sequence.MAX_NATIVE_CHANNELS = 16352`, `MAX_OUTPUT_CHANNELS = 8192` and
+`MAX_WEIGHT_PARTS = 511` replace the old flat `128` in `native.compile_native_input` and in
+both container decoders (Python `sequence.py`, C `runtime/open_rknpu.c`; the C header exposes
+`ORNPU_MAX_NATIVE_CHANNELS`/`ORNPU_MAX_OUTPUT_CHANNELS`, overridable only for the probe).
+The v5 tensor table uses the input bound for every role because an internal tensor can be
+either side of a chain. No existing container changed: `verify_suites.py` reported
+`changed=0` and 13 added models, which were re-baselined after their board run.
+
+**Evidence.** `research/wide_channel_suite/` (built by `research/build_wide_channel_suite.py`)
+holds 13 models across the new range - C129, C160, C192, C256, C1024, C4096, C8192, C16352,
+C1360/K3 and C144/K3 height-tiled, C14560/K3, plus C8192 output - with expected bytes from
+`native_input_reference`. Board: **13 models, 45 inferences, 168,994 exact output bytes**,
+0 mismatches (`board_results_0.json`). The refused sides are re-measurable with
+`research/probe_wide_channel_wall.py`, which prints the matching `-D` cross-compile line for
+the lifted runtime.
+
+**Silero VAD (E12) after F10.** The 2026-09-11 envelope listed input C129 as one of four
+independent blockers. It is not one any more: C129 lowers, and so does the rank-3 1-D form
+that the STFT/encoder Convs need. Re-measured 2026-09-12, a well-formed three-layer 1-D
+encoder chain (`129->128->64->128`, K3, pad 1, rank-3 weights) still does not compile - the
+legacy chain profiles require the fixed `[1,3,8,8]` float image (`native chain external
+tensors must be float32 [1,3,8,8]`) and the walk rejects the promoted `H=1` chain
+(`unsupported chain walk graph`, then `unsupported two-layer graph or quantization
+parameters`) - and the model's other blockers are untouched: the 256-tap/stride-128 STFT
+basis, the two `LSTM` layers and the `If`/`Shape`/`Gather`/dynamic-`Slice` control flow. E12
+therefore closes as a documented negative with two blockers removed rather than four
+remaining; the audio milestone stays `examples/mel-kws/`.
 
 ## 2026-09-12: the chain border zero point is programmed (F4)
 
@@ -465,7 +527,7 @@ three checked-in scripts: `research/verify_suites.py` (with the pre-cleanup map
 * the rebuilt wheel has the same **38 modules, byte-identical to `src/`**, and a clean-venv
   install of that wheel recompiles **2,244 / 2,244** baseline entries - the strongest form
   of the wheel-parity claim;
-* the 121-row ledger is unchanged.
+* the then-121-row ledger is unchanged.
 
 **Deliberately not touched**: the `research/` evidence directories, decoded vendor
 captures and oracle scripts; the top-level vendor/Ghidra artifacts; the 12 pre-existing

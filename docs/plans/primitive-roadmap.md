@@ -61,26 +61,32 @@ builds each shape as a one-conv ONNX graph and records the accept/reject decisio
 
 | Requirement | Silero VAD | Compiler today |
 | --- | --- | --- |
-| 1-D convolution (3-D NCHW) | STFT + 4 encoder Convs | rejected: `static NCHW input required` |
-| STFT kernel | `[256]`, stride 128 | odd kernels ≤31 |
-| Rectangular kernel | `[1,3]` with one-sided pad | rejected: `native padding/stride/dilation unsupported` |
-| First encoder channels | 129 | rejected: input C1..128 is the compiler cap (`input C1..128`), so the encoder's first layer is one channel out of range |
-| Recurrence | 2× `LSTM` hidden 128 | no RNN primitive, no `MatMul`, no decomposable GEMM profile |
-| Elementwise/activation | `Pow`, `Sqrt`, `ReduceMean`, terminal `Sigmoid` | `Pow`/`Sqrt`/`ReduceMean` unsupported; `Sigmoid` only through the bounded LUT profile (C3 1x1 stem, 8x8, scale 1/zero point 128) |
+| 1-D convolution (3-D NCHW) | STFT + 4 encoder Convs | **supported since 2026-09-12**: a rank-3 `[N,C,L]` graph is promoted to `[N,C,1,L]` (`research/conv1d_suite/`) |
+| STFT kernel | `[256]`, stride 128 | rejected: odd kernels ≤31 and stride ≤4 |
+| Rectangular kernel | `[1,3]` with one-sided pad | **supported since 2026-09-12** where the explicit-pad path accepts it (`research/rect_pad_suite/`) |
+| First encoder channels | 129 | **supported since 2026-09-12**: the wall is the 511-part weight table, so input C1..16352 lowers (`research/wide_channel_suite/`) |
+| Multi-layer 1-D chain | 4 encoder Convs, strides 1/2/2/1 | rejected: `unsupported chain walk graph` (the promoted 1-D form is not dispatched as a chain) |
+| Recurrence | 2× `LSTM` hidden 128 | no RNN primitive and no decomposable GEMM profile |
+| Elementwise/activation | `Pow`, `Sqrt`, `ReduceMean`, terminal `Sigmoid` | terminal `ReduceMean(axes=[2,3])` on 8x8 is supported (three chained pools); `Pow`/`Sqrt` and the 1-D mean form are not, and `Sigmoid` only exists through the bounded LUT profile (C3 1x1 stem, 8x8, scale 1/zero point 128) |
 | Control flow / dynamic shapes | `If`, `Shape`, `Gather`, `Equal`, dynamic `Slice` | static graphs only; non-constant `Shape`/`Slice` are out of scope |
 
-One rewrite *is* close: a 1-D conv is a 2-D conv with `H=1`, and `k3x3 C64 H1 W6 stride2`
-is accepted (`native16-input`), so a front-end that maps `kernel_shape [k]` to `[1,k]`
-would make the encoder's 2-D-shaped layers compilable. It would still not run Silero VAD:
-the STFT kernel stays out of range, `C129` stays out of range, the rectangular `k1x3`
-layers are rejected, and the LSTM has no primitive.
+The 1-D and channel rows moved in the 2026-09-12 batch, so the front half of the model is
+closer to expressible than it was: the encoder's own layers are inside the new promotion and
+channel bounds. It still does not run Silero VAD, because the remaining rows are independent
+blockers - the 256-tap STFT basis, the multi-layer 1-D chain dispatch, the LSTM and the
+dynamic control flow. Measured 2026-09-12: a well-formed three-layer 1-D encoder chain
+(`129→128→64→128`, K3, pad 1) fed to `compile_sequence` ends at
+`unsupported chain walk graph` / `unsupported two-layer graph or quantization parameters`,
+and the legacy chain profiles require the fixed `[1,3,8,8]` float image input.
 
-So every layer of the model hits at least one independent limit: this is not a small
-step but a new primitive family (1-D/rectangular conv), a new datatype path (C>128
-beyond the native profile) and a new execution model (recurrence with state). The
-encoder alone is also not worth offloading: at 32 ms per frame it is 3 time steps with
-≤129 channels, roughly 150k MACs, which the Cortex-A7 does faster than an ioctl round
-trip, and the NPU would still need the CPU for the STFT and the LSTM.
+The 2026-09-11 note here predicted that a rank-3 front end plus a wider channel bound would
+bring the encoder's layers into range; both landed on 2026-09-12, and the measurement above
+confirms the layers themselves are in range. What is left is not a small step: the STFT basis
+(256 taps, stride 128), a chain dispatch for the promoted `H=1` form, and a recurrence
+execution model with state. The encoder alone is also not obviously worth offloading: at
+32 ms per frame it is 3 time steps with ≤129 channels, roughly 150k MACs, which the
+Cortex-A7 can do faster than an ioctl round trip, and the NPU would still need the CPU for
+the STFT and the LSTM.
 
 The smallest *useful* audio milestone on this stack is the opposite direction: a
 purpose-built mel/spectrogram CNN that only uses verified primitives (Conv/Relu/Pool,

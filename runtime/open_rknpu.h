@@ -44,6 +44,25 @@ typedef struct {
 #define ORNPU_LAYOUT_PACKED 0u
 #define ORNPU_LAYOUT_NATIVE16 1u
 #define ORNPU_LAYOUT_PACKED_INT8 2u
+/* Native16 channel bounds. Both are structural, board-measured walls: the CNA reads
+ * channel planes in 16-lane steps and the weight table groups them in 32-lane parts, so
+ * `ceildiv(lanes,32) <= 511` caps the input at 16352 channels (C16368/512 parts never
+ * completes and the driver soft-resets the core), while the output surface block index
+ * `(oc-1)//16` is nine bits, capping the output at 8192 channels (C16384 writes the first
+ * 8192 channels correctly and then wrong bytes). Probe log: docs/investigation-log.md.
+ * `research/probe_wide_channel_wall.py` re-measures the refused sides: it builds the
+ * lifted containers and prints the matching `-D` cross-compile line, which is why these
+ * three are overridable at build time. The shipped values are the measured walls. */
+#ifndef ORNPU_MAX_NATIVE_CHANNELS
+#define ORNPU_MAX_NATIVE_CHANNELS 16352u
+#endif
+#ifndef ORNPU_MAX_OUTPUT_CHANNELS
+#define ORNPU_MAX_OUTPUT_CHANNELS 8192u
+#endif
+/* A named tensor can be either side of a chain, so the table uses the input bound. */
+#ifndef ORNPU_MAX_TENSOR_CHANNELS
+#define ORNPU_MAX_TENSOR_CHANNELS ORNPU_MAX_NATIVE_CHANNELS
+#endif
 /* One caller buffer bound to a named tensor for ornpu_run_io(). */
 typedef struct {
     uint32_t tensor_index;
