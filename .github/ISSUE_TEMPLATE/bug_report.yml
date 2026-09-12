@@ -1,0 +1,117 @@
+name: Bug report
+description: Something compiles wrong, crashes, or produces a mismatch against the reference.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. This project is evidence-driven, so the fastest path to a
+        fix is a **minimal reproduction**: the smallest model or container that shows the
+        problem, and the exact command you ran.
+
+        Security problems do **not** belong here — report them privately through a
+        [security advisory](../security/advisories/new) as described in
+        [SECURITY.md](https://github.com/open-rknpu/open-rknpu/blob/main/SECURITY.md).
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you observe, and what did you expect instead?
+      placeholder: |
+        `open-rknpu compile model.onnx -o model.bin` emits a container whose output is
+        3 LSB off the Python reference for the second Conv.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Exact commands, in order. Include the model or a script that builds it if you can.
+      placeholder: |
+        1. `python -m pip install -e ".[dev]"`
+        2. `open-rknpu compile repro.onnx -o repro.bin --sequence`
+        3. `open-rknpu inspect repro.bin`
+        4. `PYTHONPATH=src python -m unittest tests.test_emit_semantics`
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: If this is an exactness issue, give the reference value and the observed value, and say how the reference was produced.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the project is affected?
+      multiple: true
+      options:
+        - ONNX front end / normalizer
+        - Scheduler / profile dispatch
+        - Emitter (register program)
+        - Composer / arena / lifetimes
+        - Container writer or parser
+        - C runtime / loader
+        - CLI
+        - Calibration / quantization
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Where did it fail?
+      options:
+        - Host only (compile, inspect, tests)
+        - On the board (container ran, wrong bytes)
+        - Both
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Fill in what is relevant. Board answers matter only for hardware reports.
+      value: |
+        - open-rknpu version or commit:
+        - Python version:
+        - NumPy / ONNX version:
+        - OS:
+        - Board and driver (if hardware):
+        - Compiler CLI output / traceback:
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      description: Full traceback, the `open-rknpu inspect` JSON, or the diff against the reference.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues and the investigation log for this behaviour.
+          required: true
+        - label: I am not reporting a security vulnerability here.
+          required: true
+        - label: I have not attached any vendor artifact (`librknn*`, RKNN models, GPL kernel sources, captured binaries) to this issue.
+          required: true

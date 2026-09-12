@@ -26,8 +26,6 @@ as JSON.
 ├───────────────────────────────┤
 │ task_count × 16-byte tasks    │  each task: payload offset, register count, enable mask
 ├───────────────────────────────┤
-│ constant descriptors          │  optional (v4+): named regions the runtime may overwrite
-├───────────────────────────────┤
 │ tensor table (v5)             │  name, role, layout, geometry, arena offset/size, API offset/size
 ├───────────────────────────────┤
 │ payload                       │  per task: 126 register words (+4 tail words) then
@@ -44,15 +42,19 @@ as JSON.
 * **Arena** holds the tensors. Layouts: `packed` (UINT8 rows padded to 16, C interleaved)
   for a legacy image input, `native16` (16 lanes per pixel, `((H·W+3)/4)·64` per plane) for
   internal grids and the native16 image stage, and `packed int8` for a few profiles.
-* **Checksum** covers the payload; the runtime verifies it before opening `/dev/rknpu`.
+* **Checksum** is FNV-1a over the header (with the checksum field itself zeroed), the v5
+  extension, the task table, the tensor table and the payload; the runtime verifies it in
+  `ornpu_inspect`/`ornpu_open` (both read and validate the whole file) before opening
+  `/dev/rknpu`.
 * **Flags bit 0** distinguishes serial (one descriptor per task) from a container whose
   tasks are already linked into engine runs.
 
 ## What the runtime does with it
 
-`ornpu_open` maps the file, allocates two device buffers (the 4 KiB task buffer and the
-payload/arena buffer), copies the task descriptors and relocates each task's register
-addresses to the device's DMA base. `ornpu_run` then:
+`ornpu_open` reads the container with `stdio`, validates it, allocates two device buffers
+through the driver (a 4 KiB task buffer and the payload/arena buffer) and `mmap`s *those*
+buffers — the container file itself is never mapped. It then copies the task descriptors and
+relocates each task's register addresses to the device's DMA base. `ornpu_run` then:
 
 1. packs the caller's NHWC UINT8 buffer into the input tensor's arena layout (subtracting
    128 for native16 surfaces, filling padding with the input zero point);

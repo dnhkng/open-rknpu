@@ -1,0 +1,13 @@
+# Authors
+
+open-rknpu contributors.
+
+This project has no single author. It is the work of many contributors, and the
+authoritative list is the Git history of this repository
+(`git shortlog -sne --all`).
+
+The single entry below is a placeholder for the maintainer of the first public
+release (0.1.0). Replace it with a real name and address before publishing, or
+delete it if the release should carry no named maintainer.
+
+    <your-name> <you@example.com>

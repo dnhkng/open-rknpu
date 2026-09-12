@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use open-rknpu in academic work, please cite it using the metadata below."
+title: "open-rknpu"
+abstract: >-
+  An open, from-scratch compiler and runtime for the Rockchip RV1103 / RV1106 NPU
+  with no vendor SDK, no RKNN library and no captured binaries. open-rknpu turns a
+  static ONNX convolution graph into a task program the RV1103 NPU executes
+  directly: an MIT-licensed Python compiler emits the register commands,
+  weight/quantization blocks and container format itself, and a libc-only C runtime
+  talks to /dev/rknpu and nothing else. Every claim in the repository is backed by a
+  board run on the attached Luckfox Pico Mini B (rockchip,rv1106-rknpu, driver
+  v0.8.2) and by integer-exact comparisons against an independent Python reference.
+type: software
+license: MIT
+version: "0.1.0"
+date-released: "2026-09-11"
+repository-code: "https://github.com/open-rknpu/open-rknpu"
+url: "https://github.com/open-rknpu/open-rknpu"
+keywords:
+  - rockchip
+  - rv1103
+  - rv1106
+  - npu
+  - onnx
+  - compiler
+  - edge-ai
+  - reverse-engineering
+authors:
+  - name: "open-rknpu contributors"

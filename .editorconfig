@@ -1,0 +1,38 @@
+# EditorConfig — https://editorconfig.org
+# Uniform whitespace across editors. Python uses 4 spaces; YAML and JSON use 2.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml,json}]
+indent_style = space
+indent_size = 2
+
+[*.{md,markdown}]
+# Markdown keeps hard line breaks meaningful in some renderers, but this project
+# wraps prose as plain text, so trailing whitespace is still noise.
+trim_trailing_whitespace = true
+indent_size = 2
+
+[*.{c,h}]
+indent_style = space
+indent_size = 4
+
+[Makefile]
+indent_style = tab
+
+[*.{bin,onnx,u8,i8,rknn,f32,wav,npy,replay,bfd,gz}]
+# Binary evidence: editors must not touch these at all.
+insert_final_newline = false
+trim_trailing_whitespace = false

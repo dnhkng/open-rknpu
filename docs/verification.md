@@ -29,8 +29,8 @@ to refuse is a behaviour change too.
 ## 2. The host test suite
 
 ```sh
-PYTHONPATH=src python -m unittest discover -s tests      # 760 tests
-make coverage                                            # 96% line coverage, floor 95% in pyproject.toml
+PYTHONPATH=src python -m unittest discover -s tests      # 873 tests
+make coverage                                            # 98% line coverage, floor 97% in pyproject.toml
 PYTHONPATH=src python -m pytest tests -q
 ```
 
@@ -62,6 +62,22 @@ per-emitter rejection paths being the deliberately last areas to close. Coverage
 not a goal: a line covered by a test that only asserts "it returned" is worth less than one
 covered by a boundary or semantic equality check, which is why the suite is organised around
 bounds and independent references rather than around coverage alone.
+
+### The last ten lines
+
+Coverage is 98%; the remaining lines are listed here because a floor that nobody can explain
+is useless. All of them are defensive guards or dead branches reachable only by
+construction-breaking inputs — `tests/test_emitter_fuzz.py` names each one:
+
+| Line | Why it cannot be reached |
+| --- | --- |
+| `compose.py:250` | external-overlaps-internal guard; inputs end before the arena, internals start at it |
+| `elementwise.py:386` | guarded two lines earlier by a successful `np.broadcast_to` |
+| `join_dag.py:342,347,350` | join-operand commit paths that the branch selection excludes |
+| `join_dag.py:471` | external-overlap guard, impossible by placement |
+| `join_dag.py:529` | `recompiled` is always set by `_prepare` |
+| `liveness.py:165` | the aligned end of the placed tensors is always a valid candidate |
+| `walk.py:271,282` | `parse_chain` already rejects a non-Conv first node and non-RGB input |
 
 ## 3. The board ledger
 

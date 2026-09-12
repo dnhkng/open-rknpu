@@ -203,6 +203,8 @@ def compile_pooled_branches(model, output_range=None, serial=True):
     spec = _validate(model)
     pool_kind = spec['pools'][0].op_type
     if any(pool.op_type != pool_kind for pool in spec['pools']):
+        # Defensive: the parser declines mixed pool kinds so the graph falls through to the
+        # walk instead of reaching here (tests substitute the parser to exercise this).
         raise ValueError('pooled branches require matching pool kinds')
     g = model.graph
     stem_nodes = spec['stem_nodes']

@@ -1,0 +1,119 @@
+name: release
+
+# Triggered by a version tag (`v0.1.0`, `v0.2.0`, ...), or manually for a dry run.
+#
+# ---------------------------------------------------------------------------
+# MAINTAINER SETUP REQUIRED BEFORE THE FIRST PUBLISH
+#
+#   1. Create the PyPI project `open-rknpu` and register this workflow as a
+#      *trusted publisher* (PyPI -> project -> Publishing ->
+#      "Add a new pending publisher" / GitHub): owner `open-rknpu`, repository
+#      `open-rknpu`, workflow `release.yml`, environment `pypi`.
+#      No API token is stored in this repository — publishing uses OIDC only.
+#   2. Create the GitHub environment named `pypi` in the repository settings
+#      (Settings -> Environments). Add required reviewers there if you want a
+#      manual gate, and optionally restrict it to `v*` tags.
+#   3. Make sure the tagged commit's `pyproject.toml` version matches the tag.
+#      The version is not rewritten here; a mismatch will be rejected by PyPI.
+#   4. The first release must be the *first* upload of the name on PyPI.
+#      If the project does not exist yet, add the pending trusted publisher
+#      first, or the publish step fails with a 403.
+#
+# Until steps 1-2 are done, use the "Run workflow" button with `dry_run: true`
+# to exercise the build and `twine check` without touching PyPI.
+# ---------------------------------------------------------------------------
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build and check the distributions but do not publish to PyPI or create a release"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: install build tooling
+        run: python -m pip install --upgrade build twine
+
+      - name: build sdist and wheel
+        run: python -m build --out-dir dist
+
+      - name: verify the distributions
+        run: twine check --strict dist/*
+
+      - name: show what was built
+        run: ls -l dist
+
+      - name: upload distributions as a workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  publish:
+    name: publish to PyPI
+    needs: build
+    # Skipped entirely on a manual run with dry_run enabled.
+    if: ${{ github.event_name == 'push' || inputs.dry_run == false }}
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/open-rknpu
+    permissions:
+      # Required for trusted publishing (OIDC). No password/token is used.
+      id-token: write
+    steps:
+      - name: download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: publish to PyPI (trusted publishing)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
+
+  github-release:
+    name: create GitHub release
+    needs: build
+    if: ${{ github.event_name == 'push' || inputs.dry_run == false }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: create the release with the built artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --generate-notes \
+            dist/*

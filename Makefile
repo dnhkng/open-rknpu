@@ -3,7 +3,8 @@ PYTHON ?= python3
 PYTHONPATH := src
 RUFF ?= ruff
 MAINTAINED := src tests examples research/verify_suites.py research/campaign_sweep.py \
-              research/check_docs_links.py research/probe_conv_envelope.py research/build_mel_kws_suite.py
+              research/check_docs_links.py research/probe_conv_envelope.py \
+              research/build_mel_kws_suite.py research/build_reference_docs.py
 
 .DEFAULT_GOAL := help
 

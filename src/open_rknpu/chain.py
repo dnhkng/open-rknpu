@@ -117,9 +117,8 @@ def compile_chain(path,calibration_ranges=None,output_range=None):
         if not (v.type.tensor_type.elem_type == 1 and [d.dim_value for d in v.type.tensor_type.shape.dim] == [1, 3, 8, 8]):
             raise ValueError("unsupported two-layer graph or quantization parameters")
     constants={t.name:nh.to_array(t) for t in g.initializer}
+    # The loop above already rejected any weight whose rank is not four, for both nodes.
     w1,w2=constants[a.input[1]],constants[b.input[1]]
-    if w1.ndim!=4 or w2.ndim!=4:
-        raise ValueError("two-layer weights must have rank four")
     c=w1.shape[0]
     kernel=w2.shape[2]
     if not (3 <= c <= 16 and w1.shape == (c,3,w1.shape[2],w1.shape[2]) and w2.shape == (3,c,kernel,kernel)):

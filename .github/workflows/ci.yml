@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,7 +23,8 @@ jobs:
         run: |
           ruff check src tests examples research/verify_suites.py \
             research/campaign_sweep.py research/check_docs_links.py \
-            research/probe_conv_envelope.py research/build_mel_kws_suite.py
+            research/probe_conv_envelope.py research/build_mel_kws_suite.py \
+            research/build_reference_docs.py
       - name: tests
         run: PYTHONPATH=src python -m unittest discover -s tests
       - name: coverage floor
@@ -41,5 +42,67 @@ jobs:
       - name: campaign sweep
         if: matrix.python-version == '3.12'
         run: PYTHONPATH=src python research/campaign_sweep.py
-      - name: build distribution
+      - name: build distribution and validate metadata
+        if: matrix.python-version == '3.12'
+        run: |
+          python -m build --out-dir dist
+          python -m twine check --strict dist/*
+
+  runtime:
+    # The C runtime and every board harness must at least compile on the host: CI used to
+    # build no C at all, so a syntax error would have reached users.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: host build of the runtime and the board harnesses
+        run: |
+          make -C runtime
+          for source in tests/board_*.c; do
+            gcc -O2 -std=gnu99 -Wall -Wextra -Werror -D_GNU_SOURCE -Iruntime -c "$source" -o /tmp/"$(basename "$source" .c)".o
+          done
+      - name: ABI static assertions
+        run: |
+          # Compiling the runtime is what evaluates its _Static_assert block (model ABI,
+          # task ABI, submit ABI, tensor/constant ABI); fail loudly if it is skipped.
+          grep -c "_Static_assert" runtime/open_rknpu.c
+
+  wheel:
+    # Install the *built* distribution in a clean environment and use it as a user would.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: build
         run: python -m pip install build && python -m build --out-dir dist
+      - name: install the wheel in a clean venv and smoke test it
+        run: |
+          python -m venv /tmp/ornpu-clean
+          /tmp/ornpu-clean/bin/pip install dist/*.whl
+          cd /tmp
+          /tmp/ornpu-clean/bin/open-rknpu --version
+          /tmp/ornpu-clean/bin/python - <<'PY'
+          import pathlib
+          import open_rknpu
+          assert "site-packages" in open_rknpu.__file__, open_rknpu.__file__
+          import numpy as np, onnx
+          from onnx import helper as h, numpy_helper as nh
+          from open_rknpu.scheduler import compile_sequence
+          from open_rknpu.sequence import decode_sequence
+
+          weights = np.zeros((3, 3, 3, 3), np.float32)
+          graph = h.make_graph(
+              [h.make_node("Conv", ["input", "w"], ["output"], kernel_shape=[3, 3], pads=[1, 1, 1, 1])],
+              "smoke", [h.make_tensor_value_info("input", 1, [1, 3, 8, 8])],
+              [h.make_tensor_value_info("output", 1, [1, 3, 8, 8])], [nh.from_array(weights, "w")])
+          model = h.make_model(graph, opset_imports=[h.make_opsetid("", 13)])
+          model.ir_version = 8
+          onnx.save(model, "smoke.onnx")
+          binary, meta = compile_sequence("smoke.onnx", 1.0, 0)
+          info = decode_sequence(binary)
+          assert info["task_count"] >= 1 and info["output_shape_nhwc"] == [1, 8, 8, 3], info
+          print("installed wheel compiled and decoded:", meta["profile"], len(binary), "bytes,",
+                info["task_count"], "task(s) from", open_rknpu.__file__)
+          assert not pathlib.Path("open_rknpu").exists(), "must not import from the checkout"
+          PY

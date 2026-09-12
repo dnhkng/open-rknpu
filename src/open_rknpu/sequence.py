@@ -69,7 +69,15 @@ def encode_sequence_v5(payload, *, tensors, tasks, arena_bytes,
                        input_scale=1.0, input_zero_point=0,
                        output_scale=1.0, output_zero_point=0,
                        serial=False, constants=()):
-    """Named-tensor container for bounded DAG graphs (fan-out, multi-IO)."""
+    """Named-tensor container for bounded DAG graphs (fan-out, multi-IO).
+
+    Version 5 has **no constant descriptor table** (the loader rejects a nonzero count), so
+    `constants` exists only to make the failure explicit: a caller that needs runtime
+    replaceable parameters must emit a v4 container through `encode_sequence`.
+    """
+    if constants:
+        raise ValueError('v5 containers have no constant descriptor table; '
+                         'runtime replaceable parameters require a v4 container')
     if len(constants)>64:raise ValueError('too many constant descriptors')
     descriptors=[];seen=set()
     for entry in constants:

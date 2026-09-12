@@ -77,5 +77,6 @@ def decode(data):
             "output_shape_nhwc":[1,output_height,output_width,out_channels],
             "input_zero_point":input_zp,"output_dtype":"int8","output_scale":scale,
             "output_zero_point":zero_point,"kernel_size":kernel,"relu":bool(relu),
-            "payload_bytes":payload_size,"arena_bytes":arena,"task_bytes":4096,
+            "payload_bytes":payload_size,"register_count":register_count,
+            "arena_bytes":arena,"task_bytes":4096,
             "input_bytes":height*width*in_channels,"output_bytes":output_height*output_width*out_channels}

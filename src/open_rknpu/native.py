@@ -8,7 +8,17 @@ from .register_profile import REGISTERS
 from .sequence import encode_sequence
 
 
-def native_input_reference(inputs, q, zero_point, pads=None, strides=(1,1),dilations=(1,1)):
+def native_input_reference(inputs, q, zero_point, pads=None, strides=(1,1),dilations=(1,1),
+                           upper_code=None):
+    """Integer output of one image-input Conv task.
+
+    `upper_code` models the fused `Clip[0,6]`/ReLU6 upper clamp: the container programs the
+    *accumulator* limit `round(6 / (max(weight_scales) * input_scale))` in registers
+    `0x4028`/`0x40e4` (see `native_fields`), while the board-verified reference clamps the
+    resulting code to `clip(rint(6 / output_scale) + output_zero_point, -128, 127)`, which is
+    what `compile_native_input` returns as `meta["clip_upper_code"]`. Pass that value here to
+    reproduce a Clip container exactly; leave it `None` for Conv/Relu.
+    """
     if pads is not None:
         pt,pl,pb,pr=pads;k=q.kernel_size;dy,dx=dilations;ekh=(k-1)*dy+1;ekw=(k-1)*dx+1
         x=np.pad(inputs.astype(np.int64)-128,((pt,pb),(pl,pr),(0,0)),constant_values=zero_point-128)
@@ -25,7 +35,10 @@ def native_input_reference(inputs, q, zero_point, pads=None, strides=(1,1),dilat
         product+=q.output_zero_point<<q.shift
         result=(product+(1<<(q.shift-1))-1+((product>>q.shift)&1))>>q.shift
     else:result=product+q.output_zero_point
-    return np.clip(result,-128,127).astype(np.int8)
+    result=np.clip(result,-128,127)
+    if upper_code is not None:
+        result=np.minimum(result,upper_code)
+    return result.astype(np.int8)
 
 
 def native_fields(iw, tih, ic, lanes, tiles, ow, toh, oc, k, pl, tpt, sy, sx, dy, dx,
@@ -183,7 +196,9 @@ def compile_native_input(model,input_scale=1.,input_zero_point=0,output_range=No
         input_scale=input_scale,input_zero_point=input_zero_point,output_scale=q.output_scale,
         output_zero_point=q.output_zero_point,serial=True,input_layout='native16',batch=batch,
         constants=([dict(name='conv.parameters',offset=weights,size=payload-weights,kind=1)] if expose_constants else ()))
-    return binary,dict(shape_nhwc=[batch,ih,iw,ic],output_shape_nhwc=[batch,oh,ow,oc],
+    clip_upper_code=(int(np.clip(round(6/float(q.output_scale))+q.output_zero_point,-128,127))
+                     if clip6 else None)
+    return binary,dict(clip_upper_code=clip_upper_code,shape_nhwc=[batch,ih,iw,ic],output_shape_nhwc=[batch,oh,ow,oc],
         input_scale=input_scale,input_zero_point=input_zero_point,output_scale=q.output_scale,
         output_zero_point=q.output_zero_point,quantization=q.metadata(),profile='native16-input',fused_activation='Clip[0,6]' if clip6 else ('Relu' if relu else None),conv_pads=pads,conv_strides=strides,conv_dilations=dilations,
         spatial_tiles=[dict(output_rows=[a,b],input_rows=[c,d],pads=[e,pl,f,pr]) for a,b,c,d,e,f in tile_specs],

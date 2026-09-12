@@ -59,10 +59,12 @@ class CliMatrixTests(unittest.TestCase):
     def out(self, name="model.bin"):
         return self.tmp / name
 
-    def assert_summary(self, text, model, output, size, mode="serial"):
-        self.assertEqual(
-            text.strip(),
-            "Compiled %s -> %s (%d bytes, %s submission)" % (model, output, size, mode))
+    def assert_summary(self, text, model, output, size, mode="serial",
+                       target="rv1103", quantize="int8"):
+        """The summary keeps its established prefix and now names the target/quantization."""
+        expected = "Compiled %s -> %s (%d bytes, %s submission" % (model, output, size, mode)
+        self.assertTrue(text.strip().startswith(expected), text)
+        self.assertIn("%s/%s)" % (target, quantize), text)
 
     def test_compile_default_legacy_path(self):
         model = RESEARCH / "generated/k3relu_heldout.onnx"
@@ -85,7 +87,7 @@ class CliMatrixTests(unittest.TestCase):
         info = decode_sequence(data)
         self.assertEqual((info["format_version"], info["output_tensor_count"]), (5, 3))
         self.assertEqual(data, compile_sequence(model, expose_intermediates=True)[0])
-        self.assertIn("(4768 bytes, serial submission)", text)
+        self.assertIn("(4768 bytes, serial submission,", text)
 
     def test_input_quantization_overrides(self):
         cases = (
@@ -101,7 +103,7 @@ class CliMatrixTests(unittest.TestCase):
                 self.assertEqual((code, err), (0, ""))
                 info = decode_model(output.read_bytes())
                 self.assertEqual((info["input_scale"], info["input_zero_point"]), (scale, zero_point))
-                self.assertIn("submission)", text)
+                self.assertIn("submission,", text)
 
     def test_output_quantization_overrides(self):
         cases = (
@@ -117,7 +119,7 @@ class CliMatrixTests(unittest.TestCase):
                 self.assertEqual((code, err), (0, ""))
                 info = decode_model(output.read_bytes())
                 self.assertEqual((info["output_scale"], info["output_zero_point"]), (0.5, 7))
-                self.assertIn("submission)", text)
+                self.assertIn("submission,", text)
 
     def test_submission_serial_and_batched(self):
         model = RESEARCH / "walk_join_suite/model000.onnx"
@@ -144,7 +146,7 @@ class CliMatrixTests(unittest.TestCase):
         self.assertEqual(data, compile_sequence(model, tiles=2)[0])
         self.assertGreater(decode_sequence(data)["task_count"],
                            decode_sequence(untiled)["task_count"])
-        self.assertIn("submission)", text)
+        self.assertIn("submission,", text)
 
     def test_mutable_weight_and_constant_descriptors(self):
         cases = (
@@ -162,7 +164,7 @@ class CliMatrixTests(unittest.TestCase):
                 self.assertEqual((info["format_version"], info["constant_count"]), (4, 1))
                 self.assertEqual((info["constants"][0]["name"], info["constants"][0]["kind"]),
                                  (name, kind))
-                self.assertIn("submission)", text)
+                self.assertIn("submission,", text)
 
     def test_per_channel_mul_and_reuse_intermediates(self):
         cases = (
@@ -178,7 +180,7 @@ class CliMatrixTests(unittest.TestCase):
                 self.assertEqual((code, err), (0, ""))
                 self.assertEqual(output.read_bytes(), compile_sequence(model, **kwargs)[0])
                 decode_sequence(output.read_bytes())
-                self.assertIn("submission)", text)
+                self.assertIn("submission,", text)
 
     def test_calibration_writes_report(self):
         model = RESEARCH / "walk_chain_suite/model000.onnx"
@@ -199,7 +201,7 @@ class CliMatrixTests(unittest.TestCase):
         analytic = compile_sequence(model)[0]
         self.assertNotEqual(decode_sequence(data)["output_scale"],
                             decode_sequence(analytic)["output_scale"])
-        self.assertIn("submission)", text)
+        self.assertIn("submission,", text)
 
     def test_inspect_prints_decoded_json(self):
         model = RESEARCH / "native_input_suite/model000.onnx"

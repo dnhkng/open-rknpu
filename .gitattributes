@@ -1,0 +1,18 @@
+# Normalize line endings on checkout and commit.
+* text=auto eol=lf
+
+# Documentation is always text.
+*.md text
+
+# Evidence binaries: never diff, merge or keyword-expand them.
+*.bin binary -diff -merge -text
+*.onnx binary -diff -merge -text
+*.u8 binary -diff -merge -text
+*.i8 binary -diff -merge -text
+*.rknn binary -diff -merge -text
+*.f32 binary -diff -merge -text
+*.wav binary -diff -merge -text
+*.npy binary -diff -merge -text
+*.replay binary -diff -merge -text
+*.bfd binary -diff -merge -text
+*.gz binary -diff -merge -text

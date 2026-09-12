@@ -6,14 +6,23 @@ from . import __version__
 from .compiler import compile_model
 from .model import encode,decode
 
+# Supported compile targets and container arithmetic. Keep in sync with the container
+# writer (`model.encode`/`sequence.encode_sequence*` write the target field).
+TARGETS = ("rv1103",)
+QUANTIZATIONS = ("int8",)
+
 def main():
     parser=argparse.ArgumentParser(prog="open-rknpu")
     parser.add_argument("--version",action="version",version=__version__)
     sub=parser.add_subparsers(dest="command",required=True)
     compile_parser=sub.add_parser("compile",help="compile a supported static ONNX convolution graph")
     compile_parser.add_argument("model",type=Path)
-    compile_parser.add_argument("--target",choices=["rv1103"],default="rv1103")
-    compile_parser.add_argument("--quantize",choices=["int8"],default="int8")
+    # Only one target and one quantization exist today. They are explicit (and validated
+    # below) rather than ignored, so a future target cannot be silently mis-compiled.
+    compile_parser.add_argument("--target",choices=sorted(TARGETS),default="rv1103",
+        help="NPU target; only %s is implemented" % ", ".join(sorted(TARGETS)))
+    compile_parser.add_argument("--quantize",choices=sorted(QUANTIZATIONS),default="int8",
+        help="container arithmetic; only %s is implemented" % ", ".join(sorted(QUANTIZATIONS)))
     compile_parser.add_argument("--output-scale",type=float)
     compile_parser.add_argument("--output-zero-point",type=int)
     compile_parser.add_argument("--input-scale",type=float,default=1.0)
@@ -49,6 +58,12 @@ def main():
             onnx.save(model,args.output)
             print("Normalized %s -> %s (%d nodes)"%(args.model,args.output,len(model.graph.node)))
         else:
+            if args.target not in TARGETS:
+                raise ValueError("unsupported target %s (supported: %s)"
+                                 % (args.target, ", ".join(sorted(TARGETS))))
+            if args.quantize not in QUANTIZATIONS:
+                raise ValueError("unsupported quantization %s (supported: %s)"
+                                 % (args.quantize, ", ".join(sorted(QUANTIZATIONS))))
             if (args.output_scale is None)!=(args.output_zero_point is None):
                 raise ValueError("specify output scale and zero point together")
             report=None
@@ -81,6 +96,9 @@ def main():
             mode=metadata.get("submission","serial")
             runs=metadata.get("engine_runs")
             detail="" if not runs or len(runs)<2 else " in %d engine runs"%len(runs)
-            print("Compiled %s -> %s (%d bytes, %s submission%s)"%(args.model,args.output,len(data),mode,detail))
+            # Target and quantization are validated above and named in the summary, so
+            # they can never be accepted-and-ignored on a future hardware revision.
+            print("Compiled %s -> %s (%d bytes, %s submission%s, %s/%s)"
+                  % (args.model, args.output, len(data), mode, detail, args.target, args.quantize))
     except (ValueError,KeyError,OSError) as exc:
         parser.exit(1,"open-rknpu: %s\n"%exc)

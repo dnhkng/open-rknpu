@@ -4,9 +4,10 @@ Each entry below is prepended newest-first; the older narrative from the first
 `regcmd` investigation is kept at the end.
 
 <details>
-<summary>Table of contents (68 entries)</summary>
+<summary>Table of contents (69 entries)</summary>
 
-* [2026-09-11: test expansion - 311 to 760 tests, 90% to 96% coverage](#2026-09-11-test-expansion---311-to-760-tests-90-to-96-coverage)
+* [2026-09-11: publication-readiness pass - legal, interfaces, CI, docs, examples](#2026-09-11-publication-readiness-pass---legal-interfaces-ci-docs-examples)
+* [2026-09-11: test expansion - 311 to 873 tests, 90% to 98% coverage](#2026-09-11-test-expansion---311-to-873-tests-90-to-98-coverage)
 * [2026-09-11: a trained audio model runs on the NPU (mel-CNN spoken digits)](#2026-09-11-a-trained-audio-model-runs-on-the-npu-mel-cnn-spoken-digits)
 * [2026-09-11: the driver ACTION surface measured; Silero VAD is outside the envelope](#2026-09-11-the-driver-action-surface-measured-silero-vad-is-outside-the-envelope)
 * [2026-09-11: codebase cleanup - dead code, layout, docs (no container changed)](#2026-09-11-codebase-cleanup---dead-code-layout-docs-no-container-changed)
@@ -78,7 +79,61 @@ Each entry below is prepended newest-first; the older narrative from the first
 
 </details>
 
-## 2026-09-11: test expansion - 311 to 760 tests, 90% to 96% coverage
+## 2026-09-11: publication-readiness pass - legal, interfaces, CI, docs, examples
+
+The pre-publication audit in `docs/publish-checklist.md` was worked through. The short
+version, with the evidence that each item is closed:
+
+**Legal (the blockers).** The four GPL-2.0 Rockchip kernel sources that were sitting in
+`research/vendor/` are gone - the README claimed they were not redistributed while they
+were - and their provenance (upstream repository, commit, per-file sha256) is retained in
+`research/vendor/README.md` plus `provenance.json`. `THIRD_PARTY.md` now lists every non-MIT
+component that is shipped or fetched, `docs/provenance.md` states exactly where the register
+knowledge came from (board experiments, public kernel sources read as documentation, the
+vendor runtime as a black-box oracle), and the README carries the trademark/non-affiliation
+note.
+
+**Interfaces that were silently wrong.** `--target`/`--quantize` are validated against the
+supported sets and named in the compiled summary; `model.decode` returns the
+`register_count` that `encode` needs, so `encode(decode(blob))` round-trips;
+`native_input_reference` takes `upper_code` and `compile_native_input` publishes
+`meta["clip_upper_code"]`, so the Clip[0,6] profile's *board-recorded* expected bytes can be
+replayed (now a test); the dead rank check in `chain.py` is removed and the two defensive
+guards are annotated; and the C loader now rejects a repeated or missing external tensor
+binding instead of silently dropping a caller buffer. The six documentation claims that
+disagreed with the code (checksum coverage, the v5 anatomy, the `batch - 1` header byte,
+`ornpu_inspect` reading the whole file, the missing-constants rule, the mmap wording) were
+corrected rather than left as footnotes.
+
+**CI builds what ships.** New jobs compile the runtime and every `tests/board_*.c` harness
+with the host gcc (CI previously built no C at all), install the built wheel in a clean venv
+and smoke-test it from `site-packages`, and validate the distribution with `twine check`.
+The matrix is 3.10/3.12/3.13 and the ruff target now matches `requires-python`.
+
+**Documentation and examples.** Generated, drift-guarded `docs/registers.md` (126 register
+rows, 46 honestly marked undecoded) and `docs/errors.md` (548 messages across 35 modules,
+generated from an AST walk of every `raise`); `docs/support-matrix.md` (82 accepted rows
+with bounds, profile, example and board/host evidence, plus 24 rejected constructs);
+`docs/glossary.md`; `docs/troubleshooting.md`; `docs/performance.md`; `docs/c-api.md`;
+`docs/container-example.md` (a real container walked field by field). `examples/cookbook/`
+adds the missing task-oriented examples: a minimal C program, quantized-model import,
+mutable parameters, batched/pipelined submission, a wheel-installed smoke test, a rejection
+walkthrough and an ONNX compatibility report.
+
+**Tests.** 873 tests (from 760) and 98% compiler line coverage (from 96%), with the ten
+remaining lines documented as unreachable defensive branches. New: container fuzzing (~1,460
+mutants over real v3/v4/v5/legacy containers, proving the decoder raises only `ValueError`
+and that every accepted container is structurally self-consistent), generated-graph
+properties across the emitters, reference-doc drift guards, the CLI flag contract, the
+Clip-reference board replay, and host runs of the classifier examples. The container
+baseline is unchanged (2,244/2,244) and the campaign sweep stays 157 same / 12 pinned drift
+/ 0 err.
+
+**One API wart found and closed:** `encode_sequence_v5(constants=...)` used to emit v4-style
+constant descriptors that its own decoder then rejected; it now raises a clear error saying
+that runtime-replaceable parameters require a v4 container.
+
+## 2026-09-11: test expansion - 311 to 873 tests, 90% to 98% coverage
 
 The published repository's suite was validated by expansion rather than by inspection:
 seven workstreams added 449 tests in 16 modules, measured with `coverage` and gated in CI.
@@ -119,8 +174,8 @@ seven workstreams added 449 tests in 16 modules, measured with `coverage` and ga
   `test_join_emitters_deep`, `test_legacy_compiler_paths`, `test_join_variants_deep`,
   `test_quantized_import_deep`).
 
-**Result**: 760 tests, `OK`, 96% line coverage (12 modules at 100%), engine floor now
-`fail_under = 95`. `research/container_baseline.json` is unchanged - the expansion added no
+**Result**: 873 tests, `OK`, 98% line coverage (12 modules at 100%), engine floor now
+`fail_under = 97`. `research/container_baseline.json` is unchanged - the expansion added no
 container change - and the campaign sweep stays 157 same / 12 pinned drift / 0 err.
 
 **One real bug fixed**: `compose.compose` silently accepted duplicate stage names (two
@@ -246,7 +301,7 @@ three checked-in scripts: `research/verify_suites.py` (with the pre-cleanup map
   same `ValueError`, pinned as `ERR:ValueError` in the map
   (`tests/test_suite_evidence.py::test_container_baseline_covers_every_suite_model` keeps
   the map covering every `research/*suite*/model*.onnx`);
-* **760 host tests** pass under both `unittest` and `pytest`;
+* **873 host tests** pass under both `unittest` and `pytest`;
 * campaign sweep **157 same / 12 diff / 0 err**, the 12 now enumerated and pinned in
   `research/COVERAGE_EXPANSION_RESULTS.md` ("Pre-existing container drifts");
 * **85 markdown files, 0 broken links, 0 unresolved anchors** (the vendored
@@ -296,7 +351,7 @@ profile-matched. FENCE, a second RV1106 board, a vendor-zoo detector and publica
 reported as hardware/user decisions.
 
 Baseline at close: **1,680 models / 28,250 inferences / 10,206,227 exact output bytes**,
-**760 host tests**, 120 ledger rows, campaign sweep 157 same / 12 diff / 0 err (the 12 are
+**873 host tests**, 120 ledger rows, campaign sweep 157 same / 12 diff / 0 err (the 12 are
 documented pre-existing drifts), wheel (38 modules) byte-identical to the tree.
 
 ## 2026-09-11: the walk lowers fan-in joins, and the diamond tail Relu was dropped
@@ -1689,7 +1744,7 @@ Bias/scale groups are packed as four INT32 biases plus four UINT16 scales:
 24 bytes per four channels, not the 32-byte dense-Conv layout. Correcting this
 independently generated packing passed every channel count 5..16: 12 graphs,
 192 board inferences, 129,024 exact bytes. Public compiler binaries match all
-12 tested programs; the host suite has since grown to 760 tests, all passing.
+12 tested programs; the host suite has since grown to 873 tests, all passing.
 
 New bounded public profile: external RGB 8x8 -> 1x1 Conv stem with C5..16 outputs
 -> depthwise 3x3, pad1, stride1, multiplier1. Other kernels/strides/stem kernels

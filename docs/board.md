@@ -50,7 +50,7 @@ The C API is three calls:
 ```c
 ornpu_model *model;
 ornpu_info info;
-ornpu_inspect("model.bin", &info);       /* header only */
+ornpu_inspect("model.bin", &info);       /* reads and validates the whole file */
 ornpu_open("model.bin", &model);
 ornpu_run(model, input_u8, info.input_bytes, output_i8, info.output_bytes);
 ornpu_close(model);

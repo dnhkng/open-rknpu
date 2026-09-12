@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+
+# The issue chooser is intentionally limited to the two forms. Discussions are not
+# enabled for this repository, so there is no `contact_links` entry pointing at them;
+# add one here if discussions are ever turned on.
+contact_links: []

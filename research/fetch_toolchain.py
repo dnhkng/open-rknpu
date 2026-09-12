@@ -1,4 +1,11 @@
-"""Fetch the C-only subset of Luckfox's published cross toolchain to the host."""
+"""Fetch the C-only subset of Luckfox's published cross toolchain to the host.
+
+Convenience only: the toolchain belongs to the Luckfox/Rockchip SDK, is **not**
+redistributed with this repository (see THIRD_PARTY.md) and is only needed to build the
+board runtime. Any ARM uClibc cross compiler with the board's sysroot works; pass your own
+with the same `bin/arm-rockchip830-linux-uclibcgnueabihf-*` names, or set `CC`/`CROSS` when
+you build. The exact upstream tree is pinned in `toolchain_tree.json`.
+"""
 import concurrent.futures
 import json
 from pathlib import Path

@@ -19,7 +19,7 @@ ONNX graph ──► normalize ──► scheduler (profile dispatch) ──► 
   4,090-parameter mel-CNN on spoken digits and runs the whole graph on the board —
   **98.00%** INT8 test accuracy, 191,968 / 192,000 board-exact output bytes, 2.54 ms per
   utterance.
-* **760 host tests at 96% compiler line coverage**, a **2,244-model container baseline** (every published suite model
+* **873 host tests at 98% compiler line coverage**, a **2,244-model container baseline** (every published suite model
   still compiles to identical bytes), and a **121-row board ledger** counting
   **1,696 models / 28,266 inferences / 10,216,467 exact output bytes**.
 * **Low-level op examples**: `examples/primitives/` has one runnable script per primitive —
@@ -74,7 +74,7 @@ per-op walkthrough is [primitives](docs/primitives.md).
 | --- | --- |
 | `src/open_rknpu/` | the compiler: front end, scheduler, one module per profile/emitter, the stage composer and the container writer |
 | `runtime/` | the libc-only board runtime (`open_rknpu.c/.h`, `main.c`, `Makefile`) and `sequence_format.md`, the container specification |
-| `tests/` | 760 host tests (96% line coverage, gated in CI) plus the C board harnesses (`board_*.c`) |
+| `tests/` | 873 host tests (98% line coverage, gated in CI) plus the C board harnesses (`board_*.c`) |
 | `examples/` | `primitives/` (one script per low-level op), `mnist/` and `fashion/` (hybrid CNN classifiers), `mel-kws/` (whole model on the NPU) |
 | `research/` | the evidence: one directory per suite with its models, reference outputs, `manifest.json`, `board_results_*.json` and `README.md`, the generators (`build_*.py`), the oracle captures, and the verification scripts |
 | `docs/` | architecture, primitive catalog, quantization, container format, board workflow, verification, roadmap, investigation log, planning records |
@@ -85,16 +85,22 @@ Reproducible contracts live at the repository root of `research/`:
 
 ## Documentation
 
-* [docs/README.md](docs/README.md) — documentation index.
+The full index is [docs/README.md](docs/README.md). The short version:
+
 * [Getting started](docs/getting-started.md) — install, compile your first graph, read the metadata.
+* [Support matrix](docs/support-matrix.md) — every accepted op with its exact bounds, profile, example and evidence, plus what is rejected and why.
+* [Troubleshooting](docs/troubleshooting.md) — symptom → cause → fix, built from the real error messages ([error index](docs/errors.md)).
+* [Primitives](docs/primitives.md) — what each op does, its emitter and its reference.
 * [Architecture](docs/architecture.md) — the pipeline, the scheduler's profile order, the composer, and how to add a primitive.
-* [Primitives](docs/primitives.md) — every verified op, its bounds, its emitter and its example.
-* [Quantization](docs/quantization.md) — UINT8/INT8 bands, zero points and calibration.
-* [Container format](docs/container-format.md) — the on-device task/register/constant layout.
-* [Board workflow](docs/board.md) — the hardware, adb staging, running, and timing.
+* [Glossary](docs/glossary.md) — CNA, DPU, ERDMA, native16, band, tail control, arena, profile …
+* [Quantization](docs/quantization.md) — bands, zero points, requantization and calibration.
+* [Register reference](docs/registers.md) — the generated task-register table.
+* [Container format](docs/container-format.md) and [worked example](docs/container-example.md) — the byte layout, field by field.
+* [C API](docs/c-api.md) — using the libc-only runtime from C.
+* [Board workflow](docs/board.md) and [performance](docs/performance.md) — hardware, staging, timing, cost model.
 * [Verification](docs/verification.md) — the baseline contract, the ledger and the board discipline.
 * [Roadmap and limits](docs/roadmap.md) — what is deliberately out of scope and what is left.
-* [Publish checklist](docs/publish-checklist.md) — what is still missing before a public release, by category.
+* [Provenance](docs/provenance.md) and [publish checklist](docs/publish-checklist.md) — where the knowledge came from, and what still blocks a release.
 * [Investigation log](docs/investigation-log.md) — the 60+ entry record of how the register
   profile and every primitive were recovered, with the failed hypotheses kept.
 
@@ -108,9 +114,16 @@ everything else loudly rather than falling back to a vendor runtime. Recurrence
 (LSTM/GRU), 1-D convolution, `MatMul`/`Gemm`, multi-stage detection heads and dynamic
 shapes are out of scope today — see [roadmap](docs/roadmap.md).
 
-## License
+## License and provenance
 
-MIT for the compiler, runtime, tests, examples and documentation (see [LICENSE](LICENSE)).
+MIT for the compiler, runtime, tests, examples and documentation (see [LICENSE](LICENSE));
+[THIRD_PARTY.md](THIRD_PARTY.md) lists every non-MIT component and
+[docs/provenance.md](docs/provenance.md) states where the register knowledge came from
+(board experiments, public kernel sources read as documentation, and the vendor runtime as a
+black-box oracle — no vendor code is included or read by the compiler).
+
+"Rockchip", "RKNN", "RV1103", "RV1106" and "Luckfox" are trademarks of their respective
+owners; this project is not affiliated with, endorsed by or supported by them.
 Vendor binaries, the Rockchip cross toolchain, GPL kernel sources and the datasets are
 **not** redistributed here; the documents that describe them stay in `research/` as
 provenance records, and the examples fetch their datasets themselves.

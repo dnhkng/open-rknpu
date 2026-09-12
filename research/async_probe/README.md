@@ -1,6 +1,6 @@
 # Cross-job pipelining: non-blocking submission (S4)
 
-The driver's `SUBMIT` ioctl takes job flags (`research/vendor/rknpu_ioctl.h`):
+The driver's `SUBMIT` ioctl takes job flags (the upstream `rknpu_ioctl.h` (`research/vendor/README.md`)):
 `JOB_PC`, `JOB_NONBLOCK`, `JOB_PINGPONG`, `JOB_FENCE_IN`, `JOB_FENCE_OUT`. The runtime
 previously only used the blocking form (optionally one task per ioctl), so the CPU sat
 in the ioctl for the whole job. This probe measures what the flags actually allow on

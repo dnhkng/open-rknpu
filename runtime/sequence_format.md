@@ -26,7 +26,7 @@ The header is `<8s22I`:
 | 80 | FNV-1a checksum of complete file with this field zeroed |
 | 84 | Low bits: submission mode and input count; bits 8+ are v4 constant count |
 | 88 | Input layout: 0 packed, 1 native16 |
-| 92 | Reserved, must be zero |
+| 92 | Reserved (v3/v4: must be zero; v5: `batch − 1`, accepted 0..15) |
 
 Each descriptor is four uint32 values: command offset, register count,
 enable mask, interrupt mask. The current combinations are convolution

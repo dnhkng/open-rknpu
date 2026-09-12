@@ -38,7 +38,7 @@ quantized arithmetic is not.
 ## 2. Verified baseline (do not regress)
 
 * Board ledger: **1,696 models, 28,266 inferences, 10,216,467 exact output bytes**
-  (`research/COVERAGE_EXPANSION_RESULTS.md`). Host suite: **760 tests**.
+  (`research/COVERAGE_EXPANSION_RESULTS.md`). Host suite: **873 tests**.
 * Containers: legacy `ORNPUBIN` v1/v2; `ORNPUSEQ` v3/v4/v5 (`runtime/sequence_format.md`). Task descriptor kinds accepted today: Conv
   `29/768` (≤256 words), pooling `96/3072` (≤256), elementwise `24/768` (78 or
   1106 words for the per-channel scale profile), LUT `24/768` (1106).
@@ -658,7 +658,7 @@ All ten phases are implemented to their stated acceptance criteria. Accepted mod
 carry independently generated commands, a host regression test and an exact RV1103
 board run; rejected modes carry a retained failing experiment or a concrete
 documented prerequisite. The campaign baseline is **1,696 models / 28,266
-inferences / 10,216,467 exact output bytes** with **760 host tests** passing, and
+inferences / 10,216,467 exact output bytes** with **873 host tests** passing, and
 `tests/test_ledger.py` (rows, links, board-evidence union, campaign totals) plus
 `tests/test_container_bindings.py` (2,412 containers) and
 `tests/test_suite_evidence.py` machine-check the evidence.
@@ -699,7 +699,7 @@ Every item of the completion objective, with its disposition and evidence:
 | Publication | **reported** | wheel/sdist built and re-verified (38 modules, offline byte-identical compile); an index release/announcement is a maintainer decision |
 
 Baseline at close: **1,680 models / 28,250 inferences / 10,206,227 exact output bytes**
-with **760 host tests** passing, `tests/test_ledger.py` (121 rows) and
+with **873 host tests** passing, `tests/test_ledger.py` (121 rows) and
 `tests/test_suite_evidence.py` machine-checking the evidence.
 
 ### User/hardware decisions (reported, not implemented)
@@ -731,7 +731,7 @@ evidence that already exists and the input the decision needs.
 
 With every residual dispositioned, the tree was cleaned under the same no-container-change
 contract: lint/dedup, dead code, repository layout and documentation. The scope, the
-verification (2,244 / 2,244 suite models byte-identical, 760 tests, campaign sweep
+verification (2,244 / 2,244 suite models byte-identical, 873 tests, campaign sweep
 157 same / 12 pinned drift / 0 err, 0 broken doc links, wheel module parity) and the list
 of things deliberately left alone are in [cleanup-plan](cleanup-plan.md); the entry in
 [investigation-log](../investigation-log.md) has the measured evidence, and

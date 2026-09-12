@@ -235,6 +235,9 @@ def compile_depthwise_join(model, output_range=None, operand_zero_points=(0, 0),
             other = layout[name]
             other_size = layout_sizes[name]
             if offset < other + other_size and other < offset + size:
+                # Defensive: the arena places internals after the input tensor, so an
+                # external/internal overlap cannot occur through the public path (tests
+                # substitute the liveness planner to exercise this).
                 raise ValueError('depthwise join external tensor %s overlaps %s' % (external, name))
     data = bytearray(payload_size)
     # Stem program with relocated constants and native intermediate destination.

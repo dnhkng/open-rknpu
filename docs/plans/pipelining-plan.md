@@ -17,7 +17,7 @@ register values in DDR (`struct rknpu_task { op_idx, enable_mask, int_mask,
 int_clear, regcfg_addr, regcfg_amount }`); the driver writes `PC_DATA_ADDR`,
 `PC_DATA_AMOUNT`, `INT_MASK`/`INT_CLEAR` and `PC_TASK_CONTROL =
 ((0x6 | task_pp_en) << pc_task_number_bits) | task_number`, then `PC_OP_EN`
-(`research/vendor/rknpu_job.c`). One register write starts up to 2^16−1 tasks on
+(the upstream `rknpu_job.c` ([provenance](../../research/vendor/README.md) from `research/`)). One register write starts up to 2^16−1 tasks on
 RV1106, and `task_pp_en` (job flag `JOB_PINGPONG`) double-buffers the register
 command fetch against execution.
 
@@ -362,7 +362,7 @@ Two board-found fixes are pinned by `tests/test_tiled_chain.py`:
 control a mixed-engine list runs in one job. `subcore_task[]`/`core_mask` are inert on
 this SoC, as the driver source says.*
 
-Static decode (`research/vendor/rknpu_job.c`, `rknpu_ioctl.h`):
+Static decode (the upstream `rknpu_job.c` ([provenance](../../research/vendor/README.md) from `research/`), `rknpu_ioctl.h`):
 
 * `subcore_task[]` is read only under `config->num_irqs > 1`, and `rknpu_job_alloc`
   forces `core_mask = CORE0` when `num_irqs == 1`. RV1106 uses the single-entry

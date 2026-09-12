@@ -1,0 +1,81 @@
+name: Feature request
+description: Propose a new primitive, a wider bound, tooling, or documentation.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This compiler is deliberately bounded: it accepts a documented class of static
+        graphs and rejects everything else loudly rather than falling back to a vendor
+        runtime. Please check [docs/roadmap.md](https://github.com/open-rknpu/open-rknpu/blob/main/docs/roadmap.md)
+        first — the request may be intentionally out of scope, or already listed as a
+        measured residual.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the model or workflow you cannot run today, not just the feature you want.
+      placeholder: |
+        I have a graph with <op/shape> and the compiler raises
+        `ValueError: ...`, so I cannot run it without falling back to the vendor runtime.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should the compiler or runtime do? If you know which profile or emitter is involved, say so.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you tried, or existing primitives that could be composed instead.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - New primitive / op
+        - Wider bound on an existing primitive
+        - ONNX front end / normalizer
+        - Scheduler / composer
+        - Container format
+        - C runtime / loader
+        - CLI / tooling
+        - Calibration / quantization
+        - Documentation / examples
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence you can contribute
+      description: |
+        A capability normally lands with a generator (`research/build_*.py`), a suite with
+        `board_results_*.json` and `board_summary.txt`, a ledger row and a reproduce
+        recipe. Say what you can provide, or whether you need help producing it.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I read the roadmap and this is not already recorded there as out of scope or as a residual.
+          required: true
+        - label: I searched the existing issues for a duplicate.
+          required: true
+        - label: This request does not depend on shipping or reading a vendor artifact.
+          required: true

@@ -1,0 +1,33 @@
+# Pre-commit hooks for open-rknpu.
+#
+#   python -m pip install pre-commit
+#   pre-commit install
+#   pre-commit run --all-files
+#
+# The ruff version here is the linter/formatter the project pins; CI runs the same
+# `ruff check` over the maintained paths (see .github/workflows/ci.yml).
+#
+# There is deliberately no `ruff-format` hook: the house style is not ruff-format-wide.
+# CONTRIBUTING.md forbids a wholesale formatter run over the dense register-emitter
+# tables, and `ruff format --check` would rewrite most of the tree. Lint (E9+F) is the
+# gate; formatting is left to the author of each change.
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ["--maxkb=2048"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.10
+    hooks:
+      - id: ruff
+        name: ruff (lint)
+        args: ["--fix"]
+        # The legacy research scripts are exempt experiment tooling and are not
+        # linted by CI either; everything else is checked.
+        exclude: ^research/

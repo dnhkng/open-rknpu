@@ -1,6 +1,6 @@
 """S8 job-field probe: does the task-tail control word carry the engine transition?
 
-Vendor capture (`research/vendor/`, `capture_pool_max`) decodes a Conv task's tail as
+Vendor capture (`research/vendor/README.md`, `capture_pool_max`) decodes a Conv task's tail as
 `0x10 = next payload-relative program offset`, `0x14 = control`, with
 
 * `0x40` in front of another Conv (CNA) task (`capture_chain4`),

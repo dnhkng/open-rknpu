@@ -9,7 +9,7 @@ Two questions from `docs/plans/pipelining-plan.md` S8:
 
 ## Static decode
 
-`research/vendor/rknpu_job.c`, `rknpu_ioctl.h`, `rknpu_drv.c`:
+the upstream `rknpu_job.c` ([provenance](../vendor/README.md) from `research/`), `rknpu_ioctl.h`, `rknpu_drv.c`:
 
 * `rv1106_rknpu_config` uses the single-entry `rknpu_irqs` (`num_irqs = 1`);
   `rknpu_job_alloc` therefore overwrites `args->core_mask` with `RKNPU_CORE0_MASK`, and

@@ -520,6 +520,9 @@ int ornpu_run_io(ornpu_model *model,const ornpu_io *inputs,uint32_t input_count,
         if(inputs[i].tensor_index>=model->tensor_count || !inputs[i].data) return -EINVAL;
         const struct tensor_spec *t=&model->tensors[inputs[i].tensor_index];
         if(t->role!=ROLE_INPUT) return -EINVAL;
+        /* Every external tensor exactly once: a repeated index would silently drop a
+         * caller buffer and leave that tensor unbound. */
+        for(uint32_t j=0;j<i;j++) if(inputs[j].tensor_index==inputs[i].tensor_index) return -EINVAL;
         int rc=pack_tensor_input(model,t,inputs[i].data,inputs[i].size);
         if(rc) return rc;
     }
@@ -527,6 +530,7 @@ int ornpu_run_io(ornpu_model *model,const ornpu_io *inputs,uint32_t input_count,
         if(outputs[i].tensor_index>=model->tensor_count || !outputs[i].data) return -EINVAL;
         const struct tensor_spec *t=&model->tensors[outputs[i].tensor_index];
         if(t->role!=ROLE_OUTPUT) return -EINVAL;
+        for(uint32_t j=0;j<i;j++) if(outputs[j].tensor_index==outputs[i].tensor_index) return -EINVAL;
         if(outputs[i].size!=(size_t)((uint64_t)t->batch*t->height*t->width*t->channels)) return -EINVAL;
         memset((uint8_t *)model->mapping[1]+t->offset,0,t->size);
     }

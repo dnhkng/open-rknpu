@@ -101,7 +101,8 @@ int ornpu_run(ornpu_model *model, const uint8_t *input, size_t input_size,
               int8_t *output, size_t output_size);
 /* Format v5: bind one packed NHWC buffer per external input/output tensor.
  * tensor_index refers to the named tensor table; every external tensor of the
- * model must be supplied exactly once. */
+ * model must be supplied exactly once - a missing tensor, a repeated index, a
+ * wrong role or a wrong buffer size returns -EINVAL before anything is submitted. */
 int ornpu_run_io(ornpu_model *model, const ornpu_io *inputs, uint32_t input_count,
                  ornpu_io *outputs, uint32_t output_count);
 void ornpu_close(ornpu_model *model);

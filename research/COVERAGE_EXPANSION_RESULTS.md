@@ -534,7 +534,7 @@ legacy-C1, halfway-rounding and first transposed probes.
 
 ## Final validation for this pass
 
-760 host tests pass, including Python/C loader parity, v4 constant descriptors, the v5
+873 host tests pass, including Python/C loader parity, v4 constant descriptors, the v5
 named-tensor table and two-head fan-out profile, sequence calibration, channel-plane bounds,
 missing native bias, graph normalization equivalence and reproduction of board
 programs, large kernels and tiled spatial outputs. The ARM runtime builds with

@@ -1,0 +1,94 @@
+# Minimal mkdocs-material configuration for the open-rknpu documentation.
+#
+# Build locally with:
+#   python -m pip install mkdocs-material
+#   mkdocs serve            # http://127.0.0.1:8000
+#
+# The site is deployed by .github/workflows/docs.yml on pushes to `main`.
+
+site_name: open-rknpu
+site_description: An open compiler and libc-only runtime for the Rockchip RV1103/RV1106 NPU.
+site_author: open-rknpu contributors
+
+# Placeholder: replace with the real Pages URL before the first deployment.
+site_url: https://open-rknpu.github.io/open-rknpu/
+
+repo_name: open-rknpu/open-rknpu
+repo_url: https://github.com/open-rknpu/open-rknpu
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - toc.follow
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - tables
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+
+nav:
+  - Home: README.md
+  - Guides:
+      - Getting Started: getting-started.md
+      - Support Matrix: support-matrix.md
+      - Troubleshooting: troubleshooting.md
+      - Primitives: primitives.md
+      - Glossary: glossary.md
+  - Compiler:
+      - Architecture: architecture.md
+      - Quantization: quantization.md
+      - Registers: registers.md
+      - Errors: errors.md
+      - Api: api.md
+      - Verification: verification.md
+      - Roadmap: roadmap.md
+      - Performance: performance.md
+  - Runtime and board:
+      - Container Format: container-format.md
+      - Container Example: container-example.md
+      - C Api: c-api.md
+      - Board: board.md
+      - Board Access: board-access.md
+  - Project records:
+      - Investigation Log: investigation-log.md
+      - Provenance: provenance.md
+      - Publish Checklist: publish-checklist.md
+      - Plans:
+          - Readme: plans/README.md
+          - Cleanup Plan: plans/cleanup-plan.md
+          - Completion Plan: plans/completion-plan.md
+          - Coverage Matrix: plans/coverage-matrix.md
+          - Milestone Record: plans/milestone-record.md
+          - Pipelining Plan: plans/pipelining-plan.md
+          - Primitive Roadmap: plans/primitive-roadmap.md
+          - Project Goals: plans/project-goals.md

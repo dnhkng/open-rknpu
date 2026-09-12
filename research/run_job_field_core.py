@@ -1,6 +1,6 @@
 """S8 F1: are `core_mask` / `subcore_task[]` inert on RV1106?
 
-`research/vendor/rknpu_job.c` forces `core_mask = RKNPU_CORE0_MASK` when the config has
+the upstream `rknpu_job.c` ([provenance](../../vendor/README.md) from `research/`) forces `core_mask = RKNPU_CORE0_MASK` when the config has
 one IRQ and reads `subcore_task[]` only when `num_irqs > 1`; RV1106 uses the single-entry
 `rknpu_irqs`. The runtime now exposes `ornpu_set_submit_core(model, mask, windows, pairs)`
 for the probe, and `tests/board_core.c` submits one verified container with several
