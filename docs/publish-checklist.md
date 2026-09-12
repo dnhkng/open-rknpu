@@ -20,9 +20,11 @@ baseline, 121-row board ledger, 27 documentation pages (~52 k words), 4 example 
 
 Everything marked ✅ below is in the tree and verified by the test suite; the rest is the
 open list. Counted by category: **P0 legal 6/6 · P0 interfaces 4/4 · P0 CI 4/4 · P0 release
-2/3 (metadata URLs still need the maintainer) · P1 tests 6/14 · P1 documentation 11/14 ·
-P1 examples 6/13 · P1 automation 7/8 · P1 features 0/14** (the feature work is deliberately
-untouched: it needs board evidence, not a checklist pass).
+2/3 · P1 tests 7/14 · P1 documentation 12/14 · P1 examples 6/13 · P1 automation 7/8 ·
+P1 features 1/14**. That leaves **37 open rows**: 13 features, 9 tests, 4 documentation,
+6 examples, 3 automation and the 2 metadata placeholders that only the maintainer can fill.
+The feature rows are the deliberately untouched part — each needs a probe and fresh board
+evidence, not a checklist pass.
 
 What this pass changed: the GPL-2.0 sources are gone with provenance retained;
 `THIRD_PARTY.md`, `docs/provenance.md` and the trademark note are in; `--target/--quantize`
@@ -96,7 +98,7 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 | F11 | **Mutable-parameter (v4) workflow**: a supported way to update weights/constants between inferences, with a helper API | v4 descriptors exist but are only reachable through raw containers | M |
 | F12 | **Stable public API surface**: mark which modules are supported (`open_rknpu.scheduler`, `calibration`, `sequence`, `compose`?) and version the container format promise | Users need to know what will not break | M |
 | F13 | **Depthwise `ConvTranspose` integer reference** and the other reference gaps the test expansion documented (`pooling`, `transposed` off-centre taps) | Users cannot self-verify those profiles today | M |
-| F14 | **Documented blocked features** (clock scaling, fences, IOMMU, SRAM) as a first-class "known limitations" page rather than log entries | Sets expectations and stops repeat questions | S |
+| ✅ F14 | **Documented blocked features** (clock scaling, fences, IOMMU, SRAM) as a first-class "known limitations" page rather than log entries | Sets expectations and stops repeat questions | S |
 
 ### Tests
 
@@ -107,7 +109,7 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 | T3 | **C API/ABI tests on the host**: struct `_Static_assert`s, encode/decode parity with the C loader, `tests/board_core.c` compiled and run on x86 | The loader is currently only compiled for ARM and exercised on hardware | M |
 | ✅ T4 | **Malformed-container fuzzing** of the C loader (structure-aware, seeded corpora) plus `hypothesis` properties for the encoder/decoder and the parsers | Container parsing is the highest-risk attack surface | M |
 | T5 | **ASAN/UBSAN build of the runtime in CI** | Memory safety in the shipped C | S |
-| T6 | **Close the remaining 220 uncovered lines** or justify them (weakest: `sequence.py`/`walk.py`/`liveness.py` 92 %, `elementwise.py` 93 %, `compose.py` 94 %) | 96 % is good; the last points are in the container writer and allocator | M |
+| ✅ T6 | **Close the remaining 220 uncovered lines** or justify them (weakest: `sequence.py`/`walk.py`/`liveness.py` 92 %, `elementwise.py` 93 %, `compose.py` 94 %) | 96 % is good; the last points are in the container writer and allocator | M |
 | T7 | **Mutation testing** (`mutmut`) on the emitters and the container writer | 873 tests make this affordable; measures test *strength*, not coverage | M |
 | ✅ T8 | **Cross-Python matrix**: 3.10–3.13, and a `numpy` min/max version job | The compiler is pure Python; users will hit version skew | S |
 | T9 | **Reproducible-build check**: build the wheel twice, compare; assert sdist contents | Distribution integrity | S |
