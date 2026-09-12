@@ -85,3 +85,23 @@ capability or produces the measured negative. Probes are written down in
   roadmap as applicable);
 * `make lint test coverage baseline campaign evidence perf reproducible docs-check` green;
 * pushed to `main` with CI green.
+
+## Measured state (2026-09-12, after the first two batches)
+
+Closed: Batch A in full, plus F1, F2 and F3. What the probes decided for the rest:
+
+| Row | Probe result (exact) | Next action |
+| --- | --- | --- |
+| F4 chain border zero point | not probed yet | register probe for `0x1184`, then the whole chain family re-run |
+| F5 walk elementwise | `Conv -> Add(const) -> MaxPool -> Conv` is rejected at dispatch (`depthwise sequence requires Conv[/Relu] -> depthwise Conv`); the walk handles pools and joins but not an elementwise stage | extend the walk's stage parser to lower an elementwise stage, then re-run the walk suites |
+| F6 bounded ops | `GlobalAveragePool`, `AveragePool 8x8/8`, `Concat`, `Softmax`, `Slice`, `Resize` and `ReduceMean` after a Conv are all rejected (`sequence lowering currently supports Conv[/Relu] followed by 2x2 pooling`, `unsupported pooling attributes, shape, or graph connections`); `MaxPool 2x2` is accepted | implement the two that the hardware can express - an 8x8->1x1 average/mean through the three-level reduction emitter (which already exists), and `Concat` of sibling Conv branches reading the same input by stacking weights into one Conv; document `Softmax`, `Slice` and `Resize` as measured negatives |
+| F7 rectangular/one-sided | `k1x3` is accepted (walk, 8,304 B); K=31 accepted (native16, 62,768 B); K=33 rejected by the documented `odd K1..31` bound; a 3x3 Conv with one-sided pads `[0,1,0,1]` is rejected by the front-end output-shape check even with the correct output shape | accept asymmetric padding where the native emitter's explicit-pad path allows it; keep K>31 rejected with the measured message |
+| F8 dma-buf | `research/probe_dmabuf.c`: 128/256 `CREATE` flag values accept a CMA-heap fd, exactly those with bit `0x80` set; the driver returns a device address | runtime binding: allocate the arena from a CMA-heap dma-buf (or import the producer's), expose the fd, and add a run path that skips the input copy; board test compares against recorded expected bytes, then the V4L2 example (E5) can consume the same buffer |
+| F9 timing API | no userspace cycle counter; the board_bench harness times `ornpu_run` around `clock_gettime(CLOCK_MONOTONIC)` | promote that to a supported runtime call (`ornpu_run_timed`) plus a Python wrapper and a board timing suite |
+| F10 C>128 | the front end caps at C1..128; the partial-sum mechanism is undocumented | craft containers with C=129+ and probe the register fields; expect a documented negative |
+| E5 camera | `/dev/video0..20` (`stream_cif_mipi_id*`, `rkisp_mainpath`, `rkcif_scale_ch*`, `rkisp_lumapath`) exist, `rkipc` holds the ISP | capture one V4L2 frame (rkisp_mainpath or a CIF channel), feed the NPU through the F8 path if it lands, else copy into a container input |
+| E12 audio VAD | Silero VAD needs 1-D conv (now supported, F2), C129 input, LSTM and dynamic shapes | a bounded 1-D audio front end is now possible; the VAD itself stays a documented negative unless F6 changes that |
+
+Each remaining row keeps the definition of done above: host tests, regenerated reference
+docs, a board run whose summary line is pasted into the suite README, a ledger row and a
+checklist tick.

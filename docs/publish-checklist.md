@@ -20,39 +20,36 @@ planning records, 5 example sets, ~16,400 tracked files / 38.5 MiB pack.
 
 Everything marked ✅ below is in the tree and verified by the test suite; the rest is the
 open list. Counted by category: **P0 legal 6/6 · P0 interfaces 4/4 · P0 CI 4/4 · P0 release
-2/3 · P1 tests 13/14 · P1 documentation 14/14 · P1 examples 8/13 · P1 automation 6/8 ·
-P1 features 1/14**. That leaves **22 open rows**: 13 features, 5 examples, 2 automation,
-1 test (the dataset fetch-script tests) and R3 - claiming the PyPI name, which needs the
-maintainer's account. The feature rows are the deliberately untouched part; each needs a
-probe and fresh board evidence, not a checklist pass.
+2/3 · P1 tests 14/14 · P1 documentation 14/14 · P1 examples 11/13 · P1 automation 7/8 ·
+P1 features 7/14**. That leaves **11 open rows**: F4–F10 (the board-gated feature work),
+E5 and E12 (camera and audio examples), A7 (signed tags) and R3 (claiming the PyPI name,
+which needs the maintainer's account). The remaining feature rows each need a probe and
+fresh board evidence; the plan and the measured probes so far are in
+[plans/batch-ab-plan.md](plans/batch-ab-plan.md).
 
-What this pass changed:
+What the 2026-09-12 batch changed:
 
-* the host suite grew from 873 to **1,100 tests** and the compiler's line coverage from 98 %
-  to **99.55 %**; every remaining line carries a reason, and the table in
-  `docs/verification.md` is **generated from the coverage data** (`research/coverage_doc_table.py`,
-  checked in CI) so the claim cannot drift. Two provably dead lines were deleted rather than
-  tested;
-* the C side is now tested on the host: `tests/host_loader.c` drives 48 container cases
-  through the real loader, and `tests/test_runtime_cli.py` runs the board runner's CLI and
-  compares `--inspect` over **all 2,340 published containers** with the Python decoder. Both
-  run under AddressSanitizer and UndefinedBehaviorSanitizer in CI;
-* release engineering: `research/check_reproducible_build.py` builds the sdist twice,
-  normalises it (setuptools stamps generated files with the wall clock) and audits that the
-  package carries the compiler and its attribution files - and none of the research evidence;
-* `research/perf_regression.py` + `research/perf_baseline.json` pin the **cost model**
-  (task count, engine blocks, registers, arena, payload) for 69 cross-family models, so a
-  refactor cannot inflate NPU work while the bytes look plausible;
-* `research/run_mutation_tests.py` measures **test strength**: 52.9 % killed on the
-  configured scope, per-module scores and every survivor assessed in
-  `docs/mutation-testing.md`, with `make mutation-quick` and a weekly workflow;
-* every retained suite is audited against its manifest, references, inputs and board results
-  (`tests/test_evidence_integrity.py`, `make evidence`), and the decision to keep the 16 k-file
-  evidence tree in Git is documented with its migration trigger
-  (`docs/evidence-storage.md`);
-* documentation: calibration cookbook, board runbook, container-migration notes, mutation
-  report, evidence-storage decision, and a runnable walkthrough notebook with its own
-  documentation test that executes the commands the docs tell a reader to run.
+* Batch A closed in full: fetch-script tests (T14) with the toolchain fetcher now verifying
+  every download against its pinned git blob id; the branch-protection contract (A5) and a
+  `pull_request` trigger for the docs build; the mutable-parameter API (F11,
+  `open_rknpu.mutable` + a cookbook example); the API-stability contract (F12); the missing
+  integer references for transposed Conv, pooling, reduction and the legacy network
+  profiles (F13, replayed byte-for-byte against 91 transposed models plus four suites); and
+  the depthwise-separable, benchmark and multi-model examples (E7/E9/E13) with real board
+  runs recorded in their READMEs;
+* Batch B started: `MatMul`/`Gemm` lower to the verified 1×1 Conv path (F1,
+  `matmul_suite` board-verified), 1-D convolution is promoted to the `[N,C,1,L]` form (F2,
+  `conv1d_suite` board-verified), and the calibration contract is centralised and threaded
+  through the chain/join/diamond/walk profiles (F3, `chain_calibration_suite` board-verified
+  with float MAE 6.96/672.8/53161.9 → 0.72/33.8/251.6 on 3/4/5-layer chains);
+* probes that decide the remaining rows: the NPU driver **imports dma-bufs** (`CREATE`
+  flag `0x80`, probed with `research/probe_dmabuf.c`), so F8 is feasible and needs the
+  runtime binding; `Concat`/`Slice`/`Resize`/`Softmax`/`ReduceMean`/`GlobalAveragePool`
+  after a Conv are all rejected today, with the exact messages in the plan (F6);
+* the host suite is 1,100 tests at 99.55% line coverage with every remaining line carrying
+  a reason in the generated table (`research/coverage_doc_table.py`, checked in CI), the
+  container baseline covers 2,268 models (0 changed, 24 new suite models), and the ledger is
+  124 rows / 1,726 models / 28,746 inferences / 10,274,515 exact output bytes.
 
 ## P0 — blockers before the repository goes public
 
