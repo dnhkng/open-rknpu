@@ -29,8 +29,8 @@
     "cases": 16,
     "output_scale": 1587.673095703125,
     "output_zero_point": 6,
-    "float_mae": 672.8491315734767,
-    "float_max_error": 4011.9981079101562
+    "float_mae": 412.83658704016125,
+    "float_max_error": 1286.8328857421875
   },
   {
     "index": 3,
@@ -51,8 +51,8 @@
     "cases": 16,
     "output_scale": 89250.40625,
     "output_zero_point": 0,
-    "float_mae": 53161.94175365575,
-    "float_max_error": 268207.2890319824
+    "float_mae": 9404.408072186246,
+    "float_max_error": 59316.728515625
   },
   {
     "index": 5,

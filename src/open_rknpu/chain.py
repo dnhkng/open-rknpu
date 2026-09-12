@@ -14,7 +14,7 @@ import onnx
 from onnx import helper as h,numpy_helper as nh
 from .compiler import compile_model
 from .register_profile import REGISTERS
-from .quantization import Quantization,receptive_fields
+from .quantization import Quantization,receptive_fields,reference
 
 # Native INT8, 8x8, 1x1, one input tile of 16, three logical outputs.
 NATIVE={0x100c:0,0x1010:0x104,0x101c:0,0x1030:0x30,0x1034:0x10,
@@ -88,6 +88,16 @@ def native_reference(inputs,q,input_zero_point=-128):
     scaled=(product+8191+((product>>14)&1))>>14
     return np.clip(((scaled*q.multiplier+(1<<(q.shift-1) if q.shift else 0))>>q.shift)+q.output_zero_point,-128,127).astype(np.int8)
 
+def chain_reference(inputs,q1,q2):
+    """Integer reference for the two-layer chain, with the border the emitter writes.
+
+    The second Conv reads the first layer's native16 grid, so the CNA border value is the
+    first layer's output zero point (`0x1184`); `native_reference` alone would pad with
+    zero point 0.
+    """
+    return native_reference(reference(inputs,q1),q2,int(q1.output_zero_point))
+
+
 def compile_chain(path,calibration_ranges=None,output_range=None):
     model=onnx.load(path); onnx.checker.check_model(model)
     g=model.graph
@@ -154,7 +164,8 @@ def compile_chain(path,calibration_ranges=None,output_range=None):
                    0x1030:3*16*kernel*kernel,0x1034:16*kernel*kernel,
                    0x1038:(kernel<<24)|(kernel<<16)|3,0x1068:0x101 if kernel==3 else 0,
                    0x1188:8*kernel*kernel})
-    fields.update({0x1024:((c-1)<<16)|16,0x1070:0x1000,0x1110:second_weights,
+    fields.update({0x1184:int(meta["output_zero_point"])&0xffff,
+                   0x1024:((c-1)<<16)|16,0x1070:0x1000,0x1110:second_weights,
                    0x5020:second_bias,0x4080:q2.output_zero_point&0xffffffff,
                    0x4084:q2.multiplier,0x4088:q2.shift})
     for start,values,next_offset,control in ((0,source,0x440,0x40),(0x440,fields,0,0x28)):

@@ -76,7 +76,7 @@ branch = false
 skip_covered = true
 show_missing = false
 # Host line coverage of the compiler. Ratchet: the measured value is 99.20% (6,851
-# statements, 55 uncovered lines; 1,155 tests, 2026-09-12). Every remaining line is listed
+# statements, 55 uncovered lines; 1,157 tests, 2026-09-12). Every remaining line is listed
 # with its reason in docs/verification.md, which is
 # regenerated from the coverage data by research/coverage_doc_table.py. Raise the floor
 # whenever the measured value moves up (`make coverage`).

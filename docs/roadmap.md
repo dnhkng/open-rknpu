@@ -52,23 +52,36 @@ cells affected — a reference-vs-hardware rounding-tie residual, not a geometry
 (`research/mel_kws_suite/README.md`). Those four utterances are excluded from the byte-exact
 suite.
 
-## Known quirk: `chain`/`chain_n` hidden borders use code -128
+## Fixed: the `chain`/`chain_n` hidden border zero point
 
-`chain.py` and `chain_n.py` leave the internal border register `0x1184` at its `-128` reset
-instead of programming the producer's zero point. A Conv border then reads
+`chain.py` and `chain_n.py` used to leave the internal border register `0x1184` at its
+`-128` reset instead of programming the producer's zero point, so a hidden Conv border read
 `(-128 - zero_point) * scale` rather than the real zero ONNX pads with. The integer
-reference models the same behaviour, so containers stay byte-exact and board-verified, but
-when a hidden band's zero point differs from `-128` the model loses real accuracy: measured
-on a seeded 5-layer chain with hidden zero points `[-128, -17, -2, 0, 0]`, the container is
-38 LSB from the ONNX-float result (and within 1 LSB of the `-128`-border pipeline). 178 of
-the 242 retained chain models have a non-`-128` hidden zero point.
-Every fan-out emitter (`graph.py`, `join_dag.py`, `pool_join.py`, `depthwise_join.py`,
-`pooled_branches.py`, `depthwise.py`, `transposed.py`) *does* program `0x1184`, so the chain
-family is the outlier. `examples/primitives/03_conv_chain.py` keeps hidden weights and
-biases non-negative so the hidden band stays at `-128`. Changing the convention is a
-register-profile change that would invalidate the chain family's board evidence
-(`research/native_chain_suite/`), so it is left as a documented quirk with a test
-(`tests/test_emit_semantics.py`) that pins both the convention and the gap.
+reference modelled the same behaviour, which is why the containers stayed byte-exact and
+board-verified while the *model* lost accuracy whenever a hidden band's zero point differed
+from `-128`.
+
+Fixed on 2026-09-12: every chain layer now declares the band it reads (`chain.py`,
+`chain_n.py`, and the opt-in height-strip `tiled_chain.py`), and the references pass the
+predecessor's zero point into the border. The change was intentional and re-baselined with
+fresh board evidence; the measured effect against the float ONNX model is:
+
+| Model | Mean error before | Mean error after |
+| --- | ---: | ---: |
+| `native_chain_suite/model001` | 1,598.06 | 40.86 |
+| `native_chain_suite/model003` | 46,197.56 | 1,122.73 |
+| `chain_reuse_suite/model001` | 1,378.48 | 85.03 |
+| `chain_reuse_suite/model003` | 41,444.34 | 1,247.81 |
+| `deep_chain_suite/model000` | 195,508.84 | 5,584.92 |
+| `deep_chain_suite/model001` | 15,728,511,708.80 | 2,197.65 |
+| `chain_calibration_suite` (chain5, analytic) | 53,161.90 | 9,404.41 |
+
+Chains whose hidden bands are all zero point `-128` are byte-identical before and after (the
+register value does not change). The 17 affected containers are re-pinned in
+`research/container_baseline.json` and re-run on the board
+(`native_chain_suite` 5/80/15,360, `chain_reuse_suite` 5/80/15,360, `deep_chain_suite`
+3/48/9,216, `chain_multi_suite` 4/32/40,448, `chain_calibration_suite` 6/96/18,432 exact
+bytes), and the two height-strip probes were regenerated and re-run.
 
 ## Known API warts
 

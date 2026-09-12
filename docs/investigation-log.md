@@ -4,8 +4,9 @@ Each entry below is prepended newest-first; the older narrative from the first
 `regcmd` investigation is kept at the end.
 
 <details>
-<summary>Table of contents (72 entries)</summary>
+<summary>Table of contents (73 entries)</summary>
 
+* [2026-09-12: the chain border zero point is programmed (F4)](#2026-09-12-the-chain-border-zero-point-is-programmed-f4)
 * [2026-09-12: the camera path is held by rkipc (E5 probe)](#2026-09-12-the-camera-path-is-held-by-rkipc-e5-probe)
 * [2026-09-12: dma-buf zero-copy input is implemented and board-verified (F8)](#2026-09-12-dma-buf-zero-copy-input-is-implemented-and-board-verified-f8)
 * [2026-09-12: the NPU driver imports dma-bufs (CREATE flag 0x80) - F8 is feasible](#2026-09-12-the-npu-driver-imports-dma-bufs-create-flag-0x80---f8-is-feasible)
@@ -81,6 +82,52 @@ Each entry below is prepended newest-first; the older narrative from the first
 * [Summary: `regcmd` investigation (older findings, kept as-is)](#rv1103-npu--rknn-regcmd-investigation--summary)
 
 </details>
+
+## 2026-09-12: the chain border zero point is programmed (F4)
+
+The oldest documented accuracy quirk is gone. `chain.py` and `chain_n.py` built every layer
+from the `NATIVE` register template and never wrote `0x1184`, so the CNA used the register's
+`0xff80` reset - "declared input zero point 0, pad borders with 0" - for *every* layer,
+including the hidden ones whose band is not zero point 0. `docs/registers.md` describes the
+register exactly: "input zero point declared to the CNA; it also sets the value the engine
+pads borders with". A hidden Conv therefore padded with `(-128 - zero_point) * scale`
+instead of zero, and the integer reference modelled the same mistake, which is why the
+containers were byte-exact and board-verified while the models lost accuracy.
+
+The fix is one register per layer, in three emitters:
+
+* `chain_n.py`: `0x1184 = quantizations[index-1].output_zero_point` for every layer after
+  the first (the first reads the packed image, whose zero point is the container's);
+* `chain.py` (legacy two-layer profile 2): the second task takes the first layer's output
+  zero point;
+* `tiled_chain.py` (the opt-in height-strip form): the same band, passed back through
+  `native_fields`' API-domain parameter (`zero_point + 128`, since the builder subtracts
+  128) - a first attempt passed the centered value straight through and every tiled variant
+  mismatched on the board, which is how the domain convention was pinned down.
+
+The references (`chain_n_reference_layers`, and the new `chain.reference`) pass each layer's
+predecessor zero point into `native_reference`, so containers and expectations stay
+together. Measured against the float ONNX model over the retained suites (16 cases/model):
+
+| Model | Before | After |
+| --- | ---: | ---: |
+| `native_chain_suite/model001` | 1598.06 | 40.86 |
+| `native_chain_suite/model003` | 46197.56 | 1122.73 |
+| `chain_reuse_suite/model001` | 1378.48 | 85.03 |
+| `chain_reuse_suite/model003` | 41444.34 | 1247.81 |
+| `deep_chain_suite/model000` | 195508.84 | 5584.92 |
+| `deep_chain_suite/model001` | 15728511708.80 | 2197.65 |
+| `chain_calibration_suite/chain5` (analytic) | 53161.90 | 9404.41 |
+
+Chains whose hidden bands are already zero point -128 are byte-identical (the register value
+does not change), which is why only 17 of the family's containers moved. Those 17 were
+re-baselined intentionally (`verify_suites.py --update`) and re-run on the board:
+`native_chain_suite` 5 models/80 inferences/15,360 exact bytes, `chain_reuse_suite` 5/80/
+15,360, `deep_chain_suite` 3/48/9,216, `chain_multi_suite` 4/32/40,448,
+`chain_calibration_suite` 6/96/18,432 - all PASS with 0 mismatches. Both height-strip probes
+(`tiled_chain_probe` 16 cases/variant, `tiled_k3_probe` 4 cases/variant) were regenerated and
+re-run, also all exact. `tests/test_tiled_chain.py` now asserts the per-layer border value
+instead of pinning the `0xff80` reset.
 
 ## 2026-09-12: the camera path is held by rkipc (E5 probe)
 

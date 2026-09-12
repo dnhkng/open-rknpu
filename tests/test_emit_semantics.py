@@ -394,15 +394,14 @@ class ChainCompositionTests(SemanticCase):
         self.assert_codes(got, sample.astype(np.int64) - 128, 0, "chain_n identity analytic")
 
     def test_internal_padding_convention_is_recorded(self):
-        """Finding: an internal K3 border uses code -128, not the tensor zero point.
+        """The internal K3 border uses the tensor's zero point, as ONNX pads.
 
-        A mixed-sign hidden layer can carry an analytic zero point other than
-        -128.  The emitted native16 layer then keeps register 0x1184 at its -128
-        reset value, so it pads the border with `(-128 - zero_point) * scale`
-        instead of the real zero that ONNX `Conv` pads with.  The container is
-        self-consistent with `chain_n_reference`, but deviates from the float
-        ONNX graph; this test pins the observed convention and reports the gap
-        instead of leaving it silent.
+        A mixed-sign hidden layer carries an analytic zero point other than -128, so the
+        emitted native16 layer programs register 0x1184 with the band it reads and pads the
+        border with the real zero ONNX `Conv` pads with. Before 2026-09-12 the register
+        kept its -128 reset and the container deviated from the float graph (F4); this test
+        pins the fixed convention and reports how far the old one was, so the difference
+        cannot come back silently.
         """
         layers = [(3, 5, 1), (5, 5, 3), (5, 4, 3), (4, 4, 1), (4, 3, 3)]
         generator = np.random.default_rng(77)
@@ -425,13 +424,14 @@ class ChainCompositionTests(SemanticCase):
         self.assertTrue(any(q.output_zero_point != -128 for q in quants[1:]),
                         "expected a hidden band whose zero point is not -128")
         got = chain_n_reference(sample, meta["quantizations"])
-        self.assert_codes(got, chain_expected(sample, quants, biases, 1.0, 0, border_code=-128), 1,
-                          "container -128 border convention")
         zero_pad = chain_expected(sample, quants, biases, 1.0, 0)
-        deviation = int(np.abs(got.astype(np.int64) - zero_pad.astype(np.int64)).max())
+        self.assert_codes(got, zero_pad, 1, "container zero-padding convention")
+        legacy = chain_expected(sample, quants, biases, 1.0, 0, border_code=-128)
+        deviation = int(np.abs(got.astype(np.int64) - legacy.astype(np.int64)).max())
         self.assertGreater(deviation, 1,
-                           "container deviates from ONNX zero padding by %d LSB (hidden zero points %s)"
-                           % (deviation, [q.output_zero_point for q in quants]))
+                           "the fixed container should differ from the old -128 border by more "
+                           "than 1 LSB (hidden zero points %s)"
+                           % ([q.output_zero_point for q in quants],))
 
 
 # ---------------------------------------------------------------------------

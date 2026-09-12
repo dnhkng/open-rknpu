@@ -129,11 +129,15 @@ def compile_tiled_chain(model, tiles=2, serial=True):
                 inp, out, weight_offset, bias_offset,
                 output_surface if layer == count - 1 and not shared else surface,
                 4, 16, 4 if kernel == 1 else 8,
-                # Native surfaces store the 128-shifted INT8 value, so the engine's
-                # input zero point is 0 in this domain (register 0x1184 = 0xff80) - the
-                # value the untiled chain's native layers use. The first layer's input
-                # is packed the same way.
-                0,
+                # Native surfaces store the 128-shifted INT8 value, so the engine's input
+                # zero point is the reading layer's predecessor band: zero (i.e. 0x1184 =
+                # 0xff80) for the first layer, whose input is the packed image, and
+                # `quantizations[layer-1]` for every later layer. Leaving the register at
+                # its default for later layers pads with zero point 0 and corrupts the
+                # chain.
+                # `native_fields` derives 0x1184 as `input_zero_point - 128`, so a
+                # centered band must be passed back in the API domain.
+                0 if layer == 0 else quantizations[layer - 1].output_zero_point + 128,
                 q, bool(getattr(q, "relu", False)), False, ih, 1.0)
             position = layer * tiles + strip_index
             link = programs[position + 1] if not serial and position + 1 < count * tiles else 0

@@ -72,10 +72,16 @@ class TiledChainTests(unittest.TestCase):
                 self.assertEqual(meta["layout"], "shared-surfaces")
                 self.assertEqual(meta["halo_rows"], 1)
                 self.assertEqual(info["task_count"], meta["layers"] * 2)
-                # Every program reads the 128-shifted native surface: the pad value the
-                # untiled chain's native layers use too (0xff80 = zero point 0).
-                for registers, _ in entries:
-                    self.assertEqual(registers[0x1184], 0xFF80)
+                # 0x1184 is the input zero point the CNA declares *and* pads borders with.
+                # The first layer reads the packed image (zero point 0 -> 0xff80); every
+                # later layer reads the previous layer's native16 grid, so its border is
+                # that layer's centered output zero point. The tiled chain used to leave
+                # the register at 0xff80 everywhere, which corrupted deep chains (F4).
+                strips = meta["tiles"]
+                expected = [0xFF80] + [q["output_zero_point"] & 0xFFFF
+                                       for q in meta["quantizations"][:-1]]
+                for position, (registers, _) in enumerate(entries):
+                    self.assertEqual(registers[0x1184], expected[position // strips])
                 # The activation registers follow each layer's quantization metadata:
                 # `[Conv, Relu]*(N-1) + [Conv]` means every layer but the last carries
                 # the graph's Relu (docs/plans/pipelining-plan.md S9).

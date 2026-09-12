@@ -167,7 +167,17 @@ def compile_chain_n(model, output_range=None, expose_intermediates=False, reuse_
         relu = bool(getattr(q, "relu", False))
         weights_offset, bias_offset = offsets[index]
         fields = dict(NATIVE)
-        fields.update({0x1010: 0x108 if kernel == 3 else 0x104,
+        # 0x1184 is the input zero point the CNA declares *and* the value it pads borders
+        # with (docs/registers.md). A hidden layer reads the previous layer's native16
+        # grid, whose band is `quantizations[index-1]`, so the border must be that band's
+        # zero point - leaving the register at its 0xff80 default pads with zero point 0
+        # and corrupts deep chains (measured: 3.4e7 mean error on an 8-layer chain against
+        # 43 with the propagated value).
+        previous = quantizations[index - 1]
+        previous_zero_point = (previous["output_zero_point"] if isinstance(previous, dict)
+                               else previous.output_zero_point)
+        fields.update({0x1184: int(previous_zero_point) & 0xffff,
+                       0x1010: 0x108 if kernel == 3 else 0x104,
                        0x1030: channels * 16 * kernel * kernel, 0x1034: 16 * kernel * kernel,
                        0x1038: (kernel << 24) | (kernel << 16) | channels,
                        0x1068: 0x101 if kernel == 3 else 0, 0x1188: 8 * kernel * kernel,
@@ -253,9 +263,13 @@ def chain_n_reference_layers(inputs, quantizations):
     first = quantizations[0]
     if isinstance(first, dict) and "quantization" in first:
         first = first["quantization"]
-    outputs = [reference(inputs, _as_quantization(first))]
+    first = _as_quantization(first)
+    outputs = [reference(inputs, first)]
+    zero_point = first.output_zero_point
     for params in quantizations[1:]:
-        outputs.append(native_reference(outputs[-1], _as_quantization(params)))
+        quantization = _as_quantization(params)
+        outputs.append(native_reference(outputs[-1], quantization, int(zero_point)))
+        zero_point = quantization.output_zero_point
     return outputs
 
 

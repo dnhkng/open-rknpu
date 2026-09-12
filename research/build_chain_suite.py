@@ -7,8 +7,8 @@ import onnx
 from onnx import helper as h,numpy_helper as nh
 from open_rknpu.compiler import compile_model
 from open_rknpu.model import encode
-from open_rknpu.chain import native_reference
-from open_rknpu.quantization import Quantization,reference
+from open_rknpu.chain import chain_reference
+from open_rknpu.quantization import Quantization
 
 parser=argparse.ArgumentParser();parser.add_argument("--kernel",type=int,choices=(1,3),default=1)
 parser.add_argument("--first-kernel",type=int,choices=(1,3),default=1)
@@ -42,7 +42,7 @@ for c in range(3,17):
     inputs=rng.integers(0,256,(32,8,8,3),dtype=np.uint8)
     inputs[0]=0;inputs[1]=255;inputs[2]=128
     inputs.tofile(root/f"input{index:03}.u8")
-    np.stack([native_reference(reference(x,quantizers[0]),quantizers[1]) for x in inputs]).tofile(root/f"expected{index:03}.i8")
+    np.stack([chain_reference(x,quantizers[0],quantizers[1]) for x in inputs]).tofile(root/f"expected{index:03}.i8")
     manifest.append({"index":index,"hidden_channels":c,"inputs":32})
 (root/"manifest.json").write_text(json.dumps(manifest,indent=2)+"\n")
 print(f"Built {len(manifest)} two-layer application models")

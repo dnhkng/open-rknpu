@@ -30,7 +30,7 @@ to refuse is a behaviour change too.
 ## 2. The host test suite
 
 ```sh
-PYTHONPATH=src python -m unittest discover -s tests      # 1,155 tests
+PYTHONPATH=src python -m unittest discover -s tests      # 1,157 tests
 make coverage                                            # 99.20% line coverage, floor 99% in pyproject.toml
 PYTHONPATH=src python -m pytest tests -q
 ```
@@ -73,7 +73,7 @@ in [mutation-testing.md](mutation-testing.md).
 ### The uncovered lines
 
 <!-- coverage-table:start -->
-Coverage is 99.20% (6,851 statements, 55 uncovered lines in 10 of 39 modules). Every remaining line is listed here because a floor nobody can explain is useless; the reason column is the module-level justification and the quoted source is there to check it against.
+Coverage is 99.20% (6,859 statements, 55 uncovered lines in 10 of 39 modules). Every remaining line is listed here because a floor nobody can explain is useless; the reason column is the module-level justification and the quoted source is there to check it against.
 
 | Line | Source | Why it is not executed |
 | --- | --- | --- |
@@ -181,7 +181,7 @@ Run from the repository root; all of them are host-only and CI runs the applicab
 
 | Command | What it proves |
 | --- | --- |
-| `make test` | the 1,155-test host suite passes on 3.10-3.13 |
+| `make test` | the 1,157-test host suite passes on 3.10-3.13 |
 | `make coverage` | the suite executes 99.20% of the compiler's lines, floor 99% |
 | `make baseline` | all 2,328 published suite models still compile to identical bytes (or stay rejected) |
 | `make campaign` | the largest suites recompile to their published containers; the 12 known drifts stay known |

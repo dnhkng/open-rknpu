@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   compared against the Python decoder for all 2,340 published containers), evidence
   integrity for every suite, the documented-command runner, rejection/boundary modules for
   the front end, emitters, joins and scheduler, and the release-gate logic
-  (1,155 tests total, 99.20% compiler line coverage).
+  (1,157 tests total, 99.20% compiler line coverage).
 - Tools: `research/perf_regression.py` with a checked-in cost-model baseline,
   `research/check_reproducible_build.py` (normalise and audit the sdist),
   `research/run_mutation_tests.py` with `research/mutation_scope.json`,
@@ -59,10 +59,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `ornpu_run_prefilled` runs without copying the input. Board: the packed
   `add_geometry_suite` through this path, 32 models / 64 inferences / 19,968 exact bytes.
 
+### Fixed (third pass)
+- **The chain border zero point (F4).** `chain.py`, `chain_n.py` and the opt-in
+  `tiled_chain.py` left register `0x1184` at its `-128` reset for hidden layers, so a Conv
+  padded its border with `(-128 - zero_point) * scale` instead of the zero ONNX pads with.
+  Every layer now programs the band it reads, and the references follow. Against the float
+  ONNX model: `deep_chain_suite/model001` 1.57e10 -> 2.2e3 mean error,
+  `deep_chain_suite/model000` 1.96e5 -> 5.6e3, `native_chain_suite/model003` 4.6e4 -> 1.1e3,
+  `chain_calibration_suite` chain5 analytic 5.3e4 -> 9.4e3. 17 containers changed
+  intentionally and are re-baselined with fresh board evidence (all chain suites PASS, both
+  height-strip probes re-run exact); chains whose hidden bands were already zero point
+  `-128` are byte-identical.
+
 ### Changed (second pass)
 - The container baseline covers 2,328 models (0 changed; 84 new suite models, one of which is
   a documented default rejection), the ledger is 129 rows / 1,786 models / 29,706 inferences
-  / 10,605,299 exact output bytes, and the host suite is 1,155 tests at 99.20% line coverage.
+  / 10,605,299 exact output bytes, and the host suite is 1,157 tests at 99.20% line coverage.
 - `ornpu_info` gained `arena_bytes`; `tests/test_container_bindings.py` now accepts a read
   address inside the container's own payload (an emitter-materialised constant) while still
   rejecting a write into the payload.

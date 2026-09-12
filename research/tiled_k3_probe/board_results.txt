@@ -1,16 +1,16 @@
-K>1 height-strip tiling (PIPELINING_PLAN.md S7), tests/board_bench.c, 8 cases each, identical input/expected bytes as each chain's untiled container:
+K>1 height-strip tiling (docs/plans/pipelining-plan.md S7), tests/board_bench.c, 16 cases each, identical input/expected bytes as each chain's untiled container:
 
-k3 untiled        tasks=16 serial  cases=4 exact=True min=  269.2us median=  2743.4us mismatches=0
-k3 tiles1         tasks=16 serial  cases=4 exact=True min=  265.1us median=  1475.5us mismatches=0
-k3 tiles1_batched tasks=16 batched cases=4 exact=True min=  112.6us median=   383.8us mismatches=0
-k3 tiles2         tasks=32 serial  cases=4 exact=True min=  534.9us median=  6420.5us mismatches=0
-k3 tiles2_batched tasks=32 batched cases=4 exact=True min=  210.3us median=  1242.2us mismatches=0
-k3 tiles4         tasks=64 serial  cases=4 exact=True min= 1128.2us median= 26691.6us mismatches=0
-k3 tiles4_batched tasks=64 batched cases=4 exact=True min=  322.3us median=   934.8us mismatches=0
-mixed untiled        tasks=12 serial  cases=4 exact=True min=  580.4us median=  6458.1us mismatches=0
-mixed tiles1         tasks=12 serial  cases=4 exact=True min=  217.9us median=  3556.3us mismatches=0
-mixed tiles1_batched tasks=12 batched cases=4 exact=True min=  104.1us median=   737.9us mismatches=0
-mixed tiles2         tasks=24 serial  cases=4 exact=True min=  391.4us median=  6727.6us mismatches=0
-mixed tiles2_batched tasks=24 batched cases=4 exact=True min=  142.9us median=   667.9us mismatches=0
-mixed tiles4         tasks=48 serial  cases=4 exact=True min=  827.8us median=  6222.7us mismatches=0
-mixed tiles4_batched tasks=48 batched cases=4 exact=True min=  210.0us median=  1916.0us mismatches=0
+k3 untiled        tasks=16 serial  cases=4 exact=True min=  226.0us median=   449.8us mismatches=0
+k3 tiles1         tasks=16 serial  cases=4 exact=True min=  222.0us median=   390.8us mismatches=0
+k3 tiles1_batched tasks=16 batched cases=4 exact=True min=   95.7us median=   200.1us mismatches=0
+k3 tiles2         tasks=32 serial  cases=4 exact=True min=  425.5us median=   810.3us mismatches=0
+k3 tiles2_batched tasks=32 batched cases=4 exact=True min=  150.8us median=   304.5us mismatches=0
+k3 tiles4         tasks=64 serial  cases=4 exact=True min=  801.8us median=  1127.6us mismatches=0
+k3 tiles4_batched tasks=64 batched cases=4 exact=True min=  267.5us median=   551.8us mismatches=0
+mixed untiled        tasks=12 serial  cases=4 exact=True min=  180.0us median=   399.3us mismatches=0
+mixed tiles1         tasks=12 serial  cases=4 exact=True min=  172.4us median=   356.1us mismatches=0
+mixed tiles1_batched tasks=12 batched cases=4 exact=True min=   66.2us median=   264.3us mismatches=0
+mixed tiles2         tasks=24 serial  cases=4 exact=True min=  338.0us median=   512.8us mismatches=0
+mixed tiles2_batched tasks=24 batched cases=4 exact=True min=   99.2us median=   265.1us mismatches=0
+mixed tiles4         tasks=48 serial  cases=4 exact=True min=  642.5us median=   776.7us mismatches=0
+mixed tiles4_batched tasks=48 batched cases=4 exact=True min=  168.0us median=   404.8us mismatches=0

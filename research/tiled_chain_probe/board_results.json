@@ -7,8 +7,8 @@
     "detail": "",
     "tasks": 32,
     "mode": "serial",
-    "min_us": 424.4,
-    "median_us": 10484.8,
+    "min_us": 373.6,
+    "median_us": 1362.7,
     "unstable": 0,
     "mismatches": 0
   },
@@ -20,8 +20,8 @@
     "detail": "",
     "tasks": 16,
     "mode": "serial",
-    "min_us": 212.6,
-    "median_us": 5306.3,
+    "min_us": 200.4,
+    "median_us": 467.0,
     "unstable": 0,
     "mismatches": 0
   },
@@ -33,8 +33,8 @@
     "detail": "",
     "tasks": 16,
     "mode": "batched",
-    "min_us": 76.1,
-    "median_us": 1575.6,
+    "min_us": 69.7,
+    "median_us": 1204.9,
     "unstable": 0,
     "mismatches": 0
   },
@@ -46,8 +46,8 @@
     "detail": "",
     "tasks": 32,
     "mode": "serial",
-    "min_us": 395.5,
-    "median_us": 4508.3,
+    "min_us": 380.3,
+    "median_us": 1095.5,
     "unstable": 0,
     "mismatches": 0
   },
@@ -59,8 +59,8 @@
     "detail": "",
     "tasks": 32,
     "mode": "batched",
-    "min_us": 93.6,
-    "median_us": 733.5,
+    "min_us": 95.7,
+    "median_us": 1689.6,
     "unstable": 0,
     "mismatches": 0
   },
@@ -72,8 +72,8 @@
     "detail": "",
     "tasks": 64,
     "mode": "serial",
-    "min_us": 832.7,
-    "median_us": 4849.5,
+    "min_us": 823.4,
+    "median_us": 1967.9,
     "unstable": 0,
     "mismatches": 0
   },
@@ -85,8 +85,8 @@
     "detail": "",
     "tasks": 64,
     "mode": "batched",
-    "min_us": 169.2,
-    "median_us": 1131.1,
+    "min_us": 166.3,
+    "median_us": 863.6,
     "unstable": 0,
     "mismatches": 0
   }

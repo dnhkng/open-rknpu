@@ -131,7 +131,7 @@ DOCUMENTED_GAPS = {
 # additions.
 MODULE_REFERENCES = {
     "open_rknpu.activation": {"leaky_reference", "prelu_reference"},
-    "open_rknpu.chain": {"native_reference"},
+    "open_rknpu.chain": {"native_reference", "chain_reference"},
     "open_rknpu.chain_n": {"chain_n_reference", "chain_n_reference_layers"},
     "open_rknpu.depthwise": {"depthwise_reference"},
     "open_rknpu.depthwise_join": {"depthwise_join_reference"},

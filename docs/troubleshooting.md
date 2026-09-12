@@ -100,15 +100,14 @@ pooled branches); `output override unsupported for LUT profile` / `… LeakyRelu
 `… PRelu profile` / `… Reshape profile`; and the saturated-output failure mode in
 [quantization.md](quantization.md#failure-modes-seen-in-practice).
 
-**The chain-family border quirk (measured).** `chain.py` and `chain_n.py` leave the
-internal border register `0x1184` at its `-128` reset instead of programming the
-producer's zero point, so a hidden border reads `(-128 - zero_point) × scale` rather than
-the real zero ONNX pads with. On a seeded 5-layer chain with hidden zero points
-`[-128, -17, -2, 0, 0]` the container is 38 LSB from the ONNX-float result, and 178 of
-the 242 retained chain models have a non-`-128` hidden zero point. Every fan-out emitter
-does program `0x1184`; the chain family is the outlier, the integer reference models the
-same convention so those containers stay byte-exact, and the convention is pinned by
-`tests/test_emit_semantics.py` ([roadmap.md](roadmap.md)). The board evidence that would
+**The chain-family border zero point (fixed 2026-09-12).** `chain.py` and `chain_n.py`
+used to leave the internal border register `0x1184` at its `-128` reset instead of
+programming the producer's zero point, so a hidden border read
+`(-128 - zero_point) × scale` rather than the real zero ONNX pads with. Every chain layer
+now declares the band it reads, and the references model it: deep chains improved by up to
+seven orders of magnitude against the float ONNX model (e.g. `deep_chain_suite/model001`
+from 1.57e10 to 2.2e3 mean error). If an *old* container shows a hidden-band shift, it was
+compiled before the fix - recompile it ([roadmap.md](roadmap.md)). The board evidence that would
 be invalidated by changing it is the chain family's
 ([research/native_chain_suite/](../research/native_chain_suite/)); if your accuracy gap is
 a hidden-band shift on a chain, that is the cause to check first.

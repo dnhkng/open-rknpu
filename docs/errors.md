@@ -56,14 +56,14 @@ This index covers 578 messages across 37 modules; 4 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `unsupported two-layer graph or quantization parameters` | `chain.py:33,42,54,70,95,98,100,102,104,108,115,118,125,129` | The graph is not the supported 8x8 C3 Conv-Relu-Conv profile, or its quantization is out of range. |
+| `unsupported two-layer graph or quantization parameters` | `chain.py:33,42,54,70,105,108,110,112,114,118,125,128,135,139` | The graph is not the supported 8x8 C3 Conv-Relu-Conv profile, or its quantization is out of range. |
 | `native INT32 bias overflow` | `chain.py:51` | The quantized bias exceeds INT32; widen the output scale or shrink the weights. |
 | `invalid native output scale` | `chain.py:61` | The computed output scale is zero or non-finite; check the weight range. |
 | `invalid calibrated native output quantization` | `chain.py:66` | The calibrated output scale or zero point is invalid; fix the calibration report. |
 | `native output scale outside nonzero multiplier range` | `chain.py:72` | The conversion multiplier would be 0 or above 32767; adjust the output scale. |
-| `two-layer weights must have rank four` | `chain.py:111` | Conv weights must be a rank-4 [O,I,K,K] tensor. |
-| `each convolution requires a constant bias matching its output channels` | `chain.py:127` | Both Convs need a constant bias with one value per output channel. |
-| `calibration and chain output override cannot be combined` | `chain.py:138` | Choose calibration or an explicit output range, not both. |
+| `two-layer weights must have rank four` | `chain.py:121` | Conv weights must be a rank-4 [O,I,K,K] tensor. |
+| `each convolution requires a constant bias matching its output channels` | `chain.py:137` | Both Convs need a constant bias with one value per output channel. |
+| `calibration and chain output override cannot be combined` | `chain.py:148` | Choose calibration or an explicit output range, not both. |
 
 ## `chain_n.py`
 
