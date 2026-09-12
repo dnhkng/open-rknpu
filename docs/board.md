@@ -66,6 +66,11 @@ bytes`. `research/run_v5_suite.py` stages a suite and its manifest and records
 PYTHONPATH=src python research/run_v5_suite.py mel_kws_suite --binary /tmp/board_io
 ```
 
+The scripts invoke the Android platform tool by name; put it on `PATH` or point `ADB` at it
+(`export ADB=/path/to/adb`), and pass the host-built runner with `--binary`. `make
+board-suite SUITE=<name>` does the cross-compile and the run in one step, writing the
+evidence into the suite directory (`--remote` renames the staging directory on the board).
+
 ## Timing
 
 Time from the host with `clock_gettime(CLOCK_MONOTONIC)` around `ornpu_run`, and report both
