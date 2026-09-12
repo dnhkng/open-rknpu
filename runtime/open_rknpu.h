@@ -105,5 +105,27 @@ int ornpu_run(ornpu_model *model, const uint8_t *input, size_t input_size,
  * wrong role or a wrong buffer size returns -EINVAL before anything is submitted. */
 int ornpu_run_io(ornpu_model *model, const ornpu_io *inputs, uint32_t input_count,
                  ornpu_io *outputs, uint32_t output_count);
+/* Wall-clock timing of one inference (checklist F9). The board has no userspace cycle
+ * counter and the driver exposes none, so this is `clock_gettime(CLOCK_MONOTONIC)` around
+ * the three phases of `ornpu_run`/`ornpu_run_io`:
+ *
+ *   pack_ns      marshalling the caller's inputs into the mapped arena (and, for a legacy
+ *                container, clearing the input surface);
+ *   submit_ns    the SUBMIT ioctl(s), which is where the engine runs and waits - the
+ *                runtime submits synchronously, so this is the NPU's own time plus the
+ *                driver's overhead;
+ *   readback_ns  the output cache sync and unpacking the arena into the caller's buffer;
+ *   total_ns     the whole call, including the argument validation and the input/output
+ *                memset.
+ *
+ * The counters are written only on success; pass NULL to skip the measurement (that is
+ * exactly what `ornpu_run`/`ornpu_run_io` do). Timing is per inference and adds two
+ * `clock_gettime` calls per phase, so it is cheap enough to leave on while tuning and
+ * should be off in a production loop. */
+struct ornpu_timing { uint64_t pack_ns, submit_ns, readback_ns, total_ns; };
+int ornpu_run_timed(ornpu_model *model, const uint8_t *input, size_t input_size,
+                    int8_t *output, size_t output_size, struct ornpu_timing *timing);
+int ornpu_run_io_timed(ornpu_model *model, const ornpu_io *inputs, uint32_t input_count,
+                       ornpu_io *outputs, uint32_t output_count, struct ornpu_timing *timing);
 void ornpu_close(ornpu_model *model);
 #endif

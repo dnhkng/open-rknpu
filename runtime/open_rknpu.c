@@ -16,6 +16,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
+#include <time.h>
 #include <unistd.h>
 
 #if __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
@@ -451,6 +452,12 @@ void ornpu_close(ornpu_model *model) {
     free(model);
 }
 
+static uint64_t now_ns(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC,&ts);
+    return (uint64_t)ts.tv_sec*1000000000ull+(uint64_t)ts.tv_nsec;
+}
+
 static int sync_buffer(ornpu_model *model,unsigned index,unsigned flags) {
     struct allocation *a=&model->buffers[index];
     struct sync s={flags,0,a->object,0,a->size};
@@ -515,7 +522,9 @@ static int unpack_tensor_output(ornpu_model *model,const struct tensor_spec *t,i
     return 0;
 }
 
-int ornpu_run_io(ornpu_model *model,const ornpu_io *inputs,uint32_t input_count,ornpu_io *outputs,uint32_t output_count) {
+int ornpu_run_io_timed(ornpu_model *model,const ornpu_io *inputs,uint32_t input_count,
+                       ornpu_io *outputs,uint32_t output_count,struct ornpu_timing *timing) {
+    uint64_t started=timing?now_ns():0,packed=0,submitted=0,read=0;
     if(!model || !inputs || !outputs) return -EINVAL;
     if(!model->tensor_count) return -EINVAL;
     if(input_count!=model->input_count || output_count!=model->output_count) return -EINVAL;
@@ -537,12 +546,15 @@ int ornpu_run_io(ornpu_model *model,const ornpu_io *inputs,uint32_t input_count,
         if(outputs[i].size!=(size_t)((uint64_t)t->batch*t->height*t->width*t->channels)) return -EINVAL;
         memset((uint8_t *)model->mapping[1]+t->offset,0,t->size);
     }
+    packed=timing?now_ns():0;
     int rc=sync_buffer(model,0,1);
     if(rc) return rc;
     rc=sync_buffer(model,1,1);
     if(rc) return rc;
+    submitted=timing?now_ns():0;
     rc=submit_tasks(model);
     if(rc) return rc;
+    read=timing?now_ns():0;
     rc=sync_buffer(model,1,2);
     if(rc) return rc;
     for(uint32_t i=0;i<output_count;i++) {
@@ -550,10 +562,23 @@ int ornpu_run_io(ornpu_model *model,const ornpu_io *inputs,uint32_t input_count,
         rc=unpack_tensor_output(model,t,outputs[i].data,outputs[i].size);
         if(rc) return rc;
     }
+    if(timing) {
+        uint64_t done=now_ns();
+        timing->pack_ns=packed-started;
+        timing->submit_ns=read-submitted;
+        timing->readback_ns=done-read;
+        timing->total_ns=done-started;
+    }
     return 0;
 }
 
-int ornpu_run(ornpu_model *model,const uint8_t *input,size_t input_size,int8_t *output,size_t output_size) {
+int ornpu_run_io(ornpu_model *model,const ornpu_io *inputs,uint32_t input_count,
+                 ornpu_io *outputs,uint32_t output_count) {
+    return ornpu_run_io_timed(model,inputs,input_count,outputs,output_count,NULL);
+}
+
+int ornpu_run_timed(ornpu_model *model,const uint8_t *input,size_t input_size,
+                    int8_t *output,size_t output_size,struct ornpu_timing *timing) {
     if(!model || !input || !output) return -EINVAL;
     if(model->tensor_count) {
         const struct tensor_spec *in=find_tensor(model,ROLE_INPUT,0),*out=find_tensor(model,ROLE_OUTPUT,0);
@@ -564,12 +589,13 @@ int ornpu_run(ornpu_model *model,const uint8_t *input,size_t input_size,int8_t *
             if(&model->tensors[i]==out) io_out.tensor_index=i;
         }
         if(model->input_count!=1 || model->output_count!=1) return -EINVAL;
-        return ornpu_run_io(model,&io_in,1,&io_out,1);
+        return ornpu_run_io_timed(model,&io_in,1,&io_out,1,timing);
     }
     struct header *h=&model->header;
     size_t expected=model->info.batch*h->height*h->width*h->input_channels;
     unsigned output_pixels=model->info.output_height*model->info.output_width;
     if(input_size!=expected || output_size!=model->info.batch*output_pixels*h->output_channels) return -EINVAL;
+    uint64_t started=timing?now_ns():0,packed=0,submitted=0,read=0;
     uint8_t *base=model->mapping[1];
     uint8_t *in=base+h->input_offset;
     uint8_t *out=base+h->output_offset;
@@ -595,18 +621,32 @@ int ornpu_run(ornpu_model *model,const uint8_t *input,size_t input_size,int8_t *
         for(unsigned row=0;row<h->height;row++)
             memcpy(in+row*h->input_stride*h->input_channels,input+row*h->width*h->input_channels,h->width*h->input_channels);
     }
+    packed=timing?now_ns():0;
     int rc=sync_buffer(model,0,1);
     if(rc) return rc;
     rc=sync_buffer(model,1,1);
     if(rc) return rc;
+    submitted=timing?now_ns():0;
     rc=submit_tasks(model);
     if(rc) return rc;
+    read=timing?now_ns():0;
     rc=sync_buffer(model,1,2);
     if(rc) return rc;
     for(unsigned b=0;b<model->info.batch;b++) for(unsigned pixel=0;pixel<output_pixels;pixel++)
         for(unsigned c=0;c<h->output_channels;c++)
             output[(b*output_pixels+pixel)*h->output_channels+c]=(int8_t)out[b*output_storage+(c/16)*output_surface+pixel*16+c%16];
+    if(timing) {
+        uint64_t done=now_ns();
+        timing->pack_ns=packed-started;
+        timing->submit_ns=read-submitted;
+        timing->readback_ns=done-read;
+        timing->total_ns=done-started;
+    }
     return 0;
+}
+
+int ornpu_run(ornpu_model *model,const uint8_t *input,size_t input_size,int8_t *output,size_t output_size) {
+    return ornpu_run_timed(model,input,input_size,output,output_size,NULL);
 }
 
 int ornpu_submit_flags(ornpu_model *model,uint32_t extra_flags,int *fence_fd) {

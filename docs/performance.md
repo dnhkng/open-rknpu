@@ -58,6 +58,7 @@ The rules that make repeated measurements comparable:
 | Harness | What it measures | Where |
 | --- | --- | --- |
 | [`tests/board_bench.c`](../tests/board_bench.c) | one model, N timed inferences, min/median/mean/max, exactness and stability | latency |
+| [`tests/board_timed.c`](../tests/board_timed.c) | the runtime's own `ornpu_run_timed` breakdown (pack/submit/readback/total) per inference | supported timing API (F9) |
 | [`tests/board_async.c`](../tests/board_async.c) | synchronous pair vs `JOB_NONBLOCK` pipelined pair, interleaved medians; fence probe | overlap |
 | [`tests/board_barrier.c`](../tests/board_barrier.c) | synchronous vs queue-with-`NONBLOCK`-then-barrier, per inference | overlap, lag 0 |
 | [`tests/board_io.c`](../tests/board_io.c), [`tests/board_api.c`](../tests/board_api.c) | whole suites: every inference compared byte-for-byte with `expectedNNN.i8` | correctness, not time |
@@ -162,6 +163,31 @@ against 40,960 B for the untiled 16-layer chain) and the median latency with it
 (287.6 → 552.4 → 1210.4 µs, 16 cases each, all exact,
 [docs/plans/pipelining-plan.md](plans/pipelining-plan.md) S3). Use it when surface bytes
 dominate program bytes, not for speed.
+
+### The runtime's own per-inference timing
+
+`ornpu_run_timed` (checklist F9) reports the runtime's wall-clock breakdown of one
+inference: pack, submit, readback and total. Measured on the reference board with
+`tests/board_timed.c` against `research/walk_chain_suite/model000.bin` (a one-task v5
+container, 192 input bytes / 48 output bytes, 768 exact bytes over 16 runs and 3,072 over
+64 runs; `mismatches=0` in every run):
+
+| runs | min `submit_ns` | median `submit_ns` | min `total_ns` |
+| --- | ---: | ---: | ---: |
+| 16 | 80,500 | 216,708 | 151,083 |
+| 64 | 62,125 / 59,208 (two runs) | 301,875 / 612,500 | 112,291 / 79,625 |
+
+The minima are the usable numbers: the runs were taken while the host was busy, `rkipc`
+shares the NPU and `adb shell` adds a round trip per invocation, which is why the means
+reach milliseconds. `submit_ns` includes the driver's own overhead, so it is an upper bound
+on engine time - the driver exposes no cycle counter to split the two. Reproduce with:
+
+```sh
+make host-c   # or cross-compile tests/board_timed.c with the vendor toolchain
+adb push /tmp/board_timed research/walk_chain_suite/{model000.bin,input000.u8,expected000.i8} \
+  /userdata/open-npu-research/timed/   # board: needs the board on adb
+adb shell 'cd /userdata/open-npu-research/timed && ./board_timed model000.bin input000.u8 expected000.i8 64'   # board
+```
 
 ## The per-family cost model
 

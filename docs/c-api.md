@@ -232,6 +232,35 @@ bias correction ([runtime/sequence_format.md](../runtime/sequence_format.md), "V
 section). The whole point of a *named region* is that the runtime addresses it and not a
 hand-computed offset.
 
+## Per-inference timing
+
+The board has no userspace cycle counter and the driver exposes none, so the runtime offers
+its own wall-clock breakdown instead of pretending to read one. `ornpu_run_timed` and
+`ornpu_run_io_timed` are the same calls as `ornpu_run`/`ornpu_run_io` with an extra
+out-parameter:
+
+```c
+struct ornpu_timing timing;
+if (ornpu_run_timed(model, input, info.input_bytes, output, info.output_bytes, &timing))
+    return -1;
+printf("pack %llu ns, submit %llu ns, readback %llu ns, total %llu ns\n",
+       (unsigned long long)timing.pack_ns, (unsigned long long)timing.submit_ns,
+       (unsigned long long)timing.readback_ns, (unsigned long long)timing.total_ns);
+```
+
+| Field | Covers |
+| --- | --- |
+| `pack_ns` | marshalling the caller's inputs into the mapped arena (plus the input-surface clear for a legacy container) |
+| `submit_ns` | the `SUBMIT` ioctl(s) - where the engine runs and waits, because the runtime submits synchronously |
+| `readback_ns` | the output cache sync and unpacking the arena into the caller's buffer |
+| `total_ns` | the whole call, including argument validation and the output memset |
+
+The counters are written only on success; passing `NULL` (what the untimed entry points do)
+skips the measurement entirely. On this board `submit_ns` dominates and already contains
+the driver's own overhead, so it is an upper bound on engine time, not a hardware counter.
+Use the minimum over a warm run: the host, `adb` and `rkipc` make medians and means noisy
+([docs/performance.md](performance.md), [tests/board_timed.c](../tests/board_timed.c)).
+
 ## The experimental async API
 
 These are documented as experimental in the header and carry the measured
