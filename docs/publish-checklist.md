@@ -73,9 +73,9 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 
 | # | Item | Why it blocks | Effort |
 | --- | --- | --- | --- |
-| R1 | Real project URLs, authors/maintainers in `pyproject.toml` (currently `github.com/open-rknpu/open-rknpu` placeholders and deliberately no authors) | A published package with placeholder metadata cannot be corrected after upload | S |
+| ✅ R1 | Real project URLs, authors/maintainers in `pyproject.toml` (`github.com/dnhkng/open-rknpu`, maintainer `dnhkng`) | A published package with placeholder metadata cannot be corrected after upload | S |
 | ✅ R2 | Decide the version: drop `.dev0` → `0.1.0` for the first release, and add `CHANGELOG.md` | "dev0" on PyPI is a pre-release that some tools will not install by default | S |
-| R3 | Confirm/claim the PyPI name (`open-rknpu`) and reserve the GitHub org/name | Last-minute name collisions are avoidable | S |
+| R3 | Confirm/claim the PyPI name (`open-rknpu`); the GitHub repository URL is fixed to `github.com/dnhkng/open-rknpu` | Last-minute name collisions are avoidable | S |
 
 ---
 

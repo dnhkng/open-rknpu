@@ -11,10 +11,10 @@ site_description: An open compiler and libc-only runtime for the Rockchip RV1103
 site_author: open-rknpu contributors
 
 # Placeholder: replace with the real Pages URL before the first deployment.
-site_url: https://open-rknpu.github.io/open-rknpu/
+site_url: https://dnhkng.github.io/open-rknpu/
 
-repo_name: open-rknpu/open-rknpu
-repo_url: https://github.com/open-rknpu/open-rknpu
+repo_name: dnhkng/open-rknpu
+repo_url: https://github.com/dnhkng/open-rknpu
 edit_uri: edit/main/docs/
 
 docs_dir: docs

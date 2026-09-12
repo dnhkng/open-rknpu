@@ -27,16 +27,16 @@ classifiers = [
   "Topic :: Software Development :: Compilers",
 ]
 
-# Update the URLs and the maintainer entry for your fork before publishing a release;
-# the repository is developed by "open-rknpu contributors" (see AUTHORS).
-authors = [{ name = "open-rknpu contributors" }]
-maintainers = [{ name = "open-rknpu contributors" }]
+# Developed by "open-rknpu contributors"; the maintainer of the 0.1.0 release is
+# listed here and in AUTHORS.
+authors = [{ name = "open-rknpu contributors" }, { name = "dnhkng" }]
+maintainers = [{ name = "dnhkng" }]
 
 [project.urls]
-Homepage = "https://github.com/open-rknpu/open-rknpu"
-Repository = "https://github.com/open-rknpu/open-rknpu"
-Documentation = "https://github.com/open-rknpu/open-rknpu/tree/main/docs"
-Issues = "https://github.com/open-rknpu/open-rknpu/issues"
+Homepage = "https://github.com/dnhkng/open-rknpu"
+Repository = "https://github.com/dnhkng/open-rknpu"
+Documentation = "https://github.com/dnhkng/open-rknpu/tree/main/docs"
+Issues = "https://github.com/dnhkng/open-rknpu/issues"
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff", "build", "coverage", "twine", "pre-commit", "mkdocs-material"]

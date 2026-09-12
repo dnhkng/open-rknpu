@@ -8,7 +8,7 @@ body:
       value: |
         This compiler is deliberately bounded: it accepts a documented class of static
         graphs and rejects everything else loudly rather than falling back to a vendor
-        runtime. Please check [docs/roadmap.md](https://github.com/open-rknpu/open-rknpu/blob/main/docs/roadmap.md)
+        runtime. Please check [docs/roadmap.md](https://github.com/dnhkng/open-rknpu/blob/main/docs/roadmap.md)
         first — the request may be intentionally out of scope, or already listed as a
         measured residual.
 

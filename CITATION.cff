@@ -14,8 +14,8 @@ type: software
 license: MIT
 version: "0.1.0"
 date-released: "2026-09-11"
-repository-code: "https://github.com/open-rknpu/open-rknpu"
-url: "https://github.com/open-rknpu/open-rknpu"
+repository-code: "https://github.com/dnhkng/open-rknpu"
+url: "https://github.com/dnhkng/open-rknpu"
 keywords:
   - rockchip
   - rv1103
@@ -27,3 +27,5 @@ keywords:
   - reverse-engineering
 authors:
   - name: "open-rknpu contributors"
+  - name: "dnhkng"
+    website: "https://github.com/dnhkng"

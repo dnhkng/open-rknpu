@@ -137,5 +137,5 @@ SDK. There is no vendor SDK, no RKNN library and no captured binary in the tree.
   evidence is byte-exact against that convention, so changing it would invalidate
   `research/native_chain_suite/`; `docs/roadmap.md` records it.
 
-[Unreleased]: https://github.com/open-rknpu/open-rknpu/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/open-rknpu/open-rknpu/releases/tag/v0.1.0
+[Unreleased]: https://github.com/dnhkng/open-rknpu/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/dnhkng/open-rknpu/releases/tag/v0.1.0
