@@ -23,6 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       present: ${{ steps.mkdocs.outputs.present }}
+      # GitHub Pages is a repository setting, not a file: until the maintainer enables it
+      # (Settings -> Pages -> Source: GitHub Actions) the deploy cannot run. The site is
+      # still built strictly and uploaded as a workflow artifact, so the build stays
+      # verified and the failure mode is a skipped deploy instead of a red workflow.
+      pages: ${{ steps.pages.outcome }}
     steps:
       - uses: actions/checkout@v4
 
@@ -46,12 +51,21 @@ jobs:
         if: steps.mkdocs.outputs.present == 'true'
         run: mkdocs build --strict
 
-      - name: configure GitHub Pages
+      - name: upload the built site as a workflow artifact
         if: steps.mkdocs.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: site
+
+      - name: configure GitHub Pages
+        id: pages
+        if: steps.mkdocs.outputs.present == 'true'
+        continue-on-error: true
         uses: actions/configure-pages@v5
 
       - name: upload the Pages artifact
-        if: steps.mkdocs.outputs.present == 'true'
+        if: steps.pages.outcome == 'success'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
@@ -59,8 +73,8 @@ jobs:
   deploy:
     name: deploy to GitHub Pages
     needs: build
-    # Nothing to deploy when `mkdocs.yml` is absent.
-    if: needs.build.outputs.present == 'true'
+    # Nothing to deploy when `mkdocs.yml` is absent or Pages is not enabled yet.
+    if: needs.build.outputs.present == 'true' && needs.build.outputs.pages == 'success'
     runs-on: ubuntu-latest
     permissions:
       pages: write
