@@ -74,6 +74,29 @@ jobs:
           path: dist/
           if-no-files-found: error
 
+  provenance:
+    name: attest the build provenance of dist/
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      # OIDC signs the attestation; no stored secret is used.
+      id-token: write
+      contents: read
+      attestations: write
+    steps:
+      - name: download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: attest the sdist and the wheel
+        # Anyone can then check which workflow, commit and repository produced a file:
+        #   gh attestation verify dist/open_rknpu-*.whl --repo dnhkng/open-rknpu
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: "dist/*"
+
   publish:
     name: publish to PyPI
     needs: build

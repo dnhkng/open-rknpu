@@ -20,10 +20,11 @@ planning records, 10 example sets, ~17,000 tracked files / 39 MiB pack.
 
 Everything marked ✅ below is in the tree and verified by the test suite; the rest is the
 open list. Counted by category: **P0 legal 6/6 · P0 interfaces 4/4 · P0 CI 4/4 · P0 release
-2/3 · P1 tests 14/14 · P1 documentation 14/14 · P1 examples 13/13 · P1 automation 7/8 ·
-P1 features 14/14**. That leaves **2 open rows**, both needing the maintainer: A7 (signed
-tags — the build-provenance half is automatable, the signing key is not in CI) and R3
-(claiming the PyPI name, `https://pypi.org/pypi/open-rknpu/json` still 404).
+2/3 · P1 tests 14/14 · P1 documentation 14/14 · P1 examples 13/13 · P1 automation 8/8 ·
+P1 features 14/14**. That leaves **1 open row**: R3 (claiming the PyPI name,
+`https://pypi.org/pypi/open-rknpu/json` still 404), which needs the maintainer's account.
+A7's build-provenance half is automated in the release workflow and its signed-tag step is a
+documented maintainer command.
 
 What the 2026-09-12 batch B pass changed:
 
@@ -176,7 +177,7 @@ references (F13) and the depthwise-separable, benchmark and multi-model examples
 | ✅ A4 | **Dependabot** for GitHub Actions, `pre-commit` (ruff), `.editorconfig`, `.gitattributes` | Repository hygiene | S |
 | ✅ A5 | **Branch protection + required checks documentation** — `docs/branch-protection.md`: the required contexts, the ruleset JSON, the failure playbook and the local reproduction of every gate; `docs.yml` gained a `pull_request` trigger so the strict site build can be a required check | Keeps the baseline/coverage gates honest | S |
 | ✅ A6 | **Evidence storage decision**: 16 k files / 38 MB pack. Document it, or move the per-suite artifacts to release assets and keep the manifests/READMEs in-tree | Clone weight and GitHub limits | M |
-| A7 | **Signed tags / build provenance** (later: SLSA, Sigstore) | Supply-chain expectations | M |
+| ✅ A7 | **Signed tags / build provenance** — the release workflow attests the sdist and wheel with GitHub's `attest-build-provenance` (OIDC, `attestations: write`), verifiable with `gh attestation verify dist/open_rknpu-*.whl --repo dnhkng/open-rknpu`; `docs/provenance.md` documents the reproducible-sdist audit and the maintainer's signed-tag procedure (`git tag -s`). The signing key stays with the maintainer, as it must | Supply-chain expectations | M |
 | ✅ A8 | **Code of conduct, security policy, support policy, contributor list, citation** (same as D11) | Community baseline | S |
 
 ---

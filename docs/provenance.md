@@ -55,6 +55,34 @@ then confirmed or refuted on the board.
   the shipped code is MIT, one dual-licensed header is used under its MIT option, and the
   GPL-2.0 kernel sources are referenced but not redistributed.
 
+## Release artifacts
+
+The knowledge above is about *inputs*; the release itself carries its own provenance:
+
+* **Build provenance attestation.** `.github/workflows/release.yml` attests the `sdist` and
+  `wheel` it builds with GitHub's `attest-build-provenance` action (OIDC, no stored secret),
+  so anyone can verify which workflow, commit and repository produced a downloaded file:
+
+  ```sh
+  gh attestation verify dist/open_rknpu-*.whl --repo dnhkng/open-rknpu
+  ```
+
+* **Signed tags (maintainer step).** Release commits are tagged with a GPG/SSH-signed
+  annotated tag; the signing key is the maintainer's and deliberately not in CI. Create and
+  verify one with:
+
+  ```sh
+  git tag -s v0.1.0 -m "open-rknpu v0.1.0"
+  git verify-tag v0.1.0
+  git push origin v0.1.0
+  ```
+
+  GitHub shows the verified badge next to the tag once the public key is uploaded to the
+  maintainer's account. `docs/publish-checklist.md` (row A7) tracks this.
+* **Reproducible contents.** `research/check_reproducible_build.py` normalises the sdist
+  (timestamps, uid/gid, modes, member order) and audits that it carries the compiler and its
+  attribution files and not the research evidence tree.
+
 ## Corrections
 
 If you find a claim in this repository that cannot be reproduced from the committed
