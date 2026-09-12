@@ -35,7 +35,7 @@ jobs:
           PYTHONPATH=src python research/run_mutation_tests.py --json build/mutation.json --fail-under 50
       - name: upload results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mutation-results
           path: build/mutation.json

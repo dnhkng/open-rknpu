@@ -60,7 +60,7 @@ jobs:
 
       - name: upload the built site as a workflow artifact
         if: steps.mkdocs.outputs.present == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: site
           path: site
