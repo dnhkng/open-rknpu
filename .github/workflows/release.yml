@@ -7,7 +7,7 @@ name: release
 #
 #   1. Create the PyPI project `open-rknpu` and register this workflow as a
 #      *trusted publisher* (PyPI -> project -> Publishing ->
-#      "Add a new pending publisher" / GitHub): owner `open-rknpu`, repository
+#      "Add a new pending publisher" / GitHub): owner `dnhkng`, repository
 #      `open-rknpu`, workflow `release.yml`, environment `pypi`.
 #      No API token is stored in this repository — publishing uses OIDC only.
 #   2. Create the GitHub environment named `pypi` in the repository settings
@@ -70,8 +70,13 @@ jobs:
   publish:
     name: publish to PyPI
     needs: build
-    # Skipped entirely on a manual run with dry_run enabled.
-    if: ${{ github.event_name == 'push' || inputs.dry_run == false }}
+    # Three gates: not a dry run, and the maintainer has opted in with the repository
+    # variable PYPI_PUBLISH=true (set it only after the `pypi` environment and the PyPI
+    # trusted publisher exist - see the header). Without it, tagging still builds and
+    # creates the GitHub release, so a release cannot fail on a half-configured publisher.
+    if: >-
+      ${{ (github.event_name == 'push' || inputs.dry_run == false)
+          && vars.PYPI_PUBLISH == 'true' }}
     runs-on: ubuntu-latest
     environment:
       name: pypi
