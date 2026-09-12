@@ -2,14 +2,19 @@
 PYTHON ?= python3
 PYTHONPATH := src
 RUFF ?= ruff
+CC ?= cc
+CFLAGS ?= -O2 -std=gnu99 -Wall -Wextra -Werror -D_GNU_SOURCE
 MAINTAINED := src tests examples research/verify_suites.py research/campaign_sweep.py \
               research/check_docs_links.py research/probe_conv_envelope.py \
-              research/build_mel_kws_suite.py research/build_reference_docs.py
+              research/build_mel_kws_suite.py research/build_reference_docs.py \
+              research/build_suite_readmes.py research/run_mutation_tests.py \
+              research/perf_regression.py research/check_reproducible_build.py \
+              research/coverage_doc_table.py
 
 .DEFAULT_GOAL := help
 
 .PHONY: help test lint test-one coverage primitives baseline campaign docs-check wheel runtime \
-        board-io board-suite clean
+        host-c evidence perf reproducible mutation mutation-quick board-io board-suite clean
 
 help:  ## list the targets
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -31,6 +36,13 @@ primitives:  ## run every low-level op example (host only)
 	@for script in examples/primitives/[0-9]*.py; do \
 	  echo "== $$script"; PYTHONPATH=$(PYTHONPATH) $(PYTHON) $$script || exit 1; \
 	done
+
+mutation:  ## mutation-test the highest-value compiler modules (bounded, seed-fixed)
+	@mkdir -p build
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) research/run_mutation_tests.py --json build/mutation.json
+
+mutation-quick:  ## fast mutation smoke run (under two minutes)
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) research/run_mutation_tests.py --quick
 
 board-io:  ## cross-compile the v5 board runner with the fetched toolchain
 	research/toolchain/bin/arm-rockchip830-linux-uclibcgnueabihf-gcc \
@@ -55,6 +67,23 @@ wheel:  ## build the wheel and sdist
 
 runtime:  ## build the host runtime with the system compiler (sanity check only)
 	$(MAKE) -C runtime
+
+host-c:  ## compile the runtime and every C harness with the system compiler
+	$(MAKE) -C runtime CC="$(CC)" CFLAGS="$(CFLAGS)"
+	@for source in tests/board_*.c; do \
+	  echo "== $$source"; $(CC) $(CFLAGS) -Iruntime -c "$$source" -o /tmp/"$$(basename "$$source" .c)".o || exit 1; \
+	done
+	$(CC) $(CFLAGS) -Iruntime tests/host_loader.c runtime/open_rknpu.c -o /tmp/host_loader
+	@echo "host_loader built: /tmp/host_loader"
+
+evidence:  ## check every published suite against its manifest, board results and README
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m unittest tests.test_evidence_integrity
+
+perf:  ## recompile the cost-model baseline and fail on any regression
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) research/perf_regression.py
+
+reproducible:  ## build the sdist twice and diff every byte; audit what it carries
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) research/check_reproducible_build.py
 
 clean:  ## remove build outputs and caches
 	rm -rf build dist .pytest_cache .ruff_cache `find . -name __pycache__ -type d`

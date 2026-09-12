@@ -1,0 +1,47 @@
+{
+  "_comment": "Mutation scope for research/run_mutation_tests.py. Maps each compiler module to the test subset that must detect wrong behaviour in it. 'seed' fixes mutant selection; per-module 'max_mutants' overrides the driver default. quantization.py is probed against both its dedicated edge-case suite and the native clip/emit semantics suites, because native.py consumes its multiplier/shift/rounding arithmetic.",
+  "seed": 20240517,
+  "modules": {
+    "quantization.py": {
+      "tests": [
+        "tests/test_quantization_edge_cases.py",
+        "tests/test_native_clip_reference.py",
+        "tests/test_emit_semantics.py"
+      ]
+    },
+    "sequence.py": {
+      "tests": [
+        "tests/test_sequence_roundtrip.py",
+        "tests/test_container_fuzz.py"
+      ]
+    },
+    "compose.py": {
+      "tests": [
+        "tests/test_composer_arena.py"
+      ]
+    },
+    "walk.py": {
+      "tests": [
+        "tests/test_walk.py",
+        "tests/test_emitter_fuzz.py"
+      ]
+    },
+    "native.py": {
+      "tests": [
+        "tests/test_native_clip_reference.py",
+        "tests/test_emit_semantics.py"
+      ]
+    },
+    "padding.py": {
+      "tests": [
+        "tests/test_padding.py"
+      ]
+    },
+    "normalize.py": {
+      "tests": [
+        "tests/test_normalize.py",
+        "tests/test_normalize_matrix.py"
+      ]
+    }
+  }
+}

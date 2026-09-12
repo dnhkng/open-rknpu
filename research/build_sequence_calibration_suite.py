@@ -9,6 +9,7 @@ Board runner: tests/board_api.c.
 from pathlib import Path
 import argparse
 import json
+import os
 import numpy as np
 import onnx
 from onnx import helper as h,numpy_helper as nh
@@ -84,7 +85,8 @@ for kind in ("rgb","native","chain"):
     calibration_dir=root/f"{kind}_calibration";calibration_dir.mkdir(exist_ok=True)
     calibration=rng.integers(0,256,(24,3,8,8),dtype=np.uint8)
     np.save(calibration_dir/"cal.npy",calibration)
-    report=measure(path,calibration_dir)
+    # Relative paths in the published report (no maintainer-specific absolute path).
+    report=measure(path,os.path.relpath(calibration_dir))
     (calibration_dir/"report.json").write_text(json.dumps(report,indent=2)+"\n")
     # Evaluation inputs are drawn after the ranges are fixed.
     cases=rng.integers(0,256,(args.cases,8,8,3),dtype=np.uint8)

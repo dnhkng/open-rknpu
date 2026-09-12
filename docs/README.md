@@ -19,10 +19,12 @@ documents are ordered from "run your first model" to "recover a new register fie
 | --- | --- |
 | [architecture.md](architecture.md) | the compile pipeline, the scheduler's profile order, the composer (stages, bindings, liveness), the container writer, and the recipe for adding a primitive |
 | [quantization.md](quantization.md) | UINT8 input and INT8 grid conventions, zero points, requantization, calibration (`minmax`/`percentile`/`kl`) and how accuracy is measured |
+| [calibration-cookbook.md](calibration-cookbook.md) | task-oriented recipes: choosing a method, building the `.npy` sample set, reading the report, and the accuracy/robustness trade-offs |
 | [registers.md](registers.md) | the generated task-register reference: every register a task writes, its default, and what is decoded versus still unknown |
 | [errors.md](errors.md) | the generated error index: every user-facing message, where it comes from and what to do about it |
 | [api.md](api.md) | the Python API surface and the module inventory |
 | [verification.md](verification.md) | the evidence discipline: exactness versus the Python reference, the container baseline, the board ledger, the campaign sweep, and how to add a suite |
+| [mutation-testing.md](mutation-testing.md) | the mutation-testing report: how the mutants are generated and bounded, the per-module scores, every surviving mutant and whether it is a test gap |
 | [roadmap.md](roadmap.md) | what is supported today, what is deliberately out of scope, and the measured residuals |
 
 ## The runtime and the board
@@ -30,10 +32,12 @@ documents are ordered from "run your first model" to "recover a new register fie
 | Document | Read it for |
 | --- | --- |
 | [container-format.md](container-format.md) | the on-device format (headers v1–v5, task descriptors, register words, packed constants, the named-tensor table) |
+| [container-migration.md](container-migration.md) | moving a model between formats and toolchains: what the decoder accepts, what changed between container versions, and how to port existing scripts |
 | [container-example.md](container-example.md) | one real container walked field by field, with a hexdump, a decoded dump and annotated registers |
 | [c-api.md](c-api.md) | using the libc-only runtime from C: lifecycle, structures, packing rules, async API, error handling, a minimal program |
 | [board.md](board.md) | the reference hardware, the driver and `/dev/rknpu`, adb staging, running a container, timing, and what the board cannot do |
 | [board-access.md](board-access.md) | getting a shell on the board and the original access and troubleshooting notes |
+| [board-runbook.md](board-runbook.md) | the end-to-end board session: staging, cross-compiling the runner, running a suite, capturing evidence, and recovering a wedged NPU |
 | [performance.md](performance.md) | how latency was measured, the recorded results, the per-family cost model, memory sizing, and how to benchmark your own model |
 
 ## Project records
@@ -42,13 +46,14 @@ documents are ordered from "run your first model" to "recover a new register fie
 | --- | --- |
 | [investigation-log.md](investigation-log.md) | the chronological record of how the register profile and each primitive were recovered (newest first, failed hypotheses kept) |
 | [provenance.md](provenance.md) | where the knowledge came from: board experiments, public kernel sources read as documentation, and the vendor runtime as a black-box oracle |
+| [evidence-storage.md](evidence-storage.md) | why the 16 k-file evidence tree stays in Git, the measured size, what is deliberately not stored, and the trigger to migrate |
 | [publish-checklist.md](publish-checklist.md) | the pre-publication gap analysis: blockers, missing features, tests, documentation and examples, with effort estimates |
 | [plans/](plans/) | the internal planning records: completion plan, pipelining plan, cleanup plan, primitive roadmap, coverage matrix, project goals, milestone record |
 
 Examples with measured board results live in [`../examples/`](../examples/README.md):
-`primitives/` (one script per op), `cookbook/` (task-oriented recipes), `mnist/` and
-`fashion/` (hybrid classifiers), `mel-kws/` (a trained audio model running entirely on the
-NPU). [THIRD_PARTY.md](../THIRD_PARTY.md) lists every non-MIT component.
+`primitives/` (one script per op), `cookbook/` (task-oriented recipes),
+`notebooks/` (a runnable end-to-end walkthrough), `mnist/` and `fashion/` (hybrid
+classifiers), `mel-kws/` (a trained audio model running entirely on the NPU). [THIRD_PARTY.md](../THIRD_PARTY.md) lists every non-MIT component.
 
 ## Conventions used throughout
 

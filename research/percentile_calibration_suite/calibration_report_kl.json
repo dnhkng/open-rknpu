@@ -5,7 +5,7 @@
   "input_zero_point": 0,
   "samples": 32,
   "files": [
-    "/home/dnhkng/drone/research/percentile_calibration_suite/calibration/cal.npy"
+    "research/percentile_calibration_suite/calibration/cal.npy"
   ],
   "tensors": [
     "r1",

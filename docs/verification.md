@@ -29,8 +29,8 @@ to refuse is a behaviour change too.
 ## 2. The host test suite
 
 ```sh
-PYTHONPATH=src python -m unittest discover -s tests      # 873 tests
-make coverage                                            # 98% line coverage, floor 97% in pyproject.toml
+PYTHONPATH=src python -m unittest discover -s tests      # 1,005 tests
+make coverage                                            # 99.85% line coverage, floor 99% in pyproject.toml
 PYTHONPATH=src python -m pytest tests -q
 ```
 
@@ -55,29 +55,42 @@ PyTorch is never needed for the tests; NumPy and ONNX are.
 ## Coverage
 
 The host suite is measured with `coverage` and gated at the floor configured in
-`pyproject.toml` (`[tool.coverage.report] fail_under`); `make coverage` runs it and
-`make coverage` is part of CI. The expansion added after the initial commit took the
-compiler from 90% to 92%+ line coverage, with the generated `graph.py` branches and the
-per-emitter rejection paths being the deliberately last areas to close. Coverage is a floor,
-not a goal: a line covered by a test that only asserts "it returned" is worth less than one
-covered by a boundary or semantic equality check, which is why the suite is organised around
-bounds and independent references rather than around coverage alone.
+`pyproject.toml` (`[tool.coverage.report] fail_under`, 99%); `make coverage` runs it and CI
+runs both. The measured value is **99.85%** - 6,187 statements with 9 uncovered lines, all
+of them proven unreachable in the current tree. That took the compiler from 90% to here
+through two passes: the test expansion that closed the profile bounds, the emitter
+rejections and the parser errors, and a later pass that closed the remaining boundary guards
+and deleted two pieces of provably dead code (`elementwise.py`'s redundant broadcast check
+and `elementwise_chain.py`'s always-false payload padding).
 
-### The last ten lines
+Coverage is a floor, not a goal: a line covered by a test that only asserts "it returned" is
+worth less than one covered by a boundary or semantic equality check, which is why the suite
+is organised around bounds and independent references. `make mutation-quick` measures the
+complementary property - whether the tests would notice a wrong operator - and its report is
+in [mutation-testing.md](mutation-testing.md).
 
-Coverage is 98%; the remaining lines are listed here because a floor that nobody can explain
-is useless. All of them are defensive guards or dead branches reachable only by
-construction-breaking inputs — `tests/test_emitter_fuzz.py` names each one:
+### The uncovered lines
 
-| Line | Why it cannot be reached |
-| --- | --- |
-| `compose.py:250` | external-overlaps-internal guard; inputs end before the arena, internals start at it |
-| `elementwise.py:386` | guarded two lines earlier by a successful `np.broadcast_to` |
-| `join_dag.py:342,347,350` | join-operand commit paths that the branch selection excludes |
-| `join_dag.py:471` | external-overlap guard, impossible by placement |
-| `join_dag.py:529` | `recompiled` is always set by `_prepare` |
-| `liveness.py:165` | the aligned end of the placed tensors is always a valid candidate |
-| `walk.py:271,282` | `parse_chain` already rejects a non-Conv first node and non-RGB input |
+<!-- coverage-table:start -->
+Coverage is 99.85% (6,187 statements, 9 uncovered lines in 4 of 38 modules). Every remaining line is listed here because a floor nobody can explain is useless; the reason column is the module-level justification and the quoted source is there to check it against.
+
+| Line | Source | Why it is not executed |
+| --- | --- | --- |
+| `compose.py:250` | `raise ValueError("external tensor %s overlaps internal %s"` | externals are placed outside the internal span by construction |
+| `graph.py:473` | `raise ValueError('diamond join requires adjacent head buffers')` | diamond heads overlap until the join, so the allocator places them adjacent by construction |
+| `graph.py:598` | `raise ValueError('join chain heads must be Conv nodes reading the stem output')` | the matcher only records Conv heads reading the stem output, and the emitter rechecks the same condition |
+| `graph.py:846` | `raise ValueError('join chain external tensor %s overlaps %s'%(external,name))` | externals are placed outside the internal span by policy, so the overlap test cannot be true |
+| `join_dag.py:347` | `raise ValueError('join DAG cannot re-quantize a join result onto another band')` | the free operand is by definition not committed, and every uncommitted produced tensor is a by_name key |
+| `join_dag.py:350` | `raise ValueError('join DAG operand was already committed to another band')` | same branch as 347: the free operand is never in the committed set |
+| `join_dag.py:471` | `raise ValueError('join DAG external tensor %s overlaps %s' % (external, name))` | offsets are laid by the cursor loop after input0 and the output after the last end, so an overlap cannot occur |
+| `join_dag.py:529` | `payload, _ = compile_depthwise(entry['standalone'],` | _prepare recompiles every branch final and a depthwise entry can only be a single-layer branch final, so recompiled is never None |
+| `liveness.py:165` | `raise ValueError("no arena placement for tensor %s" % name)` | first-fit always finds a slot; an exhaustive and randomized search found no counterexample |
+<!-- coverage-table:end -->
+
+The table is generated from the coverage data by `research/coverage_doc_table.py` and checked
+in CI (`--check`), so the claim and the code cannot drift apart. Each reason is a
+module-level statement about *why* the line is not executed, quoted next to its source so the
+claim can be checked by reading the two lines above it.
 
 ## 3. The board ledger
 
@@ -115,11 +128,29 @@ serializer/relayout fix, so a fresh compile cannot reproduce its bytes. They are
 the script's `EXPECTED_DRIFT` set and documented in the ledger's "Pre-existing container
 drifts" table — a new drift, or one that disappears, fails the sweep.
 
+## Every gate, and what it proves
+
+Run from the repository root; all of them are host-only and CI runs the applicable ones.
+
+| Command | What it proves |
+| --- | --- |
+| `make test` | the 1,005-test host suite passes on 3.10-3.13 |
+| `make coverage` | the suite executes 99.85% of the compiler's lines, floor 99% |
+| `make baseline` | all 2,244 published suite models still compile to identical bytes (or stay rejected) |
+| `make campaign` | the largest suites recompile to their published containers; the 12 known drifts stay known |
+| `make evidence` | every retained suite agrees with its manifest, board results, references and README |
+| `make perf` | the cost model (tasks, engine blocks, registers, arena, payload) did not regress |
+| `make primitives` | every low-level op example still runs and matches its reference |
+| `make docs-check` | 0 broken relative links and 0 unresolved anchors across every markdown file |
+| `make host-c` | the runtime, every board harness and the host loader compile with `-Werror` |
+| `make reproducible` | the sdist's contents are audited and normalised; two builds are byte-identical |
+| `make mutation-quick` | the configured test subsets kill the injected faults (report: [mutation-testing.md](mutation-testing.md)) |
+
 ## Reproducing the doc build checks
 
 ```sh
 python research/check_docs_links.py     # every markdown file: 0 broken links, 0 unresolved anchors
-ruff check src tests examples research/verify_suites.py
+python research/coverage_doc_table.py --check   # the uncovered-line table below matches the coverage data
 ```
 
 ## Adding evidence for a new primitive

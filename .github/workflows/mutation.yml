@@ -1,0 +1,41 @@
+name: mutation
+
+# Test *strength*, not coverage: the driver mutates the highest-value compiler modules
+# (research/mutation_scope.json) and checks that the configured test subset kills them.
+# It is bounded (per-mutant timeout, per-run budget), deterministic (fixed seed) and runs
+# every mutant in a temporary copy of src/open_rknpu, asserting the real tree is unchanged.
+#
+# This is a ratchet, not a per-PR gate: `--fail-under 50` sits just below the measured
+# 52.9% on the current scope, mirroring `fail_under = 97` for coverage. Raise it as the
+# scope mapping widens and the surviving boundary mutants in docs/mutation-testing.md are
+# covered by tests; see that page for the per-module scores and every survivor.
+
+on:
+  schedule:
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mutation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install
+        run: python -m pip install -e ".[dev]"
+      - name: mutation testing (ratchet)
+        run: |
+          mkdir -p build
+          PYTHONPATH=src python research/run_mutation_tests.py --json build/mutation.json --fail-under 50
+      - name: upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-results
+          path: build/mutation.json

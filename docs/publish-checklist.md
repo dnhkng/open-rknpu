@@ -12,31 +12,47 @@ Effort: **S** < 1 h · **M** ~ half a day · **L** 1–3 days · **XL** > 3 days
 | **PyPI release** | P0 plus the packaging/release-engineering list (metadata, changelog, trusted publishing, install smoke test) |
 | **Announcement** (blog/HN/Reddit) | P1 plus a docs site, a compatibility report and at least one non-toy demo |
 
-Current baseline: 873 tests, 96 % compiler line coverage (floor 95 %), 2,244-model container
-baseline, 121-row board ledger, 27 documentation pages (~52 k words), 4 example sets,
-16,313 tracked files / 38 MB pack.
+Current baseline: 1,005 tests, 99.85 % compiler line coverage (floor 99 %), 2,244-model
+container baseline, 121-row board ledger, 27 documentation pages (~78 k words) plus the
+planning records, 5 example sets, ~16,400 tracked files / 38.5 MiB pack.
 
-## Status after the 2026-09-11 pass
+## Status after the 2026-09-12 pass
 
 Everything marked ✅ below is in the tree and verified by the test suite; the rest is the
 open list. Counted by category: **P0 legal 6/6 · P0 interfaces 4/4 · P0 CI 4/4 · P0 release
-2/3 · P1 tests 7/14 · P1 documentation 12/14 · P1 examples 6/13 · P1 automation 7/8 ·
-P1 features 1/14**. That leaves **37 open rows**: 13 features, 9 tests, 4 documentation,
-6 examples, 3 automation and the 2 metadata placeholders that only the maintainer can fill.
-The feature rows are the deliberately untouched part — each needs a probe and fresh board
-evidence, not a checklist pass.
+2/3 · P1 tests 13/14 · P1 documentation 14/14 · P1 examples 8/13 · P1 automation 6/8 ·
+P1 features 1/14**. That leaves **22 open rows**: 13 features, 5 examples, 2 automation,
+1 test (the dataset fetch-script tests) and R3 - claiming the PyPI name, which needs the
+maintainer's account. The feature rows are the deliberately untouched part; each needs a
+probe and fresh board evidence, not a checklist pass.
 
-What this pass changed: the GPL-2.0 sources are gone with provenance retained;
-`THIRD_PARTY.md`, `docs/provenance.md` and the trademark note are in; `--target/--quantize`
-are validated and reported; `model.decode` round-trips; the Clip reference models the
-hardware clamp; dead code is gone; CI now compiles the C, installs the wheel in a clean venv
-and runs `twine check`, over Python 3.10–3.13; the register reference and error index are
-generated with drift guards; support matrix, glossary, troubleshooting, performance, C API
-and container walkthrough docs are written; container/emitter fuzzing, example and CLI-flag
-tests landed; and the cookbook examples (C, quantized import, mutable parameters,
-batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run green.
+What this pass changed:
 
----
+* the host suite grew from 873 to **1,005 tests** and the compiler's line coverage from 98 %
+  to **99.85 %**; the nine remaining lines are each proven unreachable, and the table in
+  `docs/verification.md` is **generated from the coverage data** (`research/coverage_doc_table.py`,
+  checked in CI) so the claim cannot drift. Two provably dead lines were deleted rather than
+  tested;
+* the C side is now tested on the host: `tests/host_loader.c` drives 48 container cases
+  through the real loader, and `tests/test_runtime_cli.py` runs the board runner's CLI and
+  compares `--inspect` over **all 2,340 published containers** with the Python decoder. Both
+  run under AddressSanitizer and UndefinedBehaviorSanitizer in CI;
+* release engineering: `research/check_reproducible_build.py` builds the sdist twice,
+  normalises it (setuptools stamps generated files with the wall clock) and audits that the
+  package carries the compiler and its attribution files - and none of the research evidence;
+* `research/perf_regression.py` + `research/perf_baseline.json` pin the **cost model**
+  (task count, engine blocks, registers, arena, payload) for 69 cross-family models, so a
+  refactor cannot inflate NPU work while the bytes look plausible;
+* `research/run_mutation_tests.py` measures **test strength**: 52.9 % killed on the
+  configured scope, per-module scores and every survivor assessed in
+  `docs/mutation-testing.md`, with `make mutation-quick` and a weekly workflow;
+* every retained suite is audited against its manifest, references, inputs and board results
+  (`tests/test_evidence_integrity.py`, `make evidence`), and the decision to keep the 16 k-file
+  evidence tree in Git is documented with its migration trigger
+  (`docs/evidence-storage.md`);
+* documentation: calibration cookbook, board runbook, container-migration notes, mutation
+  report, evidence-storage decision, and a runnable walkthrough notebook with its own
+  documentation test that executes the commands the docs tell a reader to run.
 
 ## P0 — blockers before the repository goes public
 
@@ -75,7 +91,7 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 | --- | --- | --- | --- |
 | ✅ R1 | Real project URLs, authors/maintainers in `pyproject.toml` (`github.com/dnhkng/open-rknpu`, maintainer `dnhkng`) | A published package with placeholder metadata cannot be corrected after upload | S |
 | ✅ R2 | Decide the version: drop `.dev0` → `0.1.0` for the first release, and add `CHANGELOG.md` | "dev0" on PyPI is a pre-release that some tools will not install by default | S |
-| R3 | Confirm/claim the PyPI name (`open-rknpu`); the GitHub repository URL is fixed to `github.com/dnhkng/open-rknpu` | Last-minute name collisions are avoidable | S |
+| R3 | Confirm/claim the PyPI name (`open-rknpu`); the GitHub repository URL is fixed to `github.com/dnhkng/open-rknpu`. Checked 2026-09-12: `https://pypi.org/pypi/open-rknpu/json` returns 404 (the name is unclaimed); claiming it needs the maintainer's PyPI account and is the last manual step before `PYPI_PUBLISH=true` | Last-minute name collisions are avoidable | S |
 
 ---
 
@@ -106,17 +122,17 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 | --- | --- | --- | --- |
 | ✅ T1 | **Examples under test**: run `examples/*/build.py`, `sanity.py`, `verify.py`, `accuracy.py` (host paths only, tiny fixtures) | 27 example entry points are untested; they are the first thing a user runs | M |
 | ✅ T2 | **Installed-CLI test** via subprocess (`open-rknpu compile …`) rather than only in-process `cli.main()` | Proves the console-script entry point works | S |
-| T3 | **C API/ABI tests on the host**: struct `_Static_assert`s, encode/decode parity with the C loader, `tests/board_core.c` compiled and run on x86 | The loader is currently only compiled for ARM and exercised on hardware | M |
+| ✅ T3 | **C API/ABI tests on the host**: struct `_Static_assert`s, encode/decode parity with the C loader, `tests/board_core.c` compiled and run on x86 | The loader is currently only compiled for ARM and exercised on hardware | M |
 | ✅ T4 | **Malformed-container fuzzing** of the C loader (structure-aware, seeded corpora) plus `hypothesis` properties for the encoder/decoder and the parsers | Container parsing is the highest-risk attack surface | M |
-| T5 | **ASAN/UBSAN build of the runtime in CI** | Memory safety in the shipped C | S |
+| ✅ T5 | **ASAN/UBSAN build of the runtime in CI** | Memory safety in the shipped C | S |
 | ✅ T6 | **Close the remaining 220 uncovered lines** or justify them (weakest: `sequence.py`/`walk.py`/`liveness.py` 92 %, `elementwise.py` 93 %, `compose.py` 94 %) | 96 % is good; the last points are in the container writer and allocator | M |
-| T7 | **Mutation testing** (`mutmut`) on the emitters and the container writer | 873 tests make this affordable; measures test *strength*, not coverage | M |
+| ✅ T7 | **Mutation testing** (`mutmut`) on the emitters and the container writer | 873 tests make this affordable; measures test *strength*, not coverage | M |
 | ✅ T8 | **Cross-Python matrix**: 3.10–3.13, and a `numpy` min/max version job | The compiler is pure Python; users will hit version skew | S |
-| T9 | **Reproducible-build check**: build the wheel twice, compare; assert sdist contents | Distribution integrity | S |
-| T10 | **Docs-command tests**: execute the reproduce commands from the suite READMEs and the example READMEs in a temp tree | Documentation drift is currently only caught for links | M |
-| T11 | **Performance regression harness** (host compile time; board numbers recorded, not gated) | Compile-time regressions are silent today | M |
-| T12 | **Evidence-integrity tests for all suites**: checksum/manifest cross-checks beyond the sampled replay | The ledger test covers counts; deeper integrity is sampled | S |
-| T13 | **`tests/board_*.c` host compile + the `runtime/main.c` CLI** | Same as T3, for the user-facing runner | S |
+| ✅ T9 | **Reproducible-build check**: build the wheel twice, compare; assert sdist contents | Distribution integrity | S |
+| ✅ T10 | **Docs-command tests**: execute the reproduce commands from the suite READMEs and the example READMEs in a temp tree | Documentation drift is currently only caught for links | M |
+| ✅ T11 | **Performance regression harness** (host compile time; board numbers recorded, not gated) | Compile-time regressions are silent today | M |
+| ✅ T12 | **Evidence-integrity tests for all suites**: checksum/manifest cross-checks beyond the sampled replay | The ledger test covers counts; deeper integrity is sampled | S |
+| ✅ T13 | **`tests/board_*.c` host compile + the `runtime/main.c` CLI** | Same as T3, for the user-facing runner | S |
 | T14 | **Fetch-script tests** (URL pins, sha256 mismatch handling) without network | Keeps datasets reproducible | S |
 
 ### Documentation
@@ -130,12 +146,12 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 | ✅ D5 | **Performance guide**: methodology, per-family costs, latency tables, how to measure on your own board | Users need to size their models | M |
 | ✅ D6 | **C API guide** ("using the runtime from C"): lifecycle, packing rules, error codes, the board runner | The header is commented but there is no narrative | M |
 | ✅ D7 | **Annotated container walkthrough** (hexdump with offsets, field by field) | Validates the format doc and helps third-party writers | S |
-| D8 | **Calibration cookbook**: method choice, percentiles, accuracy measurement, the failure modes seen in practice | Calibration is where real accuracy is won or lost | S |
-| D9 | **Board bring-up + runbook**: wiring/power/storage limits, `rkipc`, recovery from a wedged NPU, space budgeting | Only partly covered in `docs/board-access.md` | S |
+| ✅ D8 | **Calibration cookbook**: method choice, percentiles, accuracy measurement, the failure modes seen in practice | Calibration is where real accuracy is won or lost | S |
+| ✅ D9 | **Board bring-up + runbook**: wiring/power/storage limits, `rkipc`, recovery from a wedged NPU, space budgeting | Only partly covered in `docs/board-access.md` | S |
 | ✅ D10 | **Clean-room/legal statement** (L3) and **release/versioning policy** (semver, container compatibility, deprecation) | Publication prerequisites | S each |
 | ✅ D11 | **`CHANGELOG.md`**, **`SECURITY.md`**, **`CODE_OF_CONDUCT.md`**, **`CITATION.cff`**, **`AUTHORS`** | Standard OSS expectations; cheap to add | S each |
-| D12 | **Docs site** (mkdocs-material) + generated API reference (docstrings are good) + badges | Discoverability; GitHub-only docs do not get indexed well | M |
-| D13 | **Migration/compat notes for container v1–v5** | Third-party writers need them | S |
+| ✅ D12 | **Docs site** (mkdocs-material) + generated API reference (docstrings are good) + badges — config and deploy workflow are in-tree; enabling GitHub Pages is a repository-settings step | Discoverability; GitHub-only docs do not get indexed well | M |
+| ✅ D13 | **Migration/compat notes for container v1–v5** (`docs/container-migration.md`) | Third-party writers need them | S |
 | ✅ D14 | **FAQ: "why is my model rejected?"** built from D3 | Support load | S |
 
 ### Examples
@@ -152,7 +168,7 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 | ✅ E8 | **ONNX-zoo compatibility report**: run a set of small zoo models, record accept/reject and why | The best possible answer to "will it run my model?" | M |
 | E9 | **Benchmark harness example** (N models, latency/throughput table) | Reusable by users | M |
 | ✅ E10 | **Troubleshooting example**: feed an unsupported graph, show how to read the rejection and what to do | Turns error messages into a teaching moment | S |
-| E11 | **Notebook/Colab walkthrough** for the host path | Lowers the barrier for the library audience | M |
+| ✅ E11 | **Notebook/Colab walkthrough** for the host path | Lowers the barrier for the library audience | M |
 | E12 | **Audio VAD** (the Silero study lists exactly what is missing: 1-D conv, C129, LSTM, dynamic shapes) | High-visibility application; gated on F2/F6 | L |
 | E13 | **Multi-model scheduling example** (two containers alternating, shared arena lessons) | Shows the runtime's per-model lifecycle | S |
 
@@ -165,7 +181,7 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
 | ✅ A3 | **Issue/PR templates**, `SUPPORT.md`, discussions | Directs the first wave of questions | S |
 | ✅ A4 | **Dependabot** for GitHub Actions, `pre-commit` (ruff), `.editorconfig`, `.gitattributes` | Repository hygiene | S |
 | A5 | **Branch protection + required checks documentation** | Keeps the baseline/coverage gates honest | S |
-| A6 | **Evidence storage decision**: 16 k files / 38 MB pack. Document it, or move the per-suite artifacts to release assets and keep the manifests/READMEs in-tree | Clone weight and GitHub limits | M |
+| ✅ A6 | **Evidence storage decision**: 16 k files / 38 MB pack. Document it, or move the per-suite artifacts to release assets and keep the manifests/READMEs in-tree | Clone weight and GitHub limits | M |
 | A7 | **Signed tags / build provenance** (later: SLSA, Sigstore) | Supply-chain expectations | M |
 | ✅ A8 | **Code of conduct, security policy, support policy, contributor list, citation** (same as D11) | Community baseline | S |
 
@@ -195,9 +211,10 @@ batched/pipelined, wheel-installed, troubleshooting, zoo compatibility) run gree
    documented or closed, dead code removed.
 3. C1–C3 done: CI compiles the C, installs the wheel in a clean venv, and validates the
    distribution metadata. C4 done: version claims consistent.
-4. R1–R3 done: real metadata, `0.1.0`, name reserved.
-5. `make lint test coverage primitives docs-check baseline campaign` green on a fresh clone,
-   plus a manual wheel-install smoke test.
+4. R1–R2 done (real metadata, `0.1.0`); R3: claim the PyPI name (`open-rknpu`, verified
+   unclaimed on 2026-09-12) from the maintainer's account.
+5. `make lint test coverage primitives docs-check baseline campaign evidence perf
+   reproducible host-c` green on a fresh clone, plus a manual wheel-install smoke test.
 6. `CHANGELOG.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CITATION.cff` added (D11).
 7. Tag `v0.1.0`, publish, then verify: `pip install open-rknpu` in a clean venv compiles and
    inspects a model.

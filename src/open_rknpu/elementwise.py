@@ -382,8 +382,6 @@ def compile_per_channel_constant_mul(model,input_scale=1.0,input_zero_point=0,ou
         raise ValueError('per-channel constant Mul requires single-batch RGB H/W5..8')
     try:expanded=np.broadcast_to(factor,shape)
     except ValueError:raise ValueError('unsupported Mul broadcast shape') from None
-    if tuple(np.broadcast_shapes(factor.shape,shape))!=tuple(shape):
-        raise ValueError('per-channel constant Mul requires a broadcastable constant')
     per_channel=expanded[0,:,0,0]
     if not np.all(expanded==per_channel.reshape(3,1,1)):
         raise ValueError('per-channel constant Mul requires a spatially invariant constant')

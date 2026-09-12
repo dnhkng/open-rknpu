@@ -54,6 +54,13 @@ jobs:
       - name: build sdist and wheel
         run: python -m build --outdir dist
 
+      - name: pin the sdist metadata and audit what is being published
+        # setuptools stamps the files it generates during the build with the wall clock,
+        # so the raw sdist is never byte-identical between two runs. This normalises the
+        # archive (timestamps, uid/gid, mode, member order) and audits that the sdist
+        # carries the compiler and its attribution files - and not the research evidence.
+        run: PYTHONPATH=src python research/check_reproducible_build.py --outdir dist --normalize
+
       - name: verify the distributions
         run: twine check --strict dist/*
 

@@ -67,21 +67,26 @@ nav:
   - Compiler:
       - Architecture: architecture.md
       - Quantization: quantization.md
+      - Calibration Cookbook: calibration-cookbook.md
       - Registers: registers.md
       - Errors: errors.md
       - Api: api.md
       - Verification: verification.md
+      - Mutation Testing: mutation-testing.md
       - Roadmap: roadmap.md
       - Performance: performance.md
   - Runtime and board:
       - Container Format: container-format.md
+      - Container Migration: container-migration.md
       - Container Example: container-example.md
       - C Api: c-api.md
       - Board: board.md
       - Board Access: board-access.md
+      - Board Runbook: board-runbook.md
   - Project records:
       - Investigation Log: investigation-log.md
       - Provenance: provenance.md
+      - Evidence Storage: evidence-storage.md
       - Publish Checklist: publish-checklist.md
       - Plans:
           - Readme: plans/README.md

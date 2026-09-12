@@ -138,8 +138,6 @@ def compile_elementwise_dag(model):
             current = (word >> 16) & 0xffffffff
             value = fields.get(reg, current)
             struct.pack_into("<Q", program, i * 8, tag << 48 | value << 16 | reg)
-        if len(payload) < program_offset:
-            payload.extend(bytes(program_offset - len(payload)))
         payload[program_offset:program_offset + 78 * 8] = program
         payload.extend(bytes(program_offset + (78 + 4) * 8 - len(payload)))
         for j, (reg, value, tag) in enumerate(((0x10, 0, 0x101), (0x14, 0x28, 0x101), (0, 0, 0x41), (8, 24, 0x81))):

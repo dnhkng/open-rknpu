@@ -7,7 +7,7 @@ this page is the orientation you need before reading it.
 
 | Family | Magic | Versions | Where it comes from |
 | --- | --- | --- | --- |
-| Legacy single-Conv model | `ORNPUBIN` | 1, 2 | the first milestone: one Conv task, packed weights, fixed geometry (`open_rknpu.model`) |
+| Legacy single-Conv model | `ORNPUBIN` | 1, 2 | the first milestone: fixed geometry and packed weights for one of the eight encoded profiles - profile 1 is a single Conv, 2 a two-layer Conv, 3/4 Max/AveragePool, 5/6 a triple pool, 7/8 Conv plus triple pool - so one to five tasks (`open_rknpu.model`) |
 | Task-table sequence | `ORNPUSEQ` | 3, 4, 5 | every modern profile: a list of tasks with register words and a payload (`open_rknpu.sequence`) |
 
 Version 5 adds a **named tensor table**, which is what makes fan-out, several external

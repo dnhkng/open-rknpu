@@ -78,14 +78,6 @@ def encode_sequence_v5(payload, *, tensors, tasks, arena_bytes,
     if constants:
         raise ValueError('v5 containers have no constant descriptor table; '
                          'runtime replaceable parameters require a v4 container')
-    if len(constants)>64:raise ValueError('too many constant descriptors')
-    descriptors=[];seen=set()
-    for entry in constants:
-        name=str(entry['name']);encoded=name.encode('utf-8')
-        offset=int(entry['offset']);size=int(entry['size']);kind=int(entry.get('kind',1))
-        if not name or len(encoded)>23 or name in seen or offset<0 or size<1 or offset+size>len(payload) or kind not in (1,2,3):
-            raise ValueError('invalid constant descriptor')
-        seen.add(name);descriptors.append(CONSTANT.pack(encoded+b'\0'*(24-len(encoded)),offset,size,kind,0))
     tensor_blob,inputs,outputs=_pack_tensors(tensors)
     primary_in=next(t for t in tensors if t['role']==ROLE_INPUT and int(t.get('index',0))==0)
     primary_out=next(t for t in tensors if t['role']==ROLE_OUTPUT and int(t.get('index',0))==0)
@@ -97,7 +89,7 @@ def encode_sequence_v5(payload, *, tensors, tasks, arena_bytes,
         float_bits(input_scale),input_zero_point,float_bits(output_scale),output_zero_point&0xffffffff,
         0,flags,int(primary_in['layout']==LAYOUT_NATIVE16),int(primary_in['shape'][0])-1)
     extension=EXTENSION.pack(len(tensors),V5_TENSOR_SIZE,len(inputs),len(outputs))
-    data=bytearray(header+extension+b"".join(TASK.pack(*t) for t in tasks)+b''.join(descriptors)+tensor_blob+payload)
+    data=bytearray(header+extension+b"".join(TASK.pack(*t) for t in tasks)+tensor_blob+payload)
     struct.pack_into("<I",data,80,checksum(data))
     decode_sequence(data)
     return bytes(data)

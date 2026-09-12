@@ -75,7 +75,7 @@ research/toolchain/bin/arm-rockchip830-linux-uclibcgnueabihf-gcc \
 ./fashion-run prefix.bin inputs.u8 actual.f32 actual-prefix.i8
 PYTHONPATH=src python examples/fashion/verify.py --calibrated
 # 5. full 10,000-image accuracy through the board, chunked to fit flash
-PYTHONPATH=src python examples/fashion/full_dataset.py
+PYTHONPATH=src python examples/fashion/full_dataset.py   # board: drives adb over the 10,000-image set
 ```
 
 `full_dataset.py` writes

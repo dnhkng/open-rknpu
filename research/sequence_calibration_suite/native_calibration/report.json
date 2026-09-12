@@ -5,7 +5,7 @@
   "input_zero_point": 0,
   "samples": 24,
   "files": [
-    "/home/dnhkng/drone/research/sequence_calibration_suite/native_calibration/cal.npy"
+    "research/sequence_calibration_suite/native_calibration/cal.npy"
   ],
   "tensors": [
     "output"

@@ -1,4 +1,25 @@
-include README.md LICENSE
+# The source distribution is the *compiler*: the package, the libc-only board runtime
+# (also installed as package data so a wheel user can cross-compile it) and the
+# licence/attribution files. It is deliberately lean - the test suite, the documentation
+# and the research evidence tree are distributed with the Git repository, not on PyPI,
+# because the evidence tree is hundreds of megabytes of board fixtures.
+# `research/check_reproducible_build.py` audits that this stays true.
+include README.md
+include LICENSE
+include THIRD_PARTY.md
+include AUTHORS
+include CHANGELOG.md
+include CITATION.cff
+include SECURITY.md
+include CODE_OF_CONDUCT.md
+include CONTRIBUTING.md
 recursive-include runtime *.c *.h Makefile
-# Workspace tests depend on hardware logs and ONNX fixtures in research/.
+recursive-include src/open_rknpu *.py
+# The test suite and the evidence it reads (hardware logs, ONNX fixtures, containers)
+# stay in the repository: they are not part of the published compiler.
 prune tests
+prune research
+prune docs
+prune examples
+prune hardware_refs
+global-exclude *.pyc *.pyo *.o *.a *.so *.bin *.onnx *.u8 *.i8

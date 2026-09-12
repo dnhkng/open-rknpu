@@ -37,7 +37,7 @@ adb push examples/mnist/build/mnist-run examples/mnist/build/prefix.bin \
 adb shell 'cd /userdata/open-npu-research/mnist-hybrid && chmod +x mnist-run && ./mnist-run prefix.bin inputs.u8 actual.f32 actual-prefix.i8'
 adb pull /userdata/open-npu-research/mnist-hybrid/actual.f32 \
   /userdata/open-npu-research/mnist-hybrid/actual-prefix.i8 examples/mnist/build/
-python examples/mnist/verify.py
+python examples/mnist/verify.py   # board: reads the actual.f32 pulled from the board above
 ```
 
 ## Measured 2026-09-08

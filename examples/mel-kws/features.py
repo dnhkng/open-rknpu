@@ -9,7 +9,9 @@ range. Features are therefore fixed to `[0, 1]` by construction:
 * channel 1 - first difference of the normalized log-mel, clipped to +-3;
 * channel 2 - second difference, clipped to +-3.
 
-The runtime then maps `byte = round(value * 255)` with input scale `1/255`, zero point 0.
+The runtime consumes `byte = round(value * 255)` directly: `examples/mel-kws/build.py`
+compiles the container with `input_scale = 1.0` and zero point 0, because the exported
+model's first layer is quantized to take the UINT8 byte as its value.
 The transform is deterministic and dependency-free (stdlib `wave` + NumPy), so a board
 input file can be regenerated from the source WAV byte for byte.
 """
@@ -93,7 +95,7 @@ def diffs(image):
 
 
 def features(path, filters=None):
-    """3x32x32 float32 image in [0, 1] ready for UINT8 packing at scale 1/255.
+    """3x32x32 float32 image in [0, 1]; `to_uint8` maps it to the container's bytes.
 
     Every channel is standardized on its own (log-mel over the whole utterance, the two
     difference channels over the whole image) before the +-3 clip, so all three channels

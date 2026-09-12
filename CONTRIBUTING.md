@@ -7,10 +7,23 @@ pass".
 ## Setup
 
 ```sh
-python -m pip install -e ".[dev]"     # NumPy, ONNX, pytest, ruff
+python -m pip install -e ".[dev]"     # NumPy, ONNX, pytest, ruff, build, twine, coverage
 make test                             # the host test suite
 make coverage                         # tests under coverage, enforcing the floor
 make lint                             # ruff on the maintained paths
+```
+
+Before opening a pull request, the gates that apply to your change are:
+
+```sh
+make baseline        # no emitted container changed (2,244 models)
+make perf            # no cost-model regression (tasks, engine blocks, registers, arena)
+make evidence        # the retained suites agree with their manifests and READMEs
+make primitives      # every low-level op example still runs
+make docs-check      # relative links and heading anchors
+make reproducible    # the sdist builds twice; contents are audited (needs `build`)
+make host-c          # the runtime, the board harnesses and the host loader compile
+make mutation-quick  # a bounded mutation score for the compiler modules (optional)
 ```
 
 No vendor SDK, no RKNN packages and no Rockchip binaries are required for anything under

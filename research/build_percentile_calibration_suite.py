@@ -23,6 +23,7 @@ Board runner: `research/run_profile_suite.py` (legacy v3 containers, `tests/boar
 from pathlib import Path
 import argparse
 import json
+import os
 import numpy as np
 import onnx
 from onnx import helper as h, numpy_helper as nh
@@ -111,7 +112,10 @@ for index, method in enumerate((None, "minmax", "percentile", "kl")):
         binary, meta = compile_sequence(path)
         label = "analytic"
     else:
-        report = measure(path, calibration_dir, method=method, percentile=args.percentile)
+        # Record the calibration arrays with a relative path: the report is published evidence
+        # and must not embed a maintainer-specific absolute path.
+        report = measure(path, os.path.relpath(calibration_dir), method=method,
+                         percentile=args.percentile)
         (root / f"calibration_report_{method}.json").write_text(json.dumps(report, indent=2) + "\n")
         binary, meta = compile_sequence(path, calibration_ranges=report["ranges"])
         label = method

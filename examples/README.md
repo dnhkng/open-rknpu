@@ -6,6 +6,7 @@ name their measured result.
 
 | Example | What it shows | Measured result |
 | --- | --- | --- |
+| [`notebooks/`](notebooks/README.md) | the guided walkthrough: a Jupyter/Colab notebook that compiles, decodes, cross-checks the integer references and calibrates, with the board section marked as needing hardware | every host cell runs green (8 of 8 code cells); the recorded board run it replays is `walk_chain_suite/model000` (768 exact bytes) |
 | [`primitives/`](primitives/README.md) | one runnable script per low-level op: a single Conv, Conv+pool, chains, depthwise, elementwise joins, broadcast Mul, LUT activations, transposed Conv, join DAGs, calibration — and a script that combines them into an MNIST first stage | host reference matches every compiled container; the final script compiles a real pretrained prefix |
 | [`mnist/`](mnist/README.md) | the **hybrid** pattern: the first Conv/Relu/Pool stage on the NPU, the rest of the classifier on the CPU, with a model-specific C suffix | 12,544 exact NPU bytes; logits within 9.2e-5 of an independent ONNX suffix evaluation |
 | [`fashion/`](fashion/README.md) | the same graph trained on Fashion-MNIST, plus a calibrated-range variant | **88.15%** board accuracy (10,000 images), 9,957/10,000 integer logits identical to float |

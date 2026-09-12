@@ -14,7 +14,7 @@ The header is `<8s22I`:
 | Byte offset | Field |
 | --- | --- |
 | 0 | Eight-byte magic `ORNPUSEQ` |
-| 8, 12 | Version 3 or 4, header size 96 |
+| 8, 12 | Version 3, 4 or 5, header size 96; both the Python decoder and the loader reject any other declared size |
 | 16, 20, 24 | Input height, width, channels |
 | 28, 32, 36 | Output height, width, channels |
 | 40 | Input row stride: aligned to 16 for packed mode, width for native16 mode |
@@ -26,7 +26,7 @@ The header is `<8s22I`:
 | 80 | FNV-1a checksum of complete file with this field zeroed |
 | 84 | Low bits: submission mode and input count; bits 8+ are v4 constant count |
 | 88 | Input layout: 0 packed, 1 native16 |
-| 92 | Reserved (v3/v4: must be zero; v5: `batch − 1`, accepted 0..15) |
+| 92 | `batch − 1` in every version, accepted 0..15; v5 also requires the primary tensor to agree, v3/v4 require `batch == 1` unless the layout is native16 |
 
 Each descriptor is four uint32 values: command offset, register count,
 enable mask, interrupt mask. The current combinations are convolution

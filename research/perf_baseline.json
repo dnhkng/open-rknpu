@@ -1,0 +1,544 @@
+{
+ "add_geometry_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "add_geometry_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "branch_join_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 14,
+  "bytes": 8608,
+  "payload_bytes": 7872,
+  "registers": 786,
+  "tasks": 7
+ },
+ "branch_join_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 14,
+  "bytes": 8672,
+  "payload_bytes": 7936,
+  "registers": 786,
+  "tasks": 7
+ },
+ "chain_k3_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 252,
+  "tasks": 2
+ },
+ "chain_k3_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 252,
+  "tasks": 2
+ },
+ "chain_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 252,
+  "tasks": 2
+ },
+ "chain_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 252,
+  "tasks": 2
+ },
+ "conv_asymmetric_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1328,
+  "payload_bytes": 1216,
+  "registers": 126,
+  "tasks": 1
+ },
+ "conv_asymmetric_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1328,
+  "payload_bytes": 1216,
+  "registers": 126,
+  "tasks": 1
+ },
+ "depthwise_c16_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 4,
+  "bytes": 4224,
+  "payload_bytes": 4096,
+  "registers": 252,
+  "tasks": 2
+ },
+ "depthwise_chain_suite/model000.onnx": {
+  "arena_bytes": 24576,
+  "blocks": 16,
+  "bytes": 10672,
+  "payload_bytes": 9856,
+  "registers": 912,
+  "tasks": 8
+ },
+ "depthwise_chain_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 14,
+  "bytes": 8608,
+  "payload_bytes": 7872,
+  "registers": 786,
+  "tasks": 7
+ },
+ "depthwise_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 4,
+  "bytes": 4224,
+  "payload_bytes": 4096,
+  "registers": 252,
+  "tasks": 2
+ },
+ "depthwise_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 4,
+  "bytes": 4224,
+  "payload_bytes": 4096,
+  "registers": 252,
+  "tasks": 2
+ },
+ "diamond_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 8,
+  "bytes": 5232,
+  "payload_bytes": 4736,
+  "registers": 456,
+  "tasks": 4
+ },
+ "diamond_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 8,
+  "bytes": 5232,
+  "payload_bytes": 4736,
+  "registers": 456,
+  "tasks": 4
+ },
+ "group_dense_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1328,
+  "payload_bytes": 1216,
+  "registers": 126,
+  "tasks": 1
+ },
+ "group_dense_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1584,
+  "payload_bytes": 1472,
+  "registers": 126,
+  "tasks": 1
+ },
+ "group_dilation_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1328,
+  "payload_bytes": 1216,
+  "registers": 126,
+  "tasks": 1
+ },
+ "group_dilation_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1584,
+  "payload_bytes": 1472,
+  "registers": 126,
+  "tasks": 1
+ },
+ "join_dag_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 12,
+  "bytes": 7312,
+  "payload_bytes": 6656,
+  "registers": 660,
+  "tasks": 6
+ },
+ "join_dag_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 12,
+  "bytes": 7696,
+  "payload_bytes": 7040,
+  "registers": 660,
+  "tasks": 6
+ },
+ "leaky_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 2,
+  "bytes": 8304,
+  "payload_bytes": 8192,
+  "registers": 126,
+  "tasks": 1
+ },
+ "leaky_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 2,
+  "bytes": 8304,
+  "payload_bytes": 8192,
+  "registers": 126,
+  "tasks": 1
+ },
+ "lut_public_suite/model000.onnx": {
+  "error": "ValueError"
+ },
+ "lut_public_suite/model001.onnx": {
+  "error": "ValueError"
+ },
+ "max_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "max_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "mixed_head_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 12,
+  "bytes": 7312,
+  "payload_bytes": 6656,
+  "registers": 660,
+  "tasks": 6
+ },
+ "mixed_head_suite/model001.onnx": {
+  "arena_bytes": 20480,
+  "blocks": 14,
+  "bytes": 8992,
+  "payload_bytes": 8256,
+  "registers": 786,
+  "tasks": 7
+ },
+ "mnist_first_suite/model000.onnx": {
+  "arena_bytes": 20480,
+  "blocks": 2,
+  "bytes": 2096,
+  "payload_bytes": 1984,
+  "registers": 126,
+  "tasks": 1
+ },
+ "mnist_first_suite/model001.onnx": {
+  "arena_bytes": 20480,
+  "blocks": 2,
+  "bytes": 2096,
+  "payload_bytes": 1984,
+  "registers": 126,
+  "tasks": 1
+ },
+ "mul_broadcast_suite/model000.onnx": {
+  "arena_bytes": 20480,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 204,
+  "tasks": 2
+ },
+ "mul_broadcast_suite/model001.onnx": {
+  "arena_bytes": 20480,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 204,
+  "tasks": 2
+ },
+ "mul_reshape_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "mul_reshape_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 6,
+  "bytes": 3408,
+  "payload_bytes": 3264,
+  "registers": 330,
+  "tasks": 3
+ },
+ "mul_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "mul_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "mul_two_input_batch_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 12,
+  "bytes": 6208,
+  "payload_bytes": 6016,
+  "registers": 660,
+  "tasks": 6
+ },
+ "mul_two_input_batch_suite/model001.onnx": {
+  "arena_bytes": 28672,
+  "blocks": 24,
+  "bytes": 12192,
+  "payload_bytes": 11904,
+  "registers": 1320,
+  "tasks": 12
+ },
+ "native_input_blocks_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1328,
+  "payload_bytes": 1216,
+  "registers": 126,
+  "tasks": 1
+ },
+ "native_input_blocks_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1392,
+  "payload_bytes": 1280,
+  "registers": 126,
+  "tasks": 1
+ },
+ "native_large_kernels_combined_suite/model000.onnx": {
+  "arena_bytes": 12288,
+  "blocks": 2,
+  "bytes": 2608,
+  "payload_bytes": 2496,
+  "registers": 126,
+  "tasks": 1
+ },
+ "native_large_kernels_combined_suite/model001.onnx": {
+  "arena_bytes": 24576,
+  "blocks": 2,
+  "bytes": 9072,
+  "payload_bytes": 8960,
+  "registers": 126,
+  "tasks": 1
+ },
+ "native_output_blocks_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1712,
+  "payload_bytes": 1600,
+  "registers": 126,
+  "tasks": 1
+ },
+ "native_output_blocks_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1968,
+  "payload_bytes": 1856,
+  "registers": 126,
+  "tasks": 1
+ },
+ "per_channel_mul_suite/model000.onnx": {
+  "arena_bytes": 20480,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 204,
+  "tasks": 2
+ },
+ "per_channel_mul_suite/model001.onnx": {
+  "arena_bytes": 20480,
+  "blocks": 4,
+  "bytes": 8320,
+  "payload_bytes": 8192,
+  "registers": 204,
+  "tasks": 2
+ },
+ "pool_join_suite/model000.onnx": {
+  "arena_bytes": 12288,
+  "blocks": 12,
+  "bytes": 5776,
+  "payload_bytes": 5120,
+  "registers": 530,
+  "tasks": 6
+ },
+ "pool_join_suite/model001.onnx": {
+  "arena_bytes": 12288,
+  "blocks": 12,
+  "bytes": 6160,
+  "payload_bytes": 5504,
+  "registers": 530,
+  "tasks": 6
+ },
+ "pooled_branches_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 14,
+  "bytes": 7520,
+  "payload_bytes": 6784,
+  "registers": 656,
+  "tasks": 7
+ },
+ "pooled_branches_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 14,
+  "bytes": 8096,
+  "payload_bytes": 7360,
+  "registers": 656,
+  "tasks": 7
+ },
+ "prelu_public_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 2,
+  "bytes": 8304,
+  "payload_bytes": 8192,
+  "registers": 126,
+  "tasks": 1
+ },
+ "prelu_public_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 2,
+  "bytes": 8304,
+  "payload_bytes": 8192,
+  "registers": 126,
+  "tasks": 1
+ },
+ "standalone_mul_suite/model000.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "standalone_mul_suite/model001.onnx": {
+  "arena_bytes": 16384,
+  "blocks": 6,
+  "bytes": 4240,
+  "payload_bytes": 4096,
+  "registers": 330,
+  "tasks": 3
+ },
+ "stride2_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1328,
+  "payload_bytes": 1216,
+  "registers": 126,
+  "tasks": 1
+ },
+ "stride2_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1456,
+  "payload_bytes": 1344,
+  "registers": 126,
+  "tasks": 1
+ },
+ "transpose_k5_dilation_suite/model000.onnx": {
+  "arena_bytes": 24576,
+  "blocks": 4,
+  "bytes": 4224,
+  "payload_bytes": 4096,
+  "registers": 252,
+  "tasks": 2
+ },
+ "transpose_k5_dilation_suite/model001.onnx": {
+  "arena_bytes": 24576,
+  "blocks": 4,
+  "bytes": 4224,
+  "payload_bytes": 4096,
+  "registers": 252,
+  "tasks": 2
+ },
+ "two_head_suite/model000.onnx": {
+  "arena_bytes": 12288,
+  "blocks": 6,
+  "bytes": 4448,
+  "payload_bytes": 4032,
+  "registers": 378,
+  "tasks": 3
+ },
+ "two_head_suite/model001.onnx": {
+  "arena_bytes": 12288,
+  "blocks": 6,
+  "bytes": 4448,
+  "payload_bytes": 4032,
+  "registers": 378,
+  "tasks": 3
+ },
+ "walk_chain_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 6,
+  "bytes": 3872,
+  "payload_bytes": 3456,
+  "registers": 289,
+  "tasks": 3
+ },
+ "walk_chain_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 6,
+  "bytes": 3616,
+  "payload_bytes": 3200,
+  "registers": 289,
+  "tasks": 3
+ },
+ "wide_k3_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1456,
+  "payload_bytes": 1344,
+  "registers": 126,
+  "tasks": 1
+ },
+ "wide_k3_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1456,
+  "payload_bytes": 1344,
+  "registers": 126,
+  "tasks": 1
+ },
+ "wide_k5_suite/model000.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1712,
+  "payload_bytes": 1600,
+  "registers": 126,
+  "tasks": 1
+ },
+ "wide_k5_suite/model001.onnx": {
+  "arena_bytes": 8192,
+  "blocks": 2,
+  "bytes": 1712,
+  "payload_bytes": 1600,
+  "registers": 126,
+  "tasks": 1
+ }
+}

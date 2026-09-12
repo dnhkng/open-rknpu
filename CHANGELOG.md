@@ -9,51 +9,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - `docs/`: generated register reference and error index (with drift-guard tests), op
-  support matrix, glossary, troubleshooting guide, performance guide, C API guide, and an
-  annotated container walkthrough.
+  support matrix, glossary, troubleshooting guide, performance guide, C API guide, an
+  annotated container walkthrough, the calibration cookbook, the board runbook, container
+  migration and compatibility notes, the mutation-testing report, and the evidence-storage
+  decision.
 - `examples/cookbook/`: minimal C program, quantized-model import, mutable parameters,
   batched/pipelined submission, wheel-installed smoke test, rejection walkthrough, and an
-  ONNX compatibility report.
+  ONNX compatibility report. `examples/notebooks/` adds a runnable (and tested) walkthrough.
 - Repository scaffolding: `CODE_OF_CONDUCT.md`, `SECURITY.md`, `AUTHORS`, `CITATION.cff`,
   `THIRD_PARTY.md`, `CHANGELOG.md`, `docs/provenance.md`, issue/PR templates, dependabot,
-  pre-commit, `.editorconfig`, `.gitattributes`, mkdocs config, release and docs workflows.
+  pre-commit, `.editorconfig`, `.gitattributes`, mkdocs config, release, docs and mutation
+  workflows.
 - CI jobs that compile the C runtime and every board harness, install the built wheel in a
-  clean venv and smoke test it, and validate the distribution with `twine check`.
+  clean venv and smoke test it, validate the distribution with `twine check`, run the loader
+  and the board runner under AddressSanitizer/UndefinedBehaviorSanitizer, and check the
+  evidence, cost-model, reproducible-build and coverage-table gates.
 - Tests: container fuzzing and encoder properties, generated-graph properties, reference-doc
-  drift guards, CLI flag contract, Clip-reference board replay, and host runs of the
-  classifier examples (873 tests total, 98% compiler line coverage).
+  drift guards, CLI flag contract, Clip-reference board replay, host runs of the classifier
+  examples, the C loader over 48 crafted containers, the board runner's CLI (`--inspect`
+  compared against the Python decoder for all 2,340 published containers), evidence
+  integrity for every suite, the documented-command runner, rejection/boundary modules for
+  the front end, emitters, joins and scheduler, and the release-gate logic
+  (1,005 tests total, 99.85% compiler line coverage).
+- Tools: `research/perf_regression.py` with a checked-in cost-model baseline,
+  `research/check_reproducible_build.py` (normalise and audit the sdist),
+  `research/run_mutation_tests.py` with `research/mutation_scope.json`,
+  `research/coverage_doc_table.py` (generates the uncovered-line table in the docs), and
+  `research/build_suite_readmes.py` (generates the 135 marker-based suite pages).
 
 ### Changed
 - `compile --target/--quantize` are validated and named in the summary instead of being
-  accepted and ignored; the coverage floor is 97% and CI covers Python 3.10–3.13.
+  accepted and ignored; the coverage floor is 99% (measured 99.85%) and CI covers Python
+  3.10–3.13.
 - `model.decode` now returns `register_count`, so `encode(decode(blob))` round-trips.
 - `native_input_reference` models the fused `Clip[0,6]` clamp (`upper_code`, published as
   `meta["clip_upper_code"]`), so users can reproduce Clip containers.
 - The C loader rejects a repeated or missing external tensor binding instead of silently
-  dropping a caller buffer.
-- Removed the four GPL-2.0 kernel sources from `research/vendor/` (provenance retained).
+  dropping a caller buffer, and rejects a v5 container whose declared header size is not 96 -
+  the Python decoder always did, so the two now agree.
+- Removed the four GPL-2.0 kernel sources from `research/vendor/` (provenance retained), plus
+  two pieces of provably dead code (`elementwise.py`'s redundant broadcast guard,
+  `elementwise_chain.py`'s always-false payload padding and v5's unreachable constant
+  packing).
+- The source distribution ships the attribution files and prunes the evidence tree; the
+  wheel carries `THIRD_PARTY.md` alongside `LICENSE`; calibration reports record
+  repository-relative paths instead of a maintainer-specific absolute path.
 
 ### Fixed
 - Documentation corrected where it disagreed with the code: checksum coverage and the v5
   layout description, `ornpu_inspect` reading the whole file, the v5 `batch − 1` header
-  byte, and the loader's tensor-binding contract.
-
-
-### Added
-
-* Nothing yet. Community files (`CODE_OF_CONDUCT.md`, `SECURITY.md`, `AUTHORS`),
-  `CITATION.cff`, this changelog, the GitHub issue/PR templates, the release and
-  documentation workflows, and the repository-hygiene configuration (`.editorconfig`,
-  `.gitattributes`, `.pre-commit-config.yaml`, `mkdocs.yml`) are being prepared for the
-  first public release.
-
-### Changed
-
-* Nothing yet.
-
-### Fixed
-
-* Nothing yet.
+  byte (it is `batch − 1` in v3/v4 too, not reserved), the legacy profile range (1–8, one to
+  five tasks), and the `examples/mel-kws/features.py` input-scale note.
 
 ## [0.1.0] - 2026-09-11
 

@@ -156,7 +156,10 @@ static int load_v5(FILE *f,const uint32_t *v,struct header *h,uint8_t **payload,
     if(fread(extension,sizeof(extension),1,f)!=1) return rc;
     uint32_t tensors_n=extension[0],tensor_size=extension[1],input_count=extension[2],output_count=extension[3];
     unsigned flags=v[19]&255;
-    if(tensor_size!=64 || tensors_n<1 || tensors_n>MAX_TENSORS || input_count<1 || input_count>8 ||
+    /* v[1] is the declared header size and every field above is read at its fixed v5
+       offset, so a contradictory declaration is a malformed container, not a variant.
+       The Python decoder has always rejected it; the loader must agree. */
+    if(v[1]!=96 || tensor_size!=64 || tensors_n<1 || tensors_n>MAX_TENSORS || input_count<1 || input_count>8 ||
        output_count<1 || output_count>8 || flags>1 || (v[19]>>8)!=0) return rc;
     if(v[13]<1 || v[13]>MAX_TASKS) return rc;
     uint32_t batch=v[21]+1;
