@@ -16,6 +16,7 @@ documents are ordered from "run your first model" to "recover a new register fie
 | [roadmap.md](roadmap.md) | what is supported today, what is deliberately out of scope, and the measured residuals |
 | [investigation-log.md](investigation-log.md) | the chronological record of how the register profile and each primitive were recovered (newest first, failed hypotheses kept) |
 | [plans/](plans/) | the internal planning records: completion plan, pipelining plan, cleanup plan, primitive roadmap, coverage matrix, project goals |
+| [publish-checklist.md](publish-checklist.md) | the extensive gap analysis for a public release: blockers, missing features, tests, documentation and examples, with effort estimates |
 
 Examples with measured board results live in [`../examples/`](../examples/README.md):
 `primitives/` (one script per op), `mnist/` and `fashion/` (hybrid classifiers),

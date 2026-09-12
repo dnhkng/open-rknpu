@@ -94,6 +94,7 @@ Reproducible contracts live at the repository root of `research/`:
 * [Board workflow](docs/board.md) — the hardware, adb staging, running, and timing.
 * [Verification](docs/verification.md) — the baseline contract, the ledger and the board discipline.
 * [Roadmap and limits](docs/roadmap.md) — what is deliberately out of scope and what is left.
+* [Publish checklist](docs/publish-checklist.md) — what is still missing before a public release, by category.
 * [Investigation log](docs/investigation-log.md) — the 60+ entry record of how the register
   profile and every primitive were recovered, with the failed hypotheses kept.
 
