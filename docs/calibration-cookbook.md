@@ -190,14 +190,85 @@ Two rules decide most failures ([quantization.md](quantization.md)):
   report** as `ranges["output"]` — that is exactly what `examples/mel-kws/build.py` does,
   and it then sweeps tighter variants of that one band to pick the most accurate
   ([examples/mel-kws/build.py](../examples/mel-kws/build.py)).
-* **Profiles without a band contract reject calibration rather than ignoring it.** The join
-  chain, join DAG, depthwise join, pool join, pooled branches, LUT, LeakyReLU/PReLU,
-  terminal Reshape and two-head profiles all raise rather than silently dropping the
-  ranges ([scheduler.py](../src/open_rknpu/scheduler.py),
+* **Profiles without a band contract reject calibration rather than ignoring it.** The
+  pooled-branches, LUT, LeakyReLU/PReLU, terminal Reshape and two-head profiles all raise
+  rather than silently dropping the ranges, and so do the two elementwise DAGs and the
+  strided profile ([scheduler.py](../src/open_rknpu/scheduler.py),
   [research/sequence_calibration_suite/README.md](../research/sequence_calibration_suite/README.md)).
-  `compile_sequence` also raises `calibration ranges lack tensor <name>` if the report does
-  not cover a Conv in the graph you are compiling
+  The join chain, join DAG, depthwise join, pool join, walk joins, native chain and the
+  diamond *do* carry measured bands — see "Which profiles accept calibration" above for
+  the exact per-profile contract.
+  `compile_sequence` raises `calibration ranges lack tensor <name>` if the report does
+  not cover a tensor the dispatched profile needs
   ([scheduler.py](../src/open_rknpu/scheduler.py)).
+
+## Which profiles accept calibration
+
+Not every profile the scheduler can dispatch has a measured-band contract, and the
+difference is not visible from the graph alone. The table below is the audit: one row per
+profile in `open_rknpu.scheduler.DISPATCH_PROFILES`, in dispatch order. "Required measured
+tensors" is exactly the set of report keys the profile asks for through the shared
+`measured_range` helper ([calibration.py](../src/open_rknpu/calibration.py)); a key that
+is missing raises `calibration ranges lack tensor <name>`
+([scheduler.py](../src/open_rknpu/scheduler.py)). `output_range` is listed separately
+because a profile may accept one override and not the other.
+
+| Profile | `calibration_ranges` | `output_range` | Required measured tensors |
+| --- | --- | --- | --- |
+| `qlinearconv` | rejected — `QLinearConv carries its own quantization parameters` | rejected | none (the graph carries its own bands) |
+| `qdq-conv` | rejected — `Q/DQ Conv carries its own quantization parameters` | rejected | none (the graph carries its own bands) |
+| `join-chain` | accepted | accepted (a `Mul` join or a Conv tail) | the stem and every head/tail Conv or fused-activation output; the join output is not a measured tensor |
+| `join-dag` | accepted | accepted (the last join, `Mul` only) | the stem and every branch-layer Conv output |
+| `depthwise-join` | accepted | accepted (`Mul` join only) | the stem, the dense branch Conv and the depthwise branch Conv |
+| `pool-join` | accepted | accepted (`Mul` join only) | the stem and both branch Conv outputs |
+| `pooled-branches` | rejected — `calibration is unsupported for pooled branches` | accepted | none |
+| `lut` | rejected — `output override unsupported for LUT profile` | rejected | none |
+| `mul-relu` | accepted | accepted | the graph output, supplied by hand: a bare `Mul[/activation]` graph has no `Conv`, so `measure` refuses it |
+| `mul-clip` | accepted only when the graph-output band is exactly scale `6/255`, zero point `-128` (the fixed `Clip[0,6]` band); otherwise `Mul Clip[0,6] currently uses output scale 6/255 and zero point -128` | same fixed band only | the graph output, supplied by hand: `measure` refuses a graph with no `Conv` |
+| `mul-add` | accepted | required (the scalar Add is folded into the output band) | the graph output, supplied by hand: `measure` refuses a graph with no `Conv` |
+| `leaky-relu` | rejected — `output override unsupported for LeakyRelu profile` | rejected | none |
+| `prelu` | rejected — `output override unsupported for PRelu profile` | rejected | none |
+| `transposed-conv` | accepted | accepted | the graph output, supplied by hand: `measure` names `Conv` outputs, not the `ConvTranspose` output |
+| `depthwise-pointwise` | accepted | accepted | the graph output |
+| `reshape` | rejected — `output override unsupported for Reshape profile` | rejected | none |
+| `standalone-mul` | accepted | accepted | the graph output, supplied by hand: `measure` refuses a graph with no `Conv` |
+| `constant-mul` | accepted | accepted | the graph output, supplied by hand: `measure` refuses a graph with no `Conv` |
+| `per-channel-constant-mul` | accepted | accepted | the graph output, supplied by hand: `measure` refuses a graph with no `Conv` |
+| `runtime-scale-mul` | accepted | accepted | the graph output, supplied by hand: `measure` refuses a graph with no `Conv` |
+| `two-head` | rejected — `output override unsupported for the two-head profile` | rejected | none |
+| `join-walk` | accepted | accepted (a `Mul` join or a Conv tail) | the stem and every head/tail Conv or fused-activation output |
+| `diamond` | accepted | accepted (a `Mul` join or a Conv tail) | the stem and every head/tail Conv or fused-activation output |
+| `native-chain` | accepted, except with height-strip tiling (`tiles=`) which rejects — `calibration is unsupported for the height-strip tiled chain` | accepted (the final layer) | every layer tensor: the fused-activation output for hidden layers, the Conv output for the last |
+| `legacy-conv-chain` | accepted | accepted | the first layer's fused-activation output and the final Conv output |
+| `multi-input-elementwise-dag` | rejected — `output override unsupported for the multi-input elementwise DAG` | rejected | none |
+| `elementwise-dag` | rejected — `output override unsupported for the elementwise DAG` | rejected | none |
+| `elementwise-join` | accepted | accepted | the graph output, supplied by hand: `measure` names the branch Conv outputs, not the join output (a `Mul` join honours the band; `Add`/`Sub`/`Max` derive the output from `2 ×` the shared operand scale) |
+| `chain-walk` | accepted | accepted | every Conv or fused-activation output |
+| `native-input` | accepted | accepted | the graph output |
+| `strided` | rejected — `output override unsupported for this strided profile` | rejected | none |
+| `depthwise` | accepted | accepted | the graph output |
+| `pooling-sequence` | accepted | rejected — `output override unsupported for this scheduled profile` | the first Conv or fused-activation output |
+
+Three consequences are worth stating plainly:
+
+* **Requiring a tensor that `measure` cannot produce is a hard stop.** The rows marked
+  "supplied by hand" need a report key `open_rknpu.calibration.measure` cannot emit: a
+  bare `Mul`/`Mul`+activation graph has no `Conv` at all (the measurer refuses it), and for
+  an `elementwise` or `ConvTranspose` terminal the graph output is not a measured `Conv`
+  tensor. Those profiles still enforce the measured-band contract when a caller builds the
+  dict itself, but a raw `measure` report cannot satisfy them — `compile_sequence` raises
+  `calibration ranges lack tensor <name>`. Measure the graph you compile, or calibrate a
+  `Conv`-terminal variant.
+* **A join that captures a shared band re-centers its operands.** In the join family the
+  measured band is the *natural* band of a branch output; an `Add`/`Sub`/`Max` join then
+  moves each operand onto one shared zero-point-0 grid (`_adjusted_scale`), so the
+  emitted band is the widest zero-point-0 grid covering the measured one, not the
+  measured band verbatim. A Conv that feeds a pool moves the same way. Only stages the
+  join leaves free (a `Mul` operand, a Conv tail, the final layer) carry the measured
+  band exactly.
+* **`Mul`-to-`Clip[0,6]` has no free output band.** The clamp task is fixed at
+  scale `6/255`, zero point `-128`, so a report whose output entry disagrees is refused
+  rather than silently ignored.
 
 ## The zero-point-0 rule for a Conv that feeds a pool
 
@@ -269,7 +340,7 @@ normal, a byte mismatch against the integer reference is a finding
 | MAE improves but max error explodes | the calibration set does not cover the real input extremes, so `percentile`/`kl` clips the tail — sequence_calibration: MAE down on all three graphs, max error `8.76 → 17.41` and `12.62 → 573.70` | use `minmax` or a higher percentile, and widen the calibration set ([research/sequence_calibration_suite/README.md](../research/sequence_calibration_suite/README.md)) |
 | `calibration ranges lack tensor <name>` | the report came from a different graph, or a Conv has no entry | measure the exact ONNX you compile ([scheduler.py](../src/open_rknpu/scheduler.py)) |
 | `calibration and output quantization overrides cannot be combined` (legacy path: `calibration and chain output override cannot be combined`) | both a report and an explicit `output_range`/`--output-scale` were passed | put the output band in `ranges["output"]` and pass only `calibration_ranges` ([quantization.md](quantization.md)) |
-| `calibration is unsupported for the join chain` / join DAG / pooled branches, or `output override unsupported for LUT/LeakyRelu/PRelu/Reshape profile` | the profile has no measured-band contract | pick a profile that has one, or calibrate a graph the walk accepts ([troubleshooting.md](troubleshooting.md#calibration-and-output-override-conflict)) |
+| `calibration is unsupported for pooled branches` / `output override unsupported for LUT/LeakyRelu/PRelu/Reshape profile` / `output override unsupported for the ... DAG` | the profile has no measured-band contract | pick a profile that has one, or calibrate a graph the walk accepts; see "Which profiles accept calibration" for the full table ([troubleshooting.md](troubleshooting.md#calibration-and-output-override-conflict)) |
 | All output codes equal the container's `output_zero_point` even after calibrating the Convs | the **output** band is narrower than the real logit range | widen it or calibrate the output tensor ([quantization.md](quantization.md#failure-modes-seen-in-practice)) |
 | A hidden-band shift of tens of LSB on a `chain`/`chain_n` graph | the chain family leaves the border register `0x1184` at `-128` instead of the producer's zero point (`[-128,-17,-2,0,0]` seeded example is 38 LSB from the float result) | known, pinned quirk — check it before blaming calibration ([roadmap.md](roadmap.md), [troubleshooting.md](troubleshooting.md#accuracy-collapsed)) |
 

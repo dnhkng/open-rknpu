@@ -4,8 +4,9 @@ Each entry below is prepended newest-first; the older narrative from the first
 `regcmd` investigation is kept at the end.
 
 <details>
-<summary>Table of contents (69 entries)</summary>
+<summary>Table of contents (70 entries)</summary>
 
+* [2026-09-12: the NPU driver imports dma-bufs (CREATE flag 0x80) - F8 is feasible](#2026-09-12-the-npu-driver-imports-dma-bufs-create-flag-0x80---f8-is-feasible)
 * [2026-09-11: publication-readiness pass - legal, interfaces, CI, docs, examples](#2026-09-11-publication-readiness-pass---legal-interfaces-ci-docs-examples)
 * [2026-09-11: test expansion - 311 to 873 tests, 90% to 98% coverage](#2026-09-11-test-expansion---311-to-873-tests-90-to-98-coverage)
 * [2026-09-11: a trained audio model runs on the NPU (mel-CNN spoken digits)](#2026-09-11-a-trained-audio-model-runs-on-the-npu-mel-cnn-spoken-digits)
@@ -78,6 +79,53 @@ Each entry below is prepended newest-first; the older narrative from the first
 * [Summary: `regcmd` investigation (older findings, kept as-is)](#rv1103-npu--rknn-regcmd-investigation--summary)
 
 </details>
+
+## 2026-09-12: the NPU driver imports dma-bufs (CREATE flag 0x80) - F8 is feasible
+
+The limitation table has said "dma-buf zero-copy from the ISP: not implemented" since the
+first board session, and `docs/plans/pipelining-plan.md` S4 listed the driver's dma-buf path
+among the interfaces the runtime deliberately does not use - but nobody had asked the driver
+whether it *can*. It can.
+
+The probe is 40 lines of C (`research/probe_dmabuf.c`, cross-compiled with the pinned toolchain
+and run on the board (the source is checked in for reproducibility)): allocate 4096 bytes from the Rockchip CMA heap
+(`/dev/rk_dma_heap/rk-dma-heap-cma`, the standard `DMA_HEAP_IOCTL_ALLOC`), then call the NPU
+driver's `CREATE` ioctl (`_IOWR('r',2,struct allocation)`) with the dma-buf fd in `handle`
+and every `flags` value from 0x00 to 0xFF:
+
+```text
+heap: allocated 4096 bytes, fd=4
+flags=0x80 rc=0 handle=4 object=0xb062a980 dma=0x3e4d000 sram=0x0
+flags=0x82 rc=0 handle=4 object=0xb062a9a0 dma=0x3e4d000 sram=0x0
+...
+summary: 128 of 256 flag values accepted a dma-buf fd
+```
+
+**128 of 256 flag values succeed, and they are exactly the ones with bit 7 (`0x80`) set**;
+with `0x80` clear every value returns `EINVAL`. The driver writes back a device address
+(`dma=0x3e4d000` here) and an object handle, and `DESTROY` releases it. So `flags |= 0x80`
+is the "this handle is an existing dma-buf fd, import it" selector, and the accelerator can
+address a buffer it never allocated - the mechanism a V4L2/ISP capture buffer or an RGA
+output needs for a genuinely zero-copy input path.
+
+What this does and does not establish:
+
+* **Established**: the import ioctl accepts a CMA-heap dma-buf and maps it into the NPU's
+  address space; the address is stable across repeated imports of the same fd (0x3e4d000).
+  The heap is `/dev/rk_dma_heap/rk-dma-heap-cma`; there is no `/dev/dma_heap` and no DRM
+  device on this board.
+* **Not established**: that a submission reading *from* the imported address produces the
+  same bytes as one reading the runtime's own buffer. That needs a runtime API that binds an
+  imported region as an input tensor and a board replay against a recorded suite; it is the
+  remaining half of F8 and it is now a known-reachable piece of work rather than an unknown
+  driver capability.
+* **Also relevant to E5**: `/dev/video0..20` exist (`stream_cif_mipi_id*`, `rkisp_mainpath`,
+  `rkcif_scale_ch*`, `rkisp_lumapath`), so a capture buffer could feed the NPU through the
+  same import path, with `rkipc` holding the ISP.
+
+The runtime keeps using its own allocations until that binding exists; `docs/board.md` and
+`docs/board-runbook.md` now say "the driver supports dma-buf import (CREATE flag 0x80); the
+runtime does not expose a zero-copy input yet", which is the precise state.
 
 ## 2026-09-11: publication-readiness pass - legal, interfaces, CI, docs, examples
 

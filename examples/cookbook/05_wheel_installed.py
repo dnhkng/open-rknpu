@@ -1,6 +1,6 @@
 """SPDX-License-Identifier: MIT
 
-Cookbook 5/7: the installed package, not the source checkout.
+Cookbook 5/8: the installed package, not the source checkout.
 
 `examples/cookbook/` normally runs with `PYTHONPATH=src`, so `import open_rknpu`
 resolves to this repository - fine for developing the compiler, useless as a

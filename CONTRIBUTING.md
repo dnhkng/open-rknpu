@@ -16,7 +16,7 @@ make lint                             # ruff on the maintained paths
 Before opening a pull request, the gates that apply to your change are:
 
 ```sh
-make baseline        # no emitted container changed (2,244 models)
+make baseline        # no emitted container changed (2,268 models)
 make perf            # no cost-model regression (tasks, engine blocks, registers, arena)
 make evidence        # the retained suites agree with their manifests and READMEs
 make primitives      # every low-level op example still runs

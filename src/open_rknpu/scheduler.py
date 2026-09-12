@@ -15,6 +15,46 @@ from .pooling import POOL
 from .register_profile import REGISTERS
 from .model import decode
 
+# Every profile `_compile_sequence` can dispatch, in dispatch order. Each key names one
+# branch below; adding or removing a branch means adding or removing its key here and its
+# row in `docs/calibration-cookbook.md` ("Which profiles accept calibration").
+# `tests/test_calibration_parity.py` fails when the two sets disagree.
+DISPATCH_PROFILES = (
+    "qlinearconv",
+    "qdq-conv",
+    "join-chain",
+    "join-dag",
+    "depthwise-join",
+    "pool-join",
+    "pooled-branches",
+    "lut",
+    "mul-relu",
+    "mul-clip",
+    "mul-add",
+    "leaky-relu",
+    "prelu",
+    "transposed-conv",
+    "depthwise-pointwise",
+    "reshape",
+    "standalone-mul",
+    "constant-mul",
+    "per-channel-constant-mul",
+    "runtime-scale-mul",
+    "two-head",
+    "join-walk",
+    "diamond",
+    "native-chain",
+    "legacy-conv-chain",
+    "multi-input-elementwise-dag",
+    "elementwise-dag",
+    "elementwise-join",
+    "chain-walk",
+    "native-input",
+    "strided",
+    "depthwise",
+    "pooling-sequence",
+)
+
 def batched_layout(data,info):
     from .compose import batched_layout as check
     return check(data,info)
@@ -112,10 +152,8 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
     if calibration_ranges is not None and output_range is not None:
         raise ValueError('calibration and output quantization overrides cannot be combined')
     def measured(name):
-        if calibration_ranges is None:return None
-        entry=calibration_ranges.get(name)
-        if entry is None:raise ValueError('calibration ranges lack tensor '+name)
-        return dict(scale=float(entry['scale']),zero_point=int(entry['zero_point']))
+        from .calibration import measured_range
+        return measured_range(calibration_ranges,name)
     if mutable_weights and not (len(loaded.graph.node) in (1,2) and loaded.graph.node[0].op_type=='Conv' and loaded.graph.node[-1].op_type in ('Conv','Relu')):
         raise ValueError('mutable weights currently require one native Conv[/Relu]')
     if mutable_constants and not (len(loaded.graph.node)==1 and loaded.graph.node[0].op_type=='Mul'):
@@ -144,47 +182,39 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
         if chain is not None:
             if (input_scale,input_zero_point)!=(1.0,0):
                 raise ValueError('join chain requires the established UINT8 scale1/zero-point0 boundary')
-            if calibration_ranges is not None:
-                raise ValueError('calibration is unsupported for the join chain')
             if tuple(mul_operand_zero_points)!=(0,0):
                 raise ValueError('Mul operand zero points require a Mul profile')
             from .graph import compile_join_chain
             return compile_join_chain(model,output_range,mul_operand_zero_points,asymmetric_depthwise,
-                                      serial=not batched)
+                                      serial=not batched,calibration_ranges=calibration_ranges)
     if nodes and nodes[0].op_type=='Conv':
         from .join_dag import parse_join_dag
         if parse_join_dag(nodes):
             if (input_scale,input_zero_point)!=(1.0,0):
                 raise ValueError('join DAG requires the established UINT8 scale1/zero-point0 boundary')
-            if calibration_ranges is not None:
-                raise ValueError('calibration is unsupported for the join DAG')
             if tuple(mul_operand_zero_points)!=(0,0):
                 raise ValueError('Mul operand zero points require a Mul profile')
             from .join_dag import compile_join_dag
-            return compile_join_dag(model,output_range,serial=not batched)
+            return compile_join_dag(model,output_range,serial=not batched,calibration_ranges=calibration_ranges)
     if nodes and nodes[0].op_type=='Conv':
         from .depthwise_join import parse_depthwise_join
         if parse_depthwise_join(nodes):
             if (input_scale,input_zero_point)!=(1.0,0):
                 raise ValueError('depthwise join requires the established UINT8 scale1/zero-point0 boundary')
-            if calibration_ranges is not None:
-                raise ValueError('calibration is unsupported for the depthwise join')
             if tuple(mul_operand_zero_points)!=(0,0):
                 raise ValueError('Mul operand zero points require a Mul profile')
             from .depthwise_join import compile_depthwise_join
             return compile_depthwise_join(model,output_range,mul_operand_zero_points,asymmetric_depthwise,
-                                          serial=not batched)
+                                          serial=not batched,calibration_ranges=calibration_ranges)
     if nodes and nodes[0].op_type=='Conv':
         from .pool_join import parse_pool_join
         if parse_pool_join(nodes):
             if (input_scale,input_zero_point)!=(1.0,0):
                 raise ValueError('pool join requires the established UINT8 scale1/zero-point0 boundary')
-            if calibration_ranges is not None:
-                raise ValueError('calibration is unsupported for the pool join')
             if tuple(mul_operand_zero_points)!=(0,0):
                 raise ValueError('Mul operand zero points require a Mul profile')
             from .pool_join import compile_pool_join
-            return compile_pool_join(model,output_range,serial=not batched)
+            return compile_pool_join(model,output_range,serial=not batched,calibration_ranges=calibration_ranges)
     if nodes and nodes[0].op_type=='Conv':
         from .pooled_branches import parse_pooled_branches
         if parse_pooled_branches(nodes):
@@ -196,20 +226,30 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
                 raise ValueError('Mul operand zero points require a Mul profile')
             from .pooled_branches import compile_pooled_branches
             return compile_pooled_branches(model,output_range,serial=not batched)
-    final_range=output_range if output_range is not None else (measured(graph.output[0].name) if calibration_ranges is not None and graph.output else None)
+    def resolved_range():
+        """The output band, resolved on demand from `output_range` or the report.
+
+        Deferring the `measured()` lookup means a profile only asks for the graph
+        output tensor when it consumes the band. The join walks and the diamond
+        profile derive their bands from the Conv tensors instead, so a report measured
+        on a join graph does not need an output entry the measurer cannot produce.
+        """
+        if output_range is not None:return output_range
+        if calibration_ranges is not None and graph.output:return measured(graph.output[0].name)
+        return None
     if nodes and nodes[-1].op_type in ('Sigmoid','Tanh'):
         if output_range is not None or calibration_ranges is not None:raise ValueError('output override unsupported for LUT profile')
         from .lut import compile_lut
         return compile_lut(model,input_scale,input_zero_point)
     if len(nodes)>=2 and nodes[-2].op_type=='Mul' and nodes[-1].op_type=='Relu':
         from .elementwise import compile_mul_relu
-        return compile_mul_relu(model,input_scale,input_zero_point,final_range,mul_operand_zero_points)
+        return compile_mul_relu(model,input_scale,input_zero_point,resolved_range(),mul_operand_zero_points)
     if len(nodes)>=2 and nodes[-2].op_type=='Mul' and nodes[-1].op_type=='Clip':
         from .elementwise import compile_mul_clip
-        return compile_mul_clip(model,input_scale,input_zero_point,final_range,mul_operand_zero_points)
+        return compile_mul_clip(model,input_scale,input_zero_point,resolved_range(),mul_operand_zero_points)
     if len(nodes)>=2 and nodes[-2].op_type=='Mul' and nodes[-1].op_type=='Add':
         from .elementwise import compile_mul_add
-        return compile_mul_add(model,input_scale,input_zero_point,final_range,mul_operand_zero_points)
+        return compile_mul_add(model,input_scale,input_zero_point,resolved_range(),mul_operand_zero_points)
     if nodes and nodes[-1].op_type=='LeakyRelu':
         if output_range is not None or calibration_ranges is not None:raise ValueError('output override unsupported for LeakyRelu profile')
         from .activation import compile_leaky
@@ -220,12 +260,12 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
         return compile_prelu(model,input_scale,input_zero_point)
     if nodes and nodes[-1].op_type=='ConvTranspose':
         from .transposed import compile_transposed
-        return compile_transposed(model,input_scale,input_zero_point,final_range)
+        return compile_transposed(model,input_scale,input_zero_point,resolved_range())
     if len(nodes)>=3 and nodes[-2].op_type=='Conv' and nodes[-1].op_type=='Conv':
         previous_attrs={a.name:h.get_attribute_value(a) for a in nodes[-2].attribute}
         if previous_attrs.get('group',1)>1:
             from .depthwise import compile_depthwise_pointwise
-            return compile_depthwise_pointwise(model,input_scale,input_zero_point,final_range)
+            return compile_depthwise_pointwise(model,input_scale,input_zero_point,resolved_range())
     if nodes and nodes[-1].op_type=='Reshape':
         if output_range is not None or calibration_ranges is not None:raise ValueError('output override unsupported for Reshape profile')
         from .layout import compile_spatial_reshape
@@ -240,13 +280,13 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
                     for v in graph.input)):
             from .elementwise import compile_runtime_scale_mul
             return compile_runtime_scale_mul(model,input_scale=input_scale,input_zero_point=input_zero_point,
-                                             output_range=final_range)
+                                             output_range=resolved_range())
         if any(v.name in nodes[0].input for v in graph.initializer if v.name not in {x.name for x in graph.input}):
             if per_channel_mul:
                 from .elementwise import compile_per_channel_constant_mul
-                return compile_per_channel_constant_mul(model,input_scale,input_zero_point,final_range)
-            return compile_constant_mul(model,input_scale,input_zero_point,final_range,mul_operand_zero_points,mutable_constants)
-        return compile_standalone_mul(model,input_scale,input_zero_point,final_range,mul_operand_zero_points)
+                return compile_per_channel_constant_mul(model,input_scale,input_zero_point,resolved_range())
+            return compile_constant_mul(model,input_scale,input_zero_point,resolved_range(),mul_operand_zero_points,mutable_constants)
+        return compile_standalone_mul(model,input_scale,input_zero_point,resolved_range(),mul_operand_zero_points)
     if [n.op_type for n in nodes]==['Conv','Relu','Conv','Conv'] and len(graph.output)==2:
         if (input_scale,input_zero_point)!=(1.0,0):
             raise ValueError('two-head profile requires the established UINT8 scale1/zero-point0 boundary')
@@ -262,11 +302,11 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
     if (join_index is not None and len(graph.input)==1 and len(graph.output)==1
             and any(node.op_type in ('MaxPool','AveragePool') for node in nodes)
             and (input_scale,input_zero_point)==(1.0,0)
-            and tuple(mul_operand_zero_points)==(0,0) and calibration_ranges is None):
+            and tuple(mul_operand_zero_points)==(0,0)):
         from .walk import compile_join_walk, parse_join_walk
         if parse_join_walk(graph) is not None:
             return compile_join_walk(model,input_scale,input_zero_point,output_range,
-                                     serial=not batched)
+                                     serial=not batched,ranges=calibration_ranges)
     if (join_index is not None and join_index>=3
         and all(n.op_type in ('Conv','Relu') for index,n in enumerate(nodes) if index!=join_index)):
         join=nodes[join_index];head_a,head_b=nodes[join_index-2],nodes[join_index-1];stem_nodes=nodes[:join_index-2]
@@ -289,24 +329,27 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
             # The op-level walk lowers this class op by op and is byte-identical to the
             # profile (`tests/test_walk.py`); the profile stays the fallback for graphs
             # the walk does not cover, such as Mul joins with operand zero points.
-            if tuple(mul_operand_zero_points)==(0,0) and calibration_ranges is None:
+            if tuple(mul_operand_zero_points)==(0,0):
                 from .walk import compile_join_walk, parse_join_walk
                 if parse_join_walk(graph) is not None:
                     return compile_join_walk(model,input_scale,input_zero_point,output_range,
-                                             serial=not batched)
+                                             serial=not batched,ranges=calibration_ranges)
             from .graph import compile_diamond
-            return compile_diamond(model,output_range,mul_operand_zero_points,serial=not batched)
+            return compile_diamond(model,output_range,mul_operand_zero_points,serial=not batched,
+                                   calibration_ranges=calibration_ranges)
     if (len(nodes)>=5 and len(nodes)%2==1 and all(n.op_type=='Conv' for n in nodes[::2])
         and all(n.op_type=='Relu' for n in nodes[1::2])):
         if (input_scale,input_zero_point)!=(1.0,0):raise ValueError('native chain requires the established UINT8 scale1/zero-point0 boundary')
         if tiles is not None:
             if output_range is not None or expose_intermediates or reuse_intermediates:
                 raise ValueError('height-strip tiling cannot be combined with output overrides, exposed intermediates or arena reuse')
+            if calibration_ranges is not None:
+                raise ValueError('calibration is unsupported for the height-strip tiled chain')
             from .tiled_chain import compile_tiled_chain
             return compile_tiled_chain(model,tiles=tiles,serial=not batched)
         from .chain_n import compile_chain_n
         return compile_chain_n(model,output_range,expose_intermediates,reuse_intermediates,
-                               serial=not batched)
+                               serial=not batched,calibration_ranges=calibration_ranges)
     if [n.op_type for n in nodes]==['Conv','Relu','Conv']:
         attrs={a.name:h.get_attribute_value(a) for a in nodes[-1].attribute}
         if attrs.get('group',1)==1:
@@ -343,7 +386,7 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
         return compile_elementwise_dag(model)
     if nodes and nodes[-1].op_type in ('Add','Mul','Sub','Max'):
         from .elementwise import compile_elementwise
-        return compile_elementwise(model,input_scale,input_zero_point,final_range,mul_operand_zero_points)
+        return compile_elementwise(model,input_scale,input_zero_point,resolved_range(),mul_operand_zero_points)
     # Op-level chain walk: a linear Conv/Relu chain with a pool that is *not* the last
     # node. No profile above matches that shape (the pooling profiles end in a pool or
     # branch around one), so the walk cannot hijack existing evidence.
@@ -353,7 +396,7 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
         if parse_chain(graph) is not None:
             if tuple(mul_operand_zero_points)!=(0,0):
                 raise ValueError('Mul operand zero points require a Mul profile')
-            return compile_chain_walk(model, input_scale, input_zero_point, final_range,
+            return compile_chain_walk(model, input_scale, input_zero_point, resolved_range(),
                                       serial=not batched, ranges=calibration_ranges)
     if len(graph.input)!=1 or len(graph.output)!=1 or not nodes or nodes[0].op_type!="Conv":
         raise ValueError("sequence lowering requires one input, one output, and an initial Conv")
@@ -365,7 +408,7 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
     output_channels=next((t.dims[0] for t in graph.initializer if t.name==nodes[0].input[1] and len(t.dims)==4),0)
     if ((output_range is not None and not any(n.op_type=='Conv' for n in nodes[1:])) or (len(nodes)==2 and nodes[1].op_type=='Clip') or ic not in (1,3) or output_channels>16 or kernel>=7 or (len(nodes)<=2 and not all(5<=v<=(32 if ic==1 else 8) for v in (ih,iw)))):
         from .native import compile_native_input
-        return compile_native_input(model,input_scale,input_zero_point,final_range,expose_constants=mutable_weights)
+        return compile_native_input(model,input_scale,input_zero_point,resolved_range(),expose_constants=mutable_weights)
     if attrs.get('strides',[1,1])!=[1,1] or (len(nodes)<=2 and attrs.get('pads',[0]*4)!=[kernel//2]*4):
         from .strided import compile_strided
         if output_range is not None or calibration_ranges is not None:raise ValueError('output override unsupported for this strided profile')
@@ -373,7 +416,7 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
     first_count=2 if len(nodes)>1 and nodes[1].op_type=="Relu" else 1
     if any(n.op_type=='Conv' for n in nodes[first_count:]):
         from .depthwise import compile_depthwise
-        return compile_depthwise(model,input_scale,input_zero_point,final_range,asymmetric_pair=asymmetric_depthwise)
+        return compile_depthwise(model,input_scale,input_zero_point,resolved_range(),asymmetric_pair=asymmetric_depthwise)
     if output_range is not None:raise ValueError('output override unsupported for this scheduled profile')
     if any(n.op_type not in ("MaxPool","AveragePool") for n in nodes[first_count:]):
         raise ValueError("sequence lowering currently supports Conv[/Relu] followed by 2x2 pooling")

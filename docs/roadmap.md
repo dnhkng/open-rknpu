@@ -86,10 +86,11 @@ register-profile change that would invalidate the chain family's board evidence
 
 | Capability | Why | Closest workaround |
 | --- | --- | --- |
-| 1-D convolution (`kernel_shape [k]`) | the front end requires static NCHW rank 4 | reshape to `[1,C,1,W]` manually where the graph allows it |
+| 1-D convolution (`kernel_shape [k]`) | **supported since 2026-09-12**: a rank-3 `[N,C,L]` graph is promoted to `[N,C,1,L]` in place (`research/conv1d_suite/`) | none needed; the container reports `H = 1` |
 | Rectangular kernels with one-sided padding | the native profile accepts odd square kernels | even/rectangular kernels through 5×5 are rewritten to odd square |
 | Kernels > 31 | outside the verified register encoding | split large kernels (e.g. an STFT basis) into shorter taps |
-| `MatMul`/`Gemm`, `Softmax`, `Concat`, `Slice`, `Pad` (non-constant), `ReduceMean`, `Shape`-driven control flow | no primitive; the project accepts a bounded static CNN class | 1×1 Conv for a fully-connected layer, host-side post-processing for the rest |
+| `MatMul`/`Gemm` with a constant rank-2 weight | **supported since 2026-09-12** by lowering to the verified 1×1 Conv path (`research/matmul_suite/`) | none needed for the `[N,C,1,1]` / Flatten form |
+| `Softmax`, `Concat`, `Slice`, `Pad` (non-constant), `ReduceMean`, `Shape`-driven control flow | no primitive; the project accepts a bounded static CNN class | host-side post-processing for the rest |
 | LSTM/GRU and other recurrence | no hardware primitive and no GEMM to decompose into | keep the recurrent part on the CPU (`examples/mel-kws/` shows host-side pooling/argmax; a hybrid LSTM model is the same pattern) |
 | Dynamic shapes / variable batch | containers are immutable | recompile per shape; batch ≤16 is supported inside one container |
 | Multi-stage detection heads (upsample/concat/anchors) | build on unsupported ops | none yet |

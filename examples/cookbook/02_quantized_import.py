@@ -1,6 +1,6 @@
 """SPDX-License-Identifier: MIT
 
-Cookbook 2/7: importing already-quantized models (`QLinearConv` and `DQ->Conv->Q`).
+Cookbook 2/8: importing already-quantized models (`QLinearConv` and `DQ->Conv->Q`).
 
 A quantized model arrives with its INT8 weights already chosen. The scheduler has
 two import paths for that (`open_rknpu/quantized_import.py`):

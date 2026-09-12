@@ -75,9 +75,9 @@ branch = false
 [tool.coverage.report]
 skip_covered = true
 show_missing = false
-# Host line coverage of the compiler. Ratchet: the measured value is 99.85% (6,187
-# statements, 9 uncovered lines; 1,008 tests, 2026-09-12). Every remaining line is proven
-# unreachable by construction and listed with its reason in docs/verification.md, which is
+# Host line coverage of the compiler. Ratchet: the measured value is 99.55% (6,598
+# statements, 30 uncovered lines; 1,100 tests, 2026-09-12). Every remaining line is listed
+# with its reason in docs/verification.md, which is
 # regenerated from the coverage data by research/coverage_doc_table.py. Raise the floor
 # whenever the measured value moves up (`make coverage`).
 fail_under = 99

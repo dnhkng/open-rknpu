@@ -125,13 +125,15 @@ def _validate(model):
 
 
 def compile_depthwise_join(model, output_range=None, operand_zero_points=(0, 0),
-                           asymmetric_depthwise=False, serial=True):
+                           asymmetric_depthwise=False, serial=True, calibration_ranges=None):
     """Dense and depthwise branches from one stem, folded by one elementwise join.
 
     Both branch grids are quantized with zero point zero: a Mul join folds the two
     free operand scales, while Add/Sub/Max need one shared scale. The depthwise
     branch keeps its verified weight pair layout, including the optional asymmetric
-    per-channel weight zero point. Bounds: RGB 8x8 external tensors, 1x1 stem 3->3,
+    per-channel weight zero point. With `calibration_ranges` the stem and each branch
+    take their measured band through the shared `measured_range` helper before the
+    join re-centers the operands. Bounds: RGB 8x8 external tensors, 1x1 stem 3->3,
     dense 1x1/3x3 branch, depthwise 1x1/3x3/5x5 group3 branch, zero-point-zero
     operands, and an output override only for a Mul join.
     """
@@ -141,8 +143,11 @@ def compile_depthwise_join(model, output_range=None, operand_zero_points=(0, 0),
      dw_kernel) = _validate(model)
     g = model.graph
     kind = join.op_type
+    if calibration_ranges is not None and output_range is not None:
+        raise ValueError('calibration and output quantization overrides cannot be combined')
     if output_range is not None and kind != 'Mul':
         raise ValueError('the depthwise join output override requires a Mul join')
+    from .calibration import measured_range
     # Stem program from the established single-layer emitter.
     stem_out_name = stem_nodes[-1].output[0]
     first_graph = h.make_graph(stem_nodes, 'stem', list(g.input),
@@ -153,7 +158,7 @@ def compile_depthwise_join(model, output_range=None, operand_zero_points=(0, 0),
     with tempfile.TemporaryDirectory() as tmp:
         stem_path = Path(tmp) / 'stem.onnx'
         onnx.save(first, stem_path)
-        stem_data, stem_meta = compile_model(stem_path)
+        stem_data, stem_meta = compile_model(stem_path, calibration_ranges=calibration_ranges)
     stem_scale = stem_meta['output_scale']
     stem_zp = stem_meta['output_zero_point']
     # A standalone depthwise compile supplies the natural branch range and the task
@@ -168,8 +173,10 @@ def compile_depthwise_join(model, output_range=None, operand_zero_points=(0, 0),
     standalone.ir_version = model.ir_version
     def adjusted_scale(scale, zero_point):
         return float(np.float32(scale * max(128 + zero_point, 127 - zero_point) / 127))
-    _, natural_meta = compile_depthwise(standalone)
-    natural_dense = native_quantize(wd, constants[dense.input[2]], stem_scale, stem_zp, None)
+    _, natural_meta = compile_depthwise(standalone,
+                                        output_range=measured_range(calibration_ranges, depthwise.output[0]))
+    natural_dense = native_quantize(wd, constants[dense.input[2]], stem_scale, stem_zp,
+                                    measured_range(calibration_ranges, dense.output[0]))
     adjusted_dense = adjusted_scale(natural_dense.output_scale, natural_dense.output_zero_point)
     adjusted_dw = adjusted_scale(natural_meta['output_scale'], natural_meta['output_zero_point'])
     if kind == 'Mul':

@@ -7,6 +7,7 @@ with the same `bin/arm-rockchip830-linux-uclibcgnueabihf-*` names, or set `CC`/`
 you build. The exact upstream tree is pinned in `toolchain_tree.json`.
 """
 import concurrent.futures
+import hashlib
 import json
 from pathlib import Path
 import urllib.request
@@ -29,12 +30,27 @@ def selected(path):
     return False
 
 items = [x for x in tree if x["type"] == "blob" and selected(x["path"])]
+
+
+def blob_sha(data):
+    """The git blob object id of `data`: sha1 over "blob <size>\0" + content."""
+    header = b"blob %d\0" % len(data)
+    return hashlib.sha1(header + data).hexdigest()
+
+
 def fetch(item):
     path = root / item["path"]
     if path.exists() or path.is_symlink():
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     data = urllib.request.urlopen(base + item["path"], timeout=60).read()
+    # The manifest pins every blob by its git object id; without this check a truncated or
+    # substituted download would be written silently and only fail later at link time.
+    expected = item.get("sha")
+    if expected and blob_sha(data) != expected:
+        raise SystemExit("%s: git blob %s does not match the manifest pin %s; refusing to "
+                         "write it (delete %s and retry)"
+                         % (item["path"], blob_sha(data), expected, root))
     if item["mode"] == "120000":
         path.symlink_to(data.decode())
     else:

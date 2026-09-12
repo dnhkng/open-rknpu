@@ -8,8 +8,22 @@ from pathlib import Path
 import struct, tempfile
 import onnx
 from onnx import helper as h
-from .pooling import compile_pool
+from .pooling import compile_pool, pool_reference
 from .register_profile import REGISTERS
+
+
+def reduction_reference(inputs,quantization,kind,levels=3):
+    """Integer reference for the three-stage 8x8->4x4->2x2->1x1 reduction profile.
+
+    The profiles 5/6 container is three linked 2x2/stride-2 pool tasks after one
+    dense Conv, so the reference is the shared `pooling.pool_reference` at three
+    levels. AveragePool rounds each stage separately (half to even) and the sum is
+    deliberately not an unrounded global mean. Board evidence: `reduction_api_suite`
+    profiles 5/6, 256 public-API inferences and 768 exact bytes (`research/README.md`).
+    """
+    if levels!=3:
+        raise ValueError("reduction reference models exactly three 2x2 pooling levels")
+    return pool_reference(inputs,quantization,kind,3)
 
 def compile_reduction(path,output_scale=None,output_zero_point=None,calibration_ranges=None):
     m = onnx.load(path)

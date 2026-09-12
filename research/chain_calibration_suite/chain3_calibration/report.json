@@ -1,0 +1,35 @@
+{
+  "method": "minmax",
+  "input_layout": "NCHW",
+  "input_scale": 1,
+  "input_zero_point": 0,
+  "samples": 24,
+  "files": [
+    "research/chain_calibration_suite/chain3_calibration/cal.npy"
+  ],
+  "tensors": [
+    "r0",
+    "r1",
+    "c2"
+  ],
+  "ranges": {
+    "r0": {
+      "min": 0.0,
+      "max": 168.11294555664062,
+      "scale": 0.659266471862793,
+      "zero_point": -128
+    },
+    "r1": {
+      "min": 0.0,
+      "max": 447.9551086425781,
+      "scale": 1.7566866874694824,
+      "zero_point": -128
+    },
+    "c2": {
+      "min": -354.1036682128906,
+      "max": 213.38169860839844,
+      "scale": 2.225432872772217,
+      "zero_point": 31
+    }
+  }
+}

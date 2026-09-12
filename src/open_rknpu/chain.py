@@ -136,7 +136,8 @@ def compile_chain(path,calibration_ranges=None,output_range=None):
         first_data,meta=compile_model(p,calibration_ranges=calibration_ranges)
     if calibration_ranges is not None and output_range is not None:
         raise ValueError('calibration and chain output override cannot be combined')
-    selected_range=output_range if output_range is not None else (None if calibration_ranges is None else calibration_ranges[b.output[0]])
+    from .calibration import measured_range
+    selected_range=output_range if output_range is not None else measured_range(calibration_ranges,b.output[0])
     q2=native_quantize(w2,constants[b.input[2]],meta["output_scale"],meta["output_zero_point"],selected_range)
     data=bytearray(8192)
     # Independently repack the first program and its generated constants.

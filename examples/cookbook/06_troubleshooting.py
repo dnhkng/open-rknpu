@@ -1,6 +1,6 @@
 """SPDX-License-Identifier: MIT
 
-Cookbook 6/7: what a rejection looks like, and what to do about it.
+Cookbook 6/8: what a rejection looks like, and what to do about it.
 
 Five graphs that are deliberately outside the verified envelope are handed to
 `compile_sequence`. Each must raise `ValueError` with a specific, stable message;

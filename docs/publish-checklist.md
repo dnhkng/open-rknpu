@@ -12,8 +12,8 @@ Effort: **S** < 1 h · **M** ~ half a day · **L** 1–3 days · **XL** > 3 days
 | **PyPI release** | P0 plus the packaging/release-engineering list (metadata, changelog, trusted publishing, install smoke test) |
 | **Announcement** (blog/HN/Reddit) | P1 plus a docs site, a compatibility report and at least one non-toy demo |
 
-Current baseline: 1,008 tests, 99.85 % compiler line coverage (floor 99 %), 2,244-model
-container baseline, 121-row board ledger, 27 documentation pages (~78 k words) plus the
+Current baseline: 1,100 tests, 99.55 % compiler line coverage (floor 99 %), 2,268-model
+container baseline, 124-row board ledger, 27 documentation pages (~78 k words) plus the
 planning records, 5 example sets, ~16,400 tracked files / 38.5 MiB pack.
 
 ## Status after the 2026-09-12 pass
@@ -28,8 +28,8 @@ probe and fresh board evidence, not a checklist pass.
 
 What this pass changed:
 
-* the host suite grew from 873 to **1,008 tests** and the compiler's line coverage from 98 %
-  to **99.85 %**; the nine remaining lines are each proven unreachable, and the table in
+* the host suite grew from 873 to **1,100 tests** and the compiler's line coverage from 98 %
+  to **99.55 %**; every remaining line carries a reason, and the table in
   `docs/verification.md` is **generated from the coverage data** (`research/coverage_doc_table.py`,
   checked in CI) so the claim cannot drift. Two provably dead lines were deleted rather than
   tested;
@@ -101,9 +101,9 @@ What this pass changed:
 
 | # | Item | Value | Effort |
 | --- | --- | --- | --- |
-| F1 | **`MatMul`/`Gemm`** (via 1×1 Conv lowering) | Unlocks most ONNX-zoo classifiers, including the MNIST/Fashion *full* models instead of hybrid CPU suffixes | L |
-| F2 | **1-D convolution** (`kernel_shape [k]` → `[1,k]`) | First step towards audio models; the front end currently rejects rank-3 input | M |
-| F3 | **Calibration parity**: document which profiles accept `calibration_ranges` and add it to the chain/join profiles that lack it | Real models need measured bands; the walk has it, several profiles do not | M |
+| ✅ F1 | **`MatMul`/`Gemm`** (via 1×1 Conv lowering) — `normalize.py` lowers MatMul/Gemm with a constant rank-2 weight (and the Flatten/Reshape-to-[N,C] form) to the verified 1x1 Conv path; `tests/test_dense_lowering.py`; `research/matmul_suite` board-verified `PASS: 12 models, 192 inferences, 1152 exact output bytes` | Unlocks most ONNX-zoo classifiers, including the MNIST/Fashion *full* models instead of hybrid CPU suffixes | L |
+| ✅ F2 | **1-D convolution** (`kernel_shape [k]` → `[1,k]`) — `normalize.py` promotes a rank-3 [N,C,L] graph to [N,C,1,L] in place (pads [a,b] -> [0,a,0,b]); `tests/test_dense_lowering.py`; `research/conv1d_suite` board-verified `PASS: 12 models, 192 inferences, 38464 exact output bytes` | First step towards audio models; the front end currently rejects rank-3 input | M |
+| ✅ F3 | **Calibration parity**: document which profiles accept `calibration_ranges` and add it to the chain/join profiles that lack it — `docs/calibration-cookbook.md` now carries one row per `scheduler.DISPATCH_PROFILES` (33 profiles) with the required measured tensors and the exact rejection messages; the band contract moved into `calibration.measured_range` and is threaded through chain_n, join-chain, diamond, join_dag, pool_join, depthwise_join and join-walk; `tests/test_calibration_parity.py` pins the table against the dispatch set; `research/chain_calibration_suite` is board-verified (`PASS: 6 models, 96 inferences, 18432 exact output bytes`) and shows float MAE 6.96->0.72, 672.8->33.8, 53161.9->251.6 for 3/4/5-layer chains | Real models need measured bands; the walk has it, several profiles do not | M |
 | F4 | **`chain`/`chain_n` border zero point** (`0x1184` left at −128) | 178 of 242 retained chain models lose accuracy versus float; needs new board evidence for the whole family | L |
 | F5 | **Walk coverage**: elementwise ops inside a chain and multi-join DAGs | Removes the "profile-matched" caveats from the docs | L |
 | F6 | **`Concat`/`Slice`/`Resize`/`Softmax`/`ReduceMean`** at least for the bounded cases the hardware supports | Detection/segmentation heads, classification tails | L each |
@@ -111,9 +111,9 @@ What this pass changed:
 | F8 | **dma-buf / zero-copy input** (V4L2/ISP → NPU) | The board is a camera SoC; the real application is a camera pipeline | L |
 | F9 | **Per-job timing / profiling API** | The board has no userspace cycle counter; users need a supported way to measure | M |
 | F10 | **C>128 channel-split accumulation** | Would need the undocumented partial-sum mechanism; keep as a research item | XL |
-| F11 | **Mutable-parameter (v4) workflow**: a supported way to update weights/constants between inferences, with a helper API | v4 descriptors exist but are only reachable through raw containers | M |
-| F12 | **Stable public API surface**: mark which modules are supported (`open_rknpu.scheduler`, `calibration`, `sequence`, `compose`?) and version the container format promise | Users need to know what will not break | M |
-| F13 | **Depthwise `ConvTranspose` integer reference** and the other reference gaps the test expansion documented (`pooling`, `transposed` off-centre taps) | Users cannot self-verify those profiles today | M |
+| ✅ F11 | **Mutable-parameter (v4) workflow**: a supported way to update weights/constants between inferences, with a helper API — `open_rknpu.mutable` (`compile_mutable`, `constant_regions`, `constant_payload`, `graft_region`, `program_bytes`, `replace_constant`) with `tests/test_mutable_api.py` and `examples/cookbook/08_mutable_api.py` | v4 descriptors exist but are only reachable through raw containers | M |
+| ✅ F12 | **Stable public API surface**: mark which modules are supported (`open_rknpu.scheduler`, `calibration`, `sequence`, `compose`?) and version the container format promise — `docs/api-stability.md` (supported vs internal, exact signatures, the `meta`-key and container-format promises, the 0.x deprecation policy) plus `tests/test_public_api.py`, which pins the names and signatures | Users need to know what will not break | M |
+| ✅ F13 | **Depthwise `ConvTranspose` integer reference** and the other reference gaps the test expansion documented (`pooling`, `transposed` off-centre taps) — `transposed.transposed_reference`, `pooling.pool_reference`, `reduction.reduction_reference`, `network.network_reference`, all replayed byte-for-byte against the retained board evidence (91 transposed models / 1,016 cases, pool_api 256, scheduled_pool 96, reduction_api 256, network_suite 896); `tests/test_reference_coverage.py` pins the inventory. The two remaining container-only paths (`two_head`, `spatial_reshape`) and the ONNX-less `transpose_stem_debug_suite` are documented as out of scope | Users cannot self-verify those profiles today | M |
 | ✅ F14 | **Documented blocked features** (clock scaling, fences, IOMMU, SRAM) as a first-class "known limitations" page rather than log entries | Sets expectations and stops repeat questions | S |
 
 ### Tests
@@ -133,7 +133,7 @@ What this pass changed:
 | ✅ T11 | **Performance regression harness** (host compile time; board numbers recorded, not gated) | Compile-time regressions are silent today | M |
 | ✅ T12 | **Evidence-integrity tests for all suites**: checksum/manifest cross-checks beyond the sampled replay | The ledger test covers counts; deeper integrity is sampled | S |
 | ✅ T13 | **`tests/board_*.c` host compile + the `runtime/main.c` CLI** | Same as T3, for the user-facing runner | S |
-| T14 | **Fetch-script tests** (URL pins, sha256 mismatch handling) without network | Keeps datasets reproducible | S |
+| ✅ T14 | **Fetch-script tests** (URL pins, sha256 mismatch handling) without network — `tests/test_fetch_scripts.py` covers the three fetchers offline (pins, accept, exact mismatch/connection messages, no-socket assertion); `research/fetch_toolchain.py` now verifies every downloaded file against its pinned git blob id | Keeps datasets reproducible | S |
 
 ### Documentation
 
@@ -164,13 +164,13 @@ What this pass changed:
 | ✅ E4 | **Batched + pipelined throughput** demo with a measured comparison | The 1.5–2.25× pipeline result deserves a runnable example | M |
 | E5 | **Camera/V4L2 → NPU** pipeline | The board's actual purpose; currently no example | L |
 | ✅ E6 | **Wheel-installed usage** (install from the wheel, compile, inspect) | Proves the distribution works outside the checkout | S |
-| E7 | **Depthwise-separable classifier** (depthwise + pointwise + pool) | The most common mobile block, currently only implied | M |
+| ✅ E7 | **Depthwise-separable classifier** (depthwise + pointwise + pool) — `examples/depthwise_separable/` (chain-walk, 8x8x3 -> 4x4x4, 4 tasks) with `tests/test_example_depthwise_separable.py`; board run `cases=8 inferences=8 exact_bytes=512 mismatches=0` | The most common mobile block, currently only implied | M |
 | ✅ E8 | **ONNX-zoo compatibility report**: run a set of small zoo models, record accept/reject and why | The best possible answer to "will it run my model?" | M |
-| E9 | **Benchmark harness example** (N models, latency/throughput table) | Reusable by users | M |
+| ✅ E9 | **Benchmark harness example** (N models, latency/throughput table) — `examples/benchmark/` (`bench.py --board --runner bench --stat min`) with `tests/test_example_benchmark.py`; four previously empty board rows now measured by the harness (chain_suite 0.026 ms, sequence_suite 0.078 ms, two_head_suite 0.058 ms, walk_chain_suite 0.044 ms, min of 5) | Reusable by users | M |
 | ✅ E10 | **Troubleshooting example**: feed an unsupported graph, show how to read the rejection and what to do | Turns error messages into a teaching moment | S |
 | ✅ E11 | **Notebook/Colab walkthrough** for the host path | Lowers the barrier for the library audience | M |
 | E12 | **Audio VAD** (the Silero study lists exactly what is missing: 1-D conv, C129, LSTM, dynamic shapes) | High-visibility application; gated on F2/F6 | L |
-| E13 | **Multi-model scheduling example** (two containers alternating, shared arena lessons) | Shows the runtime's per-model lifecycle | S |
+| ✅ E13 | **Multi-model scheduling example** (two containers alternating, shared arena lessons) — `examples/multi_model/` with `tests/test_example_multi_model.py`; board run `PASS: 2 models, 800 inferences, 1843200 exact bytes, one open per model` (A 2.080 ms, B 4.987 ms, total 3.534 ms per inference) | Shows the runtime's per-model lifecycle | S |
 
 ### CI, automation, community
 
@@ -180,7 +180,7 @@ What this pass changed:
 | ✅ A2 | **Docs-site deploy workflow** | Pairs with D12 | S |
 | ✅ A3 | **Issue/PR templates**, `SUPPORT.md`, discussions | Directs the first wave of questions | S |
 | ✅ A4 | **Dependabot** for GitHub Actions, `pre-commit` (ruff), `.editorconfig`, `.gitattributes` | Repository hygiene | S |
-| A5 | **Branch protection + required checks documentation** | Keeps the baseline/coverage gates honest | S |
+| ✅ A5 | **Branch protection + required checks documentation** — `docs/branch-protection.md`: the required contexts, the ruleset JSON, the failure playbook and the local reproduction of every gate; `docs.yml` gained a `pull_request` trigger so the strict site build can be a required check | Keeps the baseline/coverage gates honest | S |
 | ✅ A6 | **Evidence storage decision**: 16 k files / 38 MB pack. Document it, or move the per-suite artifacts to release assets and keep the manifests/READMEs in-tree | Clone weight and GitHub limits | M |
 | A7 | **Signed tags / build provenance** (later: SLSA, Sigstore) | Supply-chain expectations | M |
 | ✅ A8 | **Code of conduct, security policy, support policy, contributor list, citation** (same as D11) | Community baseline | S |

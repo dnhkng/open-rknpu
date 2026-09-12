@@ -81,7 +81,8 @@ def compile_model(path, output_scale=None, output_zero_point=None, calibration_r
     if bias.shape!=(channels,) or bias.dtype!=np.float32:
         raise ValueError("bias must be float32 [output_channels]")
     if calibration_ranges is not None:
-        entry=calibration_ranges[final_node.output[0]]
+        from .calibration import measured_range
+        entry=measured_range(calibration_ranges,final_node.output[0])
         output_scale,output_zero_point=entry["scale"],entry["zero_point"]
     quantization=quantize(weights,bias,output_scale,output_zero_point,relu,input_scale,input_zero_point)
     # Keep the active command program only. Pack weights immediately after it,

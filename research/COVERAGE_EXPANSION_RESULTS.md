@@ -530,7 +530,10 @@ legacy-C1, halfway-rounding and first transposed probes.
 | [walk_chain](walk_chain_suite/) | 12 | 192 | 6,368 |
 | [walk_join](walk_join_suite/) | 6 | 96 | 4,608 |
 | [mel_kws](mel_kws_suite/) | 16 | 16 | 10,240 |
-| **Total** | **1,696** | **28,266** | **10,216,467** |
+| [matmul](matmul_suite/) | 12 | 192 | 1,152 |
+| [conv1d](conv1d_suite/) | 12 | 192 | 38,464 |
+| [chain_calibration](chain_calibration_suite/) | 6 | 96 | 18,432 |
+| **Total** | **1,726** | **28,746** | **10,274,515** |
 
 ## Final validation for this pass
 

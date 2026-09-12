@@ -49,6 +49,19 @@ def range_to_quantization(entry):
     return scale,zero_point
 
 
+def measured_range(ranges,name):
+    """The measured `(scale, zero_point)` band for `name`, or `None` without a report.
+
+    This is the one band-selection contract every profile shares: `None` means "no
+    calibration" (the emitter keeps its analytic band), and a missing tensor fails
+    closed with the scheduler's documented message rather than a `KeyError`.
+    """
+    if ranges is None:return None
+    entry=ranges.get(name)
+    if entry is None:raise ValueError("calibration ranges lack tensor "+str(name))
+    return dict(scale=float(entry["scale"]),zero_point=int(entry["zero_point"]))
+
+
 def _quantile(hist,edges,q):
     """The `q`-quantile of a histogram as an interval `(lo, hi)`."""
     total=float(hist.sum())

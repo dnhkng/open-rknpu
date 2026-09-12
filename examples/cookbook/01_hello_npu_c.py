@@ -1,6 +1,6 @@
 """SPDX-License-Identifier: MIT
 
-Cookbook 1/7: the smallest C program, and the container it runs.
+Cookbook 1/8: the smallest C program, and the container it runs.
 
 This script compiles one tiny `Conv` to a container under
 `examples/cookbook/build/01_hello_npu_c/`, writes one deterministic packed input,

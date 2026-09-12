@@ -53,7 +53,7 @@ board-io:  ## cross-compile the v5 board runner with the fetched toolchain
 board-suite: board-io  ## run one published suite on the board, e.g. make board-suite SUITE=walk_chain_suite
 	PYTHONPATH=$(PYTHONPATH) $(PYTHON) research/run_v5_suite.py $(SUITE) --binary /tmp/board_io
 
-baseline:  ## recompile all 2,244 suite models against the checked-in baseline
+baseline:  ## recompile all 2,268 suite models against the checked-in baseline
 	PYTHONPATH=$(PYTHONPATH) $(PYTHON) research/verify_suites.py
 
 campaign:  ## recompile the campaign suites and diff the published containers

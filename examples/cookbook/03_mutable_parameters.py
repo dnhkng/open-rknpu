@@ -1,6 +1,6 @@
 """SPDX-License-Identifier: MIT
 
-Cookbook 3/7: mutable packed parameters (`ornpu_set_constant`).
+Cookbook 3/8: mutable packed parameters (`ornpu_set_constant`).
 
 `docs/plans/pipelining-plan.md` and `docs/container-format.md` describe the v4
 container: alongside the task table it carries *named packed constant regions*.

@@ -253,7 +253,7 @@ def _adjusted(params):
     return float(np.float32(scale * max(128 + zero, 127 - zero) / 127))
 
 
-def _prepare(model, spec, stem_scale, stem_zp):
+def _prepare(model, spec, stem_scale, stem_zp, ranges=None):
     """Quantize every branch layer in order, then propagate the join bands.
 
     A layer's input band is the previous layer's output band (the stem's for the first
@@ -262,7 +262,14 @@ def _prepare(model, spec, stem_scale, stem_zp):
     at the band an Add/Sub/Max join demands. Mul joins fold two free scales and commit
     both; Add/Sub/Max capture one shared band, re-quantizing an uncommitted branch
     output and rejecting a tensor a later join wants on a different band.
+
+    With `ranges` (an `open_rknpu.calibration.measure` report) every layer whose measured
+    tensor has an entry uses that measured band as its natural band instead of the
+    analytic one, through the same `measured_range` helper the other profiles use. A
+    branch final that a join re-quantizes onto zero point 0 still moves, exactly as it
+    does on the analytic path.
     """
+    from .calibration import measured_range
     g = model.graph
     t = spec['stem_nodes'][-1].output[0]
     branches = []
@@ -270,8 +277,9 @@ def _prepare(model, spec, stem_scale, stem_zp):
         entries = []
         input_scale, input_zp = stem_scale, stem_zp
         for layer in layers:
+            measured = measured_range(ranges, layer['node'].output[0]) if ranges is not None else None
             if layer['kind'] == 'dense':
-                natural = native_quantize(layer['weights'], layer['bias'], input_scale, input_zp, None)
+                natural = native_quantize(layer['weights'], layer['bias'], input_scale, input_zp, measured)
                 entry = dict(kind='dense', layer=layer, natural_scale=_adjusted(natural),
                              quantization=natural, standalone=None)
             else:
@@ -283,7 +291,7 @@ def _prepare(model, spec, stem_scale, stem_zp):
                     value_info=[h.make_tensor_value_info(t, 1, [1, spec['hidden'], 8, 8])]),
                     opset_imports=list(model.opset_import))
                 standalone.ir_version = model.ir_version
-                _, natural_meta = compile_depthwise(standalone)
+                _, natural_meta = compile_depthwise(standalone, output_range=measured)
                 entry = dict(kind='depthwise', layer=layer, natural_scale=_adjusted(natural_meta),
                              standalone=standalone, quantization=natural_meta['depthwise'])
             entries.append(entry)
@@ -363,11 +371,13 @@ def _prepare(model, spec, stem_scale, stem_zp):
     return branches, by_name, scales
 
 
-def compile_join_dag(model, output_range=None, serial=True):
+def compile_join_dag(model, output_range=None, serial=True, calibration_ranges=None):
     """Compile a general join expression DAG with multi-layer branches on one stem."""
     onnx.checker.check_model(model)
     if any(n.domain not in ('', 'ai.onnx') for n in model.graph.node):
         raise ValueError('join DAG requires default-domain nodes')
+    if calibration_ranges is not None and output_range is not None:
+        raise ValueError('calibration and output quantization overrides cannot be combined')
     spec = _validate(model)
     pool_kind = spec['pool'].op_type if spec['pool'] is not None else None
     g = model.graph
@@ -383,10 +393,10 @@ def compile_join_dag(model, output_range=None, serial=True):
     with tempfile.TemporaryDirectory() as tmp:
         stem_path = Path(tmp) / 'stem.onnx'
         onnx.save(first, stem_path)
-        stem_data, stem_meta = compile_model(stem_path)
+        stem_data, stem_meta = compile_model(stem_path, calibration_ranges=calibration_ranges)
     stem_scale = stem_meta['output_scale']
     stem_zp = stem_meta['output_zero_point']
-    branches, by_name, scales = _prepare(model, spec, stem_scale, stem_zp)
+    branches, by_name, scales = _prepare(model, spec, stem_scale, stem_zp, calibration_ranges)
     # Program layout: stem, one 0x440 slot per branch layer, one 78-word slot per join,
     # then packed constants and the liveness-placed arena.
     surface = 8 * 8 * 16

@@ -23,6 +23,7 @@ documents are ordered from "run your first model" to "recover a new register fie
 | [registers.md](registers.md) | the generated task-register reference: every register a task writes, its default, and what is decoded versus still unknown |
 | [errors.md](errors.md) | the generated error index: every user-facing message, where it comes from and what to do about it |
 | [api.md](api.md) | the Python API surface and the module inventory |
+| [api-stability.md](api-stability.md) | what is supported and frozen in 0.x, what is internal, the container-format promise and the deprecation policy |
 | [verification.md](verification.md) | the evidence discipline: exactness versus the Python reference, the container baseline, the board ledger, the campaign sweep, and how to add a suite |
 | [mutation-testing.md](mutation-testing.md) | the mutation-testing report: how the mutants are generated and bounded, the per-module scores, every surviving mutant and whether it is a test gap |
 | [roadmap.md](roadmap.md) | what is supported today, what is deliberately out of scope, and the measured residuals |
@@ -48,6 +49,7 @@ documents are ordered from "run your first model" to "recover a new register fie
 | [provenance.md](provenance.md) | where the knowledge came from: board experiments, public kernel sources read as documentation, and the vendor runtime as a black-box oracle |
 | [evidence-storage.md](evidence-storage.md) | why the 16 k-file evidence tree stays in Git, the measured size, what is deliberately not stored, and the trigger to migrate |
 | [publish-checklist.md](publish-checklist.md) | the pre-publication gap analysis: blockers, missing features, tests, documentation and examples, with effort estimates |
+| [branch-protection.md](branch-protection.md) | the required checks on `main`, the ruleset to apply, and how to reproduce every gate locally |
 | [plans/](plans/) | the internal planning records: completion plan, pipelining plan, cleanup plan, primitive roadmap, coverage matrix, project goals, milestone record |
 
 Examples with measured board results live in [`../examples/`](../examples/README.md):

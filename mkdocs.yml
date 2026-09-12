@@ -85,6 +85,7 @@ nav:
       - Registers: registers.md
       - Errors: errors.md
       - Api: api.md
+      - Api Stability: api-stability.md
       - Verification: verification.md
       - Mutation Testing: mutation-testing.md
       - Roadmap: roadmap.md
@@ -101,6 +102,7 @@ nav:
       - Investigation Log: investigation-log.md
       - Provenance: provenance.md
       - Evidence Storage: evidence-storage.md
+      - Branch Protection: branch-protection.md
       - Publish Checklist: publish-checklist.md
       - Plans:
           - Readme: plans/README.md

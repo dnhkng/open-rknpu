@@ -524,10 +524,31 @@ class QuantizedImportFrontEndTests(_PathMixin, unittest.TestCase):
 class UnsupportedInputTests(_PathMixin, unittest.TestCase):
     """Unsupported ONNX shapes and operators are rejected loudly."""
 
-    def test_one_dimensional_convolution(self):
-        self.reject_saved("static NCHW input required", one_dimensional_conv())
-        with self.assertRaisesRegex(ValueError, re.escape("native Conv requires static batch1..16")):
-            compile_native_input(one_dimensional_conv())
+    def test_one_dimensional_convolution_is_promoted_to_height_one(self):
+        """F2: a rank-3 [N,C,L] Conv compiles as the rank-4 [N,C,1,L] form.
+
+        The bytes are the same, so the promotion is algebraic; the container reports the
+        promoted geometry and the decoded shape must match the rank-4 equivalent exactly.
+        """
+        from open_rknpu.sequence import decode_sequence
+        binary, _meta = self.compile_saved(one_dimensional_conv())
+        info = decode_sequence(binary)
+        # decode_sequence reports NHWC: [N, H, W, C].
+        self.assertEqual(info["shape_nhwc"], [1, 1, 8, 3])
+        self.assertEqual(info["output_shape_nhwc"], [1, 1, 8, 4])
+        self.assertEqual(info["task_count"], 1)
+
+        # A rank-3 graph with a node the promotion cannot rewrite stays rejected, with the
+        # node named, rather than being half-promoted.
+        model = one_dimensional_conv()
+        node = h.make_node("Flatten", ["y"], ["z"], axis=1)
+        model.graph.node.append(node)
+        model.graph.output[0].name = "z"
+        model.graph.output[0].type.tensor_type.shape.dim[0].dim_value = 1
+        model.graph.output[0].type.tensor_type.shape.dim[1].dim_value = 32
+        del model.graph.output[0].type.tensor_type.shape.dim[2:]
+        with self.assertRaisesRegex(ValueError, re.escape("1-D rank promotion requires rank-3 outputs")):
+            self.compile_saved(model)
 
     def test_matmul_softmax_and_concat(self):
         message = "sequence lowering requires one input, one output, and an initial Conv"

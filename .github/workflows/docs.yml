@@ -7,6 +7,13 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - ".github/workflows/docs.yml"
+  # The same paths on a pull request: the strict build is a reviewable check, not only a
+  # post-merge one. The deploy job is gated to non-PR events below.
+  pull_request:
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/docs.yml"
   workflow_dispatch:
 
 permissions:
@@ -60,7 +67,7 @@ jobs:
 
       - name: configure GitHub Pages
         id: pages
-        if: steps.mkdocs.outputs.present == 'true'
+        if: steps.mkdocs.outputs.present == 'true' && github.event_name != 'pull_request'
         continue-on-error: true
         uses: actions/configure-pages@v5
 
@@ -74,7 +81,10 @@ jobs:
     name: deploy to GitHub Pages
     needs: build
     # Nothing to deploy when `mkdocs.yml` is absent or Pages is not enabled yet.
-    if: needs.build.outputs.present == 'true' && needs.build.outputs.pages == 'success'
+    if: >-
+      github.event_name != 'pull_request'
+      && needs.build.outputs.present == 'true'
+      && needs.build.outputs.pages == 'success'
     runs-on: ubuntu-latest
     permissions:
       pages: write

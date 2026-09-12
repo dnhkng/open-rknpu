@@ -61,7 +61,10 @@ Rules the scheduler enforces:
 
 * calibration and an explicit `output_range` cannot be combined — put the output band in
   the report instead (`ranges["output"]`), which is what `examples/mel-kws/build.py` does;
-* profiles that have no calibration path reject it rather than ignoring it;
+* profiles that have no calibration path reject it rather than ignoring it; the
+  per-profile answer — which profiles accept `calibration_ranges`, which accept
+  `output_range`, and which tensor names each one needs — is tabulated in
+  [calibration-cookbook.md](calibration-cookbook.md#which-profiles-accept-calibration);
 * a Conv that feeds a pool is still re-quantized onto a zero-point-0 grid, because the DPU
   pool task assumes it.
 
@@ -90,5 +93,5 @@ same units the hardware sees.
 | --- | --- |
 | INT8 accuracy at chance while the float model is fine | analytic bands too wide (no calibration), or a band that collapses a later grid onto its zero point |
 | good accuracy, a handful of differing bytes | reference-vs-hardware rounding ties in one Conv, not a structural error — localize with per-stage probes (see `research/mel_kws_suite/README.md`) |
-| a profile rejects calibration | that profile has no measured band path; use a profile that has one (the walk does) |
+| a profile rejects calibration | that profile has no measured band path; the table in [calibration-cookbook.md](calibration-cookbook.md#which-profiles-accept-calibration) says which profiles have one |
 | output band saturated | the output override is narrower than the real logit range; widen it or calibrate |

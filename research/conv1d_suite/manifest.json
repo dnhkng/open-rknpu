@@ -1,0 +1,401 @@
+[
+  {
+    "index": 0,
+    "label": "conv1d-c3-k3-p1-l16",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      16,
+      3
+    ],
+    "output_shape": [
+      1,
+      1,
+      16,
+      4
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 64
+  },
+  {
+    "index": 1,
+    "label": "conv1d-c3-k3-p1-l16-relu",
+    "ops": [
+      "Conv",
+      "Relu"
+    ],
+    "input_shape": [
+      1,
+      1,
+      16,
+      3
+    ],
+    "output_shape": [
+      1,
+      1,
+      16,
+      4
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 64
+  },
+  {
+    "index": 2,
+    "label": "conv1d-c1-k3-p1-l32",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      32,
+      1
+    ],
+    "output_shape": [
+      1,
+      1,
+      32,
+      8
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 256
+  },
+  {
+    "index": 3,
+    "label": "conv1d-c1-k3-p1-l32-relu",
+    "ops": [
+      "Conv",
+      "Relu"
+    ],
+    "input_shape": [
+      1,
+      1,
+      32,
+      1
+    ],
+    "output_shape": [
+      1,
+      1,
+      32,
+      16
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 512
+  },
+  {
+    "index": 4,
+    "label": "conv1d-c3-k5-p2-l40",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      40,
+      3
+    ],
+    "output_shape": [
+      1,
+      1,
+      40,
+      8
+    ],
+    "profile": "native16-input",
+    "kernel": 5,
+    "pads": [
+      0,
+      2,
+      4,
+      2
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 320
+  },
+  {
+    "index": 5,
+    "label": "conv1d-c3-k5-p2-l40-relu",
+    "ops": [
+      "Conv",
+      "Relu"
+    ],
+    "input_shape": [
+      1,
+      1,
+      40,
+      3
+    ],
+    "output_shape": [
+      1,
+      1,
+      40,
+      8
+    ],
+    "profile": "native16-input",
+    "kernel": 5,
+    "pads": [
+      0,
+      2,
+      4,
+      2
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 320
+  },
+  {
+    "index": 6,
+    "label": "conv1d-c1-k5-p2-l64",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      64,
+      1
+    ],
+    "output_shape": [
+      1,
+      1,
+      64,
+      4
+    ],
+    "profile": "native16-input",
+    "kernel": 5,
+    "pads": [
+      0,
+      2,
+      4,
+      2
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 256
+  },
+  {
+    "index": 7,
+    "label": "conv1d-c3-k2-p0-l24",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      24,
+      3
+    ],
+    "output_shape": [
+      1,
+      1,
+      23,
+      4
+    ],
+    "profile": "native16-input",
+    "kernel": 2,
+    "pads": [
+      0,
+      0,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 92
+  },
+  {
+    "index": 8,
+    "label": "conv1d-c3-k3-p1-s2-l32",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      32,
+      3
+    ],
+    "output_shape": [
+      1,
+      1,
+      16,
+      8
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "cases": 16,
+    "output_bytes": 128
+  },
+  {
+    "index": 9,
+    "label": "conv1d-c1-k3-p1-s2-l48",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      48,
+      1
+    ],
+    "output_shape": [
+      1,
+      1,
+      24,
+      8
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      2
+    ],
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 10,
+    "label": "conv1d-c3-k3-p0-l20",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      20,
+      3
+    ],
+    "output_shape": [
+      1,
+      1,
+      18,
+      4
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      0,
+      2,
+      0
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 72
+  },
+  {
+    "index": 11,
+    "label": "conv1d-c1-k3-p1-l128",
+    "ops": [
+      "Conv"
+    ],
+    "input_shape": [
+      1,
+      1,
+      128,
+      1
+    ],
+    "output_shape": [
+      1,
+      1,
+      128,
+      1
+    ],
+    "profile": "native16-input",
+    "kernel": 3,
+    "pads": [
+      0,
+      1,
+      2,
+      1
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "cases": 16,
+    "output_bytes": 128
+  }
+]

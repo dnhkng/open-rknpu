@@ -129,6 +129,7 @@ def render(suite):
         % (len(containers), len(outputs), len(inputs), evidence),
         "",
     ]
+    pinned = {"profiles": set(), "formats": set(), "models": 0, "cases": 0}
     if entries:
         lines += ["## Models", "",
                   "| model | profile / ops | input (band) | output (band) | tasks | cases |",
@@ -145,6 +146,18 @@ def render(suite):
             output_shape = "x".join(str(v) for v in info["output_shape_nhwc"]) if info else \
                 shape_text(entry, "output_shape", "output_shape_nhwc")
             tasks = info.get("task_count") if info else None
+            pinned["models"] += 1
+            if info:
+                # The manifest usually names the profile; a sequence container does not
+                # carry one, so fall back to its format.
+                label = summarize(entry, None)
+                if label == "-":
+                    label = info.get("profile") if info.get("profile") is not None else \
+                        info.get("sequence_profile")
+                pinned["profiles"].add(str(label) if label and label != "-"
+                                       else "container=v%s" % info.get("format_version"))
+                pinned["formats"].add("v%s" % info.get("format_version"))
+            pinned["cases"] += int(entry.get("cases") or 0)
             lines.append("| %03d | %s | %s (%s) | %s (%s) | %s | %s |" % (
                 int(index), summarize(entry, info), input_shape, band(info, "input"),
                 output_shape, band(info, "output"), tasks if tasks is not None else "-",
@@ -166,9 +179,27 @@ def render(suite):
     lines += [
         "* run it on the board: `make board-suite SUITE=%s` (needs `$ADB` and the cross toolchain)" % suite.name,
         "* recompile without hardware: `PYTHONPATH=src python research/verify_suites.py`", "",
-        "## Notes", "",
-        "Add what this suite demonstrates, the bound it pins and any caveat here; this section is",
-        "never regenerated once you edit the file (the marker only matters for untouched pages).",
+        "## What this suite pins", "",
+    ]
+    profiles = ", ".join(sorted(pinned["profiles"])) or "the manifest names no profile"
+    formats = ", ".join(sorted(pinned["formats"])) or "unknown"
+    reference_bytes = sum(path.stat().st_size for path in outputs)
+    lines += [
+        "* **Profile(s)**: %s over %d container(s)." % (profiles, pinned["models"]),
+        "* **Container format(s)**: %s." % formats,
+        "* **Cases**: %s input file(s), %s reference output file(s), %d reference byte(s)%s."
+        % (len(inputs), len(outputs), reference_bytes,
+           "; the manifest records %d case(s)" % pinned["cases"] if pinned["cases"] else ""),
+    ]
+    if generator.is_file():
+        lines.append("* **Generator**: `research/%s`; recompiling it is the reproducibility "
+                     "check (`research/verify_suites.py`)." % generator.name)
+    lines += [
+        "",
+        "This page is generated from the manifest and the containers themselves by",
+        "`research/build_suite_readmes.py`; `--check` fails when it drifts. For hand-written",
+        "context (what the bound means, what failed first, which register field it exercises),",
+        "edit the page and delete the `%s` marker: the generator then leaves it alone." % MARKER,
         "",
     ]
     return "\n".join(lines)

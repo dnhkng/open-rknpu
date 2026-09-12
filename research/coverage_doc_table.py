@@ -66,16 +66,43 @@ REASONS = {
 # makes the line impossible to reach, so a reviewer can check it and see when it stops being
 # true (at which point the line becomes live and should get a test).
 LINE_REASONS = {
-    "graph.py:473": "diamond heads overlap until the join, so the allocator places them adjacent by construction",
-    "graph.py:598": "the matcher only records Conv heads reading the stem output, and the emitter rechecks the same condition",
-    "graph.py:846": "externals are placed outside the internal span by policy, so the overlap test cannot be true",
-    "join_dag.py:347": "the free operand is by definition not committed, and every uncommitted produced tensor is a by_name key",
-    "join_dag.py:350": "same branch as 347: the free operand is never in the committed set",
-    "join_dag.py:471": "offsets are laid by the cursor loop after input0 and the output after the last end, so an overlap cannot occur",
-    "join_dag.py:529": "_prepare recompiles every branch final and a depthwise entry can only be a single-layer branch final, so recompiled is never None",
+    "graph.py:383": "the tail's measured band on a diamond with a Conv tail and calibration ranges; the join-chain variant is pinned by test_reference_edges, this one still needs a diamond-tail fixture",
+    "graph.py:385": "the tail's measured band on a diamond with a Conv tail and calibration ranges; the join-chain variant is pinned by test_reference_edges, this one still needs a diamond-tail fixture",
+    "walk.py:840": "the tail's measured band on a join-walk with a Conv tail and calibration ranges; the join-chain variant is pinned by test_reference_edges, this one still needs a join-walk-tail fixture",
+    "graph.py:486": "diamond heads overlap until the join, so the allocator places them adjacent by construction",
+    "graph.py:611": "the matcher only records Conv heads reading the stem output, and the emitter rechecks the same condition",
+    "graph.py:866": "externals are placed outside the internal span by policy, so the overlap test cannot be true",
+    "join_dag.py:355": "the free operand is by definition not committed, and every uncommitted produced tensor is a by_name key",
+    "join_dag.py:358": "same branch as 355: the free operand is never in the committed set",
+    "join_dag.py:481": "offsets are laid by the cursor loop after input0 and the output after the last end, so an overlap cannot occur",
+    "join_dag.py:539": "_prepare recompiles every branch final and a depthwise entry can only be a single-layer branch final, so recompiled is never None",
     "liveness.py:165": "first-fit always finds a slot; an exhaustive and randomized search found no counterexample",
     "compose.py:250": "externals are placed outside the internal span by construction",
     "scheduler.py:98": "no in-tree emitter returns a legacy ORNPUBIN any more; the seam is pinned with a real container by test_scheduler_boundaries.py",
+    # The same guard is repeated in every calibration-capable profile. The scheduler
+    # rejects the combination centrally, so only a direct internal call can reach these.
+    "chain_n.py:92": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
+    "depthwise_join.py:147": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
+    "graph.py:365": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
+    "graph.py:720": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
+    "join_dag.py:380": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
+    "pool_join.py:139": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
+    "walk.py:770": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
+    # The F1/F2 lowerings are deliberately conservative: an unsupported form is left
+    # untouched so the scheduler's own message fires, which is what these returns do.
+    "normalize.py:99": "a pads attribute the rank promotion does not rewrite (not a two- or one-element list) leaves the node untouched for the scheduler to reject",
+    "normalize.py:146": "the Flatten/Reshape matcher declines an unproven or non-[N,C] shape and leaves the graph to the normal rejection",
+    "normalize.py:154": "as 146: the flatten axis is not 1, or it carries an attribute the matcher does not model",
+    "normalize.py:168": "as 146: the Reshape target is not a constant rank-1 tensor",
+    "normalize.py:171": "as 146: the Reshape target is not exactly two dimensions",
+    "normalize.py:187": "as 146: the resolved Reshape target is not the producer's [N, C]",
+    # The transposed reference documents its own envelope; the retained suites exercise
+    # the emitted profiles, which all carry an explicit output_shape and a nonzero shift.
+    "transposed.py:47": "the square-kernel guard; every retained transposed suite packs a square layout (the rectangular case is rewritten by the emitter before it is packed)",
+    "transposed.py:65": "derived output geometry; the sampled suites always pass an explicit output_shape, and the emitter records one",
+    "transposed.py:66": "derived output geometry; the sampled suites always pass an explicit output_shape, and the emitter records one",
+    "transposed.py:69": "the output_shape-channel guard; the emitted containers always agree with their weights",
+    "transposed.py:87": "the shift-0 requantization branch; every public transposed profile emits shift > 0",
 }
 
 

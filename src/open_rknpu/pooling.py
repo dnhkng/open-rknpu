@@ -2,9 +2,11 @@
 """Independent experimental Conv[/Relu] plus 2x2 stride-2 pool emitter."""
 from pathlib import Path
 import struct, tempfile
+import numpy as np
 import onnx
 from onnx import helper as h
 from .compiler import compile_model
+from .quantization import reference
 from .register_profile import REGISTERS
 POOL = [(24580, 14), (28676, 14), (24588, 7), (24592, 7), (24596, 15), (24600, 3), (24604, 3), (24608, 15), (24612, 17), (24628, 1114369), (24632, 0), (24636, 0), (24640, 0), (24644, 524160), (24648, 524160), (24652, 524160), (24656, 524160), (24660, 0), (24664, 0), (24668, 0), (24672, 0), (24676, 0), (24680, 0), (24684, 0), (24688, 12288), (24700, 256), (24708, 256), (24796, 3), (28684, 7), (28688, 7), (28692, 15), (28700, 4096), (28708, 128), (28712, 1024), (28720, 64), (32808, 12), (32812, 4294967295)]
 
@@ -30,6 +32,47 @@ def pool_registers(kind,input_height,input_width,output_height,output_width,
 def pool_tag(register):
     """Descriptor tag for a pool register word (three address ranges)."""
     return 0x4001 if register<0x7000 else 0x8001 if register<0x8000 else 0x401
+
+
+def _validate_pool(kind,levels):
+    if kind not in ("MaxPool","AveragePool"):
+        raise ValueError("pool reference supports MaxPool or AveragePool")
+    if not isinstance(levels,int) or levels<1:
+        raise ValueError("pool reference requires at least one 2x2 pooling level")
+
+
+def pool_codes_reference(codes,kind,levels=1):
+    """`levels` 2x2/stride-2 pool stages on an already-requantized INT8 grid.
+
+    Shared by `pool_reference` and `network_reference`: MaxPool keeps the signed 2x2
+    block maximum, AveragePool rounds the mean of the four codes half to even, and the
+    unpaired last row/column of an odd-sized grid is dropped to match the emitted
+    floor() geometry.
+    """
+    _validate_pool(kind,levels)
+    codes=np.asarray(codes)
+    for _ in range(levels):
+        height,width=codes.shape[0]//2,codes.shape[1]//2
+        blocks=codes[:height*2,:width*2].reshape(height,2,width,2,codes.shape[2]).astype(np.int64)
+        codes=blocks.max(axis=(1,3)) if kind=="MaxPool" else np.rint(blocks.sum(axis=(1,3))/4.0)
+        codes=np.clip(codes,-128,127).astype(np.int8)
+    return codes
+
+
+def pool_reference(inputs,quantization,kind,levels=1):
+    """Integer reference for the Conv[/Relu] plus `levels` 2x2/stride-2 pool profile.
+
+    Replays the emitted task arithmetic from the container's own quantization
+    parameters: the stem is `quantization.reference` (per-channel conversion,
+    multiplier/shift and clip), then `pool_codes_reference` applies every pool stage.
+
+    Board evidence (all byte-exact, recorded in `research/README.md`):
+    `pool_api_suite` profiles 3/4 (256 public-API inferences, 12,288 bytes),
+    `reduction_api_suite` profiles 5/6 (768 bytes) and `scheduled_pool_suite`
+    (12 models, 96 runs, 88,320 bytes).
+    """
+    _validate_pool(kind,levels)
+    return pool_codes_reference(reference(inputs,quantization),kind,levels)
 
 
 def compile_pool(path,output_scale=None,output_zero_point=None,calibration_ranges=None):

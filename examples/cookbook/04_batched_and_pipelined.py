@@ -1,6 +1,6 @@
 """SPDX-License-Identifier: MIT
 
-Cookbook 4/7: serial vs batched vs the deep-chain (double-buffered) container.
+Cookbook 4/8: serial vs batched vs the deep-chain (double-buffered) container.
 
 The same 8-layer `Conv/Relu` chain is compiled three ways and the containers are
 compared structurally:

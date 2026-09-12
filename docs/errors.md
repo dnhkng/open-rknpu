@@ -13,7 +13,7 @@ Messages a variable completes are shown as their literal prefix followed by
 *(dynamic message)*.  The index is a generated file - edit
 `research/build_reference_docs.py` (its meaning table) and rerun it, never this file.
 
-This index covers 548 messages across 35 modules; 2 are pure expressions with no literal text and are marked *dynamic*.
+This index covers 575 messages across 37 modules; 2 are pure expressions with no literal text and are marked *dynamic*.
 
 ## `accuracy.py`
 
@@ -40,16 +40,17 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
 | `invalid calibration scale` | `calibration.py:47` | A calibration scale is not a positive finite float; recalibrate the graph. |
-| `percentile must be in (0,100]` | `calibration.py:69` | The percentile method needs a percentile greater than 0 and at most 100. |
-| `calibration method must be one of %s` **+ dynamic suffix** | `calibration.py:131` | Pick one of the listed calibration methods (minmax, percentile, ...). |
-| `calibration requires exactly one graph input` | `calibration.py:136` | Calibration only supports a single external input. |
-| `calibration requires a static rank-four NCHW input` | `calibration.py:139` | The graph input must have a static rank-4 NCHW shape. |
-| `calibration requires at least one Conv` | `calibration.py:141` | The graph has no Conv for calibration to measure. |
-| `calibration directory must contain .npy arrays` | `calibration.py:145` | Point --calibration-data at a directory of .npy sample arrays. |
-| *(dynamic message)* | `calibration.py:150` | A calibration .npy sample has the wrong dtype or shape; export it as uint8/float32 with the graph's NCHW shape. |
-| *(dynamic message)* | `calibration.py:153` | A calibration sample holds NaN/inf or values outside [0,255]; fix the named sample. |
-| `calibration directory produced no samples` | `calibration.py:155` | No usable .npy samples were loaded; check the calibration directory. |
-| `nonfinite calibration activation: ` **+ dynamic suffix** | `calibration.py:160` | A calibration activation is NaN or infinite; fix the weights or the samples. |
+| `calibration ranges lack tensor ` **+ dynamic suffix** | `calibration.py:61` | The calibration report is missing a tensor the scheduler needs. |
+| `percentile must be in (0,100]` | `calibration.py:82` | The percentile method needs a percentile greater than 0 and at most 100. |
+| `calibration method must be one of %s` **+ dynamic suffix** | `calibration.py:144` | Pick one of the listed calibration methods (minmax, percentile, ...). |
+| `calibration requires exactly one graph input` | `calibration.py:149` | Calibration only supports a single external input. |
+| `calibration requires a static rank-four NCHW input` | `calibration.py:152` | The graph input must have a static rank-4 NCHW shape. |
+| `calibration requires at least one Conv` | `calibration.py:154` | The graph has no Conv for calibration to measure. |
+| `calibration directory must contain .npy arrays` | `calibration.py:158` | Point --calibration-data at a directory of .npy sample arrays. |
+| *(dynamic message)* | `calibration.py:163` | A calibration .npy sample has the wrong dtype or shape; export it as uint8/float32 with the graph's NCHW shape. |
+| *(dynamic message)* | `calibration.py:166` | A calibration sample holds NaN/inf or values outside [0,255]; fix the named sample. |
+| `calibration directory produced no samples` | `calibration.py:168` | No usable .npy samples were loaded; check the calibration directory. |
+| `nonfinite calibration activation: ` **+ dynamic suffix** | `calibration.py:173` | A calibration activation is NaN or infinite; fix the weights or the samples. |
 
 ## `chain.py`
 
@@ -79,6 +80,7 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 | `native chain requires three external input and output channels` | `chain_n.py:66` | The native chain boundary channel count is fixed at 3. |
 | `native chain hidden channels must be 3..16 with matching bias` | `chain_n.py:69` | Hidden widths are 3-16 and the next layer's input must match. |
 | `native chain hidden channel counts must match between layers` | `chain_n.py:72` | Adjacent Conv channel counts must line up. |
+| `calibration and output quantization overrides cannot be combined` | `chain_n.py:92` | Use calibration or explicit output quantization, not both. |
 
 ## `cli.py`
 
@@ -179,9 +181,10 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 | `depthwise join 3x3 dense branch requires symmetric pad1` | `depthwise_join.py:113` | A K3 dense branch needs pads [1,1,1,1]. |
 | `depthwise join branch must be a group3 depthwise 1x1/3x3/5x5 Conv` | `depthwise_join.py:119` | The depthwise branch is group-3 K1, K3 or K5. |
 | `unsupported depthwise branch attributes` | `depthwise_join.py:123` | The depthwise branch Conv has an attribute outside the allowed set. |
-| `depthwise join requires zero-centered join operands` | `depthwise_join.py:139` | Both join operands must use zero point 0. |
-| `the depthwise join output override requires a Mul join` | `depthwise_join.py:145` | Only the Mul join can carry the output-scale override. |
-| `depthwise join external tensor %s overlaps %s` **+ dynamic suffix** | `depthwise_join.py:241` | The external tensor's arena range collides with another tensor. |
+| `depthwise join requires zero-centered join operands` | `depthwise_join.py:141` | Both join operands must use zero point 0. |
+| `calibration and output quantization overrides cannot be combined` | `depthwise_join.py:147` | Use calibration or explicit output quantization, not both. |
+| `the depthwise join output override requires a Mul join` | `depthwise_join.py:149` | Only the Mul join can carry the output-scale override. |
+| `depthwise join external tensor %s overlaps %s` **+ dynamic suffix** | `depthwise_join.py:248` | The external tensor's arena range collides with another tensor. |
 
 ## `elementwise.py`
 
@@ -287,67 +290,68 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 | `two-head convolutions require constant float32 weights and bias` | `graph.py:122` | All three Convs need constant float32 weights and bias. |
 | `two-head constants must be float32` | `graph.py:124` | Every initializer in the two-head graph must be float32. |
 | `two-head stem must be a 1x1 Conv with hidden channels 3..16` | `graph.py:128` | The stem is a 1x1 Conv to 3-16 hidden channels. |
-| `unsupported stem attributes` | `graph.py:132,318,660` | The stem Conv carries an attribute outside the profile's allowed set. |
+| `unsupported stem attributes` | `graph.py:132,322,673` | The stem Conv carries an attribute outside the profile's allowed set. |
 | `two-head heads must be dense 3-output 1x1/3x3 Conv with hidden inputs` | `graph.py:138` | Heads are 3-output K1 or symmetric-pad K3 Convs reading the stem output. |
-| `unsupported head attributes` | `graph.py:142,328,672` | A head Conv carries an attribute outside the profile's allowed set. |
+| `unsupported head attributes` | `graph.py:142,332,685` | A head Conv carries an attribute outside the profile's allowed set. |
 | `two-head 3x3 heads require symmetric pad1` | `graph.py:144` | K3 heads need pads [1,1,1,1]. |
-| `diamond profile requires default-domain nodes` | `graph.py:260` | Every diamond node must use the default ONNX domain. |
-| `diamond profile requires stem[,Relu], two heads and one join` | `graph.py:263` | The diamond is stem[,Relu] plus two heads and one join. |
-| `diamond join must be Add, Mul, Sub or Max without attributes` | `graph.py:266` | The diamond join must be an attribute-free Add/Mul/Sub/Max. |
-| `diamond tail must be [Conv, Relu]* Conv` | `graph.py:271` | The optional tail is Conv/Relu alternating and ends in Conv. |
-| `diamond tail Relu must not carry attributes` | `graph.py:273` | Tail Relu nodes must be attribute-free. |
-| `diamond stem must be Conv or Conv,Relu` | `graph.py:275` | The diamond stem is one Conv with an optional Relu. |
-| `diamond heads must be Conv` | `graph.py:277` | Both diamond heads must be Conv nodes. |
-| `diamond stem Relu must consume the stem output` | `graph.py:280` | The stem Relu must read the stem Conv output. |
-| `diamond heads must consume the stem output` | `graph.py:282` | Both heads must read the stem output. |
-| `diamond join must consume both head outputs in order` | `graph.py:284` | The join takes head 0 then head 1. |
-| `diamond tail must consume the join output` | `graph.py:287` | The tail's first node must read the join output. |
-| `diamond tail nodes must be connected in order` | `graph.py:290` | Each tail node must consume the previous tail node's output. |
-| `diamond profile requires one input and one output` | `graph.py:293` | The diamond graph is single-input, single-output. |
-| `diamond external tensors must be float32 [1,3,8,8]` | `graph.py:297` | The diamond boundary is float32 [1,3,8,8]. |
-| `diamond heads must produce float32 [1,3,8,8]` | `graph.py:300` | Head outputs must be float32 [1,3,8,8]. |
-| `diamond tail must produce float32 [1,3,8,8]` | `graph.py:303` | Tail outputs must be float32 [1,3,8,8]. |
-| `diamond convolutions require constant float32 weights and bias` | `graph.py:307` | Every diamond Conv needs constant float32 weights and bias. |
-| `diamond constants must be float32` | `graph.py:310` | Every diamond initializer must be float32. |
-| `diamond stem must be a 1x1 Conv with hidden channels 3..16` | `graph.py:314` | The stem is a 1x1 Conv to 3-16 hidden channels. |
-| `diamond heads must be dense 3-output 1x1/3x3 Conv with hidden inputs` | `graph.py:324` | Heads are 3-output K1 or symmetric-pad K3 Convs. |
-| `diamond 3x3 heads require symmetric pad1` | `graph.py:330` | K3 diamond heads need pads [1,1,1,1]. |
-| `Mul operand zero points must be two INT8 values` | `graph.py:334` | Pass exactly two Mul operand zero points, each in [-128,127]. |
-| `operand zero points apply only to the Mul join` | `graph.py:336` | Add, Sub and Max joins take no operand zero points. |
-| `the diamond output override requires the Mul join or a Conv tail` | `graph.py:338` | Only a Mul join or a Conv tail can carry the diamond output override. |
-| `diamond tail layers must be dense 3-output 1x1/3x3 Conv with three inputs` | `graph.py:344` | Tail layers are 3-input, 3-output K1 or symmetric-pad K3 Convs. |
-| `unsupported tail attributes` | `graph.py:348,694` | A tail Conv carries an attribute outside the profile's allowed set. |
-| `diamond 3x3 tail layers require symmetric pad1` | `graph.py:350` | K3 tail layers need pads [1,1,1,1]. |
-| `diamond join requires adjacent head buffers` | `graph.py:473` | The two head surfaces must be adjacent for the depthwise/elementwise read. |
-| `join chain requires default-domain nodes` | `graph.py:580` | Every join-chain node must use the default ONNX domain. |
-| `join chain requires stem[,Relu] then head,Mul pairs` | `graph.py:583` | The join chain is stem[,Relu] followed by head/Mul pairs. |
-| `chained Mul joins require zero-centered operands` | `graph.py:585` | Every chained Mul join must use zero point 0. |
-| `join chain supports 3..8 heads` | `graph.py:592` | The join chain folds 3-8 heads; split wider graphs. |
-| `join chain stem Relu must consume the stem output` | `graph.py:595` | The stem Relu must read the stem Conv output. |
-| `join chain heads must be Conv nodes reading the stem output` | `graph.py:598` | Every head must be a Conv reading the stem output. |
-| `join chain joins must be attribute-free Add/Mul/Sub/Max nodes` | `graph.py:600` | The join nodes must be attribute-free Add/Mul/Sub/Max. |
-| `join chain joins must consume the previous result and the next head in order` | `graph.py:605` | Each join takes the running result then the next head. |
-| `join chain tail Relu must not carry attributes` | `graph.py:608` | Tail Relu nodes must be attribute-free. |
-| `join chain tail must consume the last join output` | `graph.py:611` | The tail's first node must read the last join output. |
-| `join chain tail nodes must be connected in order` | `graph.py:614` | Each tail node must consume the previous tail node's output. |
-| `join chain runtime tail must combine the last join result with one external input` | `graph.py:622` | The runtime residual tail must be a Mul of the running result and one external input. |
-| `join chain requires one image input and one output` | `graph.py:628` | The join chain is one image input and one output. |
-| `join chain external tensors must be float32 [1,3,8,8]` | `graph.py:632` | The join-chain boundary is float32 [1,3,8,8]. |
-| `join chain runtime tail requires a float32 %s input` **+ dynamic suffix** | `graph.py:636` | The runtime-tail operand must be a float32 tensor of the shape the message names. |
-| `join chain heads must produce float32 [1,3,8,8]` | `graph.py:642` | Join-chain heads must produce float32 [1,3,8,8]. |
-| `join chain tail must produce float32 [1,3,8,8]` | `graph.py:645` | The join-chain tail must produce float32 [1,3,8,8]. |
-| `join chain convolutions require constant float32 weights and bias` | `graph.py:649` | Every join-chain Conv needs constant float32 weights and bias. |
-| `join chain constants must be float32` | `graph.py:652` | Every join-chain initializer must be float32. |
-| `join chain stem must be a 1x1 Conv with hidden channels 3..16` | `graph.py:656` | The stem is a 1x1 Conv to 3-16 hidden channels. |
-| `join chain heads must be dense 3-output 1x1/3x3 Conv with hidden inputs` | `graph.py:669` | Heads are 3-output K1 or symmetric-pad K3 Convs. |
-| `join chain 3x3 heads require symmetric pad1` | `graph.py:674` | K3 join-chain heads need pads [1,1,1,1]. |
-| `join chain depthwise heads require a three-channel stem and group3 1x1/3x3/5x5 weights` | `graph.py:679` | Depthwise heads need a C3 stem and group-3 K1/K3/K5 weights. |
-| `unsupported depthwise head attributes` | `graph.py:682` | A depthwise head Conv carries an attribute outside the allowed set. |
-| `join chain tail layers must be dense 3-output 1x1/3x3 Conv with three inputs` | `graph.py:690` | Tail layers are 3-input, 3-output K1 or symmetric-pad K3 Convs. |
-| `join chain 3x3 tail layers require symmetric pad1` | `graph.py:696` | K3 tail layers need pads [1,1,1,1]. |
-| `the join chain output override requires a Mul join or a Conv tail` | `graph.py:712` | Only a Mul join or a Conv tail can carry the join-chain output override. |
-| `the join chain output override is unsupported for a runtime residual tail` | `graph.py:714` | A runtime residual tail cannot take an output-scale override. |
-| `join chain external tensor %s overlaps %s` **+ dynamic suffix** | `graph.py:846` | The external tensor's arena range collides with another tensor. |
+| `diamond profile requires default-domain nodes` | `graph.py:264` | Every diamond node must use the default ONNX domain. |
+| `diamond profile requires stem[,Relu], two heads and one join` | `graph.py:267` | The diamond is stem[,Relu] plus two heads and one join. |
+| `diamond join must be Add, Mul, Sub or Max without attributes` | `graph.py:270` | The diamond join must be an attribute-free Add/Mul/Sub/Max. |
+| `diamond tail must be [Conv, Relu]* Conv` | `graph.py:275` | The optional tail is Conv/Relu alternating and ends in Conv. |
+| `diamond tail Relu must not carry attributes` | `graph.py:277` | Tail Relu nodes must be attribute-free. |
+| `diamond stem must be Conv or Conv,Relu` | `graph.py:279` | The diamond stem is one Conv with an optional Relu. |
+| `diamond heads must be Conv` | `graph.py:281` | Both diamond heads must be Conv nodes. |
+| `diamond stem Relu must consume the stem output` | `graph.py:284` | The stem Relu must read the stem Conv output. |
+| `diamond heads must consume the stem output` | `graph.py:286` | Both heads must read the stem output. |
+| `diamond join must consume both head outputs in order` | `graph.py:288` | The join takes head 0 then head 1. |
+| `diamond tail must consume the join output` | `graph.py:291` | The tail's first node must read the join output. |
+| `diamond tail nodes must be connected in order` | `graph.py:294` | Each tail node must consume the previous tail node's output. |
+| `diamond profile requires one input and one output` | `graph.py:297` | The diamond graph is single-input, single-output. |
+| `diamond external tensors must be float32 [1,3,8,8]` | `graph.py:301` | The diamond boundary is float32 [1,3,8,8]. |
+| `diamond heads must produce float32 [1,3,8,8]` | `graph.py:304` | Head outputs must be float32 [1,3,8,8]. |
+| `diamond tail must produce float32 [1,3,8,8]` | `graph.py:307` | Tail outputs must be float32 [1,3,8,8]. |
+| `diamond convolutions require constant float32 weights and bias` | `graph.py:311` | Every diamond Conv needs constant float32 weights and bias. |
+| `diamond constants must be float32` | `graph.py:314` | Every diamond initializer must be float32. |
+| `diamond stem must be a 1x1 Conv with hidden channels 3..16` | `graph.py:318` | The stem is a 1x1 Conv to 3-16 hidden channels. |
+| `diamond heads must be dense 3-output 1x1/3x3 Conv with hidden inputs` | `graph.py:328` | Heads are 3-output K1 or symmetric-pad K3 Convs. |
+| `diamond 3x3 heads require symmetric pad1` | `graph.py:334` | K3 diamond heads need pads [1,1,1,1]. |
+| `Mul operand zero points must be two INT8 values` | `graph.py:338` | Pass exactly two Mul operand zero points, each in [-128,127]. |
+| `operand zero points apply only to the Mul join` | `graph.py:340` | Add, Sub and Max joins take no operand zero points. |
+| `the diamond output override requires the Mul join or a Conv tail` | `graph.py:342` | Only a Mul join or a Conv tail can carry the diamond output override. |
+| `diamond tail layers must be dense 3-output 1x1/3x3 Conv with three inputs` | `graph.py:348` | Tail layers are 3-input, 3-output K1 or symmetric-pad K3 Convs. |
+| `unsupported tail attributes` | `graph.py:352,707` | A tail Conv carries an attribute outside the profile's allowed set. |
+| `diamond 3x3 tail layers require symmetric pad1` | `graph.py:354` | K3 tail layers need pads [1,1,1,1]. |
+| `calibration and output quantization overrides cannot be combined` | `graph.py:365,720` | Use calibration or explicit output quantization, not both. |
+| `diamond join requires adjacent head buffers` | `graph.py:486` | The two head surfaces must be adjacent for the depthwise/elementwise read. |
+| `join chain requires default-domain nodes` | `graph.py:593` | Every join-chain node must use the default ONNX domain. |
+| `join chain requires stem[,Relu] then head,Mul pairs` | `graph.py:596` | The join chain is stem[,Relu] followed by head/Mul pairs. |
+| `chained Mul joins require zero-centered operands` | `graph.py:598` | Every chained Mul join must use zero point 0. |
+| `join chain supports 3..8 heads` | `graph.py:605` | The join chain folds 3-8 heads; split wider graphs. |
+| `join chain stem Relu must consume the stem output` | `graph.py:608` | The stem Relu must read the stem Conv output. |
+| `join chain heads must be Conv nodes reading the stem output` | `graph.py:611` | Every head must be a Conv reading the stem output. |
+| `join chain joins must be attribute-free Add/Mul/Sub/Max nodes` | `graph.py:613` | The join nodes must be attribute-free Add/Mul/Sub/Max. |
+| `join chain joins must consume the previous result and the next head in order` | `graph.py:618` | Each join takes the running result then the next head. |
+| `join chain tail Relu must not carry attributes` | `graph.py:621` | Tail Relu nodes must be attribute-free. |
+| `join chain tail must consume the last join output` | `graph.py:624` | The tail's first node must read the last join output. |
+| `join chain tail nodes must be connected in order` | `graph.py:627` | Each tail node must consume the previous tail node's output. |
+| `join chain runtime tail must combine the last join result with one external input` | `graph.py:635` | The runtime residual tail must be a Mul of the running result and one external input. |
+| `join chain requires one image input and one output` | `graph.py:641` | The join chain is one image input and one output. |
+| `join chain external tensors must be float32 [1,3,8,8]` | `graph.py:645` | The join-chain boundary is float32 [1,3,8,8]. |
+| `join chain runtime tail requires a float32 %s input` **+ dynamic suffix** | `graph.py:649` | The runtime-tail operand must be a float32 tensor of the shape the message names. |
+| `join chain heads must produce float32 [1,3,8,8]` | `graph.py:655` | Join-chain heads must produce float32 [1,3,8,8]. |
+| `join chain tail must produce float32 [1,3,8,8]` | `graph.py:658` | The join-chain tail must produce float32 [1,3,8,8]. |
+| `join chain convolutions require constant float32 weights and bias` | `graph.py:662` | Every join-chain Conv needs constant float32 weights and bias. |
+| `join chain constants must be float32` | `graph.py:665` | Every join-chain initializer must be float32. |
+| `join chain stem must be a 1x1 Conv with hidden channels 3..16` | `graph.py:669` | The stem is a 1x1 Conv to 3-16 hidden channels. |
+| `join chain heads must be dense 3-output 1x1/3x3 Conv with hidden inputs` | `graph.py:682` | Heads are 3-output K1 or symmetric-pad K3 Convs. |
+| `join chain 3x3 heads require symmetric pad1` | `graph.py:687` | K3 join-chain heads need pads [1,1,1,1]. |
+| `join chain depthwise heads require a three-channel stem and group3 1x1/3x3/5x5 weights` | `graph.py:692` | Depthwise heads need a C3 stem and group-3 K1/K3/K5 weights. |
+| `unsupported depthwise head attributes` | `graph.py:695` | A depthwise head Conv carries an attribute outside the allowed set. |
+| `join chain tail layers must be dense 3-output 1x1/3x3 Conv with three inputs` | `graph.py:703` | Tail layers are 3-input, 3-output K1 or symmetric-pad K3 Convs. |
+| `join chain 3x3 tail layers require symmetric pad1` | `graph.py:709` | K3 tail layers need pads [1,1,1,1]. |
+| `the join chain output override requires a Mul join or a Conv tail` | `graph.py:731` | Only a Mul join or a Conv tail can carry the join-chain output override. |
+| `the join chain output override is unsupported for a runtime residual tail` | `graph.py:733` | A runtime residual tail cannot take an output-scale override. |
+| `join chain external tensor %s overlaps %s` **+ dynamic suffix** | `graph.py:866` | The external tensor's arena range collides with another tensor. |
 
 ## `join_dag.py`
 
@@ -371,11 +375,12 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 | `unsupported depthwise layer attributes` | `join_dag.py:221` | A depthwise branch Conv carries an attribute outside the allowed set. |
 | `join DAG branch outputs must have three channels` | `join_dag.py:226` | Every branch must end with three output channels. |
 | `join DAG joins may only consume three-channel tensors` | `join_dag.py:237` | The joins only accept three-channel operands. |
-| `join DAG Add/Sub/Max needs both operands on one scale; reused tensors fixed different bands` | `join_dag.py:340` | Both Add/Sub/Max operands must share one output band; rebuild the reused tensor. |
-| `join DAG cannot re-quantize a join result onto another band` | `join_dag.py:347` | A join result cannot be re-quantized; restructure the DAG. |
-| `join DAG operand was already committed to another band` | `join_dag.py:350` | A reused operand was already pinned to a different band; split the tensor. |
-| `join DAG requires default-domain nodes` | `join_dag.py:370` | Every join-DAG node must use the default ONNX domain. |
-| `join DAG external tensor %s overlaps %s` **+ dynamic suffix** | `join_dag.py:471` | The external tensor's arena range collides with another tensor. |
+| `join DAG Add/Sub/Max needs both operands on one scale; reused tensors fixed different bands` | `join_dag.py:348` | Both Add/Sub/Max operands must share one output band; rebuild the reused tensor. |
+| `join DAG cannot re-quantize a join result onto another band` | `join_dag.py:355` | A join result cannot be re-quantized; restructure the DAG. |
+| `join DAG operand was already committed to another band` | `join_dag.py:358` | A reused operand was already pinned to a different band; split the tensor. |
+| `join DAG requires default-domain nodes` | `join_dag.py:378` | Every join-DAG node must use the default ONNX domain. |
+| `calibration and output quantization overrides cannot be combined` | `join_dag.py:380` | Use calibration or explicit output quantization, not both. |
+| `join DAG external tensor %s overlaps %s` **+ dynamic suffix** | `join_dag.py:481` | The external tensor's arena range collides with another tensor. |
 
 ## `layout.py`
 
@@ -434,6 +439,20 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 | `incorrect model length` | `model.py:63` | The declared length does not match the file; the container is truncated or padded. |
 | `model checksum mismatch` | `model.py:66` | The container checksum failed; the file was modified or corrupted. |
 
+## `mutable.py`
+
+| Message | Location | What it means / what to do |
+| --- | --- | --- |
+| `v5 containers have no constant descriptor table; mutable parameters require a v4 container` | `mutable.py:76` | Only a v4 container carries named constant regions. Compile with mutable_weights=True or mutable_constants=True (open_rknpu.mutable.compile_mutable). |
+| `legacy containers have no constant descriptor table; mutable parameters require a v4 container` | `mutable.py:79` | Legacy ORNPUBIN containers have no constant table; mutable parameters need an ORNPUSEQ v4 container from the native Conv or constant-Mul profile. |
+| `no constant region named ` **+ dynamic suffix** | `mutable.py:97` | The name does not match any descriptor in this container; list them with open_rknpu.mutable.constant_regions(binary) and pass the exact name. |
+| `constant region index ` **+ dynamic suffix** | `mutable.py:100` | The index is outside the container's constant table; the message names the table length. |
+| `replacement has ` **+ dynamic suffix** | `mutable.py:139` | A region is replaced whole: the replacement must be exactly the descriptor's size. Read the current bytes with constant_payload(binary) and repack for the same band. |
+| `the donor has no constant region named ` **+ dynamic suffix** | `mutable.py:164` | The donor container must carry the same region name; compile it with the same mutable flag and the same profile. |
+| `the containers do not share a task program, so their bands differ (first difference at byte ` **+ dynamic suffix** | `mutable.py:170` | The band's multiplier/shift/zero-point registers live in the task program, so a region from another band would compute wrong numbers. Pin output_range when compiling the donor, then compare program_bytes before grafting. |
+| `compile_mutable needs mutable_weights or mutable_constants` | `mutable.py:186` | Ask for a replaceable region: compile_mutable(model, mutable_weights=True) for the native Conv parameters, or mutable_constants=True for the constant-Mul factor. |
+| `the compiled profile has no mutable constant region; no v4 container was emitted` | `mutable.py:191` | The profile that accepted the graph has no mutable form (only the native Conv and the constant-Mul profiles emit v4 constants); see docs/api-stability.md. |
+
 ## `native.py`
 
 | Message | Location | What it means / what to do |
@@ -470,10 +489,20 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `expected Conv-Relu-Conv followed by three pools` | `network.py:15` | The legacy network profile is Conv-Relu-Conv plus three pools. |
-| `three matching 2x2 stride-2 pools required` | `network.py:22` | All three pools must be matching 2x2 stride-2 pools. |
-| `network output must be float32 [1,3,1,1]` | `network.py:26` | The network output must be float32 [1,3,1,1]. |
-| `network constants exceed memory layout` | `network.py:43` | The legacy network constants do not fit the fixed memory layout. |
+| `network reference supports MaxPool or AveragePool` | `network.py:23` | The legacy 7/8 network reference models the two verified pool kinds only. |
+| `network reference models exactly three 2x2 pooling levels` | `network.py:25` | The legacy 7/8 profile is Conv-Relu-Conv plus exactly three 2x2 pools. |
+| `expected Conv-Relu-Conv followed by three pools` | `network.py:31` | The legacy network profile is Conv-Relu-Conv plus three pools. |
+| `three matching 2x2 stride-2 pools required` | `network.py:38` | All three pools must be matching 2x2 stride-2 pools. |
+| `network output must be float32 [1,3,1,1]` | `network.py:42` | The network output must be float32 [1,3,1,1]. |
+| `network constants exceed memory layout` | `network.py:59` | The legacy network constants do not fit the fixed memory layout. |
+
+## `normalize.py`
+
+| Message | Location | What it means / what to do |
+| --- | --- | --- |
+| `1-D rank promotion requires rank-3 outputs; '%s' is rank %d` **+ dynamic suffix** | `normalize.py:69` | A rank-3 graph must keep rank-3 outputs: the promotion to [N,C,1,L] cannot rewrite a graph whose output is rank 2 (or 4). Add or remove the reshaping node yourself. |
+| `1-D rank promotion cannot rewrite %s node '%s'` **+ dynamic suffix** | `normalize.py:73` | ONNX 1-D models are promoted to the 2-D form by rewriting Conv/pool attributes in place; another node type in the graph needs an explicit reshape before compiling. |
+| `1-D rank promotion requires constant rank-3 weights for Conv node '%s'` **+ dynamic suffix** | `normalize.py:78` | A 1-D Conv needs constant [O,I,K] weights; dynamic or pre-reshaped weights cannot be promoted to [O,I,1,K]. |
 
 ## `padding.py`
 
@@ -505,7 +534,8 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 | `pool join branches must be dense 3-output 1x1/3x3 Conv with hidden inputs` | `pool_join.py:111` | Both branches are 3-output K1 or symmetric-pad K3 Convs. |
 | `unsupported branch attributes` | `pool_join.py:116` | A pool-join branch Conv carries an attribute outside the allowed set. |
 | `pool join 3x3 branches require symmetric pad1` | `pool_join.py:118` | K3 pool-join branches need pads [1,1,1,1]. |
-| `the pool join output override requires a Mul join` | `pool_join.py:136` | Only the Mul join can carry the pool-join output override. |
+| `calibration and output quantization overrides cannot be combined` | `pool_join.py:139` | Use calibration or explicit output quantization, not both. |
+| `the pool join output override requires a Mul join` | `pool_join.py:141` | Only the Mul join can carry the pool-join output override. |
 
 ## `pooled_branches.py`
 
@@ -534,7 +564,9 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `unsupported pooling graph` | `pooling.py:40,43,45,48,50,53,62` | Only Conv[/Relu] -> 2x2 stride-2 MaxPool/AveragePool at 8x8 C3 lowers here. |
+| `pool reference supports MaxPool or AveragePool` | `pooling.py:39` | The pooling reference models the two verified kinds only; the container came from a different path, so replay it with the suite's own recorded expected bytes. |
+| `pool reference requires at least one 2x2 pooling level` | `pooling.py:41` | pool_reference models 1-3 chained 2x2/stride-2 pools; a different geometry has no reference formula here. |
+| `unsupported pooling graph` | `pooling.py:83,86,88,91,93,96,105` | Only Conv[/Relu] -> 2x2 stride-2 MaxPool/AveragePool at 8x8 C3 lowers here. |
 
 ## `quantization.py`
 
@@ -577,62 +609,59 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `unsupported staged pooling graph` | `reduction.py:19,23,26,28,31,33,37` | Only the supported Conv + 2x2 stride-2 staged pooling chain lowers. |
-| `staged pooling requires float32 output` | `reduction.py:35` | The staged pool output must be float32. |
+| `reduction reference models exactly three 2x2 pooling levels` | `reduction.py:25` | The reduction profile (legacy 5/6) is exactly three 2x2 pools; use pool_reference for one or two levels. |
+| `unsupported staged pooling graph` | `reduction.py:33,37,40,42,45,47,51` | Only the supported Conv + 2x2 stride-2 staged pooling chain lowers. |
+| `staged pooling requires float32 output` | `reduction.py:49` | The staged pool output must be float32. |
 
 ## `scheduler.py`
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `batched submission rejected: ` **+ dynamic suffix** | `scheduler.py:33` | The requested batched submission failed validation; the suffix names the reason. |
-| `leading Pad requires constant pads` | `scheduler.py:56` | A leading Pad needs a constant pads initializer. |
-| `unsupported Pad mode: ` **+ dynamic suffix** | `scheduler.py:60` | Only the supported Pad modes lower; the message names the mode found. |
-| `leading Pad with explicit axes is not supported` | `scheduler.py:62` | The leading Pad must not carry an axes input. |
-| `leading Pad must pad a rank-four NCHW input` | `scheduler.py:64` | The leading Pad must pad a rank-4 NCHW input. |
-| `negative Pad amounts are not supported` | `scheduler.py:66` | Pad amounts must be non-negative. |
-| `leading Pad requires a static NCHW input` | `scheduler.py:68` | The padded input shape must be static NCHW. |
-| `submission must be None, serial or batched` | `scheduler.py:108` | Pass --submission serial or --submission batched. |
-| `tiles must be an integer of at least 2` | `scheduler.py:111` | --tiles must be an integer of at least 2. |
-| `calibration and output quantization overrides cannot be combined` | `scheduler.py:113` | Use calibration or explicit output quantization, not both. |
-| `calibration ranges lack tensor ` **+ dynamic suffix** | `scheduler.py:117` | The calibration report is missing a tensor the scheduler needs. |
-| `mutable weights currently require one native Conv[/Relu]` | `scheduler.py:120` | Mutable weights only work with one native Conv[/Relu]. |
-| `mutable constants currently require one constant Mul` | `scheduler.py:122` | Mutable constants only work with one constant-Mul profile. |
-| `Mul operand zero points require a Mul profile` | `scheduler.py:124,150,162,173,185,196,254,288,331,341,355` | Per-operand zero points are only valid for a Mul profile. |
-| `QLinearConv carries its own quantization parameters` | `scheduler.py:127` | QLinearConv supplies its own scales; do not pass overrides. |
-| `Q/DQ Conv carries its own quantization parameters` | `scheduler.py:132` | The Q/DQ Conv supplies its own scales; do not pass overrides. |
-| `join chain requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:146` | The join chain only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `calibration is unsupported for the join chain` | `scheduler.py:148` | Calibration is not supported for the join chain; use its fixed boundary. |
-| `join DAG requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:158` | The join DAG only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `calibration is unsupported for the join DAG` | `scheduler.py:160` | Calibration is not supported for the join DAG; use its fixed boundary. |
-| `depthwise join requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:169` | The depthwise join only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `calibration is unsupported for the depthwise join` | `scheduler.py:171` | Calibration is not supported for the depthwise join; use its fixed boundary. |
-| `pool join requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:181` | The pool join only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `calibration is unsupported for the pool join` | `scheduler.py:183` | Calibration is not supported for the pool join; use its fixed boundary. |
-| `pooled branches require the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:192` | Pooled branches only accept the UINT8 scale 1 / zero point 0 boundary. |
-| `calibration is unsupported for pooled branches` | `scheduler.py:194` | Calibration is not supported for pooled branches; use their fixed boundary. |
-| `output override unsupported for LUT profile` | `scheduler.py:201` | The LUT profile derives its own output band; drop the output override. |
-| `output override unsupported for LeakyRelu profile` | `scheduler.py:214` | The LeakyRelu profile derives its own band; drop the output override. |
-| `output override unsupported for PRelu profile` | `scheduler.py:218` | The PRelu profile derives its own band; drop the output override. |
-| `output override unsupported for Reshape profile` | `scheduler.py:230` | The Reshape profile derives its own band; drop the output override. |
-| `two-head profile requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:252` | The two-head profile only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `output override unsupported for the two-head profile` | `scheduler.py:253` | The two-head profile derives its own band; drop the output override. |
-| `diamond profile requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:286` | The diamond profile only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `native chain requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:301` | The native chain only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `height-strip tiling cannot be combined with output overrides, exposed intermediates or arena reuse` | `scheduler.py:304` | Tiling is incompatible with output overrides, exposed intermediates and arena reuse. |
-| `legacy Conv chain requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:313` | The legacy Conv chain only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `multi-input elementwise DAG requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:327` | The multi-input elementwise DAG only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `output override unsupported for the multi-input elementwise DAG` | `scheduler.py:329` | The multi-input DAG derives its own band; drop the output override. |
-| `elementwise DAG requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:337` | The elementwise DAG only accepts the UINT8 scale 1 / zero point 0 boundary. |
-| `output override unsupported for the elementwise DAG` | `scheduler.py:339` | The elementwise DAG derives its own band; drop the output override. |
-| `sequence lowering requires one input, one output, and an initial Conv` | `scheduler.py:359` | Sequence lowering needs one input, one output and a leading Conv. |
-| `static NCHW input required` | `scheduler.py:363` | The input shape must be static NCHW. |
-| `output override unsupported for this strided profile` | `scheduler.py:371` | The strided profile derives its own band; drop the output override. |
-| `output override unsupported for this scheduled profile` | `scheduler.py:377` | This scheduled profile derives its own band; drop the output override. |
-| `sequence lowering currently supports Conv[/Relu] followed by 2x2 pooling` | `scheduler.py:379` | The sequence scheduler lowers Conv[/Relu] plus 2x2 pooling only. |
-| `missing static convolution output shape` | `scheduler.py:383` | The Conv output shape is not static; run shape inference first. |
-| `unsupported pooling attributes, shape, or graph connections` | `scheduler.py:401` | The pooling node's attributes, shape or wiring are outside the profile. |
-| `sequence output shape does not match graph` | `scheduler.py:407` | The declared output shape disagrees with the graph; fix the model. |
-| `too many NPU tasks` | `scheduler.py:408` | The graph needs more tasks than the loader's 64-entry table; split it. |
+| `batched submission rejected: ` **+ dynamic suffix** | `scheduler.py:73` | The requested batched submission failed validation; the suffix names the reason. |
+| `leading Pad requires constant pads` | `scheduler.py:96` | A leading Pad needs a constant pads initializer. |
+| `unsupported Pad mode: ` **+ dynamic suffix** | `scheduler.py:100` | Only the supported Pad modes lower; the message names the mode found. |
+| `leading Pad with explicit axes is not supported` | `scheduler.py:102` | The leading Pad must not carry an axes input. |
+| `leading Pad must pad a rank-four NCHW input` | `scheduler.py:104` | The leading Pad must pad a rank-4 NCHW input. |
+| `negative Pad amounts are not supported` | `scheduler.py:106` | Pad amounts must be non-negative. |
+| `leading Pad requires a static NCHW input` | `scheduler.py:108` | The padded input shape must be static NCHW. |
+| `submission must be None, serial or batched` | `scheduler.py:148` | Pass --submission serial or --submission batched. |
+| `tiles must be an integer of at least 2` | `scheduler.py:151` | --tiles must be an integer of at least 2. |
+| `calibration and output quantization overrides cannot be combined` | `scheduler.py:153` | Use calibration or explicit output quantization, not both. |
+| `mutable weights currently require one native Conv[/Relu]` | `scheduler.py:158` | Mutable weights only work with one native Conv[/Relu]. |
+| `mutable constants currently require one constant Mul` | `scheduler.py:160` | Mutable constants only work with one constant-Mul profile. |
+| `Mul operand zero points require a Mul profile` | `scheduler.py:162,186,196,205,215,226,294,328,374,384,398` | Per-operand zero points are only valid for a Mul profile. |
+| `QLinearConv carries its own quantization parameters` | `scheduler.py:165` | QLinearConv supplies its own scales; do not pass overrides. |
+| `Q/DQ Conv carries its own quantization parameters` | `scheduler.py:170` | The Q/DQ Conv supplies its own scales; do not pass overrides. |
+| `join chain requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:184` | The join chain only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `join DAG requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:194` | The join DAG only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `depthwise join requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:203` | The depthwise join only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `pool join requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:213` | The pool join only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `pooled branches require the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:222` | Pooled branches only accept the UINT8 scale 1 / zero point 0 boundary. |
+| `calibration is unsupported for pooled branches` | `scheduler.py:224` | Calibration is not supported for pooled branches; use their fixed boundary. |
+| `output override unsupported for LUT profile` | `scheduler.py:241` | The LUT profile derives its own output band; drop the output override. |
+| `output override unsupported for LeakyRelu profile` | `scheduler.py:254` | The LeakyRelu profile derives its own band; drop the output override. |
+| `output override unsupported for PRelu profile` | `scheduler.py:258` | The PRelu profile derives its own band; drop the output override. |
+| `output override unsupported for Reshape profile` | `scheduler.py:270` | The Reshape profile derives its own band; drop the output override. |
+| `two-head profile requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:292` | The two-head profile only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `output override unsupported for the two-head profile` | `scheduler.py:293` | The two-head profile derives its own band; drop the output override. |
+| `diamond profile requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:326` | The diamond profile only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `native chain requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:342` | The native chain only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `height-strip tiling cannot be combined with output overrides, exposed intermediates or arena reuse` | `scheduler.py:345` | Tiling is incompatible with output overrides, exposed intermediates and arena reuse. |
+| `calibration is unsupported for the height-strip tiled chain` | `scheduler.py:347` | The height-strip tiled chain cannot carry per-stage measured bands yet; compile the same graph with the untiled chain profile when you need calibration_ranges. |
+| `legacy Conv chain requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:356` | The legacy Conv chain only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `multi-input elementwise DAG requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:370` | The multi-input elementwise DAG only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `output override unsupported for the multi-input elementwise DAG` | `scheduler.py:372` | The multi-input DAG derives its own band; drop the output override. |
+| `elementwise DAG requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:380` | The elementwise DAG only accepts the UINT8 scale 1 / zero point 0 boundary. |
+| `output override unsupported for the elementwise DAG` | `scheduler.py:382` | The elementwise DAG derives its own band; drop the output override. |
+| `sequence lowering requires one input, one output, and an initial Conv` | `scheduler.py:402` | Sequence lowering needs one input, one output and a leading Conv. |
+| `static NCHW input required` | `scheduler.py:406` | The input shape must be static NCHW. |
+| `output override unsupported for this strided profile` | `scheduler.py:414` | The strided profile derives its own band; drop the output override. |
+| `output override unsupported for this scheduled profile` | `scheduler.py:420` | This scheduled profile derives its own band; drop the output override. |
+| `sequence lowering currently supports Conv[/Relu] followed by 2x2 pooling` | `scheduler.py:422` | The sequence scheduler lowers Conv[/Relu] plus 2x2 pooling only. |
+| `missing static convolution output shape` | `scheduler.py:426` | The Conv output shape is not static; run shape inference first. |
+| `unsupported pooling attributes, shape, or graph connections` | `scheduler.py:444` | The pooling node's attributes, shape or wiring are outside the profile. |
+| `sequence output shape does not match graph` | `scheduler.py:450` | The declared output shape disagrees with the graph; fix the model. |
+| `too many NPU tasks` | `scheduler.py:451` | The graph needs more tasks than the loader's 64-entry table; split it. |
 
 ## `sequence.py`
 
@@ -699,41 +728,49 @@ This index covers 548 messages across 35 modules; 2 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `dense ConvTranspose requires Conv[/Relu] stem with static 8x8 C1..16 output` | `transposed.py:19` | The stem must be Conv[/Relu] with a static 8x8 C1-16 output. |
-| `dense ConvTranspose supports square K3 or K5` | `transposed.py:22` | Only square K3 or K5 dense ConvTranspose lowers. |
-| `dense ConvTranspose requires per-axis stride1/2 and legal output_padding` | `transposed.py:25` | Per-axis stride must be 1-2 with output_padding below the stride. |
-| `dense ConvTranspose output_shape requires two dimensions and no explicit pads` | `transposed.py:27` | output_shape takes two values and excludes explicit pads. |
-| `dense ConvTranspose output_shape outside bounded profile` | `transposed.py:29` | The requested output_shape is outside the bounded profile. |
-| `unsupported dense ConvTranspose auto_pad` | `transposed.py:34` | auto_pad must be NOTSET, VALID, SAME_UPPER or SAME_LOWER. |
-| `dense ConvTranspose supports C1..16 to C1..16, K3/K5 and per-axis stride1/2` | `transposed.py:42` | Dense ConvTranspose bounds are C1-16 to C1-16, K3/K5 and per-axis stride 1-2. |
-| `grouped ConvTranspose dense rewrite supports input/output C1..16` | `transposed.py:90` | The grouped dense rewrite needs input and output C1-16. |
-| `constant depthwise square weights required` | `transposed.py:104,106,169` | Depthwise ConvTranspose needs constant square weights [C,1,K,K]. |
-| `constant K3 dilation2 weights required` | `transposed.py:118` | The K3 dilation-2 rewrite needs a constant weight tensor. |
-| `K3 dilation2 ConvTranspose requires constant float32 (C_in,C_out/group,3,3) weights` | `transposed.py:121` | Weights must be constant float32 with that exact shape. |
-| `ConvTranspose dilation is supported only for square K2 or depthwise K3 with dilation2` | `transposed.py:127` | Only square K2 or depthwise K3 with dilation 2 lowers. |
-| `rectangular ConvTranspose rewrite requires per-axis padding below its kernel` | `transposed.py:134` | The rectangular rewrite needs per-axis padding below the axis kernel. |
-| `constant depthwise rectangular weights required` | `transposed.py:136,138` | The rectangular rewrite needs constant depthwise weights of the declared shape. |
-| `unsupported ConvTranspose auto_pad` | `transposed.py:147` | auto_pad must be NOTSET, VALID, SAME_UPPER or SAME_LOWER. |
-| `ConvTranspose output_shape requires two dimensions and no explicit pads` | `transposed.py:149` | output_shape takes two values and excludes explicit pads. |
-| `ConvTranspose output_shape outside bounded profile` | `transposed.py:151` | The requested output_shape is outside the bounded profile. |
-| `ConvTranspose K2/K3/K5 stride1/2 requires padding below K and output_padding below its axis stride` | `transposed.py:160` | Keep padding below K and output_padding below the axis stride. |
-| `ConvTranspose profile requires depthwise C1..16, K2/K3/K5, per-axis stride1/2 and matching output geometry` | `transposed.py:167` | The geometry is outside the supported depthwise ConvTranspose profile. |
-| `ConvTranspose bias must be float32 and match channels` | `transposed.py:171` | Bias must be float32 with one value per channel. |
-| `ConvTranspose requires 8x8 RGB input` | `transposed.py:198` | The ConvTranspose stem input is fixed at 8x8 RGB. |
+| `transposed reference requires four pad values` | `transposed.py:37` | ConvTranspose pads are [beginH, beginW, endH, endW]; pass the container's own values. |
+| `transposed reference supports per-axis stride 1 or 2` | `transposed.py:39` | The transposed reference models stride 1 or 2 per axis; other strides have no verified container to compare against. |
+| `transposed reference requires output_padding below its axis stride` | `transposed.py:41` | ONNX requires output_padding < stride on each axis; the container was emitted with a legal value, so this means the arguments were mixed up. |
+| `transposed reference supports K2/K3/K5 kernels` | `transposed.py:44` | The transposed emitter rewrites K2/K3/K5 (and small rectangular kernels) into the verified forms; the reference does not model other kernel sizes. |
+| `transposed reference requires a square kernel weight layout` | `transposed.py:47` | That rewrite path packs a square kernel; a rectangular layout belongs to the rectangular rewrite the emitter reports instead. |
+| `transposed reference requires the stem channels to match the weight layout` | `transposed.py:61` | The stem channel count must agree with the weight tensor's input channels; recompile and read the layout from the container. |
+| `transposed reference output_shape must match the emitted channels` | `transposed.py:69` | The output_shape argument names a channel count the weights do not produce; omit it to derive the geometry from the container. |
+| `dense ConvTranspose requires Conv[/Relu] stem with static 8x8 C1..16 output` | `transposed.py:99` | The stem must be Conv[/Relu] with a static 8x8 C1-16 output. |
+| `dense ConvTranspose supports square K3 or K5` | `transposed.py:102` | Only square K3 or K5 dense ConvTranspose lowers. |
+| `dense ConvTranspose requires per-axis stride1/2 and legal output_padding` | `transposed.py:105` | Per-axis stride must be 1-2 with output_padding below the stride. |
+| `dense ConvTranspose output_shape requires two dimensions and no explicit pads` | `transposed.py:107` | output_shape takes two values and excludes explicit pads. |
+| `dense ConvTranspose output_shape outside bounded profile` | `transposed.py:109` | The requested output_shape is outside the bounded profile. |
+| `unsupported dense ConvTranspose auto_pad` | `transposed.py:114` | auto_pad must be NOTSET, VALID, SAME_UPPER or SAME_LOWER. |
+| `dense ConvTranspose supports C1..16 to C1..16, K3/K5 and per-axis stride1/2` | `transposed.py:122` | Dense ConvTranspose bounds are C1-16 to C1-16, K3/K5 and per-axis stride 1-2. |
+| `grouped ConvTranspose dense rewrite supports input/output C1..16` | `transposed.py:170` | The grouped dense rewrite needs input and output C1-16. |
+| `constant depthwise square weights required` | `transposed.py:184,186,249` | Depthwise ConvTranspose needs constant square weights [C,1,K,K]. |
+| `constant K3 dilation2 weights required` | `transposed.py:198` | The K3 dilation-2 rewrite needs a constant weight tensor. |
+| `K3 dilation2 ConvTranspose requires constant float32 (C_in,C_out/group,3,3) weights` | `transposed.py:201` | Weights must be constant float32 with that exact shape. |
+| `ConvTranspose dilation is supported only for square K2 or depthwise K3 with dilation2` | `transposed.py:207` | Only square K2 or depthwise K3 with dilation 2 lowers. |
+| `rectangular ConvTranspose rewrite requires per-axis padding below its kernel` | `transposed.py:214` | The rectangular rewrite needs per-axis padding below the axis kernel. |
+| `constant depthwise rectangular weights required` | `transposed.py:216,218` | The rectangular rewrite needs constant depthwise weights of the declared shape. |
+| `unsupported ConvTranspose auto_pad` | `transposed.py:227` | auto_pad must be NOTSET, VALID, SAME_UPPER or SAME_LOWER. |
+| `ConvTranspose output_shape requires two dimensions and no explicit pads` | `transposed.py:229` | output_shape takes two values and excludes explicit pads. |
+| `ConvTranspose output_shape outside bounded profile` | `transposed.py:231` | The requested output_shape is outside the bounded profile. |
+| `ConvTranspose K2/K3/K5 stride1/2 requires padding below K and output_padding below its axis stride` | `transposed.py:240` | Keep padding below K and output_padding below the axis stride. |
+| `ConvTranspose profile requires depthwise C1..16, K2/K3/K5, per-axis stride1/2 and matching output geometry` | `transposed.py:247` | The geometry is outside the supported depthwise ConvTranspose profile. |
+| `ConvTranspose bias must be float32 and match channels` | `transposed.py:251` | Bias must be float32 with one value per channel. |
+| `ConvTranspose requires 8x8 RGB input` | `transposed.py:278` | The ConvTranspose stem input is fixed at 8x8 RGB. |
 
 ## `walk.py`
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `walk Conv requires default domain with constant weights and bias` | `walk.py:84` | Walk Convs need the default domain and constant weights and bias. |
-| `walk Conv supports square K1/K3 kernels` | `walk.py:90` | Only square K1 or K3 Convs walk. |
-| `unsupported walk Conv attributes` | `walk.py:92` | A walk Conv carries an attribute outside the allowed set. |
-| `walk pool requires the default domain` | `walk.py:103` | Walk pools must use the default domain. |
-| `walk pool supports 2x2 stride-2 MaxPool/AveragePool only` | `walk.py:109,112` | Only 2x2 stride-2 MaxPool or AveragePool walks. |
-| `unsupported chain walk graph` | `walk.py:254` | The graph is outside the supported chain-walk profile. |
-| `calibration ranges lack tensor ` **+ dynamic suffix** | `walk.py:263` | The calibration report is missing a tensor the scheduler needs. |
-| `walk chain must start with a Conv` | `walk.py:271` | A chain walk must begin with a Conv. |
-| `walk native input supports up to 16 channels` | `walk.py:282` | The native walk input supports at most 16 channels. |
-| `walk native input geometry requires height tiling` | `walk.py:286` | The native walk geometry must be height-tiled; check the atom budget. |
-| `unsupported join walk graph` | `walk.py:745` | The graph is outside the supported join-walk profile. |
-| `the join walk output override requires a Mul join or a Conv tail` | `walk.py:752` | Only a Mul join or a Conv tail can carry the join-walk output override. |
+| `walk Conv requires default domain with constant weights and bias` | `walk.py:104` | Walk Convs need the default domain and constant weights and bias. |
+| `walk Conv supports square K1/K3 kernels` | `walk.py:110` | Only square K1 or K3 Convs walk. |
+| `unsupported walk Conv attributes` | `walk.py:112` | A walk Conv carries an attribute outside the allowed set. |
+| `walk pool requires the default domain` | `walk.py:123` | Walk pools must use the default domain. |
+| `walk pool supports 2x2 stride-2 MaxPool/AveragePool only` | `walk.py:129,132` | Only 2x2 stride-2 MaxPool or AveragePool walks. |
+| `unsupported chain walk graph` | `walk.py:274` | The graph is outside the supported chain-walk profile. |
+| `calibration ranges lack tensor ` **+ dynamic suffix** | `walk.py:283` | The calibration report is missing a tensor the scheduler needs. |
+| `walk chain must start with a Conv` | `walk.py:291` | A chain walk must begin with a Conv. |
+| `walk native input supports up to 16 channels` | `walk.py:302` | The native walk input supports at most 16 channels. |
+| `walk native input geometry requires height tiling` | `walk.py:306` | The native walk geometry must be height-tiled; check the atom budget. |
+| `unsupported join walk graph` | `walk.py:768` | The graph is outside the supported join-walk profile. |
+| `calibration and output quantization overrides cannot be combined` | `walk.py:770` | Use calibration or explicit output quantization, not both. |
+| `the join walk output override requires a Mul join or a Conv tail` | `walk.py:779` | Only a Mul join or a Conv tail can carry the join-walk output override. |

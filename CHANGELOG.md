@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   compared against the Python decoder for all 2,340 published containers), evidence
   integrity for every suite, the documented-command runner, rejection/boundary modules for
   the front end, emitters, joins and scheduler, and the release-gate logic
-  (1,008 tests total, 99.85% compiler line coverage).
+  (1,100 tests total, 99.55% compiler line coverage).
 - Tools: `research/perf_regression.py` with a checked-in cost-model baseline,
   `research/check_reproducible_build.py` (normalise and audit the sdist),
   `research/run_mutation_tests.py` with `research/mutation_scope.json`,

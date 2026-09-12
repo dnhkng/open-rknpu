@@ -97,7 +97,7 @@ Measured with [`research/action_probe.c`](../research/action_probe/README.md) (2
 | IOMMU | not present (non-IOMMU mode) |
 | `JOB_FENCE_IN`/`FENCE_OUT` | `-EINVAL`: the kernel was built without `CONFIG_ROCKCHIP_RKNPU_FENCE` — use the barrier-job pattern for fence-free completion |
 | `GET_VOLT` | **oopses the caller** on this board (no regulator in the device tree); do not issue it |
-| dma-buf zero-copy from the ISP | not implemented; inputs are staged through the runtime's buffers |
+| dma-buf zero-copy from the ISP | the driver **can** import a dma-buf (`CREATE` flag `0x80`, probed 2026-09-12: 128/256 flag values, exactly those with bit 7, accept a CMA-heap fd); the runtime does not expose a zero-copy input yet, so inputs are still staged through its buffers |
 
 Those absences are why `docs/plans/pipelining-plan.md` S4 is closed as "measured negative" rather than
 completed with a clock-scaling experiment.

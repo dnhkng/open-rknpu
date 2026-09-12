@@ -1,6 +1,6 @@
 """SPDX-License-Identifier: MIT
 
-Cookbook 7/7: a bounded compatibility scan over the ONNX files already in the tree.
+Cookbook 7/8: a bounded compatibility scan over the ONNX files already in the tree.
 
 No network: the script walks `research/pretrained/**/*.onnx`, one `model000.onnx`
 per `research/*_suite/` and `research/generated/*.onnx`, and tries

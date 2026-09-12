@@ -244,7 +244,8 @@ def _join_fields(kind,height,width,channels,primary,secondary,output,surface,sca
         return fields,output_scale,output_zero_point
     return fields,float(np.float32(2*scales[0])),0
 
-def compile_diamond(model,output_range=None,operand_zero_points=(0,0),serial=True):
+def compile_diamond(model,output_range=None,operand_zero_points=(0,0),serial=True,
+                    calibration_ranges=None):
     """Shared stem, two consuming heads, one elementwise join and an optional Conv tail.
 
     The arena comes from `open_rknpu.liveness`: the stem is live until both heads
@@ -252,7 +253,10 @@ def compile_diamond(model,output_range=None,operand_zero_points=(0,0),serial=Tru
     first tail layer, and the external output is placed after every internal tensor
     so the version-5 no-overlap rule holds. The tail is a `[Conv, Relu]* Conv` chain
     whose first layer consumes the join output by name, i.e. the elementwise and
-    native emitters are composed through the v5 tensor table.
+    native emitters are composed through the v5 tensor table. With
+    `calibration_ranges` the stem, each head and each tail Conv take their measured
+    band through the shared `measured_range` helper; a join operand a shared-scale
+    Add/Sub/Max join captures is still re-centered onto zero point 0.
     """
     onnx.checker.check_model(model)
     g=model.graph;nodes=list(g.node)
@@ -355,9 +359,13 @@ def compile_diamond(model,output_range=None,operand_zero_points=(0,0),serial=Tru
     first=h.make_model(first_graph,opset_imports=list(model.opset_import));first.ir_version=model.ir_version
     with tempfile.TemporaryDirectory() as tmp:
         stem_path=Path(tmp)/'stem.onnx';onnx.save(first,stem_path)
-        stem_data,stem_meta=compile_model(stem_path)
+        stem_data,stem_meta=compile_model(stem_path,calibration_ranges=calibration_ranges)
     stem_scale=stem_meta['output_scale'];stem_zp=stem_meta['output_zero_point']
-    natural=[native_quantize(w,b,stem_scale,stem_zp,None) for w,b,_ in heads]
+    if calibration_ranges is not None and output_range is not None:
+        raise ValueError('calibration and output quantization overrides cannot be combined')
+    from .calibration import measured_range
+    natural=[native_quantize(w,b,stem_scale,stem_zp,measured_range(calibration_ranges,node.output[0]))
+             for (w,b,_),node in zip(heads,(head_a,head_b))]
     adjusted=[float(np.float32(q.output_scale*max(128+q.output_zero_point,127-q.output_zero_point)/127))
               for q in natural]
     scales=[float(np.float32(v)) for v in adjusted] if kind=='Mul' else [float(np.float32(max(adjusted)))]*2
@@ -371,7 +379,12 @@ def compile_diamond(model,output_range=None,operand_zero_points=(0,0),serial=Tru
         join_scale,join_zero=(float(np.float32(2*scales[0])),0)
     q_tails=[];previous=(join_scale,join_zero)
     for index,(w,b,_) in enumerate(tails):
-        selected=output_range if index==len(tails)-1 else None
+        if calibration_ranges is not None:
+            tail_tensor=(tail_nodes[2*index+1].output[0] if 2*index+1<len(tail_nodes)
+                         else tail_nodes[2*index].output[0])
+            selected=measured_range(calibration_ranges,tail_tensor)
+        else:
+            selected=output_range if index==len(tails)-1 else None
         q=native_quantize(w,b,previous[0],previous[1],selected)
         # The tail is `[Conv, Relu]* Conv`, so every non-final layer applies its
         # activation: the emitter writes 0x4060/0x406c/0x40e0 and the reference reads
@@ -558,7 +571,7 @@ def parse_join_chain(nodes,externals=()):
                 runtime_scale=parts['scale'] is not None)
 
 def compile_join_chain(model,output_range=None,operand_zero_points=(0,0),asymmetric_depthwise=False,
-                       operand_scale=1/127,serial=True):
+                       operand_scale=1/127,serial=True,calibration_ranges=None):
     """A shared stem fanned out to 3..8 heads, folded by chained elementwise joins.
 
     This is the scheduler's first variable fan-out: `n` heads all read one stem
@@ -701,13 +714,19 @@ def compile_join_chain(model,output_range=None,operand_zero_points=(0,0),asymmet
     first=h.make_model(first_graph,opset_imports=list(model.opset_import));first.ir_version=model.ir_version
     with tempfile.TemporaryDirectory() as tmp:
         stem_path=Path(tmp)/'stem.onnx';onnx.save(first,stem_path)
-        stem_data,stem_meta=compile_model(stem_path)
+        stem_data,stem_meta=compile_model(stem_path,calibration_ranges=calibration_ranges)
     stem_scale=stem_meta['output_scale'];stem_zp=stem_meta['output_zero_point']
+    if calibration_ranges is not None and output_range is not None:
+        raise ValueError('calibration and output quantization overrides cannot be combined')
     # Join kinds decide the operand scales. A Mul join folds two free operand
     # scales into its own conversion; Add/Sub/Max need both operands on one shared
     # scale (the running result), so the next head is re-quantized onto it. Every
     # operand uses zero point zero, which is what the verified join tasks read.
     kinds=[join.op_type for join in join_nodes]
+    from .calibration import measured_range
+    head_tensors=[node.output[0] for node in head_nodes]
+    tail_tensors=[(tail_nodes[2*index+1].output[0] if 2*index+1<len(tail_nodes)
+                   else tail_nodes[2*index].output[0]) for index in range(len(tails))]
     if output_range is not None and not tails and kinds[-1]!='Mul':
         raise ValueError('the join chain output override requires a Mul join or a Conv tail')
     if output_range is not None and runtime_residual:
@@ -721,9 +740,10 @@ def compile_join_chain(model,output_range=None,operand_zero_points=(0,0),asymmet
         return float(np.float32(scale*max(128+zero_point,127-zero_point)/127))
 
     natural=[];adjusted=[];branch_models=[]
-    for head in heads:
+    for head,tensor in zip(heads,head_tensors):
+        selected=measured_range(calibration_ranges,tensor)
         if head['kind']=='dense':
-            q=native_quantize(head['weights'],head['bias'],stem_scale,stem_zp,None)
+            q=native_quantize(head['weights'],head['bias'],stem_scale,stem_zp,selected)
             natural.append(q);adjusted.append(adjusted_scale(q.output_scale,q.output_zero_point))
             branch_models.append(None)
         else:
@@ -733,7 +753,7 @@ def compile_join_chain(model,output_range=None,operand_zero_points=(0,0),asymmet
                 value_info=[h.make_tensor_value_info(t,1,[1,hidden,8,8])]),
                 opset_imports=list(model.opset_import))
             standalone.ir_version=model.ir_version
-            _,meta=compile_depthwise(standalone)
+            _,meta=compile_depthwise(standalone,output_range=selected)
             natural.append(meta)
             adjusted.append(adjusted_scale(meta['output_scale'],meta['output_zero_point']))
             branch_models.append(standalone)
@@ -855,7 +875,10 @@ def compile_join_chain(model,output_range=None,operand_zero_points=(0,0),asymmet
         join_scales.append(join_scale);join_zeros.append(join_zero);previous=join_scale
     q_tails=[];tail_previous=(join_scales[-1],join_zeros[-1])
     for index,(w,b,_) in enumerate(tails):
-        selected=output_range if index==len(tails)-1 else None
+        if calibration_ranges is not None:
+            selected=measured_range(calibration_ranges,tail_tensors[index])
+        else:
+            selected=output_range if index==len(tails)-1 else None
         q=native_quantize(w,b,tail_previous[0],tail_previous[1],selected)
         # The tail is `[Conv, Relu]* Conv`: every non-final layer applies its activation
         # in its own program (registers 0x4060/0x406c/0x40e0), like the chain family, and

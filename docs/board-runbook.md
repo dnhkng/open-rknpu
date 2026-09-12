@@ -212,7 +212,7 @@ non-IOMMU mode ([research/action_probe/README.md](../research/action_probe/READM
 | IOMMU (`GET_IOMMU_EN`) | 0 / not present (non-IOMMU mode) |
 | `JOB_FENCE_IN` / `JOB_FENCE_OUT` | `-EINVAL`: the kernel was built without `CONFIG_ROCKCHIP_RKNPU_FENCE` — **no pollable completion fd** |
 | `GET_VOLT` | **oopses the caller** (no rknpu regulator in the device tree); the board survives, but never issue it |
-| dma-buf zero-copy from the ISP | not implemented; inputs are staged through the runtime's buffers |
+| dma-buf zero-copy from the ISP | the driver **can** import a dma-buf (`CREATE` flag `0x80`, probed 2026-09-12: 128/256 flag values, exactly those with bit 7, accept a CMA-heap fd); the runtime does not expose a zero-copy input yet, so inputs are still staged through its buffers |
 
 Because there is no fence, lag-0 completion uses the **barrier-job pattern**: submit the
 model non-blocking (`ORNPU_JOB_NONBLOCK`, flag `0x2`), then submit a small blocking

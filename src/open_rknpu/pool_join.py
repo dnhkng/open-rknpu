@@ -120,20 +120,27 @@ def _validate(model):
     return stem_nodes, pool_a.op_type, heads, join.op_type, constants, w1, hidden, join
 
 
-def compile_pool_join(model, output_range=None, serial=True, reuse=True):
+def compile_pool_join(model, output_range=None, serial=True, reuse=True, calibration_ranges=None):
     """Two Conv+pool branches from one stem, folded by one elementwise join.
 
     Both pooled grids are quantized with zero point zero: a Mul join folds the two
     free branch scales, while Add/Sub/Max need one shared scale that both branches
     are re-quantized onto. Pooling preserves the grid scale, so the pooled operands
-    carry the branch scales unchanged. Bounds: RGB 8x8 input, RGB 4x4 output, 1x1
-    stem with 3..16 hidden channels, dense 1x1/3x3 branches, 2x2 stride-2
-    MaxPool/AveragePool, and an output override only for a Mul join.
+    carry the branch scales unchanged. With `calibration_ranges` the stem and each
+    branch Conv take their measured band through the shared `measured_range` helper
+    (the zero-point-0 pool rule still re-centers a branch operand). Bounds: RGB 8x8
+    input, RGB 4x4 output, 1x1 stem with 3..16 hidden channels, dense 1x1/3x3
+    branches, 2x2 stride-2 MaxPool/AveragePool, and an output override only for a
+    Mul join.
     """
     stem_nodes, pool_kind, heads, kind, constants, w1, hidden, _ = _validate(model)
     g = model.graph
+    if calibration_ranges is not None and output_range is not None:
+        raise ValueError('calibration and output quantization overrides cannot be combined')
     if output_range is not None and kind != 'Mul':
         raise ValueError('the pool join output override requires a Mul join')
+    stem_end = 2 if len(g.node) > 1 and g.node[1].op_type == 'Relu' else 1
+    head_names = [g.node[stem_end].output[0], g.node[stem_end + 2].output[0]]
     stem_out_name = stem_nodes[-1].output[0]
     first_graph = h.make_graph(stem_nodes, 'stem', list(g.input),
         [h.make_tensor_value_info(stem_out_name, 1, [1, hidden, 8, 8])],
@@ -143,10 +150,12 @@ def compile_pool_join(model, output_range=None, serial=True, reuse=True):
     with tempfile.TemporaryDirectory() as tmp:
         stem_path = Path(tmp) / 'stem.onnx'
         onnx.save(first, stem_path)
-        stem_data, stem_meta = compile_model(stem_path)
+        stem_data, stem_meta = compile_model(stem_path, calibration_ranges=calibration_ranges)
     stem_scale = stem_meta['output_scale']
     stem_zp = stem_meta['output_zero_point']
-    natural = [native_quantize(w, b, stem_scale, stem_zp, None) for w, b, _ in heads]
+    from .calibration import measured_range
+    natural = [native_quantize(w, b, stem_scale, stem_zp, measured_range(calibration_ranges, name))
+               for (w, b, _), name in zip(heads, head_names)]
     adjusted = [float(np.float32(q.output_scale * max(128 + q.output_zero_point,
                                                       127 - q.output_zero_point) / 127))
                 for q in natural]

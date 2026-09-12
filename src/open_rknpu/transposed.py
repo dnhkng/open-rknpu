@@ -5,7 +5,87 @@ import onnx
 from onnx import helper as h,numpy_helper as nh
 from .depthwise import compile_depthwise
 from .chain import native_quantize
+from .quantization import reference
 from .sequence import encode_sequence
+
+
+def transposed_reference(inputs,stem_quantization,quantization,pads=(0,0,0,0),
+                         strides=(1,1),output_padding=(0,0),output_shape=None):
+    """Integer reference for the emitted depthwise or dense ConvTranspose task.
+
+    Replays the hardware requantization from the container's declared
+    `transposed_quantization` and the stem's `first` band: the stem grid is the dense
+    `quantization.reference`, every quantized tap is scattered to
+    `(iy*stride + ky - pad_top, ix*stride + kx - pad_left)` (so off-centre taps and
+    per-axis stride are explicit), weighted by the *centered* weights minus the
+    per-channel weight zero point, then the two-stage channel/global conversion is
+    rounded half to even and clipped onto the INT8 band. The stem channel count
+    selects the depthwise `(C,1,K,K)` layout (one input channel per output channel)
+    over the dense `(C_in,C_out,K,K)` matrix product; both the K5 asymmetric
+    zero-point table and the sparse K2/K3/K5 rewrites use the same path.
+
+    Board evidence, byte-for-byte: `transpose_channels_suite` (16 models),
+    `transpose_k5_suite` (9), `transpose_k5_dilation_suite` (8), `transpose_dense_suite`
+    (8), `transpose_grouped_suite` (6), `transpose_padding_suite` (6),
+    `transpose_unequal_suite` (6), `transpose_output_shape_suite` (5),
+    `transpose_rectangular_suite` (5), `transpose_overlap_suite` (4),
+    `transpose_dilation_suite` (4), `transpose_dilation_dense_suite` (4),
+    `transpose_output_quantization_suite` (4), `transpose_stride1_suite` (4) and
+    `transpose_no_bias_suite` (2).
+    """
+    if len(pads)!=4:
+        raise ValueError("transposed reference requires four pad values")
+    if len(strides)!=2 or any(v not in (1,2) for v in strides):
+        raise ValueError("transposed reference supports per-axis stride 1 or 2")
+    if len(output_padding)!=2 or any(not 0<=output_padding[i]<strides[i] for i in range(2)):
+        raise ValueError("transposed reference requires output_padding below its axis stride")
+    q=quantization;k=int(q.kernel_size)
+    if k not in (2,3,5):
+        raise ValueError("transposed reference supports K2/K3/K5 kernels")
+    outputs=int(q.weights.shape[0]);total=int(q.weights.size)
+    if total%(outputs*k*k):
+        raise ValueError("transposed reference requires a square kernel weight layout")
+    inputs_per_output=total//(outputs*k*k)
+    weights=np.asarray(q.weights,np.int64).reshape(outputs,inputs_per_output,k,k)
+    centered=weights-np.asarray(q.weight_zero_points,np.int64).reshape(outputs,1,1,1)
+    activation=reference(inputs,stem_quantization).astype(np.int64)
+    # An ic=1 dense (C_in,C_out,K,K) tensor and a depthwise (C,1,K,K) tensor have the
+    # same flat size, so the stem channel count is what distinguishes them: depthwise
+    # reads one input channel per output channel, a dense C1->Cn shares the single
+    # input across every output.
+    if inputs_per_output==1 and activation.shape[2]==outputs:
+        depthwise=True
+    elif activation.shape[2]==inputs_per_output:
+        depthwise=False
+    else:
+        raise ValueError("transposed reference requires the stem channels to match the weight layout")
+    activation=activation-int(stem_quantization.output_zero_point)
+    base=np.asarray(q.biases,np.int64)+int(stem_quantization.output_zero_point)*centered.reshape(outputs,-1).sum(axis=1)
+    if output_shape is None:
+        height,width=activation.shape[:2]
+        output_shape=((height-1)*strides[0]+k-pads[0]-pads[2]+output_padding[0],
+                      (width-1)*strides[1]+k-pads[1]-pads[3]+output_padding[1])
+    if len(output_shape) not in (2,3) or (len(output_shape)==3 and int(output_shape[2])!=outputs):
+        raise ValueError("transposed reference output_shape must match the emitted channels")
+    out_h,out_w=int(output_shape[0]),int(output_shape[1])
+    acc=np.broadcast_to(base,(out_h,out_w,outputs)).astype(np.int64).copy()
+    for iy in range(activation.shape[0]):
+        for ix in range(activation.shape[1]):
+            for ky in range(k):
+                for kx in range(k):
+                    oy=iy*strides[0]+ky-pads[0];ox=ix*strides[1]+kx-pads[1]
+                    if 0<=oy<out_h and 0<=ox<out_w:
+                        acc[oy,ox]+=(activation[iy,ix]*centered[:,0,ky,kx] if depthwise
+                                     else activation[iy,ix]@centered[:,:,ky,kx].T)
+    product=acc*q.channel_multipliers
+    scaled=(product+8191+((product>>14)&1))>>14
+    product=scaled*q.multiplier
+    if q.shift:
+        product=product+(1<<(q.shift-1))-1+((product>>q.shift)&1)
+        result=(product>>q.shift)+int(q.output_zero_point)
+    else:
+        result=product+int(q.output_zero_point)
+    return np.clip(result,-128,127).astype(np.int8)
 
 
 def _compile_dense_transposed(model,input_scale,input_zero_point,output_range):

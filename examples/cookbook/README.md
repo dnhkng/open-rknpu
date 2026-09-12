@@ -2,18 +2,19 @@
 
 # open-rknpu cookbook
 
-Seven host-only, deterministic examples that answer the questions the
+Eight host-only, deterministic examples that answer the questions the
 `examples/primitives/` folder does not: how a compiled container is *loaded and
 run*, how already-quantized models are imported, how mutable parameters are
-replaced, why batched submission wins on deep chains, how to check the installed
-package, what a rejection looks like, and what of the tree's ONNX zoo compiles.
+replaced (by hand and through the shipped `open_rknpu.mutable` API), why batched
+submission wins on deep chains, how to check the installed package, what a
+rejection looks like, and what of the tree's ONNX zoo compiles.
 
 No board, no network, no PyTorch and no vendor toolchain is needed: the board
 commands are printed as text, and every container is written under
 `examples/cookbook/build/` (git-ignored via `examples/*/build/`).
 
 ```sh
-PYTHONPATH=src python examples/cookbook/01_hello_npu_c.py     # ... 02 ... through 07
+PYTHONPATH=src python examples/cookbook/01_hello_npu_c.py     # ... 02 ... through 08
 # or all of them:
 for s in examples/cookbook/0*.py; do PYTHONPATH=src python "$s" || exit 1; done
 ```
@@ -33,6 +34,7 @@ messages, ...). Nothing here is a print-only demo.
 | `05_wheel_installed.py` | using the installed distribution, not `src/`, located via `importlib` | `PYTHONPATH=src python examples/cookbook/05_wheel_installed.py` | the source checkout is detected and refused politely (exit 0), and a child interpreter with `PYTHONPATH` cleared probes the installed package; otherwise it compiles a Conv, decodes the container and prints module path + version |
 | `06_troubleshooting.py` | five deliberately unsupported graphs and their exact rejection text | `PYTHONPATH=src python examples/cookbook/06_troubleshooting.py` | each raises `ValueError` containing the expected substring, with the fix/roadmap pointer printed |
 | `07_zoo_compatibility.py` | a bounded, network-free compatibility scan of the ONNX files in the tree | `PYTHONPATH=src python examples/cookbook/07_zoo_compatibility.py` | table is non-empty, at least one model compiles and at least one is rejected, scan is bounded and fast (< 60 s) |
+| `08_mutable_api.py` | the supported mutable-parameter workflow: `compile_mutable`, `constant_regions`, `graft_region`, `program_bytes` | `PYTHONPATH=src python examples/cookbook/08_mutable_api.py` | a pinned band makes two compiles' task programs identical; `graft_region` reproduces the donor container byte-for-byte, refuses a donor from another band with the exact message, and the integer reference shows the output change |
 
 `cookbook_common.py` is the shared helper: it loads
 `examples/primitives/common.py` (graph builders, `compile_and_report`, `qfrom`,

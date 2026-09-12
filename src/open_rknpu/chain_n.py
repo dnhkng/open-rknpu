@@ -73,10 +73,28 @@ def _validate(model):
     return graph, nodes, convs, layers, constants
 
 
+def _layer_tensor_names(nodes, count):
+    """The measured tensor of each layer, in layer order.
+
+    `open_rknpu.calibration.measured_tensor_names` names a Conv output by the fused
+    activation output when a `Relu` directly follows, so a hidden layer's tensor is its
+    `Relu` output and the final Conv's is the Conv output.
+    """
+    return [nodes[2 * index + 1].output[0] if index < count - 1 else nodes[2 * index].output[0]
+            for index in range(count)]
+
+
 def compile_chain_n(model, output_range=None, expose_intermediates=False, reuse_intermediates=False,
-                    serial=True):
+                    serial=True, calibration_ranges=None):
     graph, nodes, convs, layers, constants = _validate(model)
     count = len(layers)
+    if calibration_ranges is not None and output_range is not None:
+        raise ValueError('calibration and output quantization overrides cannot be combined')
+    # Every layer's band comes from the same measured-band helper the other profiles use;
+    # a missing entry fails before any program is emitted.
+    from .calibration import measured_range
+    bands = [measured_range(calibration_ranges, name)
+             for name in _layer_tensor_names(nodes, count)]
     # Layer 1 program and constants from the established single-layer emitter.
     first_activation = nodes[1]
     first_graph = h.make_graph([convs[0], first_activation], "layer1", list(graph.input),
@@ -87,13 +105,16 @@ def compile_chain_n(model, output_range=None, expose_intermediates=False, reuse_
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / "layer1.onnx"
         onnx.save(first_model, path)
-        first_data, first_meta = compile_model(path)
+        first_data, first_meta = compile_model(path, calibration_ranges=calibration_ranges)
     quantizations = [None] * count
     quantizations[0] = first_meta
     scale, zero_point = first_meta["output_scale"], first_meta["output_zero_point"]
     for index in range(1, count):
         w, b, _ = layers[index]
-        selected = output_range if index == count - 1 else None
+        if calibration_ranges is not None:
+            selected = bands[index]
+        else:
+            selected = output_range if index == count - 1 else None
         quantizations[index] = native_quantize(w, b, scale, zero_point, selected)
         # The graph is `[Conv, Relu]*(N-1) + [Conv]`, and a native layer carries its
         # activation in its own program (registers 0x4060/0x406c/0x40e0). Until S9 the

@@ -20,11 +20,16 @@ calibration_ranges=None, expose_intermediates=False, reuse_intermediates=False,
 asymmetric_depthwise=False, per_channel_mul=False, submission=None, tiles=None)`
 returns `(binary, meta)`.
 
-The `meta` dict is the practical interface: `profile`, `quantization` (or `quantizations`
-for composed graphs), `input_shape`, `output_shape`, `output_scale`, `output_zero_point`,
-`task_count`, `engine_runs`, `arena_bytes`, `allocated_bytes`, `tensor_offsets`,
-`constant_offsets`, `walk_ops`, `stages`, plus profile-specific keys. Print it while
-developing — every example does.
+The `meta` dict is the practical interface. Which keys are present depends on the profile
+that accepted the graph: `submission`, `shape_nhwc`, `output_shape_nhwc` and `quantization`
+(or `quantizations` for composed graphs) are always there, and the profile identifier key is
+`profile`, `sequence_profile`, `lut_profile`, `transposed_profile`, `depthwise_profile` or
+`elementwise_profile` - a composed path (the op-level walk in particular) deliberately
+carries none of them, which is why `docs/api-stability.md` pins the keys it promises rather
+than "`profile` always exists". Other keys you will see per family: `task_count`,
+`engine_runs`, `arena_bytes`, `allocated_bytes`, `tensor_offsets`, `constant_offsets`,
+`walk_ops`, `stages`, `pool_stages`, `limitations`. Print it while developing - every
+example does.
 
 ## Per-profile references
 
@@ -33,16 +38,17 @@ references live next to their emitters:
 
 | Profile family | Reference |
 | --- | --- |
-| image-input Conv, pooling | `native.native_input_reference` |
+| image-input Conv | `native.native_input_reference` |
+| pooling / reduction | `pooling.pool_reference` (1-3 2x2 levels), `reduction.reduction_reference` (3 levels), `network.network_reference` (profiles 7/8) |
 | internal INT8 grids | `chain.native_reference` |
 | generic quantized single Conv | `quantization.reference` |
 | LUT activations | `lut.lut_reference`, `lut.stem_range` |
-| activations | `activation.*_reference` |
-| joins / DAGs | `graph.diamond_reference`, `join_dag.join_dag_reference`, `chain.join_chain_scale_reference` |
+| activations | `activation.leaky_reference`, `activation.prelu_reference` |
+| joins / DAGs | `graph.diamond_reference`, `graph.join_chain_scale_reference`, `join_dag.join_dag_reference` |
 | walked chains and joins | `walk.chain_walk_reference`, `walk.join_walk_reference` with `walk.load_quantizations(meta)` |
-| depthwise | `depthwise.*_reference` |
-| transposed Conv | `transposed.*_reference` |
-| elementwise | `elementwise.*_reference` |
+| depthwise | `depthwise.depthwise_reference` |
+| transposed Conv | `transposed.transposed_reference` (dense and depthwise, K2/K3/K5, off-centre taps) |
+| elementwise | `elementwise.add_reference`, `sub_reference`, `max_reference`, `mul_reference`, `mul_requant_reference`, `runtime_scale_reference` |
 
 ## Composing your own container
 
@@ -69,6 +75,7 @@ result into bytes and validates it.
 | Dispatch | `scheduler`, `walk` |
 | Profiles | `native`, `native_elementwise`, `strided`, `depthwise`, `pooling`, `reduction`, `chain`, `chain_n`, `tiled_chain`, `elementwise`, `elementwise_chain`, `elementwise_multi`, `join_dag`, `pool_join`, `depthwise_join`, `pooled_branches`, `transposed`, `lut`, `layout` |
 | Composition | `compose`, `liveness`, `sequence`, `model` |
+| Mutable parameters | `mutable` (v4 constant regions: read, replace, band-checked graft) |
 | Numerics | `quantization`, `calibration`, `activation`, `padding`, `register_profile` |
 | Tooling | `cli`, `compiler`, `accuracy` |
 

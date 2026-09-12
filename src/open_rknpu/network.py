@@ -6,8 +6,24 @@ import struct,tempfile
 import onnx
 from onnx import helper as h
 from .chain import compile_chain
-from .pooling import POOL
+from .chain_n import chain_n_reference
+from .pooling import POOL, pool_codes_reference
 from .register_profile import REGISTERS
+
+
+def network_reference(inputs,quantizations,kind,levels=3):
+    """Integer reference for the Conv-Relu-Conv plus three pool stages (profiles 7/8).
+
+    The stem is the two-layer native chain (`chain_n_reference`, which already carries
+    both container bands) and the reduction is the shared `pool_codes_reference` at
+    three levels. Board evidence: `network_suite`, 28 board-passing models, 896
+    inferences and 2,688 exact output bytes (`network_suite.log`, `research/README.md`).
+    """
+    if kind not in ("MaxPool","AveragePool"):
+        raise ValueError("network reference supports MaxPool or AveragePool")
+    if levels!=3:
+        raise ValueError("network reference models exactly three 2x2 pooling levels")
+    return pool_codes_reference(chain_n_reference(inputs,quantizations),kind,3)
 
 def compile_network(path,calibration_ranges=None):
     model=onnx.load(path);onnx.checker.check_model(model);g=model.graph

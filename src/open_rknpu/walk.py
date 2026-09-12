@@ -78,6 +78,26 @@ def _input_bytes(height, width, channels):
     return height * ((width + 15) // 16 * 16) * channels
 
 
+def _fused_tensor_names(graph):
+    """Map each Conv output to its measured tensor (the fused activation output).
+
+    The same naming `open_rknpu.calibration.measured_tensor_names` uses: when a `Relu`
+    or `Clip` directly follows the Conv and consumes its only output, the measured
+    tensor is the activation's output.
+    """
+    nodes = list(graph.node)
+    names = {}
+    for index, node in enumerate(nodes):
+        if node.op_type != "Conv":
+            continue
+        tensor = node.output[0]
+        if (index + 1 < len(nodes) and nodes[index + 1].op_type in ("Relu", "Clip")
+                and list(nodes[index + 1].input) == [node.output[0]]):
+            tensor = nodes[index + 1].output[0]
+        names[node.output[0]] = tensor
+    return names
+
+
 def _conv_attributes(node, weight_shape):
     """Validate one dense Conv node and return its geometry."""
     if node.domain not in ("", "ai.onnx") or len(node.input) != 3:
@@ -729,13 +749,16 @@ def join_walk_reference(inputs, quantizations, plan, join_zero_point=0):
 
 
 def compile_join_walk(model, input_scale=1.0, input_zero_point=0, output_range=None,
-                      serial=True):
+                      serial=True, ranges=None):
     """Compile a supported fan-in join graph through the composer.
 
     The band rules are the diamond emitter's: each head is quantized on its natural
     band, a Mul join folds the two head scales, an Add/Sub/Max join re-quantizes both
     heads onto one shared scale (zero point 0), and the tail chain continues from the
-    join band.
+    join band. With `ranges` (an `open_rknpu.calibration.measure` report) the stem,
+    each head Conv and each tail Conv take their measured band as the natural band
+    through the shared `measured_range` helper; a join operand that a shared-scale
+    Add/Sub/Max captures is still re-centered onto zero point 0.
     """
     from .elementwise import mul_output_conversion
     from .graph import _join_fields, join_reference  # noqa: F401  (reference helper)
@@ -743,6 +766,10 @@ def compile_join_walk(model, input_scale=1.0, input_zero_point=0, output_range=N
     plan = parse_join_walk(model.graph)
     if plan is None:
         raise ValueError("unsupported join walk graph")
+    if ranges is not None and output_range is not None:
+        raise ValueError("calibration and output quantization overrides cannot be combined")
+    from .calibration import measured_range
+    fused = _fused_tensor_names(model.graph)
     stem, heads, tails = plan["stem"], plan["heads"], plan["tails"]
     kind = plan["join_kind"]
     if output_range is not None and kind != "Mul" and not tails:
@@ -753,6 +780,9 @@ def compile_join_walk(model, input_scale=1.0, input_zero_point=0, output_range=N
     height, width = plan["input_shape"]
     hidden = plan["hidden"]
     head_height, head_width, head_channels = plan["join_shape"]
+
+    def measured(node):
+        return measured_range(ranges, fused[node.output[0]]) if ranges is not None else None
 
     # 1. The stem is the established single-Conv layer, copied like the chain family's
     #    first stage so its verified fields and constants come from that emitter.
@@ -772,8 +802,14 @@ def compile_join_walk(model, input_scale=1.0, input_zero_point=0, output_range=N
     with tempfile.TemporaryDirectory() as folder:
         stem_path = Path(folder) / "stem.onnx"
         onnx.save(stem_model, stem_path)
+        # The reconstructed stem renames its tensors, so the report's entry for the
+        # original stem tensor is re-keyed onto this graph's output name.
+        stem_node = model.graph.node[0]
+        stem_selected = measured_range(ranges, fused[stem_node.output[0]]) if ranges is not None else None
+        stem_ranges = None if stem_selected is None else {stem_output: stem_selected}
         stem_data, stem_meta = compile_model(stem_path, input_scale=input_scale,
-                                             input_zero_point=input_zero_point)
+                                             input_zero_point=input_zero_point,
+                                             calibration_ranges=stem_ranges)
     stem_source = {word & 0xFFFF: (word >> 16) & 0xFFFFFFFF
                    for word in struct.unpack_from("<126Q", stem_data)}
     stem_weight_size = _align(1 * 1 * _align(hidden, 4) * 4)
@@ -782,7 +818,8 @@ def compile_join_walk(model, input_scale=1.0, input_zero_point=0, output_range=N
 
     # 2. Bands.
     natural = [native_quantize(head["conv"]["weights"], head["conv"]["bias"],
-                               stem_scale, stem_zero_point, None) for head in heads]
+                               stem_scale, stem_zero_point, measured(head["node"]))
+               for head in heads]
     adjusted = [_adjusted_scale(q.output_scale, q.output_zero_point) for q in natural]
     if kind == "Mul":
         scales = [float(np.float32(value)) for value in adjusted]
@@ -799,7 +836,10 @@ def compile_join_walk(model, input_scale=1.0, input_zero_point=0, output_range=N
     q_tails = []
     previous = (join_scale, join_zero)
     for index, tail in enumerate(tails):
-        selected = output_range if index == len(tails) - 1 else None
+        if ranges is not None:
+            selected = measured(tail["node"])
+        else:
+            selected = output_range if index == len(tails) - 1 else None
         quantization = native_quantize(tail["conv"]["weights"], tail["conv"]["bias"],
                                        previous[0], previous[1], selected)
         quantization.relu = tail["activation"] == "Relu"

@@ -1,0 +1,321 @@
+[
+  {
+    "index": 0,
+    "label": "matmul-direct-c8-k4",
+    "spelling": "direct",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "MatMul"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      4
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 4
+  },
+  {
+    "index": 1,
+    "label": "matmul-direct-c16-k8",
+    "spelling": "direct",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "MatMul"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      16
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 8
+  },
+  {
+    "index": 2,
+    "label": "matmul-direct-c24-k1",
+    "spelling": "direct",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "MatMul"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      24
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1
+  },
+  {
+    "index": 3,
+    "label": "matmul-flatten-c8-k4",
+    "spelling": "flatten",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Flatten",
+      "MatMul"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      4
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 4
+  },
+  {
+    "index": 4,
+    "label": "matmul-flatten-c32-k16",
+    "spelling": "flatten",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Flatten",
+      "MatMul"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      32
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      16
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 16
+  },
+  {
+    "index": 5,
+    "label": "matmul-reshape-c16-k8",
+    "spelling": "reshape",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Reshape",
+      "MatMul"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      16
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 8
+  },
+  {
+    "index": 6,
+    "label": "gemm-direct-c8-k4",
+    "spelling": "gemm",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Gemm"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      4
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 4
+  },
+  {
+    "index": 7,
+    "label": "gemm-direct-c16-k3",
+    "spelling": "gemm",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Gemm"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      16
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      3
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 3
+  },
+  {
+    "index": 8,
+    "label": "gemm-flatten-c8-k4",
+    "spelling": "gemm-flatten",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Flatten",
+      "Gemm"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      4
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 4
+  },
+  {
+    "index": 9,
+    "label": "gemm-flatten-c40-k8",
+    "spelling": "gemm-flatten",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Flatten",
+      "Gemm"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      40
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 8
+  },
+  {
+    "index": 10,
+    "label": "gemm-transB-c16-k8",
+    "spelling": "gemm-transB",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Flatten",
+      "Gemm"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      16
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 8
+  },
+  {
+    "index": 11,
+    "label": "gemm-nobias-c8-k4",
+    "spelling": "gemm-nobias",
+    "ops": [
+      "Conv"
+    ],
+    "source_ops": [
+      "Flatten",
+      "Gemm"
+    ],
+    "input_shape": [
+      1,
+      1,
+      1,
+      8
+    ],
+    "output_shape": [
+      1,
+      1,
+      1,
+      4
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 4
+  }
+]

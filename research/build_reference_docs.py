@@ -1540,6 +1540,82 @@ ERROR_MEANINGS = {
         "A calibration sample holds NaN/inf or values outside [0,255]; fix the named sample.",
     "open-rknpu: %s\n":
         "The CLI top-level error wrapper; the formatted suffix is the compiler message it caught.",
+    # --- mutable.py (the v4 constant-region API) -----------------------------
+    "v5 containers have no constant descriptor table; mutable parameters require a v4 container":
+        "Only a v4 container carries named constant regions. Compile with mutable_weights=True "
+        "or mutable_constants=True (open_rknpu.mutable.compile_mutable).",
+    "legacy containers have no constant descriptor table; mutable parameters require a v4 container":
+        "Legacy ORNPUBIN containers have no constant table; mutable parameters need an ORNPUSEQ v4 "
+        "container from the native Conv or constant-Mul profile.",
+    "no constant region named ":
+        "The name does not match any descriptor in this container; list them with "
+        "open_rknpu.mutable.constant_regions(binary) and pass the exact name.",
+    "constant region index ":
+        "The index is outside the container's constant table; the message names the table length.",
+    "replacement has ":
+        "A region is replaced whole: the replacement must be exactly the descriptor's size. Read "
+        "the current bytes with constant_payload(binary) and repack for the same band.",
+    "the donor has no constant region named ":
+        "The donor container must carry the same region name; compile it with the same mutable "
+        "flag and the same profile.",
+    "the containers do not share a task program, so their bands differ (first difference at byte ":
+        "The band's multiplier/shift/zero-point registers live in the task program, so a region "
+        "from another band would compute wrong numbers. Pin output_range when compiling the donor, "
+        "then compare program_bytes before grafting.",
+    "compile_mutable needs mutable_weights or mutable_constants":
+        "Ask for a replaceable region: compile_mutable(model, mutable_weights=True) for the native "
+        "Conv parameters, or mutable_constants=True for the constant-Mul factor.",
+    "the compiled profile has no mutable constant region; no v4 container was emitted":
+        "The profile that accepted the graph has no mutable form (only the native Conv and the "
+        "constant-Mul profiles emit v4 constants); see docs/api-stability.md.",
+    # --- the F1/F2 front-end lowerings ---------------------------------------
+    "1-D rank promotion requires rank-3 outputs; '%s' is rank %d":
+        "A rank-3 graph must keep rank-3 outputs: the promotion to [N,C,1,L] cannot rewrite a "
+        "graph whose output is rank 2 (or 4). Add or remove the reshaping node yourself.",
+    "1-D rank promotion cannot rewrite %s node '%s'":
+        "ONNX 1-D models are promoted to the 2-D form by rewriting Conv/pool attributes in place; "
+        "another node type in the graph needs an explicit reshape before compiling.",
+    "1-D rank promotion requires constant rank-3 weights for Conv node '%s'":
+        "A 1-D Conv needs constant [O,I,K] weights; dynamic or pre-reshaped weights cannot be "
+        "promoted to [O,I,1,K].",
+    # --- the F13 profile references (guards the reference does not model) -----
+    "pool reference supports MaxPool or AveragePool":
+        "The pooling reference models the two verified kinds only; the container came from a "
+        "different path, so replay it with the suite's own recorded expected bytes.",
+    "pool reference requires at least one 2x2 pooling level":
+        "pool_reference models 1-3 chained 2x2/stride-2 pools; a different geometry has no "
+        "reference formula here.",
+    "reduction reference models exactly three 2x2 pooling levels":
+        "The reduction profile (legacy 5/6) is exactly three 2x2 pools; use pool_reference for "
+        "one or two levels.",
+    "network reference supports MaxPool or AveragePool":
+        "The legacy 7/8 network reference models the two verified pool kinds only.",
+    "network reference models exactly three 2x2 pooling levels":
+        "The legacy 7/8 profile is Conv-Relu-Conv plus exactly three 2x2 pools.",
+    "transposed reference requires four pad values":
+        "ConvTranspose pads are [beginH, beginW, endH, endW]; pass the container's own values.",
+    "transposed reference supports per-axis stride 1 or 2":
+        "The transposed reference models stride 1 or 2 per axis; other strides have no verified "
+        "container to compare against.",
+    "transposed reference requires output_padding below its axis stride":
+        "ONNX requires output_padding < stride on each axis; the container was emitted with a "
+        "legal value, so this means the arguments were mixed up.",
+    "transposed reference supports K2/K3/K5 kernels":
+        "The transposed emitter rewrites K2/K3/K5 (and small rectangular kernels) into the "
+        "verified forms; the reference does not model other kernel sizes.",
+    "transposed reference requires a square kernel weight layout":
+        "That rewrite path packs a square kernel; a rectangular layout belongs to the "
+        "rectangular rewrite the emitter reports instead.",
+    "transposed reference requires the stem channels to match the weight layout":
+        "The stem channel count must agree with the weight tensor's input channels; recompile "
+        "and read the layout from the container.",
+    "transposed reference output_shape must match the emitted channels":
+        "The output_shape argument names a channel count the weights do not produce; omit it to "
+        "derive the geometry from the container.",
+    # --- calibration parity (F3) --------------------------------------------
+    "calibration is unsupported for the height-strip tiled chain":
+        "The height-strip tiled chain cannot carry per-stage measured bands yet; compile the "
+        "same graph with the untiled chain profile when you need calibration_ranges.",
 }
 
 
