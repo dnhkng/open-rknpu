@@ -261,6 +261,47 @@ the driver's own overhead, so it is an upper bound on engine time, not a hardwar
 Use the minimum over a warm run: the host, `adb` and `rkipc` make medians and means noisy
 ([docs/performance.md](performance.md), [tests/board_timed.c](../tests/board_timed.c)).
 
+## Zero-copy input from a dma-buf
+
+The driver imports an existing dma-buf when `CREATE`'s `handle` is the fd and bit 7 of
+`flags` is set; `research/probe_dmabuf.c` established the selector on the reference board
+(128 of 256 flag values accepted a CMA-heap fd, exactly those with `0x80` set, and the
+driver returned a device address). The runtime exposes that as an opt-in arena:
+
+```c
+ornpu_model *model;
+int arena_fd;
+if (ornpu_open_shared("model.bin", &model, &arena_fd)) return -1;
+
+struct ornpu_input_view view;
+if (ornpu_input_view(model, 0, &view)) return -1;      /* -ENOTSUP: not a packed input */
+uint8_t *arena = mmap(NULL, info.arena_bytes, PROT_READ | PROT_WRITE, MAP_SHARED, arena_fd, 0);
+
+/* The producer writes the data rows in the arena's layout; the runtime fills the
+ * 16-lane stride padding with the input zero point and copies nothing. */
+for (uint32_t b = 0; b < view.batch; b++)
+    for (uint32_t row = 0; row < view.height; row++)
+        memcpy(arena + view.offset + ((uint64_t)b * view.height + row) * view.row_stride * view.channels,
+               frame + ((uint64_t)b * view.height + row) * view.width * view.channels,
+               (size_t)view.width * view.channels);
+
+ornpu_run_prefilled(model, output, info.output_bytes);   /* no input copy, no pack */
+```
+
+`ornpu_open_shared` allocates the arena from `/dev/rk_dma_heap/rk-dma-heap-cma`, imports it
+into the NPU and returns the heap fd; the model keeps ownership (map it, do not close it).
+`ornpu_input_view` reports the absolute offset, the row stride, the geometry and the region
+size; it returns `-ENOTSUP` for a `native16` layout (an internal packing a caller cannot
+produce by copying bytes) and for the two-input legacy layout. `ornpu_run_prefilled` clears
+the output region, completes the stride padding, syncs the cache, submits and unpacks - it
+never touches the producer's data.
+
+A V4L2/ISP or RGA producer whose row stride is already 16-aligned (the ISP's native layout)
+can fill the arena directly; a producer with a different stride must lay the rows out as
+`ornpu_input_view` describes. Board evidence: the whole `add_geometry_suite` through this
+path - **32 models / 64 inferences / 19,968 exact bytes, 0 mismatches**
+([docs/investigation-log.md](investigation-log.md), [tests/board_shared.c](../tests/board_shared.c)).
+
 ## The experimental async API
 
 These are documented as experimental in the header and carry the measured

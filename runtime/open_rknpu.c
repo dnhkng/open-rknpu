@@ -44,6 +44,13 @@ _Static_assert(sizeof(struct allocation)==40,"allocation ABI");
 _Static_assert(sizeof(struct task)==40,"task ABI");
 _Static_assert(sizeof(struct submit)==104,"submit ABI");
 #define CREATE _IOWR('r',2,struct allocation)
+/* The driver imports an existing dma-buf when `handle` is the fd and bit 7 of `flags` is
+ * set (research/probe_dmabuf.c: 128/256 flag values accepted one, exactly those with 0x80;
+ * with the bit clear every value returned -EINVAL). */
+#define ORNPU_MEM_DMABUF 0x80u
+#define RK_DMA_HEAP "/dev/rk_dma_heap/rk-dma-heap-cma"
+struct dma_heap_allocation_data { uint64_t len; uint32_t fd; uint32_t fd_flags; uint64_t heap_flags; };
+#define DMA_HEAP_IOCTL_ALLOC _IOWR('H', 0x0, struct dma_heap_allocation_data)
 #define DESTROY _IOWR('r',4,struct release)
 #define SYNC _IOWR('r',5,struct sync)
 #define SUBMIT _IOWR('r',1,struct submit)
@@ -83,6 +90,7 @@ struct ornpu_model {
     struct constant_spec *constants;
     struct tensor_spec *tensors;
     int fd;
+    int heap_fd;            /* Rockchip CMA heap device when the arena is a shared dma-buf */
     unsigned allocated;
     struct allocation buffers[2];
     void *mapping[2];
@@ -141,7 +149,8 @@ static void fill_info(const struct header *h,ornpu_info *info) {
     unsigned out_w=h->profile>=5?1:h->profile>=3?4:h->width;
     *info=(ornpu_info){h->height,h->width,h->input_channels,h->output_channels,
                      h->height*h->width*h->input_channels,out_h*out_w*h->output_channels,
-                     h->output_scale,h->output_zero_point,out_h,out_w,1.0f,0,1,1,0,0,0,0,0,0};
+                     h->output_scale,h->output_zero_point,out_h,out_w,1.0f,0,1,1,0,0,0,0,0,0,
+                     h->arena_size};
     if(h->version==2) {
         memcpy(&info->input_scale,&h->reserved[0],sizeof(float));
         info->input_zero_point=h->reserved[1];
@@ -258,7 +267,7 @@ static int load_v5(FILE *f,const uint32_t *v,struct header *h,uint8_t **payload,
                        (uint32_t)(batch*(uint64_t)primary_in->height*primary_in->width*primary_in->channels),
                        (uint32_t)(batch*(uint64_t)primary_out->height*primary_out->width*primary_out->channels),
                        outscale,outzp,primary_out->height,primary_out->width,inscale,v[15],batch,input_count,0,
-                       tensors_n,output_count,v[13],flags&1,0};
+                       tensors_n,output_count,v[13],flags&1,0,v[10]};
     *count=v[13];*tensor_count=tensors_n;*serial=flags&1;
     return 0;
 }
@@ -353,7 +362,8 @@ static int load_program(const char *path,struct header *h,uint8_t **payload,
     h->input_stride=v[8];h->output_stride=16;h->payload_size=v[9];h->arena_size=v[10];
     h->input_offset=v[11];h->output_offset=v[12];h->reserved[0]=v[14];h->reserved[1]=v[15];
     *info=(ornpu_info){v[2],v[3],v[4],v[7],batch*v[2]*v[3]*v[4],batch*v[5]*v[6]*v[7],
-                      outscale,outzp,v[5],v[6],inscale,v[15],batch,input_count,constants_count,0,0,v[13],flags&1,0};
+                      outscale,outzp,v[5],v[6],inscale,v[15],batch,input_count,constants_count,0,0,v[13],flags&1,0,
+                      v[10]};
     *count=v[13];*constant_count=constants_count;*serial=flags&1;rc=0;
 done:
     fclose(f);return rc;
@@ -419,6 +429,10 @@ int ornpu_get_input_tensor(const ornpu_model *model,uint32_t index,ornpu_tensor_
     info->batch=model->info.batch;info->height=height;info->width=model->info.width;
     info->channels=model->info.input_channels;info->api_offset=index*bytes;info->api_bytes=bytes;
     info->role=ROLE_INPUT;info->index=index;info->layout=model->header.profile==9?LAYOUT_NATIVE16:LAYOUT_PACKED;
+    if(index==0) {
+        info->arena_offset=model->header.input_offset;
+        info->arena_bytes=model->info.batch*model->header.height*model->header.input_stride*model->header.input_channels;
+    }
     return 0;
 }
 
@@ -446,6 +460,7 @@ void ornpu_close(ornpu_model *model) {
         ioctl(model->fd,DESTROY,&release);
         close(a->handle);
     }
+    if(model->heap_fd>=0) close(model->heap_fd);
     if(model->fd>=0) close(model->fd);
     free(model->constants);
     free(model->tensors);
@@ -649,6 +664,100 @@ int ornpu_run(ornpu_model *model,const uint8_t *input,size_t input_size,int8_t *
     return ornpu_run_timed(model,input,input_size,output,output_size,NULL);
 }
 
+int ornpu_input_view(const ornpu_model *model,uint32_t index,struct ornpu_input_view *view) {
+    if(!model || !view) return -EINVAL;
+    if(model->tensor_count) {
+        const struct tensor_spec *found=NULL;
+        for(unsigned i=0;i<model->tensor_count;i++)
+            if(model->tensors[i].role==ROLE_INPUT && (uint32_t)model->tensors[i].index==index) found=&model->tensors[i];
+        if(!found) return -EINVAL;
+        if(found->layout!=LAYOUT_PACKED) return -ENOTSUP;
+        view->offset=found->offset;
+        view->arena_bytes=found->size;
+        view->batch=found->batch;view->height=found->height;
+        view->width=found->width;view->channels=found->channels;
+        view->row_stride=(found->width+15)/16*16;
+        return 0;
+    }
+    if(index) return -EINVAL;
+    if(model->header.profile==9) return -ENOTSUP;
+    if(model->info.input_tensor_count!=1) return -ENOTSUP;
+    view->offset=model->header.input_offset;
+    view->batch=model->info.batch;view->height=model->header.height;
+    view->width=model->header.width;view->channels=model->header.input_channels;
+    view->row_stride=model->header.input_stride;
+    view->arena_bytes=(size_t)((uint64_t)view->batch*view->height*view->row_stride*view->channels);
+    return 0;
+}
+
+int ornpu_run_prefilled(ornpu_model *model,int8_t *output,size_t output_size) {
+    if(!model || !output) return -EINVAL;
+    if(model->tensor_count) {
+        if(model->input_count!=1 || model->output_count!=1) return -EINVAL;
+        const struct tensor_spec *in=find_tensor(model,ROLE_INPUT,0),*out=find_tensor(model,ROLE_OUTPUT,0);
+        if(!in || !out || in->layout!=LAYOUT_PACKED) return -ENOTSUP;
+        if(output_size!=(size_t)((uint64_t)out->batch*out->height*out->width*out->channels)) return -EINVAL;
+        memset((uint8_t *)model->mapping[1]+out->offset,0,out->size);
+    } else {
+        struct header *h=&model->header;
+        unsigned output_pixels=model->info.output_height*model->info.output_width;
+        if(h->profile==9) return -ENOTSUP;
+        if(output_size!=(size_t)(model->info.batch*output_pixels*h->output_channels)) return -EINVAL;
+        unsigned output_surface=((output_pixels+3)/4)*64;
+        unsigned output_storage=output_surface*((h->output_channels+15)/16);
+        memset((uint8_t *)model->mapping[1]+h->output_offset,0,model->info.batch*output_storage);
+    }
+    /* The producer wrote the data rows; the 16-lane row padding is the runtime's job
+     * (ornpu_run fills the whole region with the input zero point, which would overwrite
+     * the producer's bytes). Fill only the padding the producer cannot know about. */
+    if(model->tensor_count) {
+        uint8_t zp=(uint8_t)model->info.input_zero_point;
+        for(unsigned i=0;i<model->tensor_count;i++) {
+            const struct tensor_spec *in=&model->tensors[i];
+            if(in->role!=ROLE_INPUT || in->layout!=LAYOUT_PACKED) continue;
+            uint32_t stride=(in->width+15)/16*16;
+            if(stride==in->width) continue;
+            uint8_t *base=(uint8_t *)model->mapping[1]+in->offset;
+            for(uint32_t b=0;b<in->batch;b++) for(uint32_t row=0;row<in->height;row++)
+                memset(base+((uint64_t)b*in->height+row)*stride*in->channels+in->width*in->channels,
+                       zp,(size_t)(stride-in->width)*in->channels);
+        }
+    } else {
+        struct header *h=&model->header;
+        if(h->input_stride!=h->width) {
+            uint8_t *in=(uint8_t *)model->mapping[1]+h->input_offset;
+            for(unsigned b=0;b<model->info.batch;b++) for(unsigned row=0;row<h->height;row++)
+                memset(in+((uint64_t)b*h->height+row)*h->input_stride*h->input_channels
+                         +h->width*h->input_channels,
+                       (uint8_t)model->info.input_zero_point,
+                       (size_t)(h->input_stride-h->width)*h->input_channels);
+        }
+    }
+    /* The producer has already written the packed input bytes into the shared arena, so
+     * only the output clear, the cache hand-off and the submission remain. */
+    int rc=sync_buffer(model,0,1);
+    if(rc) return rc;
+    rc=sync_buffer(model,1,1);
+    if(rc) return rc;
+    rc=submit_tasks(model);
+    if(rc) return rc;
+    rc=sync_buffer(model,1,2);
+    if(rc) return rc;
+    if(model->tensor_count) {
+        const struct tensor_spec *out=find_tensor(model,ROLE_OUTPUT,0);
+        return unpack_tensor_output(model,out,output,output_size);
+    }
+    struct header *h=&model->header;
+    unsigned output_pixels=model->info.output_height*model->info.output_width;
+    unsigned output_surface=((output_pixels+3)/4)*64;
+    unsigned output_storage=output_surface*((h->output_channels+15)/16);
+    const uint8_t *out=(const uint8_t *)model->mapping[1]+h->output_offset;
+    for(unsigned b=0;b<model->info.batch;b++) for(unsigned pixel=0;pixel<output_pixels;pixel++)
+        for(unsigned c=0;c<h->output_channels;c++)
+            output[(b*output_pixels+pixel)*h->output_channels+c]=(int8_t)out[b*output_storage+(c/16)*output_surface+pixel*16+c%16];
+    return 0;
+}
+
 int ornpu_submit_flags(ornpu_model *model,uint32_t extra_flags,int *fence_fd) {
     if(!model) return -EINVAL;
     /* Only the documented job bits may be added. */
@@ -720,12 +829,24 @@ static void compute_runs(ornpu_model *model,const struct task_spec *tasks) {
     model->info.engine_runs=model->run_count;
 }
 
+static int open_model(const char *path,ornpu_model **result,int *arena_fd);
+
 int ornpu_open(const char *path,ornpu_model **result) {
+    return open_model(path,result,NULL);
+}
+
+int ornpu_open_shared(const char *path,ornpu_model **result,int *arena_fd) {
+    if(!arena_fd) return -EINVAL;
+    return open_model(path,result,arena_fd);
+}
+
+static int open_model(const char *path,ornpu_model **result,int *arena_fd) {
     if(!path || !result) return -EINVAL;
     *result=NULL;
     ornpu_model *model=calloc(1,sizeof(*model));
     if(!model) return -ENOMEM;
     model->fd=-1;
+    model->heap_fd=-1;
     model->mapping[0]=model->mapping[1]=MAP_FAILED;
     uint8_t *payload=NULL;struct task_spec tasks[MAX_TASKS];struct constant_spec constants[MAX_CONSTANTS];
     struct tensor_spec tensors[MAX_TENSORS];unsigned tensor_count=0;
@@ -746,14 +867,39 @@ int ornpu_open(const char *path,ornpu_model **result) {
     model->fd=open("/dev/rknpu",O_RDWR|O_CLOEXEC);
     if(model->fd<0) { rc=-errno; goto failed; }
     model->buffers[0]=(struct allocation){.flags=10,.size=4096};
+    if(ioctl(model->fd,CREATE,&model->buffers[0])<0) { rc=-errno; goto failed; }
+    model->allocated=1;
+    model->mapping[0]=mmap(NULL,model->buffers[0].size,PROT_READ|PROT_WRITE,MAP_SHARED,
+                           model->buffers[0].handle,0);
+    if(model->mapping[0]==MAP_FAILED) { rc=-errno; goto failed; }
+    memset(model->mapping[0],0,model->buffers[0].size);
     model->buffers[1]=(struct allocation){.flags=2,.size=model->header.arena_size};
-    for(unsigned i=0;i<2;i++) {
-        struct allocation *a=&model->buffers[i];
-        if(ioctl(model->fd,CREATE,a)<0) { rc=-errno; goto failed; }
-        model->allocated++;
-        model->mapping[i]=mmap(NULL,a->size,PROT_READ|PROT_WRITE,MAP_SHARED,a->handle,0);
-        if(model->mapping[i]==MAP_FAILED) { rc=-errno; goto failed; }
-        memset(model->mapping[i],0,a->size);
+    if(arena_fd) {
+        /* Zero-copy (F8): allocate the arena from the Rockchip CMA heap and import it into
+         * the NPU, so the fd we return is the very memory the engine reads. The caller may
+         * map it (a V4L2 or RGA producer writes the packed input there); the model keeps
+         * ownership and releases it in ornpu_close. */
+        model->heap_fd=open(RK_DMA_HEAP,O_RDWR|O_CLOEXEC);
+        if(model->heap_fd<0) { rc=-errno; goto failed; }
+        struct dma_heap_allocation_data request={.len=model->header.arena_size,
+                                                 .fd_flags=O_RDWR|O_CLOEXEC};
+        if(ioctl(model->heap_fd,DMA_HEAP_IOCTL_ALLOC,&request)<0) { rc=-errno; goto failed; }
+        model->buffers[1].handle=request.fd;
+        model->buffers[1].flags|=ORNPU_MEM_DMABUF;
+        if(ioctl(model->fd,CREATE,&model->buffers[1])<0) { rc=-errno; goto failed; }
+        model->allocated=2;
+        model->mapping[1]=mmap(NULL,model->buffers[1].size,PROT_READ|PROT_WRITE,MAP_SHARED,
+                               request.fd,0);
+        if(model->mapping[1]==MAP_FAILED) { rc=-errno; goto failed; }
+        memset(model->mapping[1],0,model->buffers[1].size);
+        *arena_fd=request.fd;
+    } else {
+        if(ioctl(model->fd,CREATE,&model->buffers[1])<0) { rc=-errno; goto failed; }
+        model->allocated=2;
+        model->mapping[1]=mmap(NULL,model->buffers[1].size,PROT_READ|PROT_WRITE,MAP_SHARED,
+                               model->buffers[1].handle,0);
+        if(model->mapping[1]==MAP_FAILED) { rc=-errno; goto failed; }
+        memset(model->mapping[1],0,model->buffers[1].size);
     }
     memcpy(model->mapping[1],payload,model->header.payload_size);
     free(payload);payload=NULL;

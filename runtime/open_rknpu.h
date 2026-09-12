@@ -21,6 +21,7 @@ typedef struct {
     uint32_t task_count;          /* submission descriptors in the container */
     uint32_t submission_serial;   /* 1: one descriptor per submission */
     uint32_t engine_runs;         /* ioctls a non-serial container is submitted as */
+    uint32_t arena_bytes;         /* size of the (device-allocated or shared) DMA arena */
 } ornpu_info;
 /* Named tensor table entry (format v5): arena storage plus flat API placement. */
 typedef struct {
@@ -123,6 +124,34 @@ int ornpu_run_io(ornpu_model *model, const ornpu_io *inputs, uint32_t input_coun
  * `clock_gettime` calls per phase, so it is cheap enough to leave on while tuning and
  * should be off in a production loop. */
 struct ornpu_timing { uint64_t pack_ns, submit_ns, readback_ns, total_ns; };
+/* Zero-copy input from a dma-buf (checklist F8). This board's NPU driver imports an
+ * existing dma-buf when CREATE's `handle` is the fd and bit 7 of `flags` is set
+ * (research/probe_dmabuf.c proved the selector: 128/256 flag values, exactly those with
+ * 0x80, returned a device address).
+ *
+ * `ornpu_open_shared` allocates the arena from `/dev/rk_dma_heap/rk-dma-heap-cma`, imports
+ * it into the NPU and returns the heap fd; the caller maps that fd (mapping stays owned by
+ * the model) and writes the packed input bytes at `ornpu_input_offset`, then calls
+ * `ornpu_run_prefilled`, which skips the input copy and only clears the output, syncs the
+ * cache, submits and unpacks. A producer such as V4L2 or RGA can write the very memory the
+ * engine reads.
+ *
+ * The shared path is offered for **packed** input layouts only (`-ENOTSUP` for native16,
+ * which is an internal packing the caller cannot produce by copying bytes). */
+int ornpu_open_shared(const char *path, ornpu_model **model, int *arena_fd);
+/* Where a producer must write input `index` of the shared arena: `offset` into the fd,
+ * `row_stride` bytes per row (`=(width+15)/16*16` for the packed layout, `width` for
+ * native16), `channels` bytes per pixel and `batch*height` rows. `arena_bytes` is the
+ * whole region the runtime clears; the producer writes `width*channels` bytes per row and
+ * may leave the stride padding to the runtime, which fills it with the input zero point
+ * (a producer that already knows the stride can fill it itself). */
+struct ornpu_input_view {
+    uint64_t offset;
+    size_t arena_bytes;
+    uint32_t batch, height, width, channels, row_stride;
+};
+int ornpu_input_view(const ornpu_model *model, uint32_t index, struct ornpu_input_view *view);
+int ornpu_run_prefilled(ornpu_model *model, int8_t *output, size_t output_size);
 int ornpu_run_timed(ornpu_model *model, const uint8_t *input, size_t input_size,
                     int8_t *output, size_t output_size, struct ornpu_timing *timing);
 int ornpu_run_io_timed(ornpu_model *model, const ornpu_io *inputs, uint32_t input_count,

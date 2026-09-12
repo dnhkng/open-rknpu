@@ -4,8 +4,9 @@ Each entry below is prepended newest-first; the older narrative from the first
 `regcmd` investigation is kept at the end.
 
 <details>
-<summary>Table of contents (70 entries)</summary>
+<summary>Table of contents (71 entries)</summary>
 
+* [2026-09-12: dma-buf zero-copy input is implemented and board-verified (F8)](#2026-09-12-dma-buf-zero-copy-input-is-implemented-and-board-verified-f8)
 * [2026-09-12: the NPU driver imports dma-bufs (CREATE flag 0x80) - F8 is feasible](#2026-09-12-the-npu-driver-imports-dma-bufs-create-flag-0x80---f8-is-feasible)
 * [2026-09-11: publication-readiness pass - legal, interfaces, CI, docs, examples](#2026-09-11-publication-readiness-pass---legal-interfaces-ci-docs-examples)
 * [2026-09-11: test expansion - 311 to 873 tests, 90% to 98% coverage](#2026-09-11-test-expansion---311-to-873-tests-90-to-98-coverage)
@@ -79,6 +80,40 @@ Each entry below is prepended newest-first; the older narrative from the first
 * [Summary: `regcmd` investigation (older findings, kept as-is)](#rv1103-npu--rknn-regcmd-investigation--summary)
 
 </details>
+
+## 2026-09-12: dma-buf zero-copy input is implemented and board-verified (F8)
+
+The morning probe established that the driver imports dma-bufs (`CREATE` flag `0x80`); the
+runtime now uses it. `ornpu_open_shared` allocates the model's arena from the Rockchip CMA
+heap (`/dev/rk_dma_heap/rk-dma-heap-cma`), imports that fd into the NPU and hands the fd
+back, so a producer maps the very memory the engine reads. `ornpu_input_view` reports the
+arena offset plus the row stride and geometry, and `ornpu_run_prefilled` clears the output,
+completes the 16-lane stride padding with the input zero point, syncs, submits and unpacks -
+it never touches the producer's bytes. `ornpu_info` gained `arena_bytes` for the mapping.
+
+Two details are worth recording because they are where a naive version fails:
+
+* **A contiguous `memcpy` of the API bytes is wrong.** The packed layout stores rows at a
+  16-byte-aligned stride, so the producer has to write rows (or already have that stride, as
+  the ISP does). The first version of the harness copied the flat buffer and 8 of the first
+  12 `add_geometry_suite` models failed; writing rows at `view.row_stride` fixed all of them.
+* **The runtime still owns the padding.** `ornpu_run` fills the whole input region with the
+  input zero point before copying rows; the prefilled path must fill only the stride padding,
+  or it would overwrite the producer's data.
+
+Board evidence, the whole packed `add_geometry_suite` through this path with
+`tests/board_shared.c` (two runs per model):
+
+```text
+arena fd=6 offset=4096 row_stride=16 1x5x5x3
+SUMMARY runs=2 arena_fd=6 input_offset=4096 input_bytes=75 exact_bytes=100 mismatches=0 result=PASS
+ZEROCOPY add_geometry_suite: models=32 fail=0 inferences=64 exact_bytes=19968
+```
+
+`ornpu_input_view` returns `-ENOTSUP` for `native16` inputs (an internal packing a caller
+cannot reproduce) and for the two-input legacy layout; those keep the copying path. The API,
+the producer loop and the evidence are documented in `docs/c-api.md` and `docs/board.md`;
+`tests/test_runtime_shared.py` pins the source contract.
 
 ## 2026-09-12: the NPU driver imports dma-bufs (CREATE flag 0x80) - F8 is feasible
 
