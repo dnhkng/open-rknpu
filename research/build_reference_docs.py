@@ -1528,6 +1528,9 @@ ERROR_MEANINGS = {
         "The native walk input supports at most 16 channels.",
     "walk native input geometry requires height tiling":
         "The native walk geometry must be height-tiled; check the atom budget.",
+    "walk elementwise stage band disagrees with the emitter":
+        "The constant elementwise stage recomputed a band other than the one recorded while its "
+        "feeding Conv was quantized; the stage's operand scales and the Conv bookkeeping diverged.",
     "unsupported join walk graph":
         "The graph is outside the supported join-walk profile.",
     "the join walk output override requires a Mul join or a Conv tail":
@@ -1538,6 +1541,12 @@ ERROR_MEANINGS = {
         "with the graph's NCHW shape.",
     "(dynamic) f'{path}: calibration inputs must be finite values in [0,255]'":
         "A calibration sample holds NaN/inf or values outside [0,255]; fix the named sample.",
+    "(dynamic) spec['error']":
+        "A chain-shaped graph whose constant elementwise stage is outside the chain-walk "
+        "envelope; the suffix names the stage and the bound it broke.",
+    "(dynamic) _elementwise_error(op['index'], op['op'], 'Mul output scale is outside the verified conversion range')":
+        "The Mul operand scales fold into an output scale the verified conversion cannot "
+        "represent; rescale the feeding Conv or fold the constant into its weights.",
     "open-rknpu: %s\n":
         "The CLI top-level error wrapper; the formatted suffix is the compiler message it caught.",
     # --- mutable.py (the v4 constant-region API) -----------------------------

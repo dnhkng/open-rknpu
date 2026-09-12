@@ -13,7 +13,7 @@ Messages a variable completes are shown as their literal prefix followed by
 *(dynamic message)*.  The index is a generated file - edit
 `research/build_reference_docs.py` (its meaning table) and rerun it, never this file.
 
-This index covers 575 messages across 37 modules; 2 are pure expressions with no literal text and are marked *dynamic*.
+This index covers 578 messages across 37 modules; 4 are pure expressions with no literal text and are marked *dynamic*.
 
 ## `accuracy.py`
 
@@ -500,9 +500,9 @@ This index covers 575 messages across 37 modules; 2 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `1-D rank promotion requires rank-3 outputs; '%s' is rank %d` **+ dynamic suffix** | `normalize.py:69` | A rank-3 graph must keep rank-3 outputs: the promotion to [N,C,1,L] cannot rewrite a graph whose output is rank 2 (or 4). Add or remove the reshaping node yourself. |
-| `1-D rank promotion cannot rewrite %s node '%s'` **+ dynamic suffix** | `normalize.py:73` | ONNX 1-D models are promoted to the 2-D form by rewriting Conv/pool attributes in place; another node type in the graph needs an explicit reshape before compiling. |
-| `1-D rank promotion requires constant rank-3 weights for Conv node '%s'` **+ dynamic suffix** | `normalize.py:78` | A 1-D Conv needs constant [O,I,K] weights; dynamic or pre-reshaped weights cannot be promoted to [O,I,1,K]. |
+| `1-D rank promotion requires rank-3 outputs; '%s' is rank %d` **+ dynamic suffix** | `normalize.py:71` | A rank-3 graph must keep rank-3 outputs: the promotion to [N,C,1,L] cannot rewrite a graph whose output is rank 2 (or 4). Add or remove the reshaping node yourself. |
+| `1-D rank promotion cannot rewrite %s node '%s'` **+ dynamic suffix** | `normalize.py:75` | ONNX 1-D models are promoted to the 2-D form by rewriting Conv/pool attributes in place; another node type in the graph needs an explicit reshape before compiling. |
+| `1-D rank promotion requires constant rank-3 weights for Conv node '%s'` **+ dynamic suffix** | `normalize.py:80` | A 1-D Conv needs constant [O,I,K] weights; dynamic or pre-reshaped weights cannot be promoted to [O,I,1,K]. |
 
 ## `padding.py`
 
@@ -629,7 +629,7 @@ This index covers 575 messages across 37 modules; 2 are pure expressions with no
 | `calibration and output quantization overrides cannot be combined` | `scheduler.py:153` | Use calibration or explicit output quantization, not both. |
 | `mutable weights currently require one native Conv[/Relu]` | `scheduler.py:158` | Mutable weights only work with one native Conv[/Relu]. |
 | `mutable constants currently require one constant Mul` | `scheduler.py:160` | Mutable constants only work with one constant-Mul profile. |
-| `Mul operand zero points require a Mul profile` | `scheduler.py:162,186,196,205,215,226,294,328,374,384,398` | Per-operand zero points are only valid for a Mul profile. |
+| `Mul operand zero points require a Mul profile` | `scheduler.py:162,186,196,205,215,226,294,328,374,384,401` | Per-operand zero points are only valid for a Mul profile. |
 | `QLinearConv carries its own quantization parameters` | `scheduler.py:165` | QLinearConv supplies its own scales; do not pass overrides. |
 | `Q/DQ Conv carries its own quantization parameters` | `scheduler.py:170` | The Q/DQ Conv supplies its own scales; do not pass overrides. |
 | `join chain requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:184` | The join chain only accepts the UINT8 scale 1 / zero point 0 boundary. |
@@ -653,15 +653,15 @@ This index covers 575 messages across 37 modules; 2 are pure expressions with no
 | `output override unsupported for the multi-input elementwise DAG` | `scheduler.py:372` | The multi-input DAG derives its own band; drop the output override. |
 | `elementwise DAG requires the established UINT8 scale1/zero-point0 boundary` | `scheduler.py:380` | The elementwise DAG only accepts the UINT8 scale 1 / zero point 0 boundary. |
 | `output override unsupported for the elementwise DAG` | `scheduler.py:382` | The elementwise DAG derives its own band; drop the output override. |
-| `sequence lowering requires one input, one output, and an initial Conv` | `scheduler.py:402` | Sequence lowering needs one input, one output and a leading Conv. |
-| `static NCHW input required` | `scheduler.py:406` | The input shape must be static NCHW. |
-| `output override unsupported for this strided profile` | `scheduler.py:414` | The strided profile derives its own band; drop the output override. |
-| `output override unsupported for this scheduled profile` | `scheduler.py:420` | This scheduled profile derives its own band; drop the output override. |
-| `sequence lowering currently supports Conv[/Relu] followed by 2x2 pooling` | `scheduler.py:422` | The sequence scheduler lowers Conv[/Relu] plus 2x2 pooling only. |
-| `missing static convolution output shape` | `scheduler.py:426` | The Conv output shape is not static; run shape inference first. |
-| `unsupported pooling attributes, shape, or graph connections` | `scheduler.py:444` | The pooling node's attributes, shape or wiring are outside the profile. |
-| `sequence output shape does not match graph` | `scheduler.py:450` | The declared output shape disagrees with the graph; fix the model. |
-| `too many NPU tasks` | `scheduler.py:451` | The graph needs more tasks than the loader's 64-entry table; split it. |
+| `sequence lowering requires one input, one output, and an initial Conv` | `scheduler.py:405` | Sequence lowering needs one input, one output and a leading Conv. |
+| `static NCHW input required` | `scheduler.py:409` | The input shape must be static NCHW. |
+| `output override unsupported for this strided profile` | `scheduler.py:417` | The strided profile derives its own band; drop the output override. |
+| `output override unsupported for this scheduled profile` | `scheduler.py:423` | This scheduled profile derives its own band; drop the output override. |
+| `sequence lowering currently supports Conv[/Relu] followed by 2x2 pooling` | `scheduler.py:425` | The sequence scheduler lowers Conv[/Relu] plus 2x2 pooling only. |
+| `missing static convolution output shape` | `scheduler.py:429` | The Conv output shape is not static; run shape inference first. |
+| `unsupported pooling attributes, shape, or graph connections` | `scheduler.py:447` | The pooling node's attributes, shape or wiring are outside the profile. |
+| `sequence output shape does not match graph` | `scheduler.py:453` | The declared output shape disagrees with the graph; fix the model. |
+| `too many NPU tasks` | `scheduler.py:454` | The graph needs more tasks than the loader's 64-entry table; split it. |
 
 ## `sequence.py`
 
@@ -761,16 +761,19 @@ This index covers 575 messages across 37 modules; 2 are pure expressions with no
 
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
-| `walk Conv requires default domain with constant weights and bias` | `walk.py:104` | Walk Convs need the default domain and constant weights and bias. |
-| `walk Conv supports square K1/K3 kernels` | `walk.py:110` | Only square K1 or K3 Convs walk. |
-| `unsupported walk Conv attributes` | `walk.py:112` | A walk Conv carries an attribute outside the allowed set. |
-| `walk pool requires the default domain` | `walk.py:123` | Walk pools must use the default domain. |
-| `walk pool supports 2x2 stride-2 MaxPool/AveragePool only` | `walk.py:129,132` | Only 2x2 stride-2 MaxPool or AveragePool walks. |
-| `unsupported chain walk graph` | `walk.py:274` | The graph is outside the supported chain-walk profile. |
-| `calibration ranges lack tensor ` **+ dynamic suffix** | `walk.py:283` | The calibration report is missing a tensor the scheduler needs. |
-| `walk chain must start with a Conv` | `walk.py:291` | A chain walk must begin with a Conv. |
-| `walk native input supports up to 16 channels` | `walk.py:302` | The native walk input supports at most 16 channels. |
-| `walk native input geometry requires height tiling` | `walk.py:306` | The native walk geometry must be height-tiled; check the atom budget. |
-| `unsupported join walk graph` | `walk.py:768` | The graph is outside the supported join-walk profile. |
-| `calibration and output quantization overrides cannot be combined` | `walk.py:770` | Use calibration or explicit output quantization, not both. |
-| `the join walk output override requires a Mul join or a Conv tail` | `walk.py:779` | Only a Mul join or a Conv tail can carry the join-walk output override. |
+| *(dynamic message)* | `walk.py:139` | The Mul operand scales fold into an output scale the verified conversion cannot represent; rescale the feeding Conv or fold the constant into its weights. |
+| `walk Conv requires default domain with constant weights and bias` | `walk.py:177` | Walk Convs need the default domain and constant weights and bias. |
+| `walk Conv supports square K1/K3 kernels` | `walk.py:183` | Only square K1 or K3 Convs walk. |
+| `unsupported walk Conv attributes` | `walk.py:185` | A walk Conv carries an attribute outside the allowed set. |
+| `walk pool requires the default domain` | `walk.py:196` | Walk pools must use the default domain. |
+| `walk pool supports 2x2 stride-2 MaxPool/AveragePool only` | `walk.py:202,205` | Only 2x2 stride-2 MaxPool or AveragePool walks. |
+| `unsupported chain walk graph` | `walk.py:440` | The graph is outside the supported chain-walk profile. |
+| *(dynamic message)* | `walk.py:444` | A chain-shaped graph whose constant elementwise stage is outside the chain-walk envelope; the suffix names the stage and the bound it broke. |
+| `calibration ranges lack tensor ` **+ dynamic suffix** | `walk.py:457` | The calibration report is missing a tensor the scheduler needs. |
+| `walk chain must start with a Conv` | `walk.py:465` | A chain walk must begin with a Conv. |
+| `walk native input supports up to 16 channels` | `walk.py:476` | The native walk input supports at most 16 channels. |
+| `walk native input geometry requires height tiling` | `walk.py:480` | The native walk geometry must be height-tiled; check the atom budget. |
+| `walk elementwise stage band disagrees with the emitter` | `walk.py:753` | The constant elementwise stage recomputed a band other than the one recorded while its feeding Conv was quantized; the stage's operand scales and the Conv bookkeeping diverged. |
+| `unsupported join walk graph` | `walk.py:1013` | The graph is outside the supported join-walk profile. |
+| `calibration and output quantization overrides cannot be combined` | `walk.py:1015` | Use calibration or explicit output quantization, not both. |
+| `the join walk output override requires a Mul join or a Conv tail` | `walk.py:1024` | Only a Mul join or a Conv tail can carry the join-walk output override. |

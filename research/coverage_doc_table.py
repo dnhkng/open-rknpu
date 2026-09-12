@@ -66,6 +66,38 @@ REASONS = {
 # makes the line impossible to reach, so a reviewer can check it and see when it stops being
 # true (at which point the line becomes live and should get a test).
 LINE_REASONS = {
+    # The F6/F7 bounded-op lowerings: every uncovered line here is a rejection path the
+    # public envelope can still reach, or a variant the suite sample does not carry.
+    "normalize.py:332": "a GlobalAveragePool/ReduceMean outside the bounded 8x8 single-output envelope; the message names the bound",
+    "normalize.py:335": "as 332: the pooling node is not the single graph output",
+    "normalize.py:344": "as 332: the node does not read one tensor with the expected rank",
+    "normalize.py:349": "as 332: the pooling node carries attributes the rewrite does not model",
+    "normalize.py:357": "as 332: ReduceMean with noop_with_empty_axes is outside the rewrite",
+    "normalize.py:386": "the global-pool planner declines an unsupported form and leaves the graph to the normal rejection",
+    "normalize.py:388": "as 386: the tensor shape cannot be proven from value_info",
+    "normalize.py:390": "as 386: the shape is not the required 8x8 spatial form",
+    "normalize.py:446": "a Concat branch that does not read the shared input; the message names the branch",
+    "normalize.py:453": "as 446: a branch without constant float32 rank-four weights",
+    "normalize.py:456": "as 446: a branch carrying attributes that cannot be stacked",
+    "normalize.py:466": "as 446: a branch bias that is not float32 [output_channels]",
+    "normalize.py:475": "the stacked weight initializer name collides with an existing one and is suffixed; the suite's graphs never hit the collision",
+    "normalize.py:483": "as 475: the stacked bias name collides and is suffixed",
+    # The F5 walk-elementwise paths: the suite covers a stage after the first Conv and
+    # after an interior Conv; these are the guard/error branches and the variants it
+    # does not sample.
+    "walk.py:138": "the malformed-stage guard: a stage the parser accepts but the band step rejects; the suite pins the parser-level messages instead",
+    "walk.py:139": "as 138: the raise itself",
+    "walk.py:223": "the error-message helper for a second elementwise stage (the suite pins the message through the parser)",
+    "walk.py:234": "as 223: the helper's formatted branch",
+    "walk.py:488": "the band bookkeeping for an elementwise stage directly after the first chain Conv; the suite's first Conv always has an interior pool or a later Conv between the samples",
+    "walk.py:492": "as 488: the pending elementwise band",
+    "walk.py:494": "as 488: re-quantizing the first Conv onto the stage's operand scale",
+    "walk.py:587": "the natural-band branch for a stage after a later Conv; the sampled models all take the pending branch",
+    "walk.py:588": "as 587: the pending band lookup",
+    "walk.py:590": "as 587: selecting the band the next Conv reads",
+    "walk.py:753": "the band-disagreement guard between the stage and the emitter",
+    "walk.py:1015": "duplicate of the scheduler's central calibration-plus-output-override check",
+    "walk.py:1085": "the join-walk tail's measured band with calibration ranges; the join-chain variant is pinned by test_reference_edges",
     "graph.py:383": "the tail's measured band on a diamond with a Conv tail and calibration ranges; the join-chain variant is pinned by test_reference_edges, this one still needs a diamond-tail fixture",
     "graph.py:385": "the tail's measured band on a diamond with a Conv tail and calibration ranges; the join-chain variant is pinned by test_reference_edges, this one still needs a diamond-tail fixture",
     "walk.py:840": "the tail's measured band on a join-walk with a Conv tail and calibration ranges; the join-chain variant is pinned by test_reference_edges, this one still needs a join-walk-tail fixture",
@@ -90,12 +122,12 @@ LINE_REASONS = {
     "walk.py:770": "duplicate of the scheduler's central calibration-plus-output-override check; the public entry point rejects the combination first",
     # The F1/F2 lowerings are deliberately conservative: an unsupported form is left
     # untouched so the scheduler's own message fires, which is what these returns do.
-    "normalize.py:99": "a pads attribute the rank promotion does not rewrite (not a two- or one-element list) leaves the node untouched for the scheduler to reject",
-    "normalize.py:146": "the Flatten/Reshape matcher declines an unproven or non-[N,C] shape and leaves the graph to the normal rejection",
-    "normalize.py:154": "as 146: the flatten axis is not 1, or it carries an attribute the matcher does not model",
-    "normalize.py:168": "as 146: the Reshape target is not a constant rank-1 tensor",
-    "normalize.py:171": "as 146: the Reshape target is not exactly two dimensions",
-    "normalize.py:187": "as 146: the resolved Reshape target is not the producer's [N, C]",
+    "normalize.py:101": "a pads attribute the rank promotion does not rewrite (not a two- or one-element list) leaves the node untouched for the scheduler to reject",
+    "normalize.py:148": "the Flatten/Reshape matcher declines an unproven or non-[N,C] shape and leaves the graph to the normal rejection",
+    "normalize.py:156": "as 148: the flatten axis is not 1, or it carries an attribute the matcher does not model",
+    "normalize.py:170": "as 148: the Reshape target is not a constant rank-1 tensor",
+    "normalize.py:173": "as 148: the Reshape target is not exactly two dimensions",
+    "normalize.py:189": "as 148: the resolved Reshape target is not the producer's [N, C]",
     # The transposed reference documents its own envelope; the retained suites exercise
     # the emitted profiles, which all carry an explicit output_shape and a nonzero shift.
     "transposed.py:47": "the square-kernel guard; every retained transposed suite packs a square layout (the rectangular case is rewritten by the emitter before it is packed)",

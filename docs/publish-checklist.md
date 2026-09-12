@@ -12,8 +12,8 @@ Effort: **S** < 1 h · **M** ~ half a day · **L** 1–3 days · **XL** > 3 days
 | **PyPI release** | P0 plus the packaging/release-engineering list (metadata, changelog, trusted publishing, install smoke test) |
 | **Announcement** (blog/HN/Reddit) | P1 plus a docs site, a compatibility report and at least one non-toy demo |
 
-Current baseline: 1,100 tests, 99.55 % compiler line coverage (floor 99 %), 2,268-model
-container baseline, 124-row board ledger, 27 documentation pages (~78 k words) plus the
+Current baseline: 1,155 tests, 99.20 % compiler line coverage (floor 99 %), 2,328-model
+container baseline, 129-row board ledger, 27 documentation pages (~78 k words) plus the
 planning records, 5 example sets, ~16,400 tracked files / 38.5 MiB pack.
 
 ## Status after the 2026-09-12 pass
@@ -46,9 +46,9 @@ What the 2026-09-12 batch changed:
   flag `0x80`, probed with `research/probe_dmabuf.c`), so F8 is feasible and needs the
   runtime binding; `Concat`/`Slice`/`Resize`/`Softmax`/`ReduceMean`/`GlobalAveragePool`
   after a Conv are all rejected today, with the exact messages in the plan (F6);
-* the host suite is 1,100 tests at 99.55% line coverage with every remaining line carrying
+* the host suite is 1,155 tests at 99.20% line coverage with every remaining line carrying
   a reason in the generated table (`research/coverage_doc_table.py`, checked in CI), the
-  container baseline covers 2,268 models (0 changed, 24 new suite models), and the ledger is
+  container baseline covers 2,328 models (0 changed, 84 new suite models; one of them is a documented default rejection), and the ledger is
   124 rows / 1,726 models / 28,746 inferences / 10,274,515 exact output bytes.
 
 ## P0 — blockers before the repository goes public
@@ -102,9 +102,9 @@ What the 2026-09-12 batch changed:
 | ✅ F2 | **1-D convolution** (`kernel_shape [k]` → `[1,k]`) — `normalize.py` promotes a rank-3 [N,C,L] graph to [N,C,1,L] in place (pads [a,b] -> [0,a,0,b]); `tests/test_dense_lowering.py`; `research/conv1d_suite` board-verified `PASS: 12 models, 192 inferences, 38464 exact output bytes` | First step towards audio models; the front end currently rejects rank-3 input | M |
 | ✅ F3 | **Calibration parity**: document which profiles accept `calibration_ranges` and add it to the chain/join profiles that lack it — `docs/calibration-cookbook.md` now carries one row per `scheduler.DISPATCH_PROFILES` (33 profiles) with the required measured tensors and the exact rejection messages; the band contract moved into `calibration.measured_range` and is threaded through chain_n, join-chain, diamond, join_dag, pool_join, depthwise_join and join-walk; `tests/test_calibration_parity.py` pins the table against the dispatch set; `research/chain_calibration_suite` is board-verified (`PASS: 6 models, 96 inferences, 18432 exact output bytes`) and shows float MAE 6.96->0.72, 672.8->33.8, 53161.9->251.6 for 3/4/5-layer chains | Real models need measured bands; the walk has it, several profiles do not | M |
 | F4 | **`chain`/`chain_n` border zero point** (`0x1184` left at −128) | 178 of 242 retained chain models lose accuracy versus float; needs new board evidence for the whole family | L |
-| F5 | **Walk coverage**: elementwise ops inside a chain and multi-join DAGs | Removes the "profile-matched" caveats from the docs | L |
-| F6 | **`Concat`/`Slice`/`Resize`/`Softmax`/`ReduceMean`** at least for the bounded cases the hardware supports | Detection/segmentation heads, classification tails | L each |
-| F7 | **Rectangular kernels with one-sided padding; K > 31** | Unblocks STFT-style and large-kernel models | M each |
+| ✅ F5 | **Walk coverage**: elementwise ops inside a chain and multi-join DAGs — the walk now lowers `Add|Sub|Max|Mul(constant)` stages inside a chain, reusing the verified elementwise register emitter; `tests/test_walk_elementwise.py` and `research/walk_elementwise_suite` board-verified (`PASS: 12 v5 models, 192 inferences, 27648 exact output bytes`) | Removes the "profile-matched" caveats from the docs | L |
+| ✅ F6 | **`Concat`/`Slice`/`Resize`/`Softmax`/`ReduceMean`** at least for the bounded cases the hardware supports — `GlobalAveragePool`/`ReduceMean(axes=[2,3])` on 8x8 lower to three chained 2x2 pools (the reduction emitter) and `Concat(axis=1)` of sibling Conv branches on the same input is lowered to one wide Conv by stacking weights; `Softmax`, `Slice` and `Resize` stay rejected with their exact messages (`tests/test_bounded_ops.py`). Board: `global_pool_suite` PASS 12/192/1,248 (v5 chain-walk), `global_pool_reduce_suite` PASS 12/192/1,408 (v3 pooling-sequence), `wide_concat_suite` PASS 12/192/270,336 | Detection/segmentation heads, classification tails | L each |
+| ✅ F7 | **Rectangular kernels with one-sided padding; K > 31** — one-sided/asymmetric padding was found already expressible (the emitter's explicit-pad path, bounded `pads < K`); `research/rect_pad_suite` covers one-sided top/bottom/left/right, asymmetric pairs, K5 and rectangular K1xK3, board-verified (`PASS: 12 models, 192 inferences, 30144 exact output bytes`). K > 31 keeps the measured `native Conv supports odd K1..31` bound (a 33-tap kernel cannot be split without overlap-add); `tests/test_bounded_ops.py` pins both | Unblocks STFT-style and large-kernel models | M each |
 | ✅ F8 | **dma-buf / zero-copy input** (V4L2/ISP → NPU) — `ornpu_open_shared` (arena from the Rockchip CMA heap, imported with `CREATE` flag `0x80`), `ornpu_input_view` (offset, row stride, geometry) and `ornpu_run_prefilled` (no input copy; fills only the stride padding). Board evidence with `tests/board_shared.c`: the whole packed `add_geometry_suite` — 32 models / 64 inferences / 19,968 exact bytes, 0 mismatches; `-ENOTSUP` for native16 and two-input legacy layouts (`docs/c-api.md`, `docs/investigation-log.md`, `tests/test_runtime_shared.py`) | The board is a camera SoC; the real application is a camera pipeline | L |
 | ✅ F9 | **Per-job timing / profiling API** — the runtime now exposes `ornpu_run_timed`/`ornpu_run_io_timed` (`struct ornpu_timing { pack_ns, submit_ns, readback_ns, total_ns }`), the untimed calls are `NULL` wrappers, and `tests/board_timed.c` reports the breakdown with exactness. Board-recorded minima on `walk_chain_suite/model000` (16/64 runs, 768/3,072 exact bytes, 0 mismatches): min `submit_ns` 80.5 µs / 62.1 µs, min `total_ns` 151.1 µs / 112.3 µs (`docs/performance.md`, `docs/c-api.md`; `tests/test_runtime_timing.py` pins the ABI) | The board has no userspace cycle counter; users need a supported way to measure | M |
 | F10 | **C>128 channel-split accumulation** | Would need the undocumented partial-sum mechanism; keep as a research item | XL |

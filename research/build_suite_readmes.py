@@ -49,7 +49,7 @@ def summarize(entry, info):
     """A compact description taken from the manifest, else from the decoded container."""
     pieces = []
     for key in ("label", "profile", "elementwise_profile", "join_kinds", "join", "pool",
-                "fused_activation", "ops"):
+                "fused_activation", "dispatch", "ops"):
         value = entry.get(key)
         if value:
             pieces.append("%s=%s" % (key, value if not isinstance(value, list) else "->".join(map(str, value))))

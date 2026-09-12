@@ -20,6 +20,10 @@ Supported class (one input, one output):
 * `MaxPool`/`AveragePool`: `kernel_shape [2,2]`, `strides [2,2]`; the default pool
   attributes (`pads 0`, `ceil_mode 0`, `dilations 1`, ...) may be written out explicitly,
   as torch's exporter does;
+* `Add`/`Sub`/`Max`/`Mul` between the running tensor and an immutable float32 constant
+  that is a scalar, per-channel `[1,C,1,1]` or full spatial `[1,C,H,W]`; the task is the
+  standalone elementwise emitter's register program with its second operand read from a
+  payload constant grid, and it must be followed (through pools) by a Conv;
 * the graph ends with a Conv (which may take the output-range override) or a pool.
 
 Two refinements matter for trained models:
@@ -49,7 +53,9 @@ from onnx import helper as h, numpy_helper as nh
 from .chain import native_quantize, native_reference
 from .compiler import compile_model
 from .compose import Binding, ConstantSpec, Stage, TensorSpec, compose
-from .graph import _align
+from .elementwise import (add_reference, max_reference, mul_output_conversion,
+                          mul_reference, sub_reference)
+from .graph import _align, _join_fields
 from .join_dag import _pack_layer_head
 from .native import native_fields, native_input_reference
 from .pooling import pool_registers
@@ -58,6 +64,14 @@ from .sequence import (LAYOUT_NATIVE16, LAYOUT_PACKED_U8, ROLE_INPUT, ROLE_INTER
                        ROLE_OUTPUT)
 
 POOLS = ("MaxPool", "AveragePool")
+
+# The constant elementwise stage the walk lowers inside a chain: one operand is the
+# chain tensor, the other an immutable initializer. The register program is the
+# verified elementwise emitter's (`elementwise.py`), reused through `_join_fields`
+# exactly as the join walk does.
+EW_KINDS = ("Add", "Sub", "Max", "Mul")
+EW_REFERENCE = {"Add": add_reference, "Sub": sub_reference,
+                "Max": max_reference, "Mul": mul_reference}
 
 
 def _surface(height, width, channels):
@@ -72,6 +86,65 @@ def _adjusted_scale(scale, zero_point):
     is re-quantized onto a zero-point-0 grid (`pooled_branches` does the same).
     """
     return float(np.float32(scale * max(128 + zero_point, 127 - zero_point) / 127))
+
+
+def _elementwise_error(index, kind, reason):
+    """One rejected elementwise stage: the stage, its op and the bound it broke."""
+    return "walk elementwise stage %d (%s) %s" % (index, kind, reason)
+
+
+def _constant_mode(constant, channels, height, width):
+    """The broadcast mode of an elementwise constant, or None when it does not fit."""
+    shape = tuple(np.asarray(constant).shape)
+    if shape in ((), (1,), (1, 1, 1)):
+        return "scalar"
+    if shape in ((channels, 1, 1), (1, channels, 1, 1)):
+        return "per-channel"
+    if shape in ((channels, height, width), (1, channels, height, width)):
+        return "spatial"
+    return None
+
+
+def _constant_codes(op, scale):
+    """The INT8 operand grid the emitter writes: `clip(rint(constant / scale))`.
+
+    The expression is the constant-Mul emitter's `expanded / scale` on the NCHW
+    broadcast, so the bytes here and in the payload constant block are identical.
+    """
+    expanded = np.broadcast_to(np.asarray(op["constant"], np.float32),
+                               (1, op["channels"], op["height"], op["width"]))[0]
+    return np.clip(np.rint(expanded / scale), -128, 127).astype(np.int8).transpose(1, 2, 0)
+
+
+def _elementwise_band(op, predecessor_scale):
+    """Bands for one constant elementwise stage, from the emitter's own rules.
+
+    Add/Sub/Max keep both operands on one shared zero-point-0 scale - the wider of the
+    predecessor's adjusted band and the constant's symmetric bound, exactly like the
+    standalone two-branch emitter takes the widest branch - and the output scale is
+    twice it. Mul keeps the two operands on their own scales (the constant on
+    `max|constant|/127`, the predecessor's adjusted band on the other) and folds them
+    into its own output conversion.
+    """
+    constant = np.asarray(op["constant"], np.float32)
+    bound = float(np.float32(np.max(np.abs(constant)) / 127)) if constant.size else 0.0
+    if op["op"] == "Mul":
+        constant_scale = bound or 1.0
+        # The emitter folds the two operand scales exactly as they are (no intermediate
+        # float32 rounding), so the walk's band must do the same.
+        product = predecessor_scale * constant_scale
+        try:
+            output_scale, output_zero_point = mul_output_conversion(product)[:2]
+        except ValueError:
+            raise ValueError(_elementwise_error(
+                op["index"], op["op"],
+                "Mul output scale is outside the verified conversion range")) from None
+        return dict(kind="ew", op=op["op"], scale=predecessor_scale,
+                    constant_scale=constant_scale, output_scale=output_scale,
+                    output_zero_point=output_zero_point)
+    scale = float(np.float32(max(predecessor_scale, bound)))
+    return dict(kind="ew", op=op["op"], scale=scale, constant_scale=scale,
+                output_scale=float(np.float32(2 * scale)), output_zero_point=0)
 
 
 def _input_bytes(height, width, channels):
@@ -133,11 +206,73 @@ def _pool_attributes(node):
     return node.op_type
 
 
+def _elementwise_successor(nodes, position):
+    """Why the node after an elementwise stage is outside the walk envelope, or None.
+
+    The envelope is `elementwise -> (2x2 pool ->)* Conv[/Relu] ...`: the constant
+    stage exists to change the band a later Conv reads, so it must reach a Conv. One
+    elementwise stage per chain is the bound the register/band bookkeeping is written
+    for.
+    """
+    for node in nodes[position + 1:]:
+        if node.op_type in POOLS:
+            continue
+        if node.op_type == "Conv":
+            return None
+        if node.op_type in EW_KINDS:
+            return "supports one elementwise stage per chain"
+        return "must be followed (through 2x2 pools) by a Conv[/Relu]"
+    return "must be followed (through 2x2 pools) by a Conv[/Relu]"
+
+
+def _elementwise_stage_error(node, ops, previous, constants, index, channels, height, width,
+                             nodes, position):
+    """Why one elementwise node is outside the walk envelope, or None when it fits."""
+    op = node.op_type
+    if (node.domain not in ("", "ai.onnx") or node.attribute or len(node.input) != 2
+            or len(node.output) != 1):
+        return _elementwise_error(index, op,
+            "must be a plain default-domain Add|Sub|Max|Mul with two inputs and one output")
+    if index > 1:
+        return _elementwise_error(index, op, "supports one elementwise stage per chain")
+    if not ops or ops[-1]["kind"] != "conv":
+        return _elementwise_error(index, op,
+            "must directly follow the chain Conv[/Relu]")
+    if previous is None or previous not in node.input:
+        return _elementwise_error(index, op,
+            "requires one operand to be the chain tensor (two external operands are unsupported)")
+    other = node.input[0] if node.input[1] == previous else node.input[1]
+    if other not in constants:
+        return _elementwise_error(index, op,
+            "requires the non-chain operand to be an immutable initializer constant")
+    constant = constants[other]
+    if constant.dtype != np.float32 or not np.isfinite(constant).all():
+        return _elementwise_error(index, op, "requires a finite float32 constant")
+    if _constant_mode(constant, channels, height, width) is None:
+        return _elementwise_error(index, op,
+            "constant shape %s is outside the broadcast bound (scalar, [1,C,1,1] or [1,C,H,W])"
+            % (tuple(int(value) for value in constant.shape),))
+    if op == "Sub" and node.input[0] != previous:
+        return _elementwise_error(index, op,
+            "requires the chain tensor minus the constant (chain tensor first)")
+    successor = _elementwise_successor(nodes, position)
+    if successor is not None:
+        return _elementwise_error(index, op, successor)
+    return None
+
+
 def parse_chain(graph):
-    """Describe a supported Conv/pool chain, or return None.
+    """Describe a supported Conv/pool/elementwise chain, or return None.
 
     The description is a list of ops in execution order. Each Conv op carries its
-    constants and folded activation; each pool op is only its kind.
+    constants and folded activation; each pool op is only its kind; each elementwise
+    op carries its constant and the geometry it broadcasts to.
+
+    A graph that is shaped like a walk chain but breaks the *elementwise* envelope
+    (a second elementwise stage, a non-constant operand, a constant shape outside the
+    broadcast set, or a successor that never reaches a Conv) returns a description
+    whose `error` key names the stage and the bound, so `compile_chain_walk` can raise
+    the specific message instead of the fallback "unsupported chain walk graph".
     """
     if len(graph.input) != 1 or len(graph.output) != 1:
         return None
@@ -153,6 +288,7 @@ def parse_chain(graph):
     ops = []
     channels, height, width = shape[1], shape[2], shape[3]
     position = 0
+    previous = None
     while position < len(nodes):
         node = nodes[position]
         last = position == len(nodes) - 1
@@ -188,6 +324,7 @@ def parse_chain(graph):
                             output_channels=output_channels, height=height, width=width,
                             output_name=node.output[0], tensor=measured))
             channels = output_channels
+            previous = measured
         elif node.op_type in POOLS:
             kind = _pool_attributes(node)
             if height % 2 or width % 2 or height < 2 or width < 2:
@@ -195,6 +332,18 @@ def parse_chain(graph):
             ops.append(dict(kind=kind, height=height, width=width,
                             output_height=height // 2, output_width=width // 2))
             height, width = height // 2, width // 2
+            previous = node.output[0]
+        elif node.op_type in EW_KINDS:
+            index = 1 + sum(op["kind"] == "ew" for op in ops)
+            reason = _elementwise_stage_error(node, ops, previous, constants, index,
+                                              channels, height, width, nodes, position)
+            if reason is not None:
+                return dict(error=reason, ops=ops)
+            other = node.input[0] if node.input[1] == previous else node.input[1]
+            ops.append(dict(kind="ew", op=node.op_type, constant=constants[other],
+                            channels=channels, height=height, width=width, index=index,
+                            output_name=node.output[0]))
+            previous = node.output[0]
         else:
             return None
         position += 1
@@ -212,11 +361,19 @@ def parse_chain(graph):
 
 
 def load_quantizations(meta):
-    """Live `Quantization` objects for `chain_walk_reference` from composed meta."""
+    """Live `Quantization` objects for `chain_walk_reference` from composed meta.
+
+    An elementwise stage has no Conv `Quantization`: its entry is the band dict the
+    emitter wrote (`scale`, `constant_scale`, the output band) and is passed through
+    unchanged so the reference can rebuild the constant operand.
+    """
     loaded = []
     for params in meta["quantizations"]:
         if params is None:
             loaded.append(None)
+            continue
+        if params.get("kind") == "ew":
+            loaded.append(dict(params))
             continue
         values = dict(params)
         for key in ("weights", "weight_zero_points", "weight_scales", "biases",
@@ -234,6 +391,11 @@ def chain_walk_reference(inputs, quantizations, ops, input_zero_point=0):
     through the native16 input profile (`native_input_reference`). Every later Conv
     reads the previous INT8 grid (`native_reference`), and a pool takes the 2x2 block
     maximum (MaxPool) or the rounded mean (AveragePool), which preserves the band.
+
+    An elementwise stage rebuilds the constant operand on the exact scale the emitter
+    wrote and applies the verified `add_reference`/`sub_reference`/`max_reference`/
+    `mul_reference` for its op; its output is zero point 0 on the emitter's output
+    scale, so the next Conv reads the band the container declares.
     """
     grid = None
     zero_point = input_zero_point - 128
@@ -248,6 +410,10 @@ def chain_walk_reference(inputs, quantizations, ops, input_zero_point=0):
             else:
                 grid = native_reference(grid, quantization, zero_point)
             zero_point = quantization.output_zero_point
+        elif op["kind"] == "ew":
+            codes = _constant_codes(op, quantization["constant_scale"])
+            grid = EW_REFERENCE[op["op"]](grid, codes)
+            zero_point = quantization["output_zero_point"]
         else:
             height, width, channels = grid.shape
             blocked = grid.astype(np.int64).reshape(height // 2, 2, width // 2, 2, channels)
@@ -272,8 +438,16 @@ def compile_chain_walk(model, input_scale=1.0, input_zero_point=0, output_range=
     spec = parse_chain(model.graph)
     if spec is None:
         raise ValueError("unsupported chain walk graph")
+    if spec.get("error"):
+        # A chain-shaped graph whose elementwise stage is outside the envelope: the
+        # message names the stage and the bound it broke.
+        raise ValueError(spec["error"])
     ops = spec["ops"]
     last_conv = max(index for index, op in enumerate(ops) if op["kind"] == "conv")
+    # The band of the elementwise stage that follows a Conv. It is computed while the
+    # feeding Conv is quantized (the shared operand scale depends on that Conv's band)
+    # and consumed when the stage itself is reached.
+    pending_elementwise = None
 
     def measured(op):
         if ranges is None:
@@ -311,6 +485,15 @@ def compile_chain_walk(model, input_scale=1.0, input_zero_point=0, output_range=
                 first["weights"], first["bias"], input_scale, input_zero_point - 128,
                 dict(scale=_adjusted_scale(first_quantization.output_scale,
                                            first_quantization.output_zero_point), zero_point=0))
+        elif len(ops) > 1 and ops[1]["kind"] == "ew":
+            # The elementwise stage's operands are zero-point-zero, so the layer is
+            # re-quantized onto the shared operand scale (the same adjustment the pool
+            # successor uses, widened by the constant's own bound).
+            pending_elementwise = _elementwise_band(ops[1], _adjusted_scale(
+                first_quantization.output_scale, first_quantization.output_zero_point))
+            first_quantization = native_quantize(
+                first["weights"], first["bias"], input_scale, input_zero_point - 128,
+                dict(scale=pending_elementwise["scale"], zero_point=0))
         first_quantization.relu = first["activation"] == "Relu"
         first_quantization.input_scale = input_scale
         first_quantization.input_zero_point = input_zero_point
@@ -361,6 +544,15 @@ def compile_chain_walk(model, input_scale=1.0, input_zero_point=0, output_range=
                                                  first_meta["output_zero_point"]),
                     output_zero_point=0,
                     input_scale=input_scale, input_zero_point=input_zero_point)
+            elif len(ops) > 1 and ops[1]["kind"] == "ew":
+                # The layer feeds an elementwise stage: both operands are zero-point
+                # zero on one shared scale, chosen from this layer's adjusted band and
+                # the constant's own bound (the emitter's rule).
+                pending_elementwise = _elementwise_band(ops[1], _adjusted_scale(
+                    first_meta["output_scale"], first_meta["output_zero_point"]))
+                first_data, first_meta = compile_model(
+                    layer_path, output_scale=pending_elementwise["scale"], output_zero_point=0,
+                    input_scale=input_scale, input_zero_point=input_zero_point)
         first_source = {word & 0xFFFF: (word >> 16) & 0xFFFFFFFF
                         for word in struct.unpack_from("<126Q", first_data)}
         first_weight_size = _align(first["kernel"] * first["kernel"]
@@ -375,6 +567,13 @@ def compile_chain_walk(model, input_scale=1.0, input_zero_point=0, output_range=
         if index == 0:
             quantizations.append(first_quantization)
             continue
+        if op["kind"] == "ew":
+            # Written by the feeding Conv: the shared/independent operand scales and
+            # the band the stage's own output carries.
+            quantizations.append(pending_elementwise)
+            scale, zero_point = pending_elementwise["output_scale"], \
+                pending_elementwise["output_zero_point"]
+            continue
         if op["kind"] != "conv":
             quantizations.append(None)
             continue
@@ -384,6 +583,11 @@ def compile_chain_walk(model, input_scale=1.0, input_zero_point=0, output_range=
             natural = native_quantize(op["weights"], op["bias"], scale, zero_point, None)
             selected = dict(scale=_adjusted_scale(natural.output_scale, natural.output_zero_point),
                             zero_point=0)
+        elif index + 1 < len(ops) and ops[index + 1]["kind"] == "ew":
+            natural = native_quantize(op["weights"], op["bias"], scale, zero_point, None)
+            pending_elementwise = _elementwise_band(ops[index + 1], _adjusted_scale(
+                natural.output_scale, natural.output_zero_point))
+            selected = dict(scale=pending_elementwise["scale"], zero_point=0)
         quantization = native_quantize(op["weights"], op["bias"], scale, zero_point, selected)
         quantization.relu = op["activation"] == "Relu"
         quantizations.append(quantization)
@@ -519,6 +723,46 @@ def compile_chain_walk(model, input_scale=1.0, input_zero_point=0, output_range=
                                  else quantization.output_zero_point)
             previous_scale = (quantization["output_scale"] if isinstance(quantization, dict)
                               else quantization.output_scale)
+        elif op["kind"] == "ew":
+            # The standalone elementwise emitter's 78-word DPU program, reused through
+            # `_join_fields`: the primary operand is the feeding Conv's native16 grid
+            # (0x5018) and the secondary is the payload constant grid (0x5038), laid out
+            # as a native16 surface with the first C lanes of each pixel meaningful -
+            # exactly the constant-Mul emitter's per-pixel operand layout.
+            name = target
+            height, width, channels = op["height"], op["width"], op["channels"]
+            surface = _surface(height, width, channels)
+            constant_key = f"{name}_constant"
+            codes = _constant_codes(op, quantization["constant_scale"])
+
+            def fill(payload, offset, codes=codes, channels=channels, height=height,
+                     width=width):
+                packed = np.zeros((height, width, 16), np.int8)
+                packed[:, :, :channels] = codes
+                payload[offset:offset + packed.size] = packed.tobytes()
+
+            def fields(addresses, constant_offsets, kind=op["op"], height=height, width=width,
+                       channels=channels, surface=surface, name=name, source=source,
+                       constant_key=constant_key, quantization=quantization):
+                values, output_scale, output_zero_point = _join_fields(
+                    kind, height, width, channels, addresses[source],
+                    constant_offsets[constant_key], addresses[name], surface,
+                    [quantization["scale"], quantization["constant_scale"]], (0, 0), None)
+                if (output_scale, output_zero_point) != (quantization["output_scale"],
+                                                         quantization["output_zero_point"]):
+                    raise ValueError("walk elementwise stage band disagrees with the emitter")
+                return values
+
+            stages.append(Stage(name=name, family="elementwise", reads=(source,),
+                                writes=(target,), fields=fields,
+                                constants=(ConstantSpec(constant_key, surface, fill),),
+                                bindings=(Binding(0x5018, source, "read"),
+                                          Binding(0x4020, target, "write"))))
+            tensors.append(TensorSpec(target, ROLE_INTERNAL if index < len(ops) - 1 else ROLE_OUTPUT,
+                                      LAYOUT_NATIVE16, (1, height, width, channels), surface, 0))
+            source_zero_point = 0
+            previous_height, previous_width = height, width
+            previous_scale = quantization["output_scale"]
         else:
             name = target
             height, width = op["height"], op["width"]
@@ -550,6 +794,7 @@ def compile_chain_walk(model, input_scale=1.0, input_zero_point=0, output_range=
                                serial=serial, reuse=False)
     meta = dict(profile="chain-walk", walk_ops=[op["kind"] for op in ops],
                 walk_activations=[op.get("activation") for op in ops if op["kind"] == "conv"],
+                walk_elementwise=[op["op"] for op in ops if op["kind"] == "ew"],
                 input_shape=list(spec["input_shape"]), output_shape=list(spec["output_shape"]),
                 output_scale=output_scale, output_zero_point=output_zero_point,
                 quantizations=[(q if isinstance(q, dict) else q.metadata()) if q is not None else None

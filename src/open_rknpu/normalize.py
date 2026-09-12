@@ -20,6 +20,8 @@ _PROMOTABLE_OPS = frozenset({"Conv", "MaxPool", "AveragePool", "GlobalAveragePoo
                              "Relu", "Clip", "LeakyRelu", "Sigmoid", "Tanh", "Identity"})
 _RANK_ONE_OPS = frozenset({"Conv", "MaxPool", "AveragePool", "GlobalAveragePool"})
 _SPATIAL_ATTRS = ("kernel_shape", "pads", "strides", "dilations")
+# Spatial reductions rewritten to the verified three-stage 8->4->2->1 pooling profile.
+_GLOBAL_POOL_OPS = frozenset({"GlobalAveragePool", "ReduceMean"})
 
 
 def _label(node):
@@ -291,6 +293,208 @@ def _lower_dense_layers(model, constants):
         graph.node.extend(retained)
 
 
+def _global_pool_error(node, detail):
+    """A bounded GlobalAveragePool/ReduceMean that the rewrite cannot express."""
+    return ValueError(
+        "%s lowering supports exactly a terminal static [N,C,8,8] tensor with one input, "
+        "one output and no other attributes; node '%s' %s"
+        % (node.op_type, _label(node), detail))
+
+
+def _lower_global_pooling(model):
+    """Rewrite a terminal `GlobalAveragePool`/`ReduceMean([2,3])` into three 2x2 pools.
+
+    An 8x8 feature map reduced to 1x1 is exactly the three-stage 8->4->2->1 reduction
+    the pooling engine already runs (`reduction.reduction_reference` models its
+    per-stage INT8 rounding), so the rewrite is the algebraic identity
+    `GlobalAveragePool(X) = AveragePool(AveragePool(AveragePool(X)))` on `[N,C,8,8]`.
+    Strictly bounded: the node must be the terminal node, read one static `[N,C,8,8]`
+    tensor and produce the single graph output; `GlobalAveragePool` carries no
+    attributes and `ReduceMean` must be `axes=[2,3]`, `keepdims=1`. Anything else
+    raises with the node name and the bound rather than being silently dropped.
+    """
+    graph = model.graph
+    nodes = list(graph.node)
+    if not any(node.domain in ("", "ai.onnx") and node.op_type in _GLOBAL_POOL_OPS
+               for node in nodes):
+        return
+    del graph.value_info[:]
+    shapes = _static_shapes(model)
+    outputs = {value.name for value in graph.output}
+    rewritten = []
+    for index, node in enumerate(nodes):
+        if node.domain not in ("", "ai.onnx") or node.op_type not in _GLOBAL_POOL_OPS:
+            rewritten.append(node)
+            continue
+        if index != len(nodes) - 1:
+            raise _global_pool_error(node, "is not the terminal node")
+        if len(node.input) != 1 or len(node.output) != 1:
+            raise _global_pool_error(
+                node, "has %d input(s) and %d output(s)" % (len(node.input), len(node.output)))
+        if len(graph.output) != 1 or node.output[0] not in outputs:
+            raise _global_pool_error(node, "does not produce the single graph output")
+        shape = shapes.get(node.input[0])
+        if shape is None or len(shape) != 4 or shape[2:] != [8, 8]:
+            raise _global_pool_error(
+                node, "reads %s, not a static four-dimensional [N,C,8,8] tensor"
+                % ("an unknown shape" if shape is None else shape))
+        attrs = {a.name: helper.get_attribute_value(a) for a in node.attribute}
+        if node.op_type == "GlobalAveragePool":
+            if attrs:
+                raise _global_pool_error(
+                    node, "carries attributes %s" % sorted(attrs))
+        else:
+            extra = set(attrs) - {"axes", "keepdims", "noop_with_empty_axes"}
+            if extra:
+                raise _global_pool_error(node, "carries attributes %s" % sorted(extra))
+            if [int(v) for v in attrs.get("axes", [])] != [2, 3]:
+                raise _global_pool_error(
+                    node, "reduces axes %s, not the spatial axes [2, 3]"
+                    % list(attrs.get("axes", [])))
+            if int(attrs.get("keepdims", 1)) != 1:
+                raise _global_pool_error(node, "does not keep the reduced dimensions")
+            if int(attrs.get("noop_with_empty_axes", 0)) != 0:
+                raise _global_pool_error(node, "sets noop_with_empty_axes")
+        previous = node.input[0]
+        for stage in range(3):
+            output = (node.output[0] if stage == 2
+                      else "%s_global_pool_%d" % (node.output[0], stage))
+            rewritten.append(helper.make_node("AveragePool", [previous], [output],
+                                              kernel_shape=[2, 2], strides=[2, 2]))
+            previous = output
+    del graph.node[:]
+    graph.node.extend(rewritten)
+
+
+def _concat_error(node, detail):
+    """A sibling-Conv Concat that the weight-stacking rewrite cannot express."""
+    return ValueError(
+        "Concat lowering requires a terminal axis-1 Concat of two or more Conv branches "
+        "reading one shared graph input with identical kernel/strides/pads/dilations/group; "
+        "node '%s' %s" % (_label(node), detail))
+
+
+def _conv_branch_signature(node, weights):
+    """The attribute tuple that makes two Conv branches concatenable, or None.
+
+    Only the identity attributes that survive the concatenation are accepted, and
+    `auto_pad` has to be materialized first, so a non-NOTSET or unknown attribute makes
+    the branch ineligible rather than silently merged.
+    """
+    attrs = {a.name: helper.get_attribute_value(a) for a in node.attribute}
+    if set(attrs) - {"kernel_shape", "strides", "pads", "dilations", "group", "auto_pad"}:
+        return None
+    if attrs.get("auto_pad", b"NOTSET") != b"NOTSET":
+        return None
+    if int(attrs.get("group", 1)) != 1:
+        return None
+    return (tuple(int(v) for v in attrs.get("kernel_shape", weights.shape[2:])),
+            tuple(int(v) for v in attrs.get("strides", [1, 1])),
+            tuple(int(v) for v in attrs.get("pads", [0, 0, 0, 0])),
+            tuple(int(v) for v in attrs.get("dilations", [1, 1])),
+            int(attrs.get("group", 1)))
+
+
+def _lower_concat_branches(model, constants):
+    """Stack sibling Conv branches feeding a terminal `Concat(axis=1)` into one Conv.
+
+    `Concat(Conv(X, Wa), Conv(X, Wb), axis=1)` is `Conv(X, [Wa; Wb])` with the biases
+    stacked the same way: the same input, the same geometry and the same per-output
+    channel kernel, so the concatenation is exactly the output-channel axis. Strictly
+    bounded: every branch is a plain Conv reading one shared graph input, no branch
+    output has another consumer, the attributes are identical and `group=1`, and the
+    Concat is terminal. A branch that is `Conv -> Relu` is left untouched (the two
+    activations would have to be applied per branch), and any other shape raises with
+    the node name and the bound. A Concat whose inputs are not all Conv outputs is left
+    for the downstream rejection, so an op-level `Concat` rejection is unchanged.
+    """
+    graph = model.graph
+    nodes = list(graph.node)
+    if not nodes:
+        return
+    producers, consumers = {}, {}
+    for node in nodes:
+        for name in node.input:
+            consumers.setdefault(name, []).append(node)
+        for name in node.output:
+            producers[name] = node
+    outputs = {value.name for value in graph.output}
+    names = ({tensor.name for tensor in graph.initializer}
+             | {value.name for value in graph.input} | outputs
+             | {name for node in nodes for name in node.output})
+    for index, node in enumerate(nodes):
+        if node.domain not in ("", "ai.onnx") or node.op_type != "Concat":
+            continue
+        branches = [producers.get(name) for name in node.input]
+        if (len(branches) < 2 or any(branch is None or branch is node
+                                     or branch.domain not in ("", "ai.onnx")
+                                     or branch.op_type != "Conv" for branch in branches)):
+            continue  # not sibling Conv branches: leave the downstream rejection
+        attrs = {a.name: helper.get_attribute_value(a) for a in node.attribute}
+        if set(attrs) != {"axis"} or int(attrs["axis"]) != 1:
+            raise _concat_error(node, "is not a Concat on axis 1")
+        if len(graph.input) != 1:
+            raise _concat_error(node, "is in a graph without exactly one input")
+        if index != len(nodes) - 1 or len(graph.output) != 1 \
+                or node.output[0] != graph.output[0].name:
+            raise _concat_error(node, "is not the terminal node producing the single output")
+        shared = graph.input[0].name
+        weights, biases = [], []
+        signature = None
+        for branch in branches:
+            if branch.input[0] != shared:
+                raise _concat_error(branch, "reads '%s', not the shared graph input '%s'"
+                                    % (branch.input[0], shared))
+            if len(branch.output) != 1 or list(consumers.get(branch.output[0], [])) != [node] \
+                    or branch.output[0] in outputs:
+                raise _concat_error(branch, "has another consumer or is a graph output")
+            weight = constants.get(branch.input[1]) if len(branch.input) in (2, 3) else None
+            if weight is None or weight.dtype != np.float32 or weight.ndim != 4:
+                raise _concat_error(branch, "has no constant float32 rank-four weights")
+            current = _conv_branch_signature(branch, weight)
+            if current is None:
+                raise _concat_error(branch, "carries attributes that cannot be stacked")
+            if signature is None:
+                signature = current
+            elif current != signature:
+                raise _concat_error(branch, "has different kernel/strides/pads/dilations/group")
+            biases.append(constants.get(branch.input[2]) if len(branch.input) == 3 else None)
+            weights.append(weight)
+        for branch, bias, weight in zip(branches, biases, weights):
+            if bias is not None and (bias.dtype != np.float32
+                                     or bias.shape != (weight.shape[0],)):
+                raise _concat_error(branch, "has a bias that is not float32 [output_channels]")
+        merged_weight = np.ascontiguousarray(np.concatenate(weights, axis=0))
+        merged_bias = None
+        if any(bias is not None for bias in biases):
+            merged_bias = np.concatenate(
+                [bias if bias is not None else np.zeros(weight.shape[0], np.float32)
+                 for bias, weight in zip(biases, weights)]).astype(np.float32)
+        weight_name = node.output[0] + "_concat_weight"
+        while weight_name in names:
+            weight_name += "_"
+        names.add(weight_name)
+        graph.initializer.append(numpy_helper.from_array(merged_weight, weight_name))
+        constants[weight_name] = merged_weight
+        promoted = [shared, weight_name]
+        if merged_bias is not None:
+            bias_name = node.output[0] + "_concat_bias"
+            while bias_name in names:
+                bias_name += "_"
+            names.add(bias_name)
+            graph.initializer.append(numpy_helper.from_array(merged_bias, bias_name))
+            constants[bias_name] = merged_bias
+            promoted.append(bias_name)
+        survivor = branches[0]
+        del survivor.input[:]
+        survivor.input.extend(promoted)
+        survivor.output[0] = node.output[0]
+        dropped = {id(branch) for branch in branches[1:]} | {id(node)}
+        retained = [candidate for candidate in graph.node if id(candidate) not in dropped]
+        del graph.node[:]
+        graph.node.extend(retained)
+
+
 def normalize_model(model):
     """Return a checked copy with constant reshapes and Conv bias/padding folded.
 
@@ -356,6 +560,12 @@ def normalize_model(model):
         if dilated:replaced.update(dilations=[1,1],kernel_shape=effective)
         kept=[a for a in node.attribute if a.name not in replaced];del node.attribute[:];node.attribute.extend(kept)
         node.attribute.extend(helper.make_attribute(k,v) for k,v in replaced.items())
+
+    # Both bounded rewrites are algebraic identities into shapes the pooling engine
+    # already runs: a terminal spatial mean is the three-stage 8->4->2->1 average
+    # reduction, and a Concat of sibling Conv branches is their stacked wide Conv.
+    _lower_global_pooling(result)
+    _lower_concat_branches(result, constants)
 
     inferred = onnx.shape_inference.infer_shapes(result)
     shapes = {v.name: [d.dim_value for d in v.type.tensor_type.shape.dim]

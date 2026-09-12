@@ -19,9 +19,9 @@ ONNX graph ──► normalize ──► scheduler (profile dispatch) ──► 
   4,090-parameter mel-CNN on spoken digits and runs the whole graph on the board —
   **98.00%** INT8 test accuracy, 191,968 / 192,000 board-exact output bytes, 2.54 ms per
   utterance.
-* **1,100 host tests at 99.55% compiler line coverage**, a **2,268-model container baseline** (every published suite model
+* **1,155 host tests at 99.20% compiler line coverage**, a **2,328-model container baseline** (every published suite model
   still compiles to identical bytes), and a **121-row board ledger** counting
-  **1,726 models / 28,746 inferences / 10,274,515 exact output bytes**.
+  **1,786 models / 29,706 inferences / 10,605,299 exact output bytes**.
 * **Low-level op examples**: `examples/primitives/` has one runnable script per primitive —
   a single Conv, Conv+pool, chains, depthwise, elementwise joins, broadcast Mul, LUT
   activations, transposed Conv, join DAGs, calibration — plus an MNIST-style model that
@@ -43,7 +43,7 @@ print(meta["profile"], len(binary), "bytes")
 
 ```sh
 python examples/primitives/01_native_conv.py      # runs a primitive end to end on the host
-PYTHONPATH=src python research/verify_suites.py   # 2,268 models vs the checked-in baseline
+PYTHONPATH=src python research/verify_suites.py   # 2,328 models vs the checked-in baseline
 PYTHONPATH=src python -m unittest discover -s tests
 ```
 
@@ -74,7 +74,7 @@ per-op walkthrough is [primitives](docs/primitives.md).
 | --- | --- |
 | `src/open_rknpu/` | the compiler: front end, scheduler, one module per profile/emitter, the stage composer and the container writer |
 | `runtime/` | the libc-only board runtime (`open_rknpu.c/.h`, `main.c`, `Makefile`) and `sequence_format.md`, the container specification |
-| `tests/` | 1,100 host tests (99.55% line coverage, floor 99% in CI) plus the C board harnesses (`board_*.c`) |
+| `tests/` | 1,155 host tests (99.20% line coverage, floor 99% in CI) plus the C board harnesses (`board_*.c`) |
 | `examples/` | `primitives/` (one script per low-level op), `mnist/` and `fashion/` (hybrid CNN classifiers), `mel-kws/` (whole model on the NPU) |
 | `research/` | the evidence: one directory per suite with its models, reference outputs, `manifest.json`, `board_results_*.json` and `README.md`, the generators (`build_*.py`), the oracle captures, and the verification scripts |
 | `docs/` | architecture, primitive catalog, quantization, container format, board workflow, verification, roadmap, investigation log, planning records |

@@ -6,9 +6,13 @@ bindings from every verified container and checks the invariants that make them 
 * v5 tensor tables: roles, contiguous external indices, sizes equal to the declared
   layout, offsets inside the arena, and no internal tensor overlapping an external one;
 * v5 tasks: for each task family the address registers are known, so each read offset
-  must be an external input or a tensor written by an **earlier** task (a topological
-  producer/consumer proof), each write must target a declared internal or the output,
-  and no task may write an external input;
+  must be an external input, a tensor written by an **earlier** task (a topological
+  producer/consumer proof), or a byte inside the container's own payload - several
+  emitters materialize an immutable constant plane there (the elementwise ERDMA operand
+  is the first: the runtime copies the payload to arena offset 0 and no caller buffer is
+  involved, so there is nothing to declare in the tensor table). Each write must target a
+  declared internal or the output, no task may write an external input, and a write into
+  the payload region is illegal;
 * v3/v4 containers: the payload, task table and arena bounds all agree.
 
 The check runs over every board-verified model in the repository (a sample per suite is
@@ -68,6 +72,7 @@ def _check_v5(data, info, where):
     declared = {entry['byte_offset']: entry for entry in internals}
     declared.update(external_offsets)
     payload = 112 + info['task_count'] * 16 + info['tensor_count'] * 64
+    payload_bytes = info['payload_bytes']
     produced = {}
     for position, task in enumerate(info['tasks']):
         count, enable = task['register_count'], task['enable']
@@ -79,13 +84,16 @@ def _check_v5(data, info, where):
                  for index in range(count)}
         for reg in reads:
             value = words.get(reg, 0)
-            assert value == 0 or value in declared, (where, position, hex(reg), hex(value))
-            if value == 0 or declared[value]['role'] == ROLE_INPUT:
+            assert value == 0 or value in declared or value < payload_bytes, \
+                (where, position, hex(reg), hex(value))
+            if value == 0 or value < payload_bytes or declared[value]['role'] == ROLE_INPUT:
                 continue
             assert value in produced, (where, position, hex(reg), hex(value))
         for reg in writes:
             value = words.get(reg, 0)
             assert value == 0 or value in declared, (where, position, hex(reg), hex(value))
+            assert value == 0 or value >= payload_bytes, \
+                ("a task may not write into the payload", where, position, hex(reg), hex(value))
             if value == 0:
                 continue
             entry = declared[value]

@@ -1,0 +1,331 @@
+[
+  {
+    "index": 0,
+    "label": "concat2-c3-o10-10-k1",
+    "branches": [
+      10,
+      10
+    ],
+    "input_channels": 3,
+    "output_channels": 20,
+    "kernel": 1,
+    "biases": false,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      20
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1280
+  },
+  {
+    "index": 1,
+    "label": "concat2-c3-o10-10-k3",
+    "branches": [
+      10,
+      10
+    ],
+    "input_channels": 3,
+    "output_channels": 20,
+    "kernel": 3,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      20
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1280
+  },
+  {
+    "index": 2,
+    "label": "concat3-c3-o8-8-8-k1",
+    "branches": [
+      8,
+      8,
+      8
+    ],
+    "input_channels": 3,
+    "output_channels": 24,
+    "kernel": 1,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      24
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1536
+  },
+  {
+    "index": 3,
+    "label": "concat3-c1-o8-8-8-k3",
+    "branches": [
+      8,
+      8,
+      8
+    ],
+    "input_channels": 1,
+    "output_channels": 24,
+    "kernel": 3,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      1
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      24
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1536
+  },
+  {
+    "index": 4,
+    "label": "concat2-c1-o12-12-k3",
+    "branches": [
+      12,
+      12
+    ],
+    "input_channels": 1,
+    "output_channels": 24,
+    "kernel": 3,
+    "biases": false,
+    "input_shape": [
+      1,
+      8,
+      8,
+      1
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      24
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1536
+  },
+  {
+    "index": 5,
+    "label": "concat2-c3-o10-10-k3-bias-free",
+    "branches": [
+      10,
+      10
+    ],
+    "input_channels": 3,
+    "output_channels": 20,
+    "kernel": 3,
+    "biases": false,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      20
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1280
+  },
+  {
+    "index": 6,
+    "label": "concat3-c3-o6-8-10-k1",
+    "branches": [
+      6,
+      8,
+      10
+    ],
+    "input_channels": 3,
+    "output_channels": 24,
+    "kernel": 1,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      24
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1536
+  },
+  {
+    "index": 7,
+    "label": "concat2-c3-o9-12-k3",
+    "branches": [
+      9,
+      12
+    ],
+    "input_channels": 3,
+    "output_channels": 21,
+    "kernel": 3,
+    "biases": false,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      21
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1344
+  },
+  {
+    "index": 8,
+    "label": "concat3-c1-o10-10-4-k3",
+    "branches": [
+      10,
+      10,
+      4
+    ],
+    "input_channels": 1,
+    "output_channels": 24,
+    "kernel": 3,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      1
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      24
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1536
+  },
+  {
+    "index": 9,
+    "label": "concat2-c3-o11-11-k3",
+    "branches": [
+      11,
+      11
+    ],
+    "input_channels": 3,
+    "output_channels": 22,
+    "kernel": 3,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      22
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1408
+  },
+  {
+    "index": 10,
+    "label": "concat2-c1-o10-10-k1",
+    "branches": [
+      10,
+      10
+    ],
+    "input_channels": 1,
+    "output_channels": 20,
+    "kernel": 1,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      1
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      20
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1280
+  },
+  {
+    "index": 11,
+    "label": "concat3-c3-o7-7-7-k3",
+    "branches": [
+      7,
+      7,
+      7
+    ],
+    "input_channels": 3,
+    "output_channels": 21,
+    "kernel": 3,
+    "biases": true,
+    "input_shape": [
+      1,
+      8,
+      8,
+      3
+    ],
+    "output_shape": [
+      1,
+      8,
+      8,
+      21
+    ],
+    "profile": "native16-input",
+    "cases": 16,
+    "output_bytes": 1344
+  }
+]

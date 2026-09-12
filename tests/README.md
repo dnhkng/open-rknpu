@@ -7,7 +7,7 @@ retained evidence suites under `research/`.
 make test                       # unittest discover -s tests
 make test-one M=tests.test_walk # a single module
 make coverage                   # + coverage floor (config in pyproject.toml)
-make baseline                   # recompile 2,268 suite models against the baseline
+make baseline                   # recompile 2,328 suite models against the baseline
 make evidence                   # audit every published suite against its manifest
 make perf                       # cost-model regression (tasks, engine blocks, arena)
 make reproducible               # build the sdist twice, diff every byte, audit contents
@@ -21,7 +21,7 @@ make test-one M=tests.test_runtime_cli
 | --- | --- | --- |
 | Front end | `test_normalize`, `test_normalize_matrix`, `test_network`, `test_front_end_rejections`, `test_dense_lowering` | constant folding, bias/padding folding, kernel rewrites, grouped lowering, Q/DQ handling, loud rejection of unsupported graphs |
 | Parsers and bounds | `test_native`, `test_profile_bounds`, `test_scheduler`, `test_padding`, `test_strided`, `test_chain*`, `test_depthwise*`, `test_walk`, `test_join_*`, `test_join_emitters_deep`, `test_join_variants_deep`, `test_mixed_heads`, `test_pool_join`, `test_pooled_*`, `test_graph`, `test_join_dag`, `test_elementwise*`, `test_activation_profiles`, `test_lut_*`, `test_transpose*`, `test_tiled_chain`, `test_scheduler_boundaries`, `test_graph_join_rejections` | every profile's accepted shapes *and* the first out-of-bounds neighbour, with the specific error message |
-| Semantics | `test_emit_semantics`, `test_emitter_fuzz`, `test_chain`, `test_depthwise*`, `test_mul_*`, `test_elementwise*`, `test_reduction_and_dags`, `test_emitter_rejections` | the compiled container's integer output against an independent implementation of the graph arithmetic, plus each emitter's own Python reference |
+| Semantics | `test_emit_semantics`, `test_emitter_fuzz`, `test_chain`, `test_depthwise*`, `test_mul_*`, `test_elementwise*`, `test_reduction_and_dags`, `test_emitter_rejections`, `test_bounded_ops`, `test_walk_elementwise` | the compiled container's integer output against an independent implementation of the graph arithmetic, plus each emitter's own Python reference |
 | Numerics | `test_quantization_edge_cases`, `test_calibration_methods`, `test_calibration`, `test_native_clip_reference`, `test_family_cost` | band math, zero points, requantization rounding, the three calibration methods and their error paths |
 | Containers and runtime | `test_model`, `test_legacy_container`, `test_legacy_compiler_paths`, `test_sequence_roundtrip`, `test_container_fuzz`, `test_container_bindings`, `test_submission`, `test_async`, `test_compose`, `test_composer_arena`, `test_liveness`, `test_quantized_import_deep` | encode/decode round-trips, checksum and truncation handling, C-loader parity, task linking, arena allocation and reuse |
 | CLI and examples | `test_cli`, `test_cli_matrix`, `test_cli_flags`, `test_examples_host`, `test_docs_commands`, `test_example_multi_model`, `test_example_depthwise_separable`, `test_example_benchmark` | the compile/inspect/normalize flag matrix, output files, the documented argument errors, and every command the documentation tells a reader to run (executed in an isolated copy of the tree, or skipped with a recorded reason) |

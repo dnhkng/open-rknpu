@@ -1,0 +1,446 @@
+[
+  {
+    "index": 0,
+    "label": "add-scalar",
+    "op": "Add",
+    "constant_mode": "scalar",
+    "constant_shape": [],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 1,
+    "label": "add-per-channel",
+    "op": "Add",
+    "constant_mode": "per-channel",
+    "constant_shape": [
+      1,
+      8,
+      1,
+      1
+    ],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 2,
+    "label": "add-spatial",
+    "op": "Add",
+    "constant_mode": "spatial",
+    "constant_shape": [
+      1,
+      8,
+      8,
+      8
+    ],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 3,
+    "label": "sub-scalar-pool",
+    "op": "Sub",
+    "constant_mode": "scalar",
+    "constant_shape": [],
+    "pooled": true,
+    "ops": [
+      "conv",
+      "ew",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 4,
+    "label": "sub-per-channel",
+    "op": "Sub",
+    "constant_mode": "per-channel",
+    "constant_shape": [
+      1,
+      8,
+      1,
+      1
+    ],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 5,
+    "label": "sub-spatial-pool",
+    "op": "Sub",
+    "constant_mode": "spatial",
+    "constant_shape": [
+      1,
+      8,
+      8,
+      8
+    ],
+    "pooled": true,
+    "ops": [
+      "conv",
+      "ew",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 6,
+    "label": "max-scalar",
+    "op": "Max",
+    "constant_mode": "scalar",
+    "constant_shape": [],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 7,
+    "label": "max-per-channel-pool",
+    "op": "Max",
+    "constant_mode": "per-channel",
+    "constant_shape": [
+      1,
+      8,
+      1,
+      1
+    ],
+    "pooled": true,
+    "ops": [
+      "conv",
+      "ew",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 8,
+    "label": "max-spatial",
+    "op": "Max",
+    "constant_mode": "spatial",
+    "constant_shape": [
+      1,
+      8,
+      8,
+      8
+    ],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 9,
+    "label": "mul-scalar",
+    "op": "Mul",
+    "constant_mode": "scalar-rank3",
+    "constant_shape": [
+      1,
+      1,
+      1
+    ],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 192
+  },
+  {
+    "index": 10,
+    "label": "mul-spatial-pool",
+    "op": "Mul",
+    "constant_mode": "spatial",
+    "constant_shape": [
+      1,
+      8,
+      8,
+      8
+    ],
+    "pooled": true,
+    "ops": [
+      "conv",
+      "ew",
+      "MaxPool",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      4,
+      4
+    ],
+    "profile": "chain-walk",
+    "dispatch": "chain-walk",
+    "cases": 16,
+    "output_bytes": 48
+  },
+  {
+    "index": 11,
+    "label": "mul-per-channel",
+    "op": "Mul",
+    "constant_mode": "per-channel",
+    "constant_shape": [
+      1,
+      8,
+      1,
+      1
+    ],
+    "pooled": false,
+    "ops": [
+      "conv",
+      "ew",
+      "conv"
+    ],
+    "activations": [
+      null,
+      null
+    ],
+    "input_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "output_shape": [
+      1,
+      3,
+      8,
+      8
+    ],
+    "profile": "chain-walk",
+    "dispatch": "pinned default rejection: depthwise profile requires supported group/kernel/padding/stride and constant weights/bias",
+    "cases": 16,
+    "output_bytes": 192
+  }
+]

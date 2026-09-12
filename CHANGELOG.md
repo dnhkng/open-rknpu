@@ -30,12 +30,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   compared against the Python decoder for all 2,340 published containers), evidence
   integrity for every suite, the documented-command runner, rejection/boundary modules for
   the front end, emitters, joins and scheduler, and the release-gate logic
-  (1,100 tests total, 99.55% compiler line coverage).
+  (1,155 tests total, 99.20% compiler line coverage).
 - Tools: `research/perf_regression.py` with a checked-in cost-model baseline,
   `research/check_reproducible_build.py` (normalise and audit the sdist),
   `research/run_mutation_tests.py` with `research/mutation_scope.json`,
   `research/coverage_doc_table.py` (generates the uncovered-line table in the docs), and
   `research/build_suite_readmes.py` (generates the 135 marker-based suite pages).
+
+### Added (second pass)
+- **Bounded `Concat` and global pooling** (F6): `Concat(axis=1)` of sibling Conv branches on
+  the same input is lowered to one wide Conv by stacking weights, and
+  `GlobalAveragePool`/`ReduceMean(axes=[2,3])` on an 8x8 map becomes three chained 2x2 pools
+  through the verified reduction emitter. `Softmax`, `Slice` and `Resize` stay rejected with
+  their exact messages. Board: `wide_concat_suite` 12/192/270,336 exact bytes,
+  `global_pool_suite` 12/192/1,248, `global_pool_reduce_suite` 12/192/1,408.
+- **Elementwise stages inside the op-level walk** (F5): `Conv[/Relu] -> Add|Sub|Max|Mul(constant)
+  -> (2x2 pool ->)* Conv[/Relu]` now lowers through the walk, reusing the standalone
+  elementwise register program and its reference. Board: `walk_elementwise_suite`
+  12/192/27,648 exact bytes.
+- **One-sided and asymmetric padding** (F7) is covered as a supported form rather than a gap:
+  the emitter's explicit-pad path already handled it (bounded `pads < K`), and
+  `rect_pad_suite` now proves it (12/192/30,144 exact bytes). K > 31 keeps the measured
+  `odd K1..31` bound.
+- **A per-inference timing API** (F9): `ornpu_run_timed`/`ornpu_run_io_timed` report
+  `pack_ns`/`submit_ns`/`readback_ns`/`total_ns`; `tests/board_timed.c` records the numbers.
+- **dma-buf zero-copy input** (F8): `ornpu_open_shared` allocates the arena from the Rockchip
+  CMA heap and returns the fd, `ornpu_input_view` describes the producer's layout, and
+  `ornpu_run_prefilled` runs without copying the input. Board: the packed
+  `add_geometry_suite` through this path, 32 models / 64 inferences / 19,968 exact bytes.
+
+### Changed (second pass)
+- The container baseline covers 2,328 models (0 changed; 84 new suite models, one of which is
+  a documented default rejection), the ledger is 129 rows / 1,786 models / 29,706 inferences
+  / 10,605,299 exact output bytes, and the host suite is 1,155 tests at 99.20% line coverage.
+- `ornpu_info` gained `arena_bytes`; `tests/test_container_bindings.py` now accepts a read
+  address inside the container's own payload (an emitter-materialised constant) while still
+  rejecting a write into the payload.
+- The suite-page generator emits a factual "What this suite pins" section instead of a
+  template stub.
 
 ### Changed
 - `compile --target/--quantize` are validated and named in the summary instead of being

@@ -388,10 +388,13 @@ def _compile_sequence(loaded,input_scale=1.0,input_zero_point=0,output_range=Non
         from .elementwise import compile_elementwise
         return compile_elementwise(model,input_scale,input_zero_point,resolved_range(),mul_operand_zero_points)
     # Op-level chain walk: a linear Conv/Relu chain with a pool that is *not* the last
-    # node. No profile above matches that shape (the pooling profiles end in a pool or
-    # branch around one), so the walk cannot hijack existing evidence.
-    if any(node.op_type in ('MaxPool','AveragePool') and index < len(nodes) - 1
-           for index, node in enumerate(nodes)):
+    # node, or a constant elementwise stage (`Add|Sub|Max|Mul` against an initializer)
+    # inside the chain. No profile above matches those shapes - the pooling profiles
+    # end in a pool or branch around one, and the elementwise profiles need the
+    # operator to be the graph output - so the walk cannot hijack existing evidence.
+    if (any(node.op_type in ('MaxPool','AveragePool') and index < len(nodes) - 1
+            for index, node in enumerate(nodes))
+            or any(node.op_type in ('Add','Sub','Max','Mul') for node in nodes)):
         from .walk import compile_chain_walk, parse_chain
         if parse_chain(graph) is not None:
             if tuple(mul_operand_zero_points)!=(0,0):

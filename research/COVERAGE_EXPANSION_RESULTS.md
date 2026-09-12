@@ -533,7 +533,12 @@ legacy-C1, halfway-rounding and first transposed probes.
 | [matmul](matmul_suite/) | 12 | 192 | 1,152 |
 | [conv1d](conv1d_suite/) | 12 | 192 | 38,464 |
 | [chain_calibration](chain_calibration_suite/) | 6 | 96 | 18,432 |
-| **Total** | **1,726** | **28,746** | **10,274,515** |
+| [walk_elementwise](walk_elementwise_suite/) | 12 | 192 | 27,648 |
+| [wide_concat](wide_concat_suite/) | 12 | 192 | 270,336 |
+| [rect_pad](rect_pad_suite/) | 12 | 192 | 30,144 |
+| [global_pool](global_pool_suite/) | 12 | 192 | 1,248 |
+| [global_pool_reduce](global_pool_reduce_suite/) | 12 | 192 | 1,408 |
+| **Total** | **1,786** | **29,706** | **10,605,299** |
 
 ## Final validation for this pass
 

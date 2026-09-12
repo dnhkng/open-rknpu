@@ -4,8 +4,9 @@ Each entry below is prepended newest-first; the older narrative from the first
 `regcmd` investigation is kept at the end.
 
 <details>
-<summary>Table of contents (71 entries)</summary>
+<summary>Table of contents (72 entries)</summary>
 
+* [2026-09-12: the camera path is held by rkipc (E5 probe)](#2026-09-12-the-camera-path-is-held-by-rkipc-e5-probe)
 * [2026-09-12: dma-buf zero-copy input is implemented and board-verified (F8)](#2026-09-12-dma-buf-zero-copy-input-is-implemented-and-board-verified-f8)
 * [2026-09-12: the NPU driver imports dma-bufs (CREATE flag 0x80) - F8 is feasible](#2026-09-12-the-npu-driver-imports-dma-bufs-create-flag-0x80---f8-is-feasible)
 * [2026-09-11: publication-readiness pass - legal, interfaces, CI, docs, examples](#2026-09-11-publication-readiness-pass---legal-interfaces-ci-docs-examples)
@@ -80,6 +81,30 @@ Each entry below is prepended newest-first; the older narrative from the first
 * [Summary: `regcmd` investigation (older findings, kept as-is)](#rv1103-npu--rknn-regcmd-investigation--summary)
 
 </details>
+
+## 2026-09-12: the camera path is held by rkipc (E5 probe)
+
+`rkisp_mainpath` (`/dev/video11`) is the ISP's 2304x1296 NV12 output and `rkipc` (pid 281)
+holds it - `/proc/281/fd` shows `/dev/video11` open twice, plus `/dev/video0`, `1`, `12`,
+`13`, `17`, `18`, `19`, `20`. A second streaming client is refused by the driver:
+
+```text
+$ v4l2-ctl -d /dev/video11 --stream-mmap --stream-count=1 --stream-to=/tmp/isp.raw
+VIDIOC_REQBUFS returned -1 (Device or resource busy)
+```
+
+So a camera -> NPU example cannot open the ISP main path while `rkipc` runs, and stopping
+`rkipc` is not an option for this board (it is the camera appliance; the project's rule is
+that it stays alive). The free nodes are the ones nothing streams (`stream_cif_mipi_id2/3`,
+`rkcif_scale_ch0..3`, `rkisp_lumapath`); a capture attempt on `rkcif_scale_ch2` blocked
+waiting for a frame that never arrives, so a probe of a free node needs a timeout.
+
+What E5 therefore needs: a V4L2 capture example that takes a device and format from the
+caller, converts YUYV/NV12 to the model's packed RGB input, and runs the NPU through the
+dma-buf path from F8 - verified on the board with a recorded frame (the plumbing) while the
+README states the measured `rkipc` constraint for the live sensor. `ornpu_open_shared` makes
+the zero-copy hand-off possible: a capture buffer written at `ornpu_input_view`'s offset is
+the memory the engine reads.
 
 ## 2026-09-12: dma-buf zero-copy input is implemented and board-verified (F8)
 
