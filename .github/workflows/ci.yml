@@ -117,8 +117,12 @@ jobs:
           onnx.save(model, "smoke.onnx")
           binary, meta = compile_sequence("smoke.onnx", 1.0, 0)
           info = decode_sequence(binary)
+          # Assert what the public API promises, not an internal meta key: several profiles
+          # (the op-level walk in particular) deliberately do not carry `meta["profile"]`.
           assert info["task_count"] >= 1 and info["output_shape_nhwc"] == [1, 8, 8, 3], info
-          print("installed wheel compiled and decoded:", meta["profile"], len(binary), "bytes,",
-                info["task_count"], "task(s) from", open_rknpu.__file__)
+          assert meta["submission"] == "serial", meta["submission"]
+          print("installed wheel compiled and decoded:", len(binary), "bytes, format_version",
+                info["format_version"], ",", info["task_count"], "task(s) from",
+                open_rknpu.__file__)
           assert not pathlib.Path("open_rknpu").exists(), "must not import from the checkout"
           PY

@@ -12,7 +12,7 @@ Effort: **S** < 1 h · **M** ~ half a day · **L** 1–3 days · **XL** > 3 days
 | **PyPI release** | P0 plus the packaging/release-engineering list (metadata, changelog, trusted publishing, install smoke test) |
 | **Announcement** (blog/HN/Reddit) | P1 plus a docs site, a compatibility report and at least one non-toy demo |
 
-Current baseline: 1,005 tests, 99.85 % compiler line coverage (floor 99 %), 2,244-model
+Current baseline: 1,008 tests, 99.85 % compiler line coverage (floor 99 %), 2,244-model
 container baseline, 121-row board ledger, 27 documentation pages (~78 k words) plus the
 planning records, 5 example sets, ~16,400 tracked files / 38.5 MiB pack.
 
@@ -28,7 +28,7 @@ probe and fresh board evidence, not a checklist pass.
 
 What this pass changed:
 
-* the host suite grew from 873 to **1,005 tests** and the compiler's line coverage from 98 %
+* the host suite grew from 873 to **1,008 tests** and the compiler's line coverage from 98 %
   to **99.85 %**; the nine remaining lines are each proven unreachable, and the table in
   `docs/verification.md` is **generated from the coverage data** (`research/coverage_doc_table.py`,
   checked in CI) so the claim cannot drift. Two provably dead lines were deleted rather than

@@ -19,7 +19,7 @@ ONNX graph ──► normalize ──► scheduler (profile dispatch) ──► 
   4,090-parameter mel-CNN on spoken digits and runs the whole graph on the board —
   **98.00%** INT8 test accuracy, 191,968 / 192,000 board-exact output bytes, 2.54 ms per
   utterance.
-* **1,005 host tests at 99.85% compiler line coverage**, a **2,244-model container baseline** (every published suite model
+* **1,008 host tests at 99.85% compiler line coverage**, a **2,244-model container baseline** (every published suite model
   still compiles to identical bytes), and a **121-row board ledger** counting
   **1,696 models / 28,266 inferences / 10,216,467 exact output bytes**.
 * **Low-level op examples**: `examples/primitives/` has one runnable script per primitive —
@@ -74,7 +74,7 @@ per-op walkthrough is [primitives](docs/primitives.md).
 | --- | --- |
 | `src/open_rknpu/` | the compiler: front end, scheduler, one module per profile/emitter, the stage composer and the container writer |
 | `runtime/` | the libc-only board runtime (`open_rknpu.c/.h`, `main.c`, `Makefile`) and `sequence_format.md`, the container specification |
-| `tests/` | 1,005 host tests (99.85% line coverage, floor 99% in CI) plus the C board harnesses (`board_*.c`) |
+| `tests/` | 1,008 host tests (99.85% line coverage, floor 99% in CI) plus the C board harnesses (`board_*.c`) |
 | `examples/` | `primitives/` (one script per low-level op), `mnist/` and `fashion/` (hybrid CNN classifiers), `mel-kws/` (whole model on the NPU) |
 | `research/` | the evidence: one directory per suite with its models, reference outputs, `manifest.json`, `board_results_*.json` and `README.md`, the generators (`build_*.py`), the oracle captures, and the verification scripts |
 | `docs/` | architecture, primitive catalog, quantization, container format, board workflow, verification, roadmap, investigation log, planning records |

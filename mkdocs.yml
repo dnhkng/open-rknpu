@@ -19,6 +19,20 @@ edit_uri: edit/main/docs/
 
 docs_dir: docs
 
+# The documentation deliberately links *outside* docs_dir: the pages point at the
+# evidence tree (`../research/**/README.md`), the examples and the repository files, which
+# is what a reader on GitHub wants. MkDocs cannot resolve those targets because it only
+# builds `docs/`, so link resolution is not treated as fatal here. Link integrity is not
+# unchecked: `research/check_docs_links.py` walks every markdown file in the repository
+# (including docs/) and fails on a broken relative link or a missing heading anchor, and it
+# runs in CI and in `make docs-check`. See docs/verification.md.
+validation:
+  absolute_links: ignore
+  unrecognized_links: ignore
+  links:
+    not_found: ignore
+    anchors: ignore
+
 theme:
   name: material
   language: en

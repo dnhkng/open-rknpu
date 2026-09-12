@@ -30,6 +30,11 @@ joins backslash continuations, and collects the shell command lines that start w
    vendor compiler, a model from ``train.py`` (PyTorch), or a recorded ``actual.f32``.
 10. The selected build directory does not ship the board-pulled ``actual.f32`` that the
     script reads.
+11. The command failed on a **dataset path that is not in the checkout**
+    (``research/pretrained/*/data``, ``test-data`` or ``recordings``): the fetchers are
+    skipped by rule 2, so the dataset is legitimately absent on a fresh clone. The command
+    still runs first; only a failure that names such a path is reclassified as a skip, with
+    the return code and output kept in the inventory.
 
 Host-safe commands run in an isolated temporary copy of the repository root (no git
 worktree: a plain ``copytree`` that skips ``.git``, ``research`` and caches) with ``cwd`` set
@@ -224,6 +229,24 @@ def referenced_script(command):
         return None
     script = ROOT / parts[index]
     return script if script.suffix == ".py" and script.is_file() else None
+
+
+# A dataset path in a failure message: the fetchers are skipped by rule 2, so a documented
+# command that needs the fetched data fails on a fresh clone for an environmental reason.
+MISSING_DATASET = re.compile(r"(research/pretrained/[^\s'\";,)]*/(?:data|test-data|recordings)/[^\s'\";,)]*)")
+
+
+def missing_dataset(output, root=ROOT):
+    """A dataset path the failed command named that is absent under ``root``, or ``None``.
+
+    ``root`` is the isolated workspace the command ran in, not the checkout: the workspace
+    symlinks ``research/`` and on CI the git-ignored dataset is simply not there.
+    """
+    for match in MISSING_DATASET.finditer(output):
+        path = match.group(1)
+        if not (root / path).exists():
+            return path
+    return None
 
 
 def board_script_marker(command):
@@ -442,6 +465,13 @@ class DocumentedCommandsTest(unittest.TestCase):
             if entry["reason"] is None:
                 entry["returncode"], entry["output"], entry["seconds"] = \
                     run_documented_command(entry["text"], cls.folder)
+                # Rule 11: a fresh clone has no fetched dataset, so a command that fails
+                # *because* of one is a recorded skip, not a documentation failure.
+                if entry["returncode"] != 0:
+                    dataset = missing_dataset(entry["output"], cls.folder)
+                    if dataset:
+                        entry["reason"] = ("needs the fetched dataset %s "
+                                           "(the fetcher is skipped by rule 2)" % dataset)
         cls.elapsed = time.monotonic() - started
         cls.after = watched_state()
         print_inventory(cls.commands, cls.elapsed)
@@ -519,6 +549,32 @@ class NotebookWalkthroughTest(unittest.TestCase):
                 code_cells += 1
                 ast.parse("".join(cell["source"]))
         self.assertGreaterEqual(code_cells, 5, "the walkthrough lost its code cells")
+
+
+class MissingDatasetRuleTests(unittest.TestCase):
+    """Rule 11, checked directly: it separates an environmental skip from a real failure."""
+
+    def test_an_absent_dataset_path_in_the_failure_is_a_skip(self):
+        output = ("Traceback (most recent call last):\n"
+                  "  File \"examples/fashion/build.py\", line 1, in <module>\n"
+                  "FileNotFoundError: [Errno 2] No such file or directory: "
+                  "'/tmp/copy/research/pretrained/fashion-mnist/test-data/absent-batch-000.npy'\n")
+        self.assertEqual(
+            missing_dataset(output),
+            "research/pretrained/fashion-mnist/test-data/absent-batch-000.npy")
+
+    def test_a_dataset_file_that_exists_is_not_a_skip(self):
+        present = "research/pretrained/mnist/data/train-images-idx3-ubyte.gz"
+        if not (ROOT / present).exists():
+            self.skipTest("the mnist dataset is not fetched in this checkout")
+        self.assertIsNone(missing_dataset("FileNotFoundError: no such file: %s" % present))
+        self.assertEqual(missing_dataset("FileNotFoundError: no such file: %s" % present,
+                                         ROOT.parent),
+                         present, "the check must look under the root it is given")
+
+    def test_an_unrelated_failure_is_not_a_skip(self):
+        self.assertIsNone(missing_dataset("ValueError: unsupported Conv graph"))
+        self.assertIsNone(missing_dataset("FileNotFoundError: 'examples/mnist/build/prefix.bin'"))
 
 
 if __name__ == "__main__":

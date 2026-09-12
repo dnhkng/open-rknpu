@@ -13,7 +13,7 @@ Messages a variable completes are shown as their literal prefix followed by
 *(dynamic message)*.  The index is a generated file - edit
 `research/build_reference_docs.py` (its meaning table) and rerun it, never this file.
 
-This index covers 549 messages across 35 modules; 2 are pure expressions with no literal text and are marked *dynamic*.
+This index covers 548 messages across 35 modules; 2 are pure expressions with no literal text and are marked *dynamic*.
 
 ## `accuracy.py`
 
@@ -222,16 +222,15 @@ This index covers 549 messages across 35 modules; 2 are pure expressions with no
 | `per-channel constant Mul requires one immutable constant operand` | `elementwise.py:376` | The other Mul operand must be a constant initializer. |
 | `finite float32 constant and rank-four input required` | `elementwise.py:380` | The constant must be finite float32 and the input rank-4. |
 | `per-channel constant Mul requires single-batch RGB H/W5..8` | `elementwise.py:382` | Per-channel constant Mul is fixed at batch 1, RGB H/W 5-8. |
-| `per-channel constant Mul requires a broadcastable constant` | `elementwise.py:386` | The constant must broadcast to the input shape. |
-| `per-channel constant Mul requires a spatially invariant constant` | `elementwise.py:389` | The constant must be per-channel [N,C,1,1]. |
-| `per-channel constant Mul requires distinct channel values` | `elementwise.py:391` | At least two per-channel constant values must differ. |
-| `runtime scale Mul requires one Mul with two external inputs` | `elementwise.py:441` | The graph must be one Mul whose both operands are external inputs. |
-| `runtime scale Mul requires [1,3,H,W] and [1,3,1,1] external inputs` | `elementwise.py:446` | Supply the image and a per-channel scale of exactly those shapes. |
-| `runtime scale Mul requires H/W 5..8` | `elementwise.py:449` | The runtime-scale image must be H/W 5-8. |
-| `operand scale must be a positive finite number` | `elementwise.py:451` | Pass a positive finite operand scale. |
-| `unexpected elementwise payload size` | `elementwise.py:462` | The reused Mul payload is not the expected 4096 bytes. |
-| `batched constant Mul requires N2..16, C1..16, H/W1..32 and zero-centered constant arithmetic` | `elementwise.py:501` | Batched constant Mul bounds are N2-16, C1-16, H/W1-32 and zero-centered operands. |
-| `batched constant Mul supports scalar or [N,C,1,1] constants` | `elementwise.py:506` | Only scalar or per-batch/channel constants broadcast in the batched path. |
+| `per-channel constant Mul requires a spatially invariant constant` | `elementwise.py:387` | The constant must be per-channel [N,C,1,1]. |
+| `per-channel constant Mul requires distinct channel values` | `elementwise.py:389` | At least two per-channel constant values must differ. |
+| `runtime scale Mul requires one Mul with two external inputs` | `elementwise.py:439` | The graph must be one Mul whose both operands are external inputs. |
+| `runtime scale Mul requires [1,3,H,W] and [1,3,1,1] external inputs` | `elementwise.py:444` | Supply the image and a per-channel scale of exactly those shapes. |
+| `runtime scale Mul requires H/W 5..8` | `elementwise.py:447` | The runtime-scale image must be H/W 5-8. |
+| `operand scale must be a positive finite number` | `elementwise.py:449` | Pass a positive finite operand scale. |
+| `unexpected elementwise payload size` | `elementwise.py:460` | The reused Mul payload is not the expected 4096 bytes. |
+| `batched constant Mul requires N2..16, C1..16, H/W1..32 and zero-centered constant arithmetic` | `elementwise.py:499` | Batched constant Mul bounds are N2-16, C1-16, H/W1-32 and zero-centered operands. |
+| `batched constant Mul supports scalar or [N,C,1,1] constants` | `elementwise.py:504` | Only scalar or per-batch/channel constants broadcast in the batched path. |
 
 ## `elementwise_chain.py`
 
@@ -252,7 +251,7 @@ This index covers 549 messages across 35 modules; 2 are pure expressions with no
 | `unexpected first-stage container` | `elementwise_chain.py:101` | The compiled first stage is not the expected one-task container. |
 | `elementwise DAG requires zero-point-zero stages` | `elementwise_chain.py:105` | Every DAG stage must run at zero point 0. |
 | `elementwise DAG requires the verified equal-scale ` **+ dynamic suffix** | `elementwise_chain.py:107` | The measured branch scales must match the verified equal-scale band. |
-| `unknown first stage: ` **+ dynamic suffix** | `elementwise_chain.py:197` | The first join operator is not one of Add, Mul, Sub or Max. |
+| `unknown first stage: ` **+ dynamic suffix** | `elementwise_chain.py:195` | The first join operator is not one of Add, Mul, Sub or Max. |
 
 ## `elementwise_multi.py`
 
@@ -640,40 +639,40 @@ This index covers 549 messages across 35 modules; 2 are pure expressions with no
 | Message | Location | What it means / what to do |
 | --- | --- | --- |
 | `unknown tensor layout` | `sequence.py:38` | A tensor layout code is not packed-U8, native16 or packed-INT8. |
-| `invalid tensor descriptor` | `sequence.py:53,173` | A version-5 tensor descriptor is malformed. |
-| `tensor descriptor size mismatch` | `sequence.py:55,175` | A tensor's declared size does not match its layout and shape. |
+| `invalid tensor descriptor` | `sequence.py:53,165` | A version-5 tensor descriptor is malformed. |
+| `tensor descriptor size mismatch` | `sequence.py:55,167` | A tensor's declared size does not match its layout and shape. |
 | `v5 requires at least one external input and output` | `sequence.py:62` | A version-5 container needs at least one external input and one output. |
-| `external tensor indices must be contiguous from zero` | `sequence.py:64,186` | External input/output indices must run 0, 1, 2, ... |
+| `external tensor indices must be contiguous from zero` | `sequence.py:64,178` | External input/output indices must run 0, 1, 2, ... |
 | `v5 containers have no constant descriptor table; runtime replaceable parameters require a v4 container` | `sequence.py:79` | Version 5 has no constant table; use a v4 container (encode_sequence) for runtime-replaceable parameters. |
-| `too many constant descriptors` | `sequence.py:81,116` | The container has more than the 64 constant-descriptor slots. |
-| `invalid constant descriptor` | `sequence.py:87,122,266` | A version-4 constant descriptor is malformed. |
-| `unknown input layout` | `sequence.py:112` | The header input-layout flag is not packed UINT8 or native16. |
-| `batch must be 1..16` | `sequence.py:113` | The container batch must be 1-16. |
-| `logical input tensor count unsupported` | `sequence.py:115` | Only the supported external-input counts encode in this container version. |
-| `invalid v5 sequence header` | `sequence.py:138` | The version-5 header fields are inconsistent. |
-| `truncated v5 extension` | `sequence.py:139` | The file ends inside the version-5 extension. |
-| `invalid v5 extension` | `sequence.py:142` | A version-5 extension field is invalid. |
-| `invalid task count` | `sequence.py:143` | The declared task count is outside the loader's table. |
-| `invalid sequence allocation` | `sequence.py:145,235` | Payload, arena or IO offsets and sizes violate the layout. |
-| `incorrect sequence length` | `sequence.py:147,248` | The declared payload length does not match the file. |
-| `invalid sequence quantization` | `sequence.py:153,246` | A header scale or zero point field is out of range. |
-| `invalid task descriptor` | `sequence.py:161,257` | A task descriptor's offset, count, enable or mask is inconsistent. |
-| `invalid tensor name` | `sequence.py:168` | A tensor name is empty, too long or not NUL-terminated. |
-| `tensor outside arena` | `sequence.py:176` | A tensor's byte range leaves the arena. |
-| `overlapping external tensors` | `sequence.py:190` | Two external tensors share arena bytes; they must be disjoint. |
-| `internal tensor overlaps external tensor` | `sequence.py:195` | An internal tensor overlaps an external one. |
-| `v5 primary tensor mismatch` | `sequence.py:202` | The header's primary shape/offset does not match external tensor 0. |
-| `sequence checksum mismatch` | `sequence.py:204,271` | The FNV-1a checksum failed; the file was modified or corrupted. |
-| `truncated sequence header` | `sequence.py:218` | The file is shorter than the 96-byte sequence header. |
-| `invalid sequence magic` | `sequence.py:221` | The file does not start with the ORNPUSEQ magic. |
-| `invalid sequence header` | `sequence.py:225` | A header version or size field is unsupported. |
-| `invalid two-input tensor layout` | `sequence.py:228` | The two-input layout does not match the declared input count. |
-| `batched sequence requires native16 layout` | `sequence.py:229` | Batched submission needs the native16 input layout. |
-| `invalid sequence shape` | `sequence.py:231` | A declared dimension is outside the loader's bounds. |
-| `invalid stride/task count` | `sequence.py:233` | The input row stride or task count is inconsistent with the header. |
-| `overlapping or out-of-bounds IO buffers` | `sequence.py:240` | Input/output extents leave the arena or overlap each other. |
-| `invalid constant name` | `sequence.py:264` | A constant name is empty, too long or not NUL-terminated. |
-| `constant overlaps command program` | `sequence.py:268` | A constant region overlaps a command program. |
+| `unknown input layout` | `sequence.py:104` | The header input-layout flag is not packed UINT8 or native16. |
+| `batch must be 1..16` | `sequence.py:105` | The container batch must be 1-16. |
+| `logical input tensor count unsupported` | `sequence.py:107` | Only the supported external-input counts encode in this container version. |
+| `too many constant descriptors` | `sequence.py:108` | The container has more than the 64 constant-descriptor slots. |
+| `invalid constant descriptor` | `sequence.py:114,258` | A version-4 constant descriptor is malformed. |
+| `invalid v5 sequence header` | `sequence.py:130` | The version-5 header fields are inconsistent. |
+| `truncated v5 extension` | `sequence.py:131` | The file ends inside the version-5 extension. |
+| `invalid v5 extension` | `sequence.py:134` | A version-5 extension field is invalid. |
+| `invalid task count` | `sequence.py:135` | The declared task count is outside the loader's table. |
+| `invalid sequence allocation` | `sequence.py:137,227` | Payload, arena or IO offsets and sizes violate the layout. |
+| `incorrect sequence length` | `sequence.py:139,240` | The declared payload length does not match the file. |
+| `invalid sequence quantization` | `sequence.py:145,238` | A header scale or zero point field is out of range. |
+| `invalid task descriptor` | `sequence.py:153,249` | A task descriptor's offset, count, enable or mask is inconsistent. |
+| `invalid tensor name` | `sequence.py:160` | A tensor name is empty, too long or not NUL-terminated. |
+| `tensor outside arena` | `sequence.py:168` | A tensor's byte range leaves the arena. |
+| `overlapping external tensors` | `sequence.py:182` | Two external tensors share arena bytes; they must be disjoint. |
+| `internal tensor overlaps external tensor` | `sequence.py:187` | An internal tensor overlaps an external one. |
+| `v5 primary tensor mismatch` | `sequence.py:194` | The header's primary shape/offset does not match external tensor 0. |
+| `sequence checksum mismatch` | `sequence.py:196,263` | The FNV-1a checksum failed; the file was modified or corrupted. |
+| `truncated sequence header` | `sequence.py:210` | The file is shorter than the 96-byte sequence header. |
+| `invalid sequence magic` | `sequence.py:213` | The file does not start with the ORNPUSEQ magic. |
+| `invalid sequence header` | `sequence.py:217` | A header version or size field is unsupported. |
+| `invalid two-input tensor layout` | `sequence.py:220` | The two-input layout does not match the declared input count. |
+| `batched sequence requires native16 layout` | `sequence.py:221` | Batched submission needs the native16 input layout. |
+| `invalid sequence shape` | `sequence.py:223` | A declared dimension is outside the loader's bounds. |
+| `invalid stride/task count` | `sequence.py:225` | The input row stride or task count is inconsistent with the header. |
+| `overlapping or out-of-bounds IO buffers` | `sequence.py:232` | Input/output extents leave the arena or overlap each other. |
+| `invalid constant name` | `sequence.py:256` | A constant name is empty, too long or not NUL-terminated. |
+| `constant overlaps command program` | `sequence.py:260` | A constant region overlaps a command program. |
 
 ## `strided.py`
 

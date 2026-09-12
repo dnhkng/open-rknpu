@@ -29,7 +29,7 @@ to refuse is a behaviour change too.
 ## 2. The host test suite
 
 ```sh
-PYTHONPATH=src python -m unittest discover -s tests      # 1,005 tests
+PYTHONPATH=src python -m unittest discover -s tests      # 1,008 tests
 make coverage                                            # 99.85% line coverage, floor 99% in pyproject.toml
 PYTHONPATH=src python -m pytest tests -q
 ```
@@ -134,7 +134,7 @@ Run from the repository root; all of them are host-only and CI runs the applicab
 
 | Command | What it proves |
 | --- | --- |
-| `make test` | the 1,005-test host suite passes on 3.10-3.13 |
+| `make test` | the 1,008-test host suite passes on 3.10-3.13 |
 | `make coverage` | the suite executes 99.85% of the compiler's lines, floor 99% |
 | `make baseline` | all 2,244 published suite models still compile to identical bytes (or stay rejected) |
 | `make campaign` | the largest suites recompile to their published containers; the 12 known drifts stay known |
