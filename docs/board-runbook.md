@@ -1,5 +1,8 @@
 # Board runbook
 
+First time on the hardware? [board-quickstart.md](board-quickstart.md) gets you to a passing
+run; this page is the operational detail.
+
 Operational guide for running containers on the reference board. It assumes you already
 have a compiled container and need to stage it, run a suite, read the evidence, and get
 the board back when something wedges. The hardware/format background is in

@@ -1,6 +1,8 @@
 # Luckfox Pico (RV1103) — Access & Troubleshooting
 
-Practical reference for getting to the board and fixing the things that actually go wrong. Board is USB-connected only (no wifi/ethernet configured), extremely RAM-constrained (33MB total), and running a stock camera/NPU app (`rkipc`) that should stay healthy across sessions.
+Practical reference for getting to the board and fixing the things that actually go wrong.
+For a first session, read [board-quickstart.md](board-quickstart.md) first; this page is the
+recovery reference. Board is USB-connected only (no wifi/ethernet configured), extremely RAM-constrained (33MB total), and running a stock camera/NPU app (`rkipc`) that should stay healthy across sessions.
 
 ---
 

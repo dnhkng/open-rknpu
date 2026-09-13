@@ -1,5 +1,8 @@
 # Board workflow
 
+> New to the board? Start with [board-quickstart.md](board-quickstart.md) (plug in, first
+> health check, your first verified run); this page is the hardware reference.
+
 ## The reference hardware
 
 | Item | Value |

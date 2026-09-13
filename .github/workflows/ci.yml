@@ -50,7 +50,7 @@ jobs:
         run: make primitives
       - name: documentation links
         run: python research/check_docs_links.py
-      - name: container baseline (2,244 suite models)
+      - name: container baseline (2,341 suite models)
         if: matrix.python-version == '3.12'
         run: PYTHONPATH=src python research/verify_suites.py
       - name: campaign sweep

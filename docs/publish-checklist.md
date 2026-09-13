@@ -13,7 +13,7 @@ Effort: **S** < 1 h · **M** ~ half a day · **L** 1–3 days · **XL** > 3 days
 | **Announcement** (blog/HN/Reddit) | P1 plus a docs site, a compatibility report and at least one non-toy demo |
 
 Current baseline: 1,167 tests, 99.18 % compiler line coverage (floor 99 %), 2,341-model
-container baseline, 130-row board ledger, 28 documentation pages (~80 k words) plus the
+container baseline, 130-row board ledger, 29 documentation pages (~80 k words) plus the
 planning records, 10 example sets, ~17,000 tracked files / 39 MiB pack.
 
 ## Status after the 2026-09-12 batch B pass

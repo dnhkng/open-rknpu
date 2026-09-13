@@ -96,6 +96,7 @@ nav:
       - Container Example: container-example.md
       - C Api: c-api.md
       - Board: board.md
+      - Board Quickstart: board-quickstart.md
       - Board Access: board-access.md
       - Board Runbook: board-runbook.md
   - Project records:

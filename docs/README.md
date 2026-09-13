@@ -37,6 +37,7 @@ documents are ordered from "run your first model" to "recover a new register fie
 | [container-example.md](container-example.md) | one real container walked field by field, with a hexdump, a decoded dump and annotated registers |
 | [c-api.md](c-api.md) | using the libc-only runtime from C: lifecycle, structures, packing rules, async API, error handling, a minimal program |
 | [board.md](board.md) | the reference hardware, the driver and `/dev/rknpu`, adb staging, running a container, timing, and what the board cannot do |
+| [board-quickstart.md](board-quickstart.md) | the short beginner path: plug in, first health check, the rules that keep the board alive, and one command that runs a verified suite |
 | [board-access.md](board-access.md) | getting a shell on the board and the original access and troubleshooting notes |
 | [board-runbook.md](board-runbook.md) | the end-to-end board session: staging, cross-compiling the runner, running a suite, capturing evidence, and recovering a wedged NPU |
 | [performance.md](performance.md) | how latency was measured, the recorded results, the per-family cost model, memory sizing, and how to benchmark your own model |
